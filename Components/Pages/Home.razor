@@ -23,6 +23,10 @@
     @foreach (var post in posts)
     {
         <article class="border-1 border-gray-200 mt-16">
+            @if (@post.FeaturedMedia != null)
+            {
+                <img src="@post.FeaturedMedia.PostThumbnailUrl"/>
+            }
             <div class="bg-white  sg-post p-20 ">
                 <span class="italic ">@post.Category.Name</span>
                 <div class="h-2"></div>
@@ -45,21 +49,39 @@
 
 
 @code {
-    private ICollection<WpApiCategory>? categories;
+    //private ICollection<WpApiCategory>? categories;
     private ICollection<WpApiPost>? posts;
 
+    //TODO: move all to media util
     protected override async Task OnInitializedAsync()
     {
         var client = ClientFactory.CreateClient();
-        await GetCategories(client);
+        var categories = await GetCategories(client);
         await GetPosts(client);
         ModelUtil.MapCategoriesToPosts(categories!, posts!);
+
+        var mediaIds = new HashSet<int>();
+        foreach (var post in posts)
+        {
+            if (post.FeaturedMediaId != 0)
+            {
+                mediaIds.Add(post.FeaturedMediaId);
+            }
+        }
+        var mediaIdsString = string.Join(",", mediaIds);
+        var json = await ApiUtil.FetchWp($"media?include={mediaIdsString}", client);
+        var medias = JsonUtil.ParseList<WpApiMedia>(json);
+        
+        foreach (var post in posts)
+        {
+            post.FindAndSetFeaturedMedia(medias);
+        }
     }
 
-    private async Task GetCategories(HttpClient client)
+    private async Task<ICollection<WpApiCategory>> GetCategories(HttpClient client)
     {
         var json = await ApiUtil.FetchWp("categories", client);
-        categories = JsonUtil.ParseList<WpApiCategory>(json);
+        return JsonUtil.ParseList<WpApiCategory>(json);
     }
 
     private async Task GetPosts(HttpClient client)
