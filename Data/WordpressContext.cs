@@ -15,4 +15,20 @@ public class WordpressContext : DbContext
         MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
         options.UseMySql(connectionString, serverVersion);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<WpPost>()
+            .HasMany(p => p.TermRelationships)
+            .WithOne(tr => tr.Post)
+            .HasForeignKey(tr => tr.ObjectId);
+
+        modelBuilder.Entity<WpTermRelationship>()
+            .HasKey(tr => new { tr.ObjectId, tr.TermTaxonomyId });
+
+        modelBuilder.Entity<WpTermRelationship>()
+            .HasOne(tr => tr.Post)
+            .WithMany(p => p.TermRelationships)
+            .HasForeignKey(tr => tr.ObjectId);
+    }
 }

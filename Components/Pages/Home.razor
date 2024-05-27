@@ -1,6 +1,9 @@
 ﻿@page "/"
 @using MichaelKjellander.Models.Wordpress
 @using Microsoft.EntityFrameworkCore
+@inject IHttpClientFactory ClientFactory
+@using System.Text.Json.Serialization
+@using System.Text.Json
 
 <PageTitle>Michael Kjellander</PageTitle>
 
@@ -25,10 +28,10 @@
                 <h3 class="text-3xl fw-bolder">@post.Title</h3>
                 ID: @post.Id
                 <div class="bg-slate-400 content">
-                    @((MarkupString)@post.Content)
+                    @*@((MarkupString)@post.Content)*@
                 </div>
                 <div class="content_source">
-                    @post.Content
+                    @post.id
                 </div>
             </div>
         </div>
@@ -37,13 +40,69 @@
 
 
 @code {
-    private List<WpPost>? posts;
+    private IEnumerable<WpApiPost>? posts;
 
     protected override async Task OnInitializedAsync()
     {
-        await using var context = new Data.WordpressContext();
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://michaelkjellander.se/wp-json/wp/v2/posts?per_page=1");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request); 
+        
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            Console.WriteLine("SUCCESS");
 
-        posts = await context.WpPosts.Where(row => row.Status == "publish").OrderByDescending(row => row.PublishTime).Take(10).ToListAsync();
+            using StreamReader reader = new StreamReader(responseStream);
+
+            string content = reader.ReadToEnd();
+            Console.WriteLine(content);
+
+            using JsonDocument doc = JsonDocument.Parse(content);
+            JsonElement root = doc.RootElement;
+            foreach (var el in root.EnumerateArray())
+            {
+                JsonElement titleElement = el.GetProperty("title");
+                string rendered = titleElement.GetProperty("rendered").GetString();
+                Console.WriteLine(rendered);
+            }
+            
+            //JsonElement titleElement = root.GetProperty("title");
+            //string rendered = titleElement.GetProperty("rendered").GetString();
+
+            //Console.WriteLine(rendered);
+
+
+            // var result = await JsonSerializer.DeserializeAsync
+            //    <IEnumerable<string>>(responseStream);
+
+            /*using (JsonDocument doc = JsonDocument.Parse(result))
+            {
+                JsonElement root = doc.RootElement;
+                JsonElement titleElement = root.GetProperty("title");
+                string rendered = titleElement.GetProperty("rendered").GetString();
+
+                Console.WriteLine(rendered); // Output: Ludde
+            }*/
+
+
+            //Console.WriteLine("*** postlen="+result);
+        }
+        else
+        {
+            Console.WriteLine("FAIL");
+        }
+        
+        /*await using var context = new Data.WordpressContext();
+
+        posts = await context.WpPosts.Where(row => row.Status == "publish")
+            .Include(row => row.TermRelationships)
+            .OrderByDescending(row => row.PublishTime)
+            .Take(10)
+            .ToListAsync();
+        
+        Console.WriteLine("p="+posts[0].TermRelationships[0].ObjectId);*/
     }
 
 }

@@ -7,6 +7,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
