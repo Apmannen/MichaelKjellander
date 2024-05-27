@@ -566,6 +566,10 @@ video {
   display: table;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -609,9 +613,13 @@ video {
   line-height: 2rem;
 }
 
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .text-slate-500 {
@@ -642,10 +650,10 @@ main {
 
 .sg-post {
   padding: 5rem;
+  font-size: 1.2rem;
 }
 
 .sg-post-content {
-  font-size: 1.2rem;
 }
 
 .sg-post-content p {

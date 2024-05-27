@@ -23,8 +23,9 @@
     {
         <div class="bg-white mt-16 sg-post">
             <div class="">
-                <span>@post.Category.Name</span>
-                <h3 class="text-3xl fw-bolder">@post.Title</h3>
+                <span class="italic ">@post.Category.Name</span>
+                <div class="h-2"></div>
+                <h3 class="text-4xl fw-bolder">@post.Title</h3>
                 <div class="sg-post-content">
                     @((MarkupString)@post.Content)
                 </div>

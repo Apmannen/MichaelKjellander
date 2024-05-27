@@ -25,9 +25,9 @@ main {
 
 .sg-post {
     padding: 5rem;
+    font-size: 1.2rem;
 }
 .sg-post-content {
-    font-size: 1.2rem;
 }
 .sg-post-content p {
     margin: 2rem 0;
