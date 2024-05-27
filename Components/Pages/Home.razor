@@ -4,7 +4,10 @@
 
 <PageTitle>Michael Kjellander</PageTitle>
 
-<h1>Välkommen till michaelkjellander.se!</h1>
+<div class="bg-white mt-16">
+    <div class="py-5 px-5"><h1 class="text-3xl fw-bold">Välkommen till michaelkjellander.se!</h1></div>
+</div>
+
 
 Här postar jag tv-spelrecensioner och annat!
 
@@ -33,10 +36,7 @@ Här postar jag tv-spelrecensioner och annat!
     {
         await using var context = new Data.WordpressContext();
 
-        posts = await context.WpPosts.
-            Where(row => row.Status == "publish").
-            OrderByDescending(row => row.PublishTime).
-            Take(10).
-            ToListAsync();
+        posts = await context.WpPosts.Where(row => row.Status == "publish").OrderByDescending(row => row.PublishTime).Take(10).ToListAsync();
     }
+
 }
