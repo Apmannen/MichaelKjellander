@@ -8,11 +8,20 @@
 
 Här postar jag tv-spelrecensioner och annat!
 
+<hr/>
+
 @if (posts != null)
 {
     @foreach (var post in posts)
     {
-        <p>Post: @post.Title</p>
+        <p>Post: @post.Title (@post.Id)</p>
+        <div class="content">
+            @((MarkupString)@post.Content)
+        </div>
+        <div class="content_source">
+            @post.Content
+        </div>
+        <hr/>
     }
 }
 
@@ -26,7 +35,7 @@ Här postar jag tv-spelrecensioner och annat!
 
         posts = await context.WpPosts.
             Where(row => row.Status == "publish").
-            OrderByDescending(row => row.ModifiedTime).
+            OrderByDescending(row => row.PublishTime).
             Take(10).
             ToListAsync();
     }
