@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using MichaelKjellander.Models
+@using MichaelKjellander.Models.Wordpress
 @using Microsoft.EntityFrameworkCore
 
 <PageTitle>Michael Kjellander</PageTitle>
@@ -18,12 +18,12 @@ Här postar jag tv-spelrecensioner och annat!
 
 
 @code {
-    private List<BlogPost>? posts;
+    private List<WpPost>? posts;
     
     protected override async Task OnInitializedAsync()
     {
-        using var context = new Data.BloggingContext();
+        await using var context = new Data.WordpressContext();
 
-        posts = await context.BlogPosts.ToListAsync();
+        posts = await context.WpPosts.Where(row => row.Status == "publish").ToListAsync();
     }
 }
