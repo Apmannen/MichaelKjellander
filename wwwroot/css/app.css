@@ -6,15 +6,31 @@ body {
     font-family: "Noto Serif", serif;
 }
 
-.title-section {
+main {
+    max-width: 980px;
+}
+
+.sg-title-section {
     position: relative;
 }
 
-.title-section-side {
-    width: 8px;
+.sg-title-section-side {
+    width: 0.4rem;
     height: 100%;
     background: black;
     top: 0;
     bottom: 0;
     position: absolute;
+}
+
+.sg-post-content p {
+    margin: 2rem 0;
+}
+
+.sg-post-content a {
+    text-decoration: underline;
+}
+.sg-post-content a:hover {
+    text-decoration: none;
+    color: var(--bs-gray-700);
 }
