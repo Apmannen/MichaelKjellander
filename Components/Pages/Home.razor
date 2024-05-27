@@ -21,15 +21,11 @@
 {
     @foreach (var post in posts)
     {
-        <div class="bg-white mt-16">
-            <div class="py-5 px-5">
+        <div class="bg-white mt-16 sg-post">
+            <div class="">
                 <h3 class="text-3xl fw-bolder">@post.Title</h3>
-                ID: @post.Id
                 <div class="sg-post-content">
                     @((MarkupString)@post.Content)
-                </div>
-                <div class="content_source">
-                    @post.Id
                 </div>
             </div>
         </div>
