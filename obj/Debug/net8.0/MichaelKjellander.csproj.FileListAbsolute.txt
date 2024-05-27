@@ -27,3 +27,4 @@ C:\Users\micha\RiderProjects\MichaelKjellander\MichaelKjellander\obj\Debug\net8.
 C:\Users\micha\RiderProjects\MichaelKjellander\MichaelKjellander\obj\Debug\net8.0\MichaelKjellander.pdb
 C:\Users\micha\RiderProjects\MichaelKjellander\MichaelKjellander\obj\Debug\net8.0\MichaelKjellander.genruntimeconfig.cache
 C:\Users\micha\RiderProjects\MichaelKjellander\MichaelKjellander\obj\Debug\net8.0\ref\MichaelKjellander.dll
+C:\Users\micha\RiderProjects\MichaelKjellander\MichaelKjellander\obj\Debug\net8.0\MichaelKjellander.sourcelink.json
