@@ -19,11 +19,16 @@ Här postar jag tv-spelrecensioner och annat!
 
 @code {
     private List<WpPost>? posts;
-    
+
     protected override async Task OnInitializedAsync()
     {
         await using var context = new Data.WordpressContext();
 
-        posts = await context.WpPosts.Where(row => row.Status == "publish").ToListAsync();
+        posts = await context.WpPosts.
+            Where(row => row.Status == "publish").
+            OrderByDescending(row => row.ModifiedTime).
+            Take(10).
+            ToListAsync();
     }
+
 }
