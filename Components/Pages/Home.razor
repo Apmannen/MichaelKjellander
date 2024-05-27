@@ -1,9 +1,7 @@
 ﻿@page "/"
 @using MichaelKjellander.Models.Wordpress
-@using Microsoft.EntityFrameworkCore
 @inject IHttpClientFactory ClientFactory
-@using System.Text.Json.Serialization
-@using System.Text.Json
+@using MichaelKjellander.Utils
 
 <PageTitle>Michael Kjellander</PageTitle>
 
@@ -51,48 +49,12 @@
         
         if (response.IsSuccessStatusCode)
         {
-            //using var responseStream = await response.Content.ReadAsStreamAsync();
-            Console.WriteLine("SUCCESS");
-
-
-            posts = await Tmp.ParsePosts(response);
-            
-            
-            //JsonElement titleElement = root.GetProperty("title");
-            //string rendered = titleElement.GetProperty("rendered").GetString();
-
-            //Console.WriteLine(rendered);
-
-
-            // var result = await JsonSerializer.DeserializeAsync
-            //    <IEnumerable<string>>(responseStream);
-
-            /*using (JsonDocument doc = JsonDocument.Parse(result))
-            {
-                JsonElement root = doc.RootElement;
-                JsonElement titleElement = root.GetProperty("title");
-                string rendered = titleElement.GetProperty("rendered").GetString();
-
-                Console.WriteLine(rendered); // Output: Ludde
-            }*/
-
-
-            //Console.WriteLine("*** postlen="+result);
+            posts = await JsonParser.ParseResponseList<WpApiPost>(response);
         }
         else
         {
             Console.WriteLine("FAIL");
         }
-        
-        /*await using var context = new Data.WordpressContext();
-
-        posts = await context.WpPosts.Where(row => row.Status == "publish")
-            .Include(row => row.TermRelationships)
-            .OrderByDescending(row => row.PublishTime)
-            .Take(10)
-            .ToListAsync();
-        
-        Console.WriteLine("p="+posts[0].TermRelationships[0].ObjectId);*/
     }
 
 }
