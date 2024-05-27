@@ -31,7 +31,7 @@
                     @*@((MarkupString)@post.Content)*@
                 </div>
                 <div class="content_source">
-                    @post.id
+                    @post.Id
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
 
 
 @code {
-    private IEnumerable<WpApiPost>? posts;
+    private ICollection<WpApiPost>? posts;
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,22 +51,12 @@
         
         if (response.IsSuccessStatusCode)
         {
-            using var responseStream = await response.Content.ReadAsStreamAsync();
+            //using var responseStream = await response.Content.ReadAsStreamAsync();
             Console.WriteLine("SUCCESS");
 
-            using StreamReader reader = new StreamReader(responseStream);
 
-            string content = reader.ReadToEnd();
-            Console.WriteLine(content);
-
-            using JsonDocument doc = JsonDocument.Parse(content);
-            JsonElement root = doc.RootElement;
-            foreach (var el in root.EnumerateArray())
-            {
-                JsonElement titleElement = el.GetProperty("title");
-                string rendered = titleElement.GetProperty("rendered").GetString();
-                Console.WriteLine(rendered);
-            }
+            posts = await Tmp.ParsePosts(response);
+            
             
             //JsonElement titleElement = root.GetProperty("title");
             //string rendered = titleElement.GetProperty("rendered").GetString();
