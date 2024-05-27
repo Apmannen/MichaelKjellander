@@ -23,9 +23,8 @@ public static class ApiUtil
         await using var responseStream = await response.Content.ReadAsStreamAsync();
         using var reader = new StreamReader(responseStream);
         var content = await reader.ReadToEndAsync();
-        using var doc = JsonDocument.Parse(content);
-        var root = doc.RootElement;
+        var doc = JsonDocument.Parse(content);
 
-        return root;
+        return doc.RootElement;
     }
 }
