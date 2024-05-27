@@ -42,7 +42,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var json = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/posts?per_page=1", ClientFactory.CreateClient());
+        var json = await ApiUtil.FetchWp("posts?per_page=1", ClientFactory.CreateClient());
         posts = JsonUtil.ParseList<WpApiPost>(json);
     }
 
