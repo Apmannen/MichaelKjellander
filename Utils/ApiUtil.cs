@@ -6,13 +6,12 @@ public static class ApiUtil
 {
     public static async Task<JsonElement> FetchWp(string uri, HttpClient client)
     {
-        return await FetchJson("https://michaelkjellander.se/wp-json/wp/v2/"+uri, client);
+        return await FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);
     }
-    
+
     public static async Task<JsonElement> FetchJson(string url, HttpClient client)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,
-            "https://michaelkjellander.se/wp-json/wp/v2/posts?per_page=1");
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
 
         var response = await client.SendAsync(request);
 
@@ -20,6 +19,7 @@ public static class ApiUtil
         {
             throw new Exception("Couldn't fetch: " + url);
         }
+
         await using var responseStream = await response.Content.ReadAsStreamAsync();
         using var reader = new StreamReader(responseStream);
         var content = await reader.ReadToEndAsync();
@@ -27,6 +27,5 @@ public static class ApiUtil
         var root = doc.RootElement;
 
         return root;
-
     }
 }
