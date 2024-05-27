@@ -1,7 +1,29 @@
 ﻿@page "/"
+@using MichaelKjellander.Models
+@using Microsoft.EntityFrameworkCore
 
 <PageTitle>Michael Kjellander</PageTitle>
 
 <h1>Välkommen till michaelkjellander.se!</h1>
 
 Här postar jag tv-spelrecensioner och annat!
+
+@if (posts != null)
+{
+    @foreach (var post in posts)
+    {
+        <p>Post: @post.Title</p>
+    }
+}
+
+
+@code {
+    private List<BlogPost>? posts;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = new Data.BloggingContext();
+
+        posts = await context.BlogPosts.ToListAsync();
+    }
+}
