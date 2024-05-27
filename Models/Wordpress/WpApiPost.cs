@@ -8,6 +8,7 @@ public class WpApiPost : IParsableJson
     public int Id { get; private init; }
     public string Content { get; private init; }
     public string? Title { get; private init; }
+    public DateOnly Date { get; private init;  }
     public int CategoryId { get; private init; }
     public WpApiCategory? Category { get; private set; }
 
@@ -23,8 +24,11 @@ public class WpApiPost : IParsableJson
         var content = el.GetProperty("content").GetProperty("rendered").GetString();
         var title = el.GetProperty("title").GetProperty("rendered").GetString();
         var categoryId = el.GetProperty("categories").EnumerateArray().FirstOrDefault().GetInt32();
+        var dateString = el.GetProperty("date").GetString();
 
-        return new WpApiPost{Id = id, Content = content, Title = title, CategoryId = categoryId};
+        var date = DateOnly.Parse(dateString);
+        
+        return new WpApiPost{Id = id, Content = content, Title = title, CategoryId = categoryId, Date = date};
     }
 }
 

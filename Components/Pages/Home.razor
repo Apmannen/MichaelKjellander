@@ -2,6 +2,7 @@
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Utils
+@using MichaelKjellander.Components.Icons
 
 <PageTitle>Michael Kjellander</PageTitle>
 
@@ -21,8 +22,8 @@
 {
     @foreach (var post in posts)
     {
-        <div class="bg-white mt-16 sg-post">
-            <div class="">
+        <article class="border-1 border-gray-200 mt-16">
+            <div class="bg-white  sg-post p-20 ">
                 <span class="italic ">@post.Category.Name</span>
                 <div class="h-2"></div>
                 <h3 class="text-4xl fw-bolder">@post.Title</h3>
@@ -30,7 +31,13 @@
                     @((MarkupString)@post.Content)
                 </div>
             </div>
-        </div>
+            <div class="px-20 py-10 bg-gray-100">
+                <p>
+                    <IconCalendarMonth/>
+                    <span>@post.Date</span>
+                </p>
+            </div>
+        </article>
     }
 }
 
@@ -46,7 +53,7 @@
         await GetPosts(client);
         ModelUtil.MapCategoriesToPosts(categories!, posts!);
     }
-    
+
     private async Task GetCategories(HttpClient client)
     {
         var json = await ApiUtil.FetchWp("categories", client);
@@ -55,7 +62,7 @@
 
     private async Task GetPosts(HttpClient client)
     {
-        var json = await ApiUtil.FetchWp("posts?per_page=1", client);
+        var json = await ApiUtil.FetchWp("posts?per_page=2", client);
         posts = JsonUtil.ParseList<WpApiPost>(json);
     }
 
