@@ -19,9 +19,9 @@
 </div>
 
 
-@if (posts != null)
+@if (_posts != null)
 {
-    @foreach (var post in posts)
+    @foreach (var post in _posts)
     {
         <article class="border border-gray-200 mt-16">
             @if (@post.FeaturedMedia != null)
@@ -44,7 +44,7 @@
                     <span class="mr-4">@post.Category.Name</span>
                     @if (post.TagIds!.Count > 0)
                     {
-                        <span>Taggar:</span>
+                        <IconTag/>
                         foreach (WpApiTag tag in post.Tags)
                         {
                             @tag.Name
@@ -58,13 +58,11 @@
 
 
 @code {
-    //private ICollection<WpApiCategory>? categories;
-    private ICollection<WpApiPost>? posts;
+    private ICollection<WpApiPost>? _posts;
 
-    //TODO: move all to media util
     protected override async Task OnInitializedAsync()
     {
         WpContext context = new WpContext(ClientFactory.CreateClient());
-        this.posts = await context.GetPosts();
+        this._posts = await context.GetPosts();
     }
 }
