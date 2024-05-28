@@ -5,6 +5,7 @@ namespace MichaelKjellander.Data;
 using MichaelKjellander.Models;
 using Microsoft.EntityFrameworkCore;
 
+[System.Obsolete("DB is not accessed anymore")]
 public class WordpressContext : DbContext
 {
     public DbSet<WpPost> WpPosts { get; set; }
