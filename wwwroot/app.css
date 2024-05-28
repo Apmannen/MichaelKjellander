@@ -11,7 +11,7 @@ main {
     max-width: 825px;
 }
 
-.sg-title-section {
+/*.sg-title-section {
     position: relative;
 }
 
@@ -22,7 +22,7 @@ main {
     top: 0;
     bottom: 0;
     position: absolute;
-}
+}*/
 
 .sg-post {
     font-size: 1.2rem;
@@ -30,20 +30,20 @@ main {
 .sg-post-content {
 }
 .sg-post-content p {
-    margin: 2rem 0;
+    margin: theme('margin.8') 0;
 }
 .sg-post-content a {
     text-decoration: underline;
 }
 .sg-post-content a:hover {
     text-decoration: none;
-    color: var(--bs-gray-700);
+    color: theme('colors.gray.500');
 }
 .sg-post-content .wp-block-quote {
-    padding-left: 1rem;
+    padding-left: theme('margin.4');
     font-style: italic;
-    border-left: 0.4rem theme('colors.gray.600') solid;
-    color: var(--bs-gray-700);
+    border-left: theme('margin.1') theme('colors.gray.600') solid;
+    color: theme('colors.gray.700');
 }
 .sg-post-content .wp-block-quote cite {
     color: black;

@@ -582,10 +582,6 @@ video {
   height: 1rem;
 }
 
-.border-2 {
-  border-width: 2px;
-}
-
 .border {
   border-width: 1px;
 }
@@ -679,18 +675,18 @@ main {
   max-width: 825px;
 }
 
-.sg-title-section {
-  position: relative;
+/*.sg-title-section {
+    position: relative;
 }
 
 .sg-title-section-side {
-  width: 0.4rem;
-  height: 100%;
-  background: black;
-  top: 0;
-  bottom: 0;
-  position: absolute;
-}
+    width: 0.4rem;
+    height: 100%;
+    background: black;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+}*/
 
 .sg-post {
   font-size: 1.2rem;
@@ -709,14 +705,14 @@ main {
 
 .sg-post-content a:hover {
   text-decoration: none;
-  color: var(--bs-gray-700);
+  color: #6b7280;
 }
 
 .sg-post-content .wp-block-quote {
   padding-left: 1rem;
   font-style: italic;
-  border-left: 0.4rem #4b5563 solid;
-  color: var(--bs-gray-700);
+  border-left: 0.25rem #4b5563 solid;
+  color: #374151;
 }
 
 .sg-post-content .wp-block-quote cite {
