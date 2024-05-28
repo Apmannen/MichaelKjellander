@@ -558,6 +558,11 @@ video {
   position: static;
 }
 
+.mx-20 {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
 .mr-4 {
   margin-right: 1rem;
 }
@@ -653,6 +658,11 @@ video {
   padding-bottom: 1.25rem;
 }
 
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
 .pb-1 {
   padding-bottom: 0.25rem;
 }
@@ -699,8 +709,11 @@ body {
 }
 
 main {
-  max-width: 825px;
   background-color: rgb(241,241,241);
+}
+
+.sg-main-inner {
+  max-width: 825px;
 }
 
 .sg-title-section {
