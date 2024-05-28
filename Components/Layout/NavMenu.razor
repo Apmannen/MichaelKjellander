@@ -26,11 +26,11 @@
 
 @code {
     private readonly NavLink[] _links = [
-        new("Senaste inläggen", RouteUtil.pageHome), 
-        new("Mina spel", RouteUtil.pageCategory("mina-spel")), 
-        new ("Tv-spelrecensioner", RouteUtil.pageCategory("tv-spelrecensioner")), 
-        new ("Övriga inlägg", RouteUtil.pageCategory("okategoriserade")), 
-        new ("Kontakt", RouteUtil.pageContact)
+        new("Senaste inläggen", RouteUtil.PageHome), 
+        new("Mina spel", RouteUtil.PageCategory("mina-spel")), 
+        new ("Tv-spelrecensioner", RouteUtil.PageCategory("tv-spelrecensioner")), 
+        new ("Övriga inlägg", RouteUtil.PageCategory("okategoriserade")), 
+        new ("Kontakt", RouteUtil.PageContact)
     ];
     private struct NavLink(string text, string url)
     {

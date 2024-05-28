@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace MichaelKjellander.Utils;
@@ -8,8 +9,8 @@ public static class ApiUtil
     {
         return await FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);
     }*/
-
-    public static async Task<JsonElement> FetchJson(string url, HttpClient client)
+    
+    public static async Task<JsonFetchResult> FetchJson(string url, HttpClient client)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, url);
 
@@ -22,9 +23,16 @@ public static class ApiUtil
 
         await using var responseStream = await response.Content.ReadAsStreamAsync();
         using var reader = new StreamReader(responseStream);
-        var content = await reader.ReadToEndAsync();
-        var doc = JsonDocument.Parse(content);
+        string content = await reader.ReadToEndAsync();
+        JsonDocument doc = JsonDocument.Parse(content);
 
-        return doc.RootElement;
+        return new JsonFetchResult(root: doc.RootElement, headers: response.Headers);
     }
+
+    public struct JsonFetchResult(JsonElement root, HttpResponseHeaders headers)
+    {
+        public readonly JsonElement Root = root;
+        public readonly HttpResponseHeaders Headers = headers;
+    }
+
 }

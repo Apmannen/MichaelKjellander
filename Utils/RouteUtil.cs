@@ -2,12 +2,12 @@ namespace MichaelKjellander.Utils;
 
 public static class RouteUtil
 {
-    public static readonly string pageHome = "/";
+    public static readonly string PageHome = "/";
 
-    public static string pageCategory(string slug)
+    public static string PageCategory(string slug)
     {
-        return "/katergori/" + slug;
+        return "/kategori/" + slug;
     }
 
-    public static readonly string pageContact = "/kontakt";
+    public static readonly string PageContact = "/kontakt";
 }

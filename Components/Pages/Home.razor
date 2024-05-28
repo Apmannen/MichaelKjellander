@@ -56,13 +56,17 @@
     }
 }
 
+Sida x av @_numPages
+
 
 @code {
     private ICollection<WpApiPost>? _posts;
+    private int _numPages;
 
     protected override async Task OnInitializedAsync()
     {
         WpContext context = new WpContext(ClientFactory.CreateClient());
         this._posts = await context.GetPosts();
+        this._numPages = context.NumPages;
     }
 }
