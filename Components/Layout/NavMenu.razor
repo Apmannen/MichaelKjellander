@@ -1,6 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using MichaelKjellander.Utils
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="font-bold text-3xl" href="">Michael Kjellander</a>
+        <a class="font-bold text-3xl" href="/">Michael Kjellander</a>
     </div>
 </div>
 
@@ -8,7 +9,15 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
-        <div class="nav-item px-3">
+        @foreach (var link in _links)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@link.url" Match="NavLinkMatch.All">
+                    @link.text
+                </NavLink>
+            </div>
+        }
+        @*<div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
@@ -24,6 +33,21 @@
             <NavLink class="nav-link" href="weather">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
-        </div>
+        </div>*@
     </nav>
 </div>
+
+@code {
+    private NavLink[] _links = [
+        new("Senaste inläggen", RouteUtil.pageHome), 
+        new("Mina spel", RouteUtil.pageCategory("mina-spel")), 
+        new ("Tv-spelrecensioner", RouteUtil.pageCategory("tv-spelrecensioner")), 
+        new ("Övriga inlägg", RouteUtil.pageCategory("okategoriserade")), 
+        new ("Kontakt", RouteUtil.pageContact)
+    ];
+    private struct NavLink(string text, string url)
+    {
+        public readonly string text = text;
+        public readonly string url = url;
+    }
+}
