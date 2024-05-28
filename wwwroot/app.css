@@ -6,6 +6,8 @@
 /*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
 }
 
+html {
+}
 body {
     font-family: "Noto Serif", serif;
 }

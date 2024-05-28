@@ -558,6 +558,10 @@ video {
   position: static;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .mx-20 {
   margin-left: 5rem;
   margin-right: 5rem;
@@ -589,6 +593,10 @@ video {
 
 .h-4 {
   height: 1rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .border {
@@ -638,11 +646,6 @@ video {
   padding-right: 1rem;
 }
 
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
 .py-10 {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
@@ -651,11 +654,6 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-}
-
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
 }
 
 .py-20 {
@@ -702,6 +700,9 @@ video {
 
 :root {
   /*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
+}
+
+html {
 }
 
 body {

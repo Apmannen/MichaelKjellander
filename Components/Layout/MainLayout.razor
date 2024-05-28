@@ -1,19 +1,12 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar border-r border-gray-200 px-16 py-10 lg:py-20">
+    <div class="sidebar border-r border-gray-200 px-16 py-10 lg:py-20 overflow-hidden">
         <NavMenu/>
     </div>
 
     <main class="">
-        @*<div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>*@
         <div class="sg-main-inner py-20 mx-20">@Body</div>
-        
-        @*<article class="content px-4">
-            @Body
-        </article>*@
     </main>
 </div>
 
