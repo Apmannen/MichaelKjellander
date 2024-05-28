@@ -8,11 +8,10 @@
 
 body {
     font-family: "Noto Serif", serif;
-    background-color: rgb(241,241,241);
 }
-
 main {
     max-width: 825px;
+    background-color: rgb(241,241,241);
 }
 
 .sg-title-section {

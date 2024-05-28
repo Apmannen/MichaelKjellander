@@ -54,9 +54,9 @@ main {
 
     .sidebar {
         /*width: 250px;*/
-        margin-left: max(calc(35% - 413px), 0px);
+        margin-left: max(calc(35% - 380px), 0px);
         width: 30%;
-        max-width: 413px;
+        max-width: 380px;
         height: 100vh;
         position: sticky;
         top: 0;

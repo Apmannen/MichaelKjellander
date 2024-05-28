@@ -582,6 +582,10 @@ video {
   height: 1rem;
 }
 
+.h-20 {
+  height: 5rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -619,11 +623,6 @@ video {
   padding-right: 5rem;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -646,10 +645,6 @@ video {
 
 .pb-1 {
   padding-bottom: 0.25rem;
-}
-
-.ps-3 {
-  padding-inline-start: 0.75rem;
 }
 
 .text-2xl {
@@ -686,11 +681,11 @@ video {
 
 body {
   font-family: "Noto Serif", serif;
-  background-color: rgb(241,241,241);
 }
 
 main {
   max-width: 825px;
+  background-color: rgb(241,241,241);
 }
 
 .sg-title-section {
@@ -739,7 +734,33 @@ main {
 }
 
 @media (min-width: 640px) {
+  .sm\:h-20 {
+    height: 5rem;
+  }
+
   .sm\:py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:h-20 {
+    height: 5rem;
+  }
+
+  .md\:py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:h-20 {
+    height: 5rem;
+  }
+
+  .lg\:py-20 {
     padding-top: 5rem;
     padding-bottom: 5rem;
   }
