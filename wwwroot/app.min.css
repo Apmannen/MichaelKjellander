@@ -582,6 +582,18 @@ video {
   height: 1rem;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
 .border-gray-200 {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
@@ -703,7 +715,7 @@ main {
 .sg-post-content .wp-block-quote {
   padding-left: 1rem;
   font-style: italic;
-  border-left: 0.4rem var(--bs-gray-600) solid;
+  border-left: 0.4rem #4b5563 solid;
   color: var(--bs-gray-700);
 }
 

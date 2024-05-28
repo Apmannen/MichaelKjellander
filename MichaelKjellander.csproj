@@ -43,6 +43,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.min.css" />
       <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.min.css.map" />
       <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
     </ItemGroup>
 
 </Project>
