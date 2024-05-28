@@ -652,10 +652,6 @@ video {
   padding-inline-start: 0.75rem;
 }
 
-.pt-20 {
-  padding-top: 5rem;
-}
-
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -682,6 +678,10 @@ video {
 .text-slate-500 {
   --tw-text-opacity: 1;
   color: rgb(100 116 139 / var(--tw-text-opacity));
+}
+
+:root {
+  /*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
 }
 
 body {
@@ -736,4 +736,11 @@ main {
 .sg-post-content .wp-block-quote cite {
   color: black;
   font-style: normal;
+}
+
+@media (min-width: 640px) {
+  .sm\:py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
 }

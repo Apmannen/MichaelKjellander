@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+/*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
+}
+
 body {
     font-family: "Noto Serif", serif;
     background-color: rgb(241,241,241);
