@@ -7,9 +7,10 @@
 <PageTitle>Michael Kjellander</PageTitle>
 
 <div class="bg-white sg-title-section">
+    @*Borders ruins the padding*@
     <div class="sg-title-section-side"></div>
-    <div class="py-5 px-5">
-        <h1 class="text-2xl fw-bold">Välkommen till michaelkjellander.se!</h1>
+    <div class="py-10 px-20">
+        <h1 class="text-2xl font-bold">Välkommen till michaelkjellander.se!</h1>
         <div class="h-4"></div>
         <h2 class="text-slate-500">
             Här postar jag tv-spelrecensioner och annat!
@@ -22,12 +23,12 @@
 {
     @foreach (var post in posts)
     {
-        <article class="border border-solid border-gray-200 mt-16">
+        <article class="border border-gray-200 mt-16">
             @if (@post.FeaturedMedia != null)
             {
                 <img src="@post.FeaturedMedia.PostThumbnailUrl"/>
             }
-            <div class="bg-white  sg-post p-20 ">
+            <div class="bg-white sg-post p-20">
                 <span class="italic ">@post.Category.Name</span>
                 <div class="h-2"></div>
                 <h3 class="text-4xl fw-bolder">@post.Title</h3>

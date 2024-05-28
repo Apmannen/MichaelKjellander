@@ -11,18 +11,17 @@ main {
     max-width: 825px;
 }
 
-/*.sg-title-section {
+.sg-title-section {
     position: relative;
 }
-
 .sg-title-section-side {
-    width: 0.4rem;
+    width: theme('margin[1.5]');
     height: 100%;
     background: black;
     top: 0;
     bottom: 0;
     position: absolute;
-}*/
+}
 
 .sg-post {
     font-size: 1.2rem;

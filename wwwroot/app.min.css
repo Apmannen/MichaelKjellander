@@ -574,6 +574,16 @@ video {
   display: table;
 }
 
+.size-2 {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.size-8 {
+  width: 2rem;
+  height: 2rem;
+}
+
 .h-2 {
   height: 0.5rem;
 }
@@ -584,10 +594,6 @@ video {
 
 .border {
   border-width: 1px;
-}
-
-.border-solid {
-  border-style: solid;
 }
 
 .border-gray-200 {
@@ -639,8 +645,17 @@ video {
   padding-bottom: 1.25rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pb-1 {
   padding-bottom: 0.25rem;
+}
+
+.pl-20 {
+  padding-left: 5rem;
 }
 
 .ps-3 {
@@ -655,6 +670,19 @@ video {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-black {
+  font-weight: 900;
 }
 
 .italic {
@@ -675,18 +703,18 @@ main {
   max-width: 825px;
 }
 
-/*.sg-title-section {
-    position: relative;
+.sg-title-section {
+  position: relative;
 }
 
 .sg-title-section-side {
-    width: 0.4rem;
-    height: 100%;
-    background: black;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-}*/
+  width: 0.375rem;
+  height: 100%;
+  background: black;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+}
 
 .sg-post {
   font-size: 1.2rem;
