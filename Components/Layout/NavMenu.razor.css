@@ -20,8 +20,9 @@
     /*background-color: rgba(0,0,0,0.4);*/
 }
 
-.navbar-brand {
-    font-size: 1.1rem;
+.sg-navbar-brand {
+    /*font-size: 1.1rem;*/
+    font-family: "Noto Sans", sans-serif;
 }
 
 /*.bi {
