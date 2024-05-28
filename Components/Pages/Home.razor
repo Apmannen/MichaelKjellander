@@ -1,11 +1,10 @@
 ﻿@page "/"
-@using System.Text.Json
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
-@using MichaelKjellander.Utils
 @using MichaelKjellander.Components.Icons
+@using MichaelKjellander.Data
 
-<PageTitle>Michael Kjellander</PageTitle>
+<PageTitle>Michael Kjellanders hemsida</PageTitle>
 
 <div class="bg-white sg-title-section">
     @*Borders ruins the padding*@
@@ -65,52 +64,7 @@
     //TODO: move all to media util
     protected override async Task OnInitializedAsync()
     {
-        HttpClient client = ClientFactory.CreateClient();
-        ICollection<WpApiCategory> categories = await GetCategories(client);
-        this.posts = await GetPosts(client);
-        ModelUtil.MapCategoriesToPosts(categories!, posts!);
-
-        //Medias and tags
-        ISet<int> mediaIds = new HashSet<int>();
-        ISet<int> tagIds = new HashSet<int>();
-        foreach (WpApiPost post in posts)
-        {
-            if (post.FeaturedMediaId != 0)
-            {
-                mediaIds.Add(post.FeaturedMediaId);
-            }
-
-            foreach (int tagId in post.TagIds!)
-            {
-                tagIds.Add(tagId);
-            }
-        }
-        
-        //TODO: use shared method
-        string mediaIdsString = string.Join(",", mediaIds);
-        JsonElement mediasJson = await ApiUtil.FetchWp($"media?include={mediaIdsString}", client);
-        ICollection<WpApiMedia> medias = JsonUtil.ParseList<WpApiMedia>(mediasJson);
-        string tagIdsString = string.Join(",", tagIds);
-        JsonElement tagsJson = await ApiUtil.FetchWp($"tags?include={tagIdsString}", client);
-        ICollection<WpApiTag> tags = JsonUtil.ParseList<WpApiTag>(tagsJson);
-        
-        foreach (var post in posts)
-        {
-            post.FindAndSetFeaturedMedia(medias);
-            post.FindAndSetTags(tags);
-        }
+        WpContext context = new WpContext(ClientFactory.CreateClient());
+        this.posts = await context.GetPosts();
     }
-
-    private async Task<ICollection<WpApiCategory>> GetCategories(HttpClient client)
-    {
-        JsonElement json = await ApiUtil.FetchWp("categories", client);
-        return JsonUtil.ParseList<WpApiCategory>(json);
-    }
-
-    private async Task<List<WpApiPost>> GetPosts(HttpClient client)
-    {
-        JsonElement json = await ApiUtil.FetchWp("posts?per_page=2", client);
-        return JsonUtil.ParseList<WpApiPost>(json);
-    }
-
 }

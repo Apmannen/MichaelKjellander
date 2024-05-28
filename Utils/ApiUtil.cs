@@ -4,10 +4,10 @@ namespace MichaelKjellander.Utils;
 
 public static class ApiUtil
 {
-    public static async Task<JsonElement> FetchWp(string uri, HttpClient client)
+    /*public static async Task<JsonElement> FetchWp(string uri, HttpClient client)
     {
         return await FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);
-    }
+    }*/
 
     public static async Task<JsonElement> FetchJson(string url, HttpClient client)
     {
