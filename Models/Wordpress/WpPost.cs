@@ -5,16 +5,16 @@ namespace MichaelKjellander.Models.Wordpress;
 
 public class WpPost : IParsableJson
 {
-    public int Id { get; private set; }
-    public string? Content { get; private set; }
-    public string? Title { get; private set; }
-    public DateOnly Date { get; private set; }
-    public int CategoryId { get; private set; }
-    public int FeaturedMediaId { get; private set; }
-    public WpCategory? Category { get; private set; }
-    public WpMedia? FeaturedMedia { get; private set; }
-    public ICollection<int>? TagIds { get; private set;  }
-    public ICollection<WpTag>? Tags { get; private set;  }
+    public int Id { get; set; }
+    public string? Content { get; set; }
+    public string? Title { get; set; }
+    public DateOnly Date { get; set; }
+    public int CategoryId { get; set; }
+    public int FeaturedMediaId { get; set; }
+    public WpCategory? Category { get; set; }
+    public WpMedia? FeaturedMedia { get; set; }
+    public ICollection<int>? TagIds { get; set;  }
+    public ICollection<WpTag>? Tags { get; set;  }
 
     public void FindAndSetCategory(ICollection<WpCategory> categories)
     {

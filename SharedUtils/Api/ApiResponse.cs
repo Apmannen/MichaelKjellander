@@ -1,5 +1,7 @@
 using System.Text.Json;
+using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Json;
+using Newtonsoft.Json;
 
 namespace MichaelKjellander.SharedUtils.Api;
 
@@ -17,10 +19,19 @@ public class ApiResponse<T> : IParsableJson where T : IParsableJson
 
     public void ParseFromJson(JsonElement el)
     {
-        List<T> itemsList = JsonUtil.ParseList<T>(el.GetProperty("items"));
-        this.Items = itemsList;
-        
-        PaginationData!.ParseFromJson(el.GetProperty("paginationData"));
+        var items = el.GetProperty("items").EnumerateArray();
+        List<T> deserializedList = new List<T>();
+        foreach (var item in items)
+        {
+            T deserialized = JsonConvert.DeserializeObject<T>(item.ToString())!;
+            deserializedList.Add(deserialized);
+        }
+
+        this.Items = deserializedList;
+
+        var currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
+        var numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
+        PaginationData = new PaginationData(currentPage, numPages);
     }
 }
 

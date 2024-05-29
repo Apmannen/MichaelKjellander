@@ -5,8 +5,8 @@ namespace MichaelKjellander.Models.Wordpress;
 
 public class WpMedia : IParsableJson
 {
-    public int Id { get; private set; }
-    public string? PostThumbnailUrl { get; private set; }
+    public int Id { get; set; }
+    public string? PostThumbnailUrl { get; set; }
 
     public void ParseFromJson(JsonElement el)
     {

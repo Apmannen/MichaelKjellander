@@ -5,8 +5,8 @@ namespace MichaelKjellander.Models.Wordpress;
 
 public class WpCategory : IParsableJson
 {
-    public int Id { get; private set; }
-    public string? Name { get; private set; }
+    public int Id { get; set; }
+    public string? Name { get; set; }
     public void ParseFromJson(JsonElement el)
     {
         this.Id = el.GetProperty("id").GetInt32();
