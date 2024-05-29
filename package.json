@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "watch": "dotnet watch",
+    "watch-css": "npx tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css --watch"
+  },
   "dependencies": {
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
