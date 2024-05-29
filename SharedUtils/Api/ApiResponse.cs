@@ -35,7 +35,7 @@ public class ApiResponse<T> : IParsableJson where T : IParsableJson
     }
 }
 
-public class PaginationData : IParsableJson
+public class PaginationData
 {
     public int CurrentPage {get ; private set; }
     public int NumPages {get ; private set;  }
@@ -44,11 +44,5 @@ public class PaginationData : IParsableJson
     {
         this.CurrentPage = currentPage;
         this.NumPages = numPages;
-    }
-
-    public void ParseFromJson(JsonElement el)
-    {
-        this.CurrentPage = el.GetProperty("currentPage").GetInt32();
-        this.NumPages = el.GetProperty("numPages").GetInt32();
     }
 }
