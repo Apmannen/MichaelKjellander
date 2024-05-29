@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using MichaelKjellander.Models.Wordpress;
 
-namespace MichaelKjellander.Utils;
+namespace MichaelKjellander.SharedUtils;
 
 public static class ApiUtil
 {
@@ -27,7 +27,19 @@ public static class ApiUtil
         string content = await reader.ReadToEndAsync();
         JsonDocument doc = JsonDocument.Parse(content);
 
+        List<IParsableJson> apa = [];
+
         return new JsonFetchResult(root: doc.RootElement, headers: response.Headers);
+    }
+    
+    /*public interface IInterface
+    {
+        public static void Test();
+    }*/
+
+    public static ApiResponse<T> CreateApiResponse<T>(ICollection<T> items, int currentPage, int numPages) where T : IParsableJson
+    {
+        return new ApiResponse<T>(items, new PaginationData(currentPage, numPages));
     }
 
     public struct JsonFetchResult(JsonElement root, HttpResponseHeaders headers)
@@ -36,7 +48,7 @@ public static class ApiUtil
         public readonly HttpResponseHeaders Headers = headers;
     }
 
-    public struct ApiResponse<T>(ICollection<T> items, PaginationData paginationData) where T : IParsableJson
+    public class ApiResponse<T>(ICollection<T> items, PaginationData paginationData) where T : IParsableJson
     {
         public readonly ICollection<T> Items = items;
         public readonly PaginationData PaginationData = paginationData;

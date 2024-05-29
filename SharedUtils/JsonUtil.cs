@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace MichaelKjellander.Utils;
+namespace MichaelKjellander.SharedUtils;
 
 public static class JsonUtil
 {
@@ -9,7 +9,9 @@ public static class JsonUtil
         List<T> list = [];
         foreach (var el in root.EnumerateArray())
         {
-            list.Add((T) T.ParseFromJson(el));
+            T parsableJson = Activator.CreateInstance<T>();
+            parsableJson.ParseFromJson(el);
+            list.Add(parsableJson);
         }
         return list;
     }
@@ -17,5 +19,5 @@ public static class JsonUtil
 
 public interface IParsableJson
 {
-    public static abstract IParsableJson ParseFromJson(JsonElement el);
+    public void ParseFromJson(JsonElement el);
 }

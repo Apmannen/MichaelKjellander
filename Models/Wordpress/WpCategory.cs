@@ -1,17 +1,15 @@
 ﻿using System.Text.Json;
-using MichaelKjellander.Utils;
+using MichaelKjellander.SharedUtils;
 
 namespace MichaelKjellander.Models.Wordpress;
 
 public class WpCategory : IParsableJson
 {
-    public int Id { get; private init; }
-    public string? Name { get; private init; }
-    public static IParsableJson ParseFromJson(JsonElement el)
+    public int Id { get; private set; }
+    public string? Name { get; private set; }
+    public void ParseFromJson(JsonElement el)
     {
-        int id = el.GetProperty("id").GetInt32();
-        string name = el.GetProperty("name").GetString()!;
-
-        return new WpCategory{Id = id, Name = name};
+        this.Id = el.GetProperty("id").GetInt32();
+        this.Name = el.GetProperty("name").GetString()!;
     }
 }

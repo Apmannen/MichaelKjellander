@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
-using System.Text.Json;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.Utils;
+using MichaelKjellander.SharedUtils;
 
 namespace MichaelKjellander.Data;
 
