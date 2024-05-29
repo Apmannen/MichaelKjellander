@@ -1,6 +1,6 @@
 # michaelkjellander.se
 
-Upcoming michaelkjellander.se site. WORK IN PROGRESS. Built with Brazor (.NET/C#), using the Wordpress API to fetch all 
+Upcoming michaelkjellander.se site. WORK IN PROGRESS. Built with Blazor (.NET/C#), using the Wordpress API to fetch all 
 existing posts and pages from the old (current) site. Tailwind is used for styling.
 
 Start dev mode: npm run watch (or dotnet watch)
