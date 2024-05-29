@@ -14,7 +14,7 @@ public class WpApiPost : IParsableJson
     public WpApiCategory? Category { get; private set; }
     public WpApiMedia? FeaturedMedia { get; private set; }
     public ICollection<int>? TagIds { get; private init;  }
-    public ICollection<WpApiTag> Tags { get; private set;  }
+    public ICollection<WpApiTag>? Tags { get; private set;  }
 
     public void FindAndSetCategory(ICollection<WpApiCategory> categories)
     {
@@ -26,7 +26,7 @@ public class WpApiPost : IParsableJson
     }
     public void FindAndSetTags(ICollection<WpApiTag> tags)
     {
-        this.Tags = tags;
+        this.Tags = tags.Where(t => this.TagIds!.Contains(t.Id)).ToArray();
     }
 
 
