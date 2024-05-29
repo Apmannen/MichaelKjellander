@@ -42,21 +42,34 @@ public static class ApiUtil
         return new ApiResponse<T>(items, new PaginationData(currentPage, numPages));
     }
 
+    //structs/classes
     public struct JsonFetchResult(JsonElement root, HttpResponseHeaders headers)
     {
         public readonly JsonElement Root = root;
         public readonly HttpResponseHeaders Headers = headers;
     }
 
-    public class ApiResponse<T>(ICollection<T> items, PaginationData paginationData) where T : IParsableJson
+    public struct ApiResponse<T> where T : IParsableJson
     {
-        public readonly ICollection<T> Items = items;
-        public readonly PaginationData PaginationData = paginationData;
+        public ICollection<T> Items  {get ; private set; }
+        public PaginationData PaginationData {get ; private set;  }
+
+        public ApiResponse(ICollection<T> items, PaginationData paginationData)
+        {
+            this.Items = items;
+            this.PaginationData = paginationData;
+        }
     }
 
-    public struct PaginationData(int currentPage, int numPages)
+    public class PaginationData
     {
-        public readonly int CurrentPage = currentPage;
-        public readonly int NumPages = numPages;
+        public int CurrentPage {get ; private set; }
+        public int NumPages {get ; private set;  }
+
+        public PaginationData(int currentPage, int numPages)
+        {
+            this.CurrentPage = currentPage;
+            this.NumPages = numPages;
+        }
     }
 }

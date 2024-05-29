@@ -18,6 +18,9 @@ public class BlogController : Controller
 
         (ICollection<WpPost> posts, int numPages) = await context.GetPosts();
 
-        return Ok(posts); //Ok(ApiUtil.CreateApiResponse(posts, 1, numPages));
+        ApiUtil.ApiResponse<WpPost> response = ApiUtil.CreateApiResponse(posts, 1, numPages);
+        //Console.WriteLine("**** response"+response.Items);
+            
+        return Ok(response);
     }
 }
