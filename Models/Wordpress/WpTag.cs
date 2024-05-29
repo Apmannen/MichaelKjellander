@@ -3,7 +3,7 @@ using MichaelKjellander.Utils;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpApiTag : IParsableJson
+public class WpTag : IParsableJson
 {
     public int Id { get; private init; }
     public string? Name { get; private init; }
@@ -12,6 +12,6 @@ public class WpApiTag : IParsableJson
         var id = el.GetProperty("id").GetInt32();
         var name = el.GetProperty("name").GetString();
 
-        return new WpApiTag(){Id = id, Name = name};
+        return new WpTag(){Id = id, Name = name};
     }
 }

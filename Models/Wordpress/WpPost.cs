@@ -3,7 +3,7 @@ using MichaelKjellander.Utils;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpApiPost : IParsableJson
+public class WpPost : IParsableJson
 {
     public int Id { get; private init; }
     public string? Content { get; private init; }
@@ -11,20 +11,20 @@ public class WpApiPost : IParsableJson
     public DateOnly Date { get; private init; }
     public int CategoryId { get; private init; }
     public int FeaturedMediaId { get; private init; }
-    public WpApiCategory? Category { get; private set; }
-    public WpApiMedia? FeaturedMedia { get; private set; }
+    public WpCategory? Category { get; private set; }
+    public WpMedia? FeaturedMedia { get; private set; }
     public ICollection<int>? TagIds { get; private init;  }
-    public ICollection<WpApiTag>? Tags { get; private set;  }
+    public ICollection<WpTag>? Tags { get; private set;  }
 
-    public void FindAndSetCategory(ICollection<WpApiCategory> categories)
+    public void FindAndSetCategory(ICollection<WpCategory> categories)
     {
         this.Category = categories.First(c => c.Id == this.CategoryId);
     }
-    public void FindAndSetFeaturedMedia(ICollection<WpApiMedia> medias)
+    public void FindAndSetFeaturedMedia(ICollection<WpMedia> medias)
     {
         this.FeaturedMedia = medias.FirstOrDefault(m => m.Id == this.FeaturedMediaId);
     }
-    public void FindAndSetTags(ICollection<WpApiTag> tags)
+    public void FindAndSetTags(ICollection<WpTag> tags)
     {
         this.Tags = tags.Where(t => this.TagIds!.Contains(t.Id)).ToArray();
     }
@@ -46,7 +46,7 @@ public class WpApiPost : IParsableJson
             tagIds.Add(tagEl.GetInt32());
         }
         
-        return new WpApiPost
+        return new WpPost
         {
             Id = id, Content = content, Title = title, CategoryId = categoryId, Date = date,
             FeaturedMediaId = featuredMediaId, TagIds = tagIds

@@ -3,7 +3,7 @@ using MichaelKjellander.Utils;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpApiCategory : IParsableJson
+public class WpCategory : IParsableJson
 {
     public int Id { get; private init; }
     public string? Name { get; private init; }
@@ -12,6 +12,6 @@ public class WpApiCategory : IParsableJson
         int id = el.GetProperty("id").GetInt32();
         string name = el.GetProperty("name").GetString()!;
 
-        return new WpApiCategory{Id = id, Name = name};
+        return new WpCategory{Id = id, Name = name};
     }
 }

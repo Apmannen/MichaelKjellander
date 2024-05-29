@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpApiMedia : IParsableJson
+public class WpMedia : IParsableJson
 {
     public int Id { get; private init; }
     public string? PostThumbnailUrl { get; private init; }
@@ -16,6 +16,6 @@ public class WpApiMedia : IParsableJson
             .GetProperty("source_url")
             .GetString();
 
-        return new WpApiMedia { Id = id, PostThumbnailUrl = postThumbnailUrl };
+        return new WpMedia { Id = id, PostThumbnailUrl = postThumbnailUrl };
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -35,4 +36,15 @@ public static class ApiUtil
         public readonly HttpResponseHeaders Headers = headers;
     }
 
+    public struct ApiResponse<T>(ICollection<T> items, PaginationData paginationData) where T : IParsableJson
+    {
+        public readonly ICollection<T> Items = items;
+        public readonly PaginationData PaginationData = paginationData;
+    }
+
+    public struct PaginationData(int currentPage, int numPages)
+    {
+        public readonly int CurrentPage = currentPage;
+        public readonly int NumPages = numPages;
+    }
 }

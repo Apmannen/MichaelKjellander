@@ -9,8 +9,8 @@ public class WpContext
 {
     private readonly HttpClient _client;
 
-    public ICollection<WpApiPost> Posts { get; private set; }
-    public int NumPages { get; private set; }
+    //public ICollection<WpApiPost> Posts { get; private set; } //TODO: don't have it here
+    //public int NumPages { get; private set; } //TODO: don't have it here
 
     //TODO: if needed, create instance of class and keep collections of fetches here (posts, categories etc.)
     public WpContext(HttpClient client)
@@ -18,19 +18,18 @@ public class WpContext
         this._client = client;
     }
 
-    public async Task<ICollection<WpApiPost>> GetPosts()
+    public async Task<(ICollection<WpPost>,int)> GetPosts()
     {
-        var postsResult = await FetchAndParseFromApiWithHeaders<WpApiPost>("posts?per_page=10", _client);
-        ICollection<WpApiPost> posts = postsResult.ParsedElements;
-        this.Posts = posts;
-        this.NumPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
-        ICollection<WpApiCategory> categories = await FetchAndParseFromApi<WpApiCategory>("categories", _client);
+        var postsResult = await FetchAndParseFromApiWithHeaders<WpPost>("posts?per_page=10", _client);
+        ICollection<WpPost> posts = postsResult.ParsedElements;
+        int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
+        ICollection<WpCategory> categories = await FetchAndParseFromApi<WpCategory>("categories", _client);
         
 
         //Medias and tags
         var mediaIds = new HashSet<int>();
         var tagIds = new HashSet<int>();
-        foreach (WpApiPost post in posts)
+        foreach (WpPost post in posts)
         {
             if (post.FeaturedMediaId != 0)
             {
@@ -44,20 +43,20 @@ public class WpContext
         }
 
         string mediaIdsString = string.Join(",", mediaIds);
-        ICollection<WpApiMedia> medias =
-            await FetchAndParseFromApi<WpApiMedia>($"media?include={mediaIdsString}", _client);
+        ICollection<WpMedia> medias =
+            await FetchAndParseFromApi<WpMedia>($"media?include={mediaIdsString}", _client);
 
         string tagIdsString = string.Join(",", tagIds);
-        ICollection<WpApiTag> tags = await FetchAndParseFromApi<WpApiTag>($"tags?include={tagIdsString}", _client);
+        ICollection<WpTag> tags = await FetchAndParseFromApi<WpTag>($"tags?include={tagIdsString}", _client);
 
-        foreach (WpApiPost post in posts)
+        foreach (WpPost post in posts)
         {
             post.FindAndSetCategory(categories);
             post.FindAndSetFeaturedMedia(medias);
             post.FindAndSetTags(tags);
         }
 
-        return posts;
+        return (posts, numPages);
     }
 
     private static async Task<ICollection<T>> FetchAndParseFromApi<T>(string uri, HttpClient client)
@@ -74,7 +73,7 @@ public class WpContext
         return new JsonFetchElementsResult<T>(parsedElements, result.Headers);
     }
     
-    public struct JsonFetchElementsResult<T>(ICollection<T> parsedElements, HttpResponseHeaders headers) where T : IParsableJson
+    private struct JsonFetchElementsResult<T>(ICollection<T> parsedElements, HttpResponseHeaders headers) where T : IParsableJson
     {
         public readonly ICollection<T> ParsedElements = parsedElements;
         public readonly HttpResponseHeaders Headers = headers;
