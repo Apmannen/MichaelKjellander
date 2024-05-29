@@ -1,3 +1,5 @@
+using MichaelKjellander.SharedUtils.Json;
+
 namespace MichaelKjellander.SharedUtils.Api;
 
 public class ApiResponse<T> where T : IParsableJson

@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
-using MichaelKjellander.SharedUtils;
-using Microsoft.AspNetCore.Authentication;
+using MichaelKjellander.SharedUtils.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 

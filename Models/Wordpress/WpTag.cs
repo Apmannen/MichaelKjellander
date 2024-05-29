@@ -1,5 +1,5 @@
 using System.Text.Json;
-using MichaelKjellander.SharedUtils;
+using MichaelKjellander.SharedUtils.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 

@@ -1,6 +1,7 @@
 using System.Text.Json;
+using MichaelKjellander.SharedUtils.Json;
 
-namespace MichaelKjellander.SharedUtils;
+namespace MichaelKjellander.SharedUtils.Json;
 
 public static class JsonUtil
 {
@@ -17,7 +18,3 @@ public static class JsonUtil
     }
 }
 
-public interface IParsableJson
-{
-    public void ParseFromJson(JsonElement el);
-}

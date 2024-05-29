@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
+using MichaelKjellander.SharedUtils.Json;
 
 namespace MichaelKjellander.Data;
 
@@ -63,7 +63,7 @@ public class WpContext
     private static async Task<JsonFetchElementsResult<T>> FetchAndParseFromWpApiWithHeaders<T>(string uri, HttpClient client)
         where T : IParsableJson
     {
-        ApiUtil.JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);
+        JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);
         ICollection<T> parsedElements = JsonUtil.ParseList<T>(result.Root);
         return new JsonFetchElementsResult<T>(parsedElements, result.Headers);
     }
