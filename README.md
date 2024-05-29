@@ -1,11 +1,11 @@
-# MichaelKjellander
+# michaelkjellander.se
 
-dotnet watch
-or
+Upcoming michaelkjellander.se site. Built with Brazor (.NET/C#), using the Wordpress API to fetch all existing 
+posts and pages. Tailwind is used for styling.
+
+Start dev mode with:
 npm run watch
 
-npx tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css --watch
-or
-npm run watch-css
+Watch CSS file updates: npm run watch-css
 
-dotnet run
+Run: dotnet run
