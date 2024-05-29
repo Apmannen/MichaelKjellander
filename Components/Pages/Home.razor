@@ -3,6 +3,7 @@
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Components.Icons
 @using MichaelKjellander.SharedUtils
+@using MichaelKjellander.SharedUtils.Api
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
 
@@ -29,11 +30,11 @@
                 <img src="@post.FeaturedMedia.PostThumbnailUrl"/>
             }
             <div class="bg-white sg-post p-20">
-                <span class="italic ">@post.Category.Name</span>
+                <span class="italic ">@post.Category!.Name</span>
                 <div class="h-2"></div>
                 <h3 class="text-4xl fw-bolder">@post.Title</h3>
                 <div class="sg-post-content">
-                    @((MarkupString)@post.Content)
+                    @((MarkupString)@post.Content!)
                 </div>
             </div>
             <div class="px-20 py-10 bg-gray-100">
@@ -45,7 +46,7 @@
                     @if (post.TagIds!.Count > 0)
                     {
                         <IconTag/>
-                        foreach (WpTag tag in post.Tags)
+                        foreach (WpTag tag in post.Tags!)
                         {
                             @tag.Name
                         }
@@ -56,12 +57,12 @@
     }
 }
 
-Sida x av @_numPages
+Sida @_pagination.CurrentPage av @_pagination.NumPages
 
 
 @code {
     private ICollection<WpPost>? _posts;
-    private int _numPages;
+    private PaginationData _pagination;
 
     protected override async Task OnInitializedAsync()
     {

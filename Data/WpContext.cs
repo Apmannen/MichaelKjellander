@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils;
+using MichaelKjellander.SharedUtils.Api;
 
 namespace MichaelKjellander.Data;
 
@@ -8,10 +9,6 @@ public class WpContext
 {
     private readonly HttpClient _client;
 
-    //public ICollection<WpApiPost> Posts { get; private set; } //TODO: don't have it here
-    //public int NumPages { get; private set; } //TODO: don't have it here
-
-    //TODO: if needed, create instance of class and keep collections of fetches here (posts, categories etc.)
     public WpContext(HttpClient client)
     {
         this._client = client;
@@ -19,11 +16,10 @@ public class WpContext
 
     public async Task<(ICollection<WpPost>,int)> GetPosts()
     {
-        var postsResult = await FetchAndParseFromApiWithHeaders<WpPost>("posts?per_page=10", _client);
+        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>("posts?per_page=10", _client);
         ICollection<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
-        ICollection<WpCategory> categories = await FetchAndParseFromApi<WpCategory>("categories", _client);
-        
+        ICollection<WpCategory> categories = await FetchAndParseFromWpApi<WpCategory>("categories", _client);
 
         //Medias and tags
         var mediaIds = new HashSet<int>();
@@ -43,10 +39,10 @@ public class WpContext
 
         string mediaIdsString = string.Join(",", mediaIds);
         ICollection<WpMedia> medias =
-            await FetchAndParseFromApi<WpMedia>($"media?include={mediaIdsString}", _client);
+            await FetchAndParseFromWpApi<WpMedia>($"media?include={mediaIdsString}", _client);
 
         string tagIdsString = string.Join(",", tagIds);
-        ICollection<WpTag> tags = await FetchAndParseFromApi<WpTag>($"tags?include={tagIdsString}", _client);
+        ICollection<WpTag> tags = await FetchAndParseFromWpApi<WpTag>($"tags?include={tagIdsString}", _client);
 
         foreach (WpPost post in posts)
         {
@@ -58,13 +54,13 @@ public class WpContext
         return (posts, numPages);
     }
 
-    private static async Task<ICollection<T>> FetchAndParseFromApi<T>(string uri, HttpClient client)
+    private static async Task<ICollection<T>> FetchAndParseFromWpApi<T>(string uri, HttpClient client)
         where T : IParsableJson
     {
-        JsonFetchElementsResult<T> result = await FetchAndParseFromApiWithHeaders<T>(uri, client);
+        JsonFetchElementsResult<T> result = await FetchAndParseFromWpApiWithHeaders<T>(uri, client);
         return result.ParsedElements;
     }
-    private static async Task<JsonFetchElementsResult<T>> FetchAndParseFromApiWithHeaders<T>(string uri, HttpClient client)
+    private static async Task<JsonFetchElementsResult<T>> FetchAndParseFromWpApiWithHeaders<T>(string uri, HttpClient client)
         where T : IParsableJson
     {
         ApiUtil.JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);

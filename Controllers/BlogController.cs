@@ -1,6 +1,6 @@
 using MichaelKjellander.Data;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils;
+using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MichaelKjellander.Controllers;
@@ -17,10 +17,7 @@ public class BlogController : Controller
         WpContext context = new WpContext(client);
 
         (ICollection<WpPost> posts, int numPages) = await context.GetPosts();
-
-        ApiUtil.ApiResponse<WpPost> response = ApiUtil.CreateApiResponse(posts, 1, numPages);
-        //Console.WriteLine("**** response"+response.Items);
             
-        return Ok(response);
+        return Ok(ApiUtil.CreateApiResponse(posts, 1, numPages));
     }
 }
