@@ -10,11 +10,16 @@ public static class JsonUtil
         List<T> list = [];
         foreach (var el in root.EnumerateArray())
         {
-            T parsableJson = Activator.CreateInstance<T>();
+            T parsableJson = CreateParsableJsonInstance<T>();
             parsableJson.ParseFromJson(el);
             list.Add(parsableJson);
         }
         return list;
+    }
+
+    public static T CreateParsableJsonInstance<T>()
+    {
+        return Activator.CreateInstance<T>();
     }
 }
 

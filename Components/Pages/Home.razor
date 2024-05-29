@@ -2,6 +2,7 @@
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Components.Icons
+@using MichaelKjellander.Data
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Api
 
@@ -57,19 +58,21 @@
     }
 }
 
-Sida @_pagination.CurrentPage av @_pagination.NumPages
+@if (_pagination != null)
+{
+    <div>Sida @_pagination.CurrentPage av @_pagination.NumPages</div>
+}
 
 
 @code {
     private ICollection<WpPost>? _posts;
-    private PaginationData _pagination;
+    private PaginationData? _pagination;
 
     protected override async Task OnInitializedAsync()
     {
-        //await ApiUtil.FetchJson();
-        
-        //WpContext context = new WpContext(ClientFactory.CreateClient());
-        //this._posts = await context.GetPosts();
-        //this._numPages = context.NumPages;
+        InternalApiContext context = new InternalApiContext(ClientFactory.CreateClient());
+        ApiResponse<WpPost> postData = await context.FetchPosts();
+        this._posts = postData.Items;
+        this._pagination = postData.PaginationData;
     }
 }
