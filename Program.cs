@@ -1,6 +1,9 @@
 using MichaelKjellander.Components;
+using MichaelKjellander.SharedUtils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Console.WriteLine("**** args="+args+"; "+args.Length+"; "+args[0]);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -9,7 +12,14 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddHttpClient();
 
+builder.Services.Configure<AppConfig>(config =>
+{
+    config.IsDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+});
+
+
 var app = builder.Build();
+
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

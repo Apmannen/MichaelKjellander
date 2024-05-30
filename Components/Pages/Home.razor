@@ -5,6 +5,7 @@
 @using MichaelKjellander.Data
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Api
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
 
@@ -15,7 +16,7 @@
         <h1 class="text-2xl font-bold">Välkommen till Michael Kjellanders hemsida!</h1>
         <div class="h-4"></div>
         <h2 class="text-slate-500">
-            Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt.
+            Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt. Devmode: @Options.Value.IsDev
         </h2>
     </div>
 </div>
@@ -74,5 +75,9 @@
         ApiResponse<WpPost> postData = await context.FetchPosts();
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
+        
+        Console.WriteLine("OPS:"+Options.Value.IsDev);
+
+        //Config.
     }
 }

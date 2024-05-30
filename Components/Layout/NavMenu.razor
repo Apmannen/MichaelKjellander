@@ -33,7 +33,7 @@
         new ("Övriga inlägg", PageRoutes.Category("okategoriserade")), 
         new ("Kontakt", PageRoutes.Contact)
     ];
-    private struct NavLink(string text, string url)
+    private struct NavLink(string text, string url) //TODO: try use record
     {
         public readonly string Text = text;
         public readonly string Url = url;
