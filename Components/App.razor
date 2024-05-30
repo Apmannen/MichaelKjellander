@@ -1,7 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using MichaelKjellander.SharedUtils
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    @if (Options.Value.IsDev)
+    {
+        <meta name="robots" content="noindex, nofollow">
+    }
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <base href="/"/>
@@ -11,8 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="tabler/webfont/tabler-icons.css" rel="stylesheet" />
-    <link href="app.min.css" rel="stylesheet" />
+    <link href="tabler/webfont/tabler-icons.css" rel="stylesheet"/>
+    <link href="app.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="MichaelKjellander.styles.css"/>
     <link rel="icon" type="image/png" href="favicon.png"/>
     <HeadOutlet/>
