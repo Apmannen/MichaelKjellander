@@ -16,7 +16,8 @@
         <h1 class="text-2xl font-bold">Välkommen till Michael Kjellanders hemsida!</h1>
         <div class="h-4"></div>
         <h2 class="text-slate-500">
-            Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt. Devmode: @Options.Value.IsDev
+            Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt. 
+            Devmode: @Options.Value.IsDev, url: @Options.Value.SiteUrl
         </h2>
     </div>
 </div>
@@ -71,7 +72,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        InternalApiContext context = new InternalApiContext(ClientFactory.CreateClient());
+        InternalApiContext context = new InternalApiContext(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postData = await context.FetchPosts();
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;

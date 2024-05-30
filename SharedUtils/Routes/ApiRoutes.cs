@@ -1,6 +1,14 @@
+using Microsoft.Extensions.Options;
+
 namespace MichaelKjellander.SharedUtils.Routes;
 
-public static class ApiRoutes
+public class ApiRoutes
 {
-    public const string Posts = "http://localhost:5204/api/blog/posts"; //TODO: NO
+    private readonly string _baseUrl;
+    public ApiRoutes(string baseUrl)
+    {
+        _baseUrl = baseUrl;
+    }
+    
+    public string Posts => _baseUrl+"/api/blog/posts"; 
 }

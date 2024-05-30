@@ -15,8 +15,8 @@ builder.Services.AddHttpClient();
 builder.Services.Configure<AppConfig>(config =>
 {
     config.IsDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+    config.SiteUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!;
 });
-
 
 var app = builder.Build();
 
@@ -43,6 +43,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.Run();
+
+
 
 
 // var builder = WebApplication.CreateBuilder(args);
