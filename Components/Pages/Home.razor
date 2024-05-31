@@ -35,7 +35,7 @@
             <div class="bg-white sg-post p-10 sm:p-20">
                 @if (@post.Category!.Type == CategoryType.Game)
                 {
-                    <span class="italic ">@post.Category!.Name</span>
+                    <span class="italic">@post.Category!.Name</span>
                     <div class="h-2"></div>
                 }
                 <h3 class="text-4xl font-bold">@post.Title</h3>
@@ -43,13 +43,23 @@
                 {
                     <div class="h-2"></div>
                     <p class="italic">Recension</p>
-                    <p class="text-xs">Testat på: @String.Join(", ", post.MetaPlatforms!)</p>
+                    <p class="text-sm">Testat på: @String.Join(", ", post.MetaPlatforms!)</p>
                 }
                 <div class="sg-post-content">
                     @((MarkupString)@post.Content!)
                 </div>
                 @if (post.Category!.Type == CategoryType.GameReview)
                 {
+                    <div class="border border-black border-dashed p-10">
+                        <div class="font-bold">@post.RatingText</div>
+                        <div class="h-2"></div>
+                        <div class="border-b"></div>
+                        <div class="h-2"></div>
+                        @if (post.MetaPlayAlso != null)
+                        {
+                            <div class="text-sm">Spela även @post.MetaPlayAlso</div>
+                        }
+                    </div>
                     
                 }
             </div>
