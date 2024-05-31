@@ -24,30 +24,20 @@
 
         int currentPage = paginationData.CurrentPage;
         int lastPage = paginationData.NumPages;
-        _visiblePages.Add(1);
-        if (currentPage < lastPage)
-        {
-            int prevPage = currentPage - 1;
-            if (prevPage < lastPage)
-            {
-                _visiblePages.Add(prevPage);
-            }
-            
-            if (currentPage < lastPage)
-            {
-                _visiblePages.Add(currentPage);
-            }
+        int prevPage = currentPage - 1;
+        int nextPage = currentPage + 1;
 
-            int nextPage = currentPage + 1;
-            if (currentPage < lastPage)
-            {
-                _visiblePages.Add(nextPage);
-            }
-        }
-        if (lastPage > 1)
-        {
-            _visiblePages.Add(paginationData.NumPages);
-        }
+        ISet<int> visiblePagesSet = new HashSet<int>();
+
+        visiblePagesSet.Add(1);
+        visiblePagesSet.Add(prevPage);
+        visiblePagesSet.Add(currentPage);
+        visiblePagesSet.Add(nextPage);
+        visiblePagesSet.Add(lastPage);
+        visiblePagesSet.Remove(0);
+        
+        _visiblePages.AddRange(visiblePagesSet);
+        _visiblePages.Sort();
     }
     
     //TODO: numpages=7, should be 8???
