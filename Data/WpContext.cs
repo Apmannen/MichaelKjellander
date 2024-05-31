@@ -16,10 +16,10 @@ public class WpContext
 
     public async Task<(ICollection<WpPost>,int)> GetPosts(int page = 1)
     {
-        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>($"posts?per_page=10&page={page}", _client);
+        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>($"posts?per_page=10&page={page}");
         ICollection<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
-        ICollection<WpCategory> categories = await FetchAndParseFromWpApi<WpCategory>("categories", _client);
+        ICollection<WpCategory> categories = await FetchAndParseFromWpApi<WpCategory>("categories");
 
         //Medias and tags
         var mediaIds = new HashSet<int>();
@@ -37,19 +37,8 @@ public class WpContext
             }
         }
 
-        //TODO: generalize
-        ICollection<WpMedia> medias = [];
-        if (mediaIds.Count > 0)
-        {
-            string mediaIdsString = string.Join(",", mediaIds);
-            medias = await FetchAndParseFromWpApi<WpMedia>($"media?include={mediaIdsString}", _client);
-        }
-        ICollection<WpTag> tags = [];
-        if (tagIds.Count > 0)
-        {
-            string tagIdsString = string.Join(",", tagIds);
-            tags = await FetchAndParseFromWpApi<WpTag>($"tags?include={tagIdsString}", _client);
-        }
+        ICollection<WpMedia> medias = await FetchAndParseExtras<WpMedia>("media", mediaIds);
+        ICollection<WpTag> tags = await FetchAndParseExtras<WpTag>("tags", tagIds);
 
         foreach (WpPost post in posts)
         {
@@ -61,20 +50,32 @@ public class WpContext
         return (posts, numPages);
     }
 
-    private static async Task<ICollection<T>> FetchAndParseFromWpApi<T>(string uri, HttpClient client)
+    private async Task<ICollection<T>> FetchAndParseExtras<T>(string type, ICollection<int> ids) where T : IParsableJson
+    {
+        if (ids.Count == 0)
+        {
+            return [];
+        }
+        string idsString = string.Join(",", ids);
+        ICollection<T> result = await FetchAndParseFromWpApi<T>($"{type}?include={idsString}");
+        return result;
+    }
+
+    private async Task<ICollection<T>> FetchAndParseFromWpApi<T>(string uri)
         where T : IParsableJson
     {
-        JsonFetchElementsResult<T> result = await FetchAndParseFromWpApiWithHeaders<T>(uri, client);
+        JsonFetchElementsResult<T> result = await FetchAndParseFromWpApiWithHeaders<T>(uri);
         return result.ParsedElements;
     }
-    private static async Task<JsonFetchElementsResult<T>> FetchAndParseFromWpApiWithHeaders<T>(string uri, HttpClient client)
+    private async Task<JsonFetchElementsResult<T>> FetchAndParseFromWpApiWithHeaders<T>(string uri)
         where T : IParsableJson
     {
-        JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, client);
+        JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, _client);
         ICollection<T> parsedElements = JsonUtil.ParseList<T>(result.Root);
         return new JsonFetchElementsResult<T>(parsedElements, result.Headers);
     }
     
+    //TODO: record?
     private struct JsonFetchElementsResult<T>(ICollection<T> parsedElements, HttpResponseHeaders headers) where T : IParsableJson
     {
         public readonly ICollection<T> ParsedElements = parsedElements;
