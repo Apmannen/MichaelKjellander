@@ -38,10 +38,12 @@
                     <span class="italic ">@post.Category!.Name</span>
                     <div class="h-2"></div>
                 }
-                <h3 class="text-4xl fw-bolder">@post.Title</h3>
+                <h3 class="text-4xl font-bold">@post.Title</h3>
                 @if (@post.Category!.Type == CategoryType.GameReview)
                 {
-                    <span class="italic ">Recension</span>
+                    <div class="h-2"></div>
+                    <p class="italic">Recension</p>
+                    <p class="text-xs">Testat på: @String.Join(", ", post.MetaPlatforms!)</p>
                 }
                 <div class="sg-post-content">
                     @((MarkupString)@post.Content!)

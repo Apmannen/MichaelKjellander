@@ -15,7 +15,7 @@ public class WpPost : IParsableJson
     public WpMedia? FeaturedMedia { get; set; }
     public ICollection<int>? TagIds { get; set;  }
     public ICollection<WpTag>? Tags { get; set;  }
-    public string? MetaPlatform { get; set; }
+    public ICollection<string>? MetaPlatforms { get; set; }
     public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
 
@@ -56,7 +56,7 @@ public class WpPost : IParsableJson
         this.CategoryId = categoryId;
         this.FeaturedMediaId = featuredMediaId;
         this.TagIds = tagIds;
-        this.MetaPlatform = TryParseString(metaElement, "format");
+        this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
     }
@@ -69,6 +69,21 @@ public class WpPost : IParsableJson
             return null;
         }
         return child.EnumerateArray().FirstOrDefault().GetString();
+    }
+    private static List<string> TryParseStrings(JsonElement parent, string key)
+    {
+        bool didSet = parent.TryGetProperty(key, out JsonElement child);
+        if (!didSet)
+        {
+            return new();
+        }
+
+        List<string> strings = new();
+        foreach (JsonElement el in child.EnumerateArray())
+        {
+            strings.Add(el.GetString()!);
+        }
+        return strings;
     }
     private static int? TryParseInt(JsonElement parent, string key)
     {
