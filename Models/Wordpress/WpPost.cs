@@ -15,6 +15,9 @@ public class WpPost : IParsableJson
     public WpMedia? FeaturedMedia { get; set; }
     public ICollection<int>? TagIds { get; set;  }
     public ICollection<WpTag>? Tags { get; set;  }
+    public string? MetaPlatform { get; set; }
+    public string? MetaPlayAlso { get; set; }
+    public int? MetaRating { get; set; }
 
     public void FindAndSetCategory(ICollection<WpCategory> categories)
     {
@@ -44,7 +47,8 @@ public class WpPost : IParsableJson
         {
             tagIds.Add(tagEl.GetInt32());
         }
-
+        var metaElement = el.GetProperty("metadata");
+        
         this.Id = id;
         this.Content = content;
         this.Title = title;
@@ -52,5 +56,28 @@ public class WpPost : IParsableJson
         this.CategoryId = categoryId;
         this.FeaturedMediaId = featuredMediaId;
         this.TagIds = tagIds;
+        this.MetaPlatform = TryParseString(metaElement, "format");
+        this.MetaPlayAlso = TryParseString(metaElement, "play_also");
+        this.MetaRating = TryParseInt(metaElement, "rating");
+    }
+
+    private static string? TryParseString(JsonElement parent, string key)
+    {
+        bool didSet = parent.TryGetProperty(key, out JsonElement child);
+        if (!didSet)
+        {
+            return null;
+        }
+        return child.EnumerateArray().FirstOrDefault().GetString();
+    }
+    private static int? TryParseInt(JsonElement parent, string key)
+    {
+        string? parsedString = TryParseString(parent, key);
+        if (parsedString == null)
+        {
+            return null;
+        }
+
+        return int.Parse(parsedString);
     }
 }
