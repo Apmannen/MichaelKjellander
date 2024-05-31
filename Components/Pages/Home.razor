@@ -33,9 +33,16 @@
                 <img src="@post.FeaturedMedia.PostThumbnailUrl"/>
             }
             <div class="bg-white sg-post p-10 sm:p-20">
-                <span class="italic ">@post.Category!.Name</span>
-                <div class="h-2"></div>
+                @if (@post.Category!.Type == CategoryType.Game)
+                {
+                    <span class="italic ">@post.Category!.Name</span>
+                    <div class="h-2"></div>
+                }
                 <h3 class="text-4xl fw-bolder">@post.Title</h3>
+                @if (@post.Category!.Type == CategoryType.GameReview)
+                {
+                    <span class="italic ">Recension</span>
+                }
                 <div class="sg-post-content">
                     @((MarkupString)@post.Content!)
                 </div>
