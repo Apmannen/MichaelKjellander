@@ -7,7 +7,13 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddLettuceEncrypt();
+        AppEnvironment environment =
+            AppConfig.ParseAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
+
+        if (AppConfig.IsAnyWww(environment))
+        {
+            services.AddLettuceEncrypt();
+        }
         
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -18,7 +24,7 @@ public class Startup
 
         services.Configure<AppConfig>(config =>
         {
-            config.AppEnvironment = AppConfig.ParseAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
+            config.AppEnvironment = environment;
             config.ParseAndSetSiteUrl(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!);
         });
     }

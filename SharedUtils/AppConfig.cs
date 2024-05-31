@@ -28,6 +28,11 @@ public class AppConfig
     {
         return Enum.Parse<AppEnvironment>(appEnvironmentString);
     }
+
+    public static bool IsAnyWww(AppEnvironment appEnvironment)
+    {
+        return appEnvironment is AppEnvironment.Prod or AppEnvironment.WwwDev;
+    }
     
     
 }
