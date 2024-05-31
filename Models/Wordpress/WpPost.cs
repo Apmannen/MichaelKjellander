@@ -18,6 +18,9 @@ public class WpPost : IParsableJson
     public ICollection<string>? MetaPlatforms { get; set; }
     public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
+    
+    //Yep, I think it's fine to keep texts like these in a single language application.
+    //They could easily be swapped otherwise.
     public string RatingText
     {
         get
