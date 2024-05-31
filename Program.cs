@@ -17,7 +17,7 @@ namespace MichaelKjellander
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    if (appEnvironment == AppEnvironment.Prod)
+                    if (appEnvironment is AppEnvironment.Prod or AppEnvironment.WwwDev)
                     {
                         webBuilder.UseKestrel(options =>
                         {
