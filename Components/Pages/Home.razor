@@ -52,9 +52,12 @@
                 {
                     <div class="border border-black border-dashed p-10">
                         <div class="font-bold">@post.RatingText</div>
-                        <div class="h-2"></div>
-                        <div class="border-b"></div>
-                        <div class="h-2"></div>
+                        @if (post.MetaPlayAlso != null)
+                        {    
+                            <div class="h-2"></div>
+                            <div class="border-b"></div>
+                            <div class="h-2"></div>
+                        }
                         @if (post.MetaPlayAlso != null)
                         {
                             <div class="text-sm">Spela även @post.MetaPlayAlso</div>
