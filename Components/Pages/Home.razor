@@ -11,8 +11,8 @@
 
 <div class="bg-white sg-title-section">
     @*Borders ruins the padding*@
-    <div class="sg-title-section-side"></div>
-    <div class="py-10 px-20">
+    <div class="sg-title-section-side hidden sm:block"></div>
+    <div class="py-10 px-10 sm:px-20">
         <h1 class="text-2xl font-bold">Välkommen till Michael Kjellanders hemsida!</h1>
         <div class="h-4"></div>
         <h2 class="text-slate-500">
@@ -27,12 +27,12 @@
 {
     @foreach (var post in _posts)
     {
-        <article class="border border-gray-200 mt-16">
+        <article class="border border-gray-200 sm:mt-16">
             @if (@post.FeaturedMedia != null)
             {
                 <img src="@post.FeaturedMedia.PostThumbnailUrl"/>
             }
-            <div class="bg-white sg-post p-20">
+            <div class="bg-white sg-post p-10 sm:p-20">
                 <span class="italic ">@post.Category!.Name</span>
                 <div class="h-2"></div>
                 <h3 class="text-4xl fw-bolder">@post.Title</h3>
@@ -76,9 +76,5 @@
         ApiResponse<WpPost> postData = await context.FetchPosts();
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
-        
-        Console.WriteLine("OPS:"+Options.Value.IsDev);
-
-        //Config.
     }
 }
