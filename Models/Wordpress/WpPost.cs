@@ -98,10 +98,10 @@ public class WpPost : IParsableJson
         bool didSet = parent.TryGetProperty(key, out JsonElement child);
         if (!didSet)
         {
-            return new();
+            return [];
         }
 
-        List<string> strings = new();
+        List<string> strings = [];
         foreach (JsonElement el in child.EnumerateArray())
         {
             strings.Add(el.GetString()!);
@@ -118,6 +118,4 @@ public class WpPost : IParsableJson
 
         return int.Parse(parsedString);
     }
-    
-    
 }

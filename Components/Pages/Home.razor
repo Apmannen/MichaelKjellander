@@ -8,7 +8,6 @@
 @using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.Components.Boxes
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
-@inject IJSRuntime JS
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
 
@@ -90,7 +89,6 @@
 }
 
 <PaginationBox paginationData="@_pagination"/>
-
 
 
 @code {
