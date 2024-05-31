@@ -19,7 +19,7 @@ public class Startup
         services.Configure<AppConfig>(config =>
         {
             config.AppEnvironment = AppConfig.ParseAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
-            config.SiteUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!;
+            config.ParseAndSetSiteUrl(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!);
         });
     }
 

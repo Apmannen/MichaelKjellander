@@ -10,6 +10,20 @@ public class AppConfig
 
     public bool IsAnyDev => AppEnvironment != AppEnvironment.Prod;
 
+    public void ParseAndSetSiteUrl(string urls)
+    {
+        string[] urlsArray = urls.Split(";");
+        foreach (string aUrl in urlsArray)
+        {
+            if (aUrl.StartsWith("https"))
+            {
+                this.SiteUrl = aUrl;
+                return;
+            }
+        }
+
+        this.SiteUrl = urlsArray[0];
+    }
     public static AppEnvironment ParseAppEnvironment(string appEnvironmentString)
     {
         return Enum.Parse<AppEnvironment>(appEnvironmentString);
