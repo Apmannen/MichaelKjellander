@@ -10,5 +10,5 @@ public class ApiRoutes
         _baseUrl = baseUrl;
     }
     
-    public string Posts => _baseUrl+"/api/blog/posts"; 
+    public string Posts(int page) => $"{_baseUrl}/api/blog/posts?page={page}"; 
 }

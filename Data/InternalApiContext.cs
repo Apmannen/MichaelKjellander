@@ -18,9 +18,9 @@ public class InternalApiContext
         this._apiRoutes = new ApiRoutes(options.Value.SiteUrl!);
     }
 
-    public async Task<ApiResponse<WpPost>> FetchPosts()
+    public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1)
     {
-        return await Fetch<WpPost>(_apiRoutes.Posts);
+        return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber));
     }
 
     private async Task<ApiResponse<T>> Fetch<T>(string path) where T : IParsableJson

@@ -93,15 +93,14 @@
 
 
 @code {
-    [Parameter]
-    public string? CurrentPage { get; set; }
+    [Parameter] public string? CurrentPage { get; set; }
     private ICollection<WpPost>? _posts;
     private PaginationData? _pagination;
 
     protected override async Task OnInitializedAsync()
     {
         InternalApiContext context = new InternalApiContext(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postData = await context.FetchPosts();
+        ApiResponse<WpPost> postData = await context.FetchPosts(pageNumber: int.Parse(CurrentPage ?? "1"));
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
     }
