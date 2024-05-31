@@ -1,9 +1,43 @@
-using MichaelKjellander.Components;
+
 using MichaelKjellander.SharedUtils;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace MichaelKjellander
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-//Console.WriteLine("**** args="+args+"; "+args.Length+"; "+args[0]);
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            AppEnvironment appEnvironment = AppConfig.ParseAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
+            
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    if (appEnvironment == AppEnvironment.Prod)
+                    {
+                        webBuilder.UseKestrel(options =>
+                        {
+                            //options.ListenAnyIP(5000); // HTTP
+                            options.ListenAnyIP(443, listenOptions =>
+                            {
+                                listenOptions.UseHttps("/etc/letsencrypt/live/new.michaelkjellander.se/fullchain.pem",
+                                    "/etc/letsencrypt/live/new.michaelkjellander.se/privkey.pem");
+                            });
+                        });
+                    }
+                    webBuilder.UseStartup<Startup>();
+                });
+            
+        }
+            
+    }
+}
+
+/*var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -14,36 +48,28 @@ builder.Services.AddHttpClient();
 
 builder.Services.Configure<AppConfig>(config =>
 {
-    //config.IsDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
     config.SetAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
     config.SiteUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!;
 });
 
-/*var hostBuilder = Host.CreateDefaultBuilder(args);
-hostBuilder.ConfigureWebHostDefaults(webBuilder =>
+var hostBuilder = Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
     {
         webBuilder.UseKestrel(options =>
         {
-            options.ListenAnyIP(5000); // HTTP
-            options.ListenAnyIP(5001, listenOptions =>
+            //options.ListenAnyIP(443); // HTTP
+            options.ListenAnyIP(443, listenOptions =>
             {
-                listenOptions.UseHttps("/etc/letsencrypt/live/yourdomain.com/fullchain.pem",
-                    "/etc/letsencrypt/live/yourdomain.com/privkey.pem");
+                listenOptions.UseHttps("/etc/letsencrypt/live/new.michaelkjellander.se/fullchain.pem",
+                    "/etc/letsencrypt/live/new.michaelkjellander.se/privkey.pem");
             });
         });
     });
-hostBuilder.Build();*/
+hostBuilder.StartAsync();
 
 var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 
@@ -56,31 +82,5 @@ app.MapFallbackToFile("/index.html");
 app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
-app.Run();
+app.Run();*/
 
-
-// var builder = WebApplication.CreateBuilder(args);
-//
-// // Add services to the container.
-// builder.Services.AddRazorComponents()
-//     .AddInteractiveServerComponents();
-//
-// var app = builder.Build();
-//
-// // Configure the HTTP request pipeline.
-// if (!app.Environment.IsDevelopment())
-// {
-//     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-//     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//     app.UseHsts();
-// }
-//
-// app.UseHttpsRedirection();
-//
-// app.UseStaticFiles();
-// app.UseAntiforgery();
-//
-// app.MapRazorComponents<App>()
-//     .AddInteractiveServerRenderMode();
-//
-// app.Run();

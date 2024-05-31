@@ -10,9 +10,9 @@ public class AppConfig
 
     public bool IsAnyDev => AppEnvironment != AppEnvironment.Prod;
 
-    public void SetAppEnvironment(string appEnvironmentString)
+    public static AppEnvironment ParseAppEnvironment(string appEnvironmentString)
     {
-        AppEnvironment = Enum.Parse<AppEnvironment>(appEnvironmentString);
+        return Enum.Parse<AppEnvironment>(appEnvironmentString);
     }
     
     
