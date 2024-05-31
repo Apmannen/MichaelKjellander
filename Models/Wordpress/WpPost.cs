@@ -18,6 +18,26 @@ public class WpPost : IParsableJson
     public ICollection<string>? MetaPlatforms { get; set; }
     public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
+    public string RatingText
+    {
+        get
+        {
+            return MetaRating switch
+            {
+                1 => "Ospelbart",
+                2 => "Mycket dåligt",
+                3 => "Dåligt",
+                4 => "Ganska dåligt",
+                5 => "Medelmåttigt",
+                6 => "Ganska bra",
+                7 => "Bra",
+                8 => "Mycket bra",
+                9 => "Fantastiskt",
+                10 => "Mästerverk",
+                _ => ""
+            };
+        }
+    }
 
     public void FindAndSetCategory(ICollection<WpCategory> categories)
     {
@@ -59,6 +79,7 @@ public class WpPost : IParsableJson
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
+        //RefreshRatingText();
     }
 
     private static string? TryParseString(JsonElement parent, string key)
@@ -95,4 +116,6 @@ public class WpPost : IParsableJson
 
         return int.Parse(parsedString);
     }
+    
+    
 }

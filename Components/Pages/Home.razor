@@ -48,6 +48,10 @@
                 <div class="sg-post-content">
                     @((MarkupString)@post.Content!)
                 </div>
+                @if (post.Category!.Type == CategoryType.GameReview)
+                {
+                    
+                }
             </div>
             <div class="px-20 py-10 bg-gray-100">
                 <p>
