@@ -37,12 +37,19 @@ public class WpContext
             }
         }
 
-        string mediaIdsString = string.Join(",", mediaIds);
-        ICollection<WpMedia> medias =
-            await FetchAndParseFromWpApi<WpMedia>($"media?include={mediaIdsString}", _client);
-
-        string tagIdsString = string.Join(",", tagIds);
-        ICollection<WpTag> tags = await FetchAndParseFromWpApi<WpTag>($"tags?include={tagIdsString}", _client);
+        //TODO: generalize
+        ICollection<WpMedia> medias = [];
+        if (mediaIds.Count > 0)
+        {
+            string mediaIdsString = string.Join(",", mediaIds);
+            medias = await FetchAndParseFromWpApi<WpMedia>($"media?include={mediaIdsString}", _client);
+        }
+        ICollection<WpTag> tags = [];
+        if (tagIds.Count > 0)
+        {
+            string tagIdsString = string.Join(",", tagIds);
+            tags = await FetchAndParseFromWpApi<WpTag>($"tags?include={tagIdsString}", _client);
+        }
 
         foreach (WpPost post in posts)
         {
