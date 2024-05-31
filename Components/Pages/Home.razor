@@ -43,7 +43,7 @@
             <div class="px-20 py-10 bg-gray-100">
                 <p>
                     <IconCalendarMonth/>
-                    <span class="mr-4">@post.Date</span>
+                    <span class="mr-4">@DateUtil.FormatDate(post.Date)</span>
                     <IconFolder/>
                     <span class="mr-4">@post.Category.Name</span>
                     @if (post.TagIds!.Count > 0)
