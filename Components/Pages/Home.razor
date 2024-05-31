@@ -5,6 +5,7 @@
 @using MichaelKjellander.Data
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Api
+@using MichaelKjellander.Components.Boxes
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
@@ -86,10 +87,8 @@
     }
 }
 
-@if (_pagination != null)
-{
-    <div>Sida @_pagination.CurrentPage av @_pagination.NumPages</div>
-}
+<PaginationBox paginationData="@_pagination"/>
+
 
 
 @code {

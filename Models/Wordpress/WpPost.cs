@@ -82,7 +82,6 @@ public class WpPost : IParsableJson
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
-        //RefreshRatingText();
     }
 
     private static string? TryParseString(JsonElement parent, string key)

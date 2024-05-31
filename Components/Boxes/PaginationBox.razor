@@ -1,0 +1,54 @@
+﻿@using MichaelKjellander.SharedUtils.Api
+
+@if (paginationData != null && @paginationData.NumPages > 1)
+{
+    <div class="bg-white mt-16 py-4 text-center">
+        @foreach (int aPage in _visiblePages)
+        {
+            <span class="mx-2">@aPage</span>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public PaginationData? paginationData { get; set; }
+
+    private List<int> _visiblePages = new();
+
+    protected override void OnParametersSet()
+    {
+        if (paginationData == null)
+        {
+            return;
+        }
+
+        int currentPage = paginationData.CurrentPage;
+        int lastPage = paginationData.NumPages;
+        _visiblePages.Add(1);
+        if (currentPage < lastPage)
+        {
+            int prevPage = currentPage - 1;
+            if (prevPage < lastPage)
+            {
+                _visiblePages.Add(prevPage);
+            }
+            
+            if (currentPage < lastPage)
+            {
+                _visiblePages.Add(currentPage);
+            }
+
+            int nextPage = currentPage + 1;
+            if (currentPage < lastPage)
+            {
+                _visiblePages.Add(nextPage);
+            }
+        }
+        if (lastPage > 1)
+        {
+            _visiblePages.Add(paginationData.NumPages);
+        }
+    }
+    
+    //TODO: numpages=7, should be 8???
+}

@@ -9,5 +9,10 @@ public static class PageRoutes
         return "/kategori/" + slug;
     }
 
+    //public static string LatestPosts(int page)
+    //{
+    //    return "/" + (page > 1 ? $"/sida/{page}");
+    //}
+
     public const string Contact = "/kontakt";
 }
