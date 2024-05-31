@@ -11,13 +11,20 @@ public class BlogController : Controller
 {
     [HttpGet]
     [Route("posts")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] PostsRequest postsRequest)
     {
+        int page = postsRequest.Page ?? 1;
+        
         using HttpClient client = new HttpClient();
         WpContext context = new WpContext(client);
 
-        (ICollection<WpPost> posts, int numPages) = await context.GetPosts();
+        (ICollection<WpPost> posts, int numPages) = await context.GetPosts(page: page);
             
-        return Ok(ApiUtil.CreateApiResponse(posts, 1, numPages));
+        return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
+    }
+
+    public class PostsRequest
+    {
+        public int? Page { get; set; }
     }
 }

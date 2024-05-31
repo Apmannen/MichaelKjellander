@@ -14,9 +14,9 @@ public class WpContext
         this._client = client;
     }
 
-    public async Task<(ICollection<WpPost>,int)> GetPosts()
+    public async Task<(ICollection<WpPost>,int)> GetPosts(int page = 1)
     {
-        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>("posts?per_page=10", _client);
+        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>($"posts?per_page=10&page={page}", _client);
         ICollection<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
         ICollection<WpCategory> categories = await FetchAndParseFromWpApi<WpCategory>("categories", _client);
