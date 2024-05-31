@@ -1,7 +1,10 @@
 ﻿@using MichaelKjellander.SharedUtils.Api
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 @if (PaginationData != null && @PaginationData.NumPages > 1)
 {
+    <div>TESTi:@_testi</div>
     <div class="bg-white mt-16 py-4 text-center">
         @foreach (PageData pageData in _visiblePages)
         {
@@ -11,9 +14,9 @@
             }
             else
             {
-                <a class="px-4 text-xl sg-font-sans @(pageData.isCurrent ? "font-bold" : "")" href="@pageData.Link">
+                <button class="px-4 text-xl sg-font-sans @(pageData.isCurrent ? "font-bold" : "")" @onclick="(() => DoNavigate(pageData))">
                     @pageData.page
-                </a>
+                </button>
             }
         }
     </div>
@@ -21,8 +24,16 @@
 
 @code {
     [Parameter] public PaginationData? PaginationData { get; set; }
+    private int _testi = 0;
 
     private List<PageData> _visiblePages = [];
+
+    private void DoNavigate(PageData pageData)
+    {
+        _testi++;
+        Console.WriteLine("**** DONAV!!!");
+        Navigation.NavigateTo(pageData.Link);
+    }
 
     private class PageData
     {

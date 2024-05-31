@@ -1,5 +1,5 @@
 ﻿@page "/"
-@page "/sida/{CurrentPage}"
+@page "/sida/{CurrentPage:int}"
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Components.Icons
@@ -8,6 +8,7 @@
 @using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.Components.Boxes
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@inject IJSRuntime JS
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
 
@@ -93,14 +94,14 @@
 
 
 @code {
-    [Parameter] public string? CurrentPage { get; set; }
+    [Parameter] public int? CurrentPage { get; set; }
     private ICollection<WpPost>? _posts;
     private PaginationData? _pagination;
 
     protected override async Task OnInitializedAsync()
     {
         InternalApiContext context = new InternalApiContext(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postData = await context.FetchPosts(pageNumber: int.Parse(CurrentPage ?? "1"));
+        ApiResponse<WpPost> postData = await context.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
     }
