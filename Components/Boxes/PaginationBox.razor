@@ -5,7 +5,7 @@
     <div class="bg-white mt-16 py-4 text-center">
         @foreach (int aPage in _visiblePages)
         {
-            <span class="mx-2">@aPage</span>
+            <a class="mx-2" href="/sida/@aPage">@aPage</a>
         }
     </div>
 }
