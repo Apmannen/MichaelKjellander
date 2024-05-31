@@ -21,11 +21,9 @@ namespace MichaelKjellander
                     {
                         webBuilder.UseKestrel(kestrel =>
                         {
-                            //options.ListenAnyIP(5000); // HTTP
+                            //kestrel.ListenAnyIP(80);
                             kestrel.ListenAnyIP(443, listenOptions =>
                             {
-                                //listenOptions.UseHttps("/etc/letsencrypt/live/new.michaelkjellander.se/fullchain.pem",
-                                //    "/etc/letsencrypt/live/new.michaelkjellander.se/privkey.pem");
                                 listenOptions.UseHttps(connectionOptions =>
                                 {
                                     connectionOptions.UseLettuceEncrypt(kestrel.ApplicationServices);
@@ -40,51 +38,3 @@ namespace MichaelKjellander
             
     }
 }
-
-/*var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-
-builder.Services.AddHttpClient();
-
-builder.Services.Configure<AppConfig>(config =>
-{
-    config.SetAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
-    config.SiteUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!;
-});
-
-var hostBuilder = Host.CreateDefaultBuilder(args)
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.UseKestrel(options =>
-        {
-            //options.ListenAnyIP(443); // HTTP
-            options.ListenAnyIP(443, listenOptions =>
-            {
-                listenOptions.UseHttps("/etc/letsencrypt/live/new.michaelkjellander.se/fullchain.pem",
-                    "/etc/letsencrypt/live/new.michaelkjellander.se/privkey.pem");
-            });
-        });
-    });
-hostBuilder.StartAsync();
-
-var app = builder.Build();
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MapFallbackToFile("/index.html");
-
-app.UseAntiforgery();
-app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
-
-app.Run();*/
-

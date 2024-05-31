@@ -25,12 +25,9 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        //Console.WriteLine("*** app="+app);
-        
         app.UseDefaultFiles();
         app.UseStaticFiles();
 
-// Configure the HTTP request pipeline.
         //if (app.Environment.IsDevelopment())
         //{
             //app.UseSwagger();
@@ -51,14 +48,5 @@ public class Startup
             
             endpoints.MapRazorComponents<App>().AddInteractiveServerRenderMode();
         });
-
-        //app.MapControllers();
-
-        //app.MapFallbackToFile("/index.html");
-
-        
-        //app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
-
-        //app.Run();
     }
 }
