@@ -1,29 +1,36 @@
 ﻿@using MichaelKjellander.SharedUtils.Api
 
-@if (paginationData != null && @paginationData.NumPages > 1)
+@if (PaginationData != null && @PaginationData.NumPages > 1)
 {
     <div class="bg-white mt-16 py-4 text-center">
         @foreach (int aPage in _visiblePages)
         {
-            <a class="mx-2" href="/sida/@aPage">@aPage</a>
+            if (aPage == 0)
+            {
+                <span>...</span>
+            }
+            else
+            {
+                <a class="mx-4 text-xl sg-font-sans @(aPage == PaginationData.CurrentPage ? "font-bold" : "")" href="/sida/@aPage">@aPage</a>
+            }
         }
     </div>
 }
 
 @code {
-    [Parameter] public PaginationData? paginationData { get; set; }
+    [Parameter] public PaginationData? PaginationData { get; set; }
 
-    private List<int> _visiblePages = new();
+    private List<int> _visiblePages = [];
 
     protected override void OnParametersSet()
     {
-        if (paginationData == null)
+        if (PaginationData == null)
         {
             return;
         }
 
-        int currentPage = paginationData.CurrentPage;
-        int lastPage = paginationData.NumPages;
+        int currentPage = PaginationData.CurrentPage;
+        int lastPage = PaginationData.NumPages;
         int prevPage = currentPage - 1;
         int nextPage = currentPage + 1;
 
@@ -35,9 +42,24 @@
         visiblePagesSet.Add(nextPage);
         visiblePagesSet.Add(lastPage);
         visiblePagesSet.Remove(0);
-        
-        _visiblePages.AddRange(visiblePagesSet);
-        _visiblePages.Sort();
+
+        List<int> tmpList = new List<int>(visiblePagesSet);
+        tmpList.Sort();
+
+        for (int i = 0; i < tmpList.Count; i++)
+        {
+            int current = tmpList[i];
+            int? prev = i > 0 ? tmpList[i - 1] : null;
+            if (prev != null)
+            {
+                int diff = current - (int)prev;
+                if (diff > 1)
+                {
+                    _visiblePages.Insert(i, 0);
+                }
+            }
+            _visiblePages.Add(current);
+        }
     }
     
     //TODO: numpages=7, should be 8???
