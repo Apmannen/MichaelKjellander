@@ -3,15 +3,17 @@
 @if (PaginationData != null && @PaginationData.NumPages > 1)
 {
     <div class="bg-white mt-16 py-4 text-center">
-        @foreach (int aPage in _visiblePages)
+        @foreach (PageData pageData in _visiblePages)
         {
-            if (aPage == 0)
+            if (pageData.page == null)
             {
                 <span>...</span>
             }
             else
             {
-                <a class="mx-4 text-xl sg-font-sans @(aPage == PaginationData.CurrentPage ? "font-bold" : "")" href="/sida/@aPage">@aPage</a>
+                <a class="px-4 text-xl sg-font-sans @(pageData.isCurrent ? "font-bold" : "")" href="@pageData.Link">
+                    @pageData.page
+                </a>
             }
         }
     </div>
@@ -20,7 +22,26 @@
 @code {
     [Parameter] public PaginationData? PaginationData { get; set; }
 
-    private List<int> _visiblePages = [];
+    private List<PageData> _visiblePages = [];
+
+    private class PageData
+    {
+        public int? page;
+        public bool isCurrent;
+
+        public string Link
+        {
+            get
+            {
+                if (page == 1)
+                {
+                    return "/";
+                }
+
+                return $"/sida/{page}";
+            }
+        }
+    }
 
     protected override void OnParametersSet()
     {
@@ -55,12 +76,17 @@
                 int diff = current - (int)prev;
                 if (diff > 1)
                 {
-                    _visiblePages.Insert(i, 0);
+                    _visiblePages.Insert(i, new PageData() { page = null});
                 }
             }
-            _visiblePages.Add(current);
+
+            _visiblePages.Add(new PageData()
+            {
+                page = current, 
+                isCurrent = current == PaginationData.CurrentPage,
+            });
         }
     }
-    
+
     //TODO: numpages=7, should be 8???
 }
