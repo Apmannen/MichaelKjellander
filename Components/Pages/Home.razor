@@ -1,4 +1,5 @@
 ﻿@page "/"
+@page "/sida/{CurrentPage}"
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Components.Icons
@@ -92,6 +93,8 @@
 
 
 @code {
+    [Parameter]
+    public string? CurrentPage { get; set; }
     private ICollection<WpPost>? _posts;
     private PaginationData? _pagination;
 
