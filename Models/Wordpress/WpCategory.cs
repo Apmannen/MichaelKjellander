@@ -9,7 +9,8 @@ public class WpCategory : IParsableJson
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Slug { get; set; }
-
+    
+    // Some categories need special treatment, just need to identify them in the way that it's currently possible.
     public CategoryType Type
     {
         get
