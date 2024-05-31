@@ -19,13 +19,17 @@ namespace MichaelKjellander
                 {
                     if (appEnvironment is AppEnvironment.Prod or AppEnvironment.WwwDev)
                     {
-                        webBuilder.UseKestrel(options =>
+                        webBuilder.UseKestrel(kestrel =>
                         {
                             //options.ListenAnyIP(5000); // HTTP
-                            options.ListenAnyIP(443, listenOptions =>
+                            kestrel.ListenAnyIP(443, listenOptions =>
                             {
-                                listenOptions.UseHttps("/etc/letsencrypt/live/new.michaelkjellander.se/fullchain.pem",
-                                    "/etc/letsencrypt/live/new.michaelkjellander.se/privkey.pem");
+                                //listenOptions.UseHttps("/etc/letsencrypt/live/new.michaelkjellander.se/fullchain.pem",
+                                //    "/etc/letsencrypt/live/new.michaelkjellander.se/privkey.pem");
+                                listenOptions.UseHttps(connectionOptions =>
+                                {
+                                    connectionOptions.UseLettuceEncrypt(kestrel.ApplicationServices);
+                                });
                             });
                         });
                     }
