@@ -15,10 +15,20 @@
         "launchBrowser": false,
         "applicationUrl": "http://localhost:5204",
         "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "SG_APPENVIRONMENT": "Local"
         }
       },
       "https": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": true,
+        "applicationUrl": "https://localhost:7274",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      "https-default": {
         "commandName": "Project",
         "dotnetRunMessages": true,
         "launchBrowser": true,

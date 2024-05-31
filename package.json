@@ -1,7 +1,8 @@
 {
   "scripts": {
     "watch": "dotnet watch",
-    "watch-css": "npx tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css --watch"
+    "watch-css": "npx tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css --watch",
+    "https": "dotnet run --launch-profile \"https\""
   },
   "dependencies": {
     "autoprefixer": "^10.4.19",

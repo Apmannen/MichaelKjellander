@@ -14,13 +14,27 @@ builder.Services.AddHttpClient();
 
 builder.Services.Configure<AppConfig>(config =>
 {
-    config.IsDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+    //config.IsDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+    config.SetAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
     config.SiteUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!;
 });
 
+/*var hostBuilder = Host.CreateDefaultBuilder(args);
+hostBuilder.ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.UseKestrel(options =>
+        {
+            options.ListenAnyIP(5000); // HTTP
+            options.ListenAnyIP(5001, listenOptions =>
+            {
+                listenOptions.UseHttps("/etc/letsencrypt/live/yourdomain.com/fullchain.pem",
+                    "/etc/letsencrypt/live/yourdomain.com/privkey.pem");
+            });
+        });
+    });
+hostBuilder.Build();*/
+
 var app = builder.Build();
-
-
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -43,8 +57,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.Run();
-
-
 
 
 // var builder = WebApplication.CreateBuilder(args);
