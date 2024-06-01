@@ -4,6 +4,7 @@
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.Components.Boxes
+@using MichaelKjellander.SharedUtils.Routes
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
@@ -19,13 +20,14 @@
     }
 }
 
-<PaginationBox paginationData="@_pagination"/>
+<PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" FirstUrlPrefix="@_prefix"/>
 
 @code {
     [Parameter] public string? Slug { get; set; }
     private ICollection<WpPost>? _posts;
     private WpCategory? _category;
     private PaginationData? _pagination;
+    private string? _prefix;
 
     protected override async Task OnInitializedAsync()
     {
@@ -39,6 +41,7 @@
         ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: 1, categorySlug: Slug);
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
+        _prefix = PageRoutes.Category(Slug);
         _pagination = postsData.PaginationData;
     }
 }
