@@ -8,8 +8,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        AppEnvironment environment =
-            AppConfig.ParseAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
+        AppEnvironment environment = EnvironmentUtil.ParseEnum<AppEnvironment>(EnvVariable.SG_APPENVIRONMENT);
 
         if (AppConfig.IsAnyWww(environment))
         {
@@ -27,7 +26,7 @@ public class Startup
         services.Configure<AppConfig>(config =>
         {
             config.AppEnvironment = environment;
-            config.ParseAndSetSiteUrl(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")!);
+            config.ParseAndSetSiteUrl(EnvironmentUtil.Get(EnvVariable.ASPNETCORE_URLS));
         });
     }
 

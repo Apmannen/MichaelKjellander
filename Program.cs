@@ -12,7 +12,7 @@ namespace MichaelKjellander
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            AppEnvironment appEnvironment = AppConfig.ParseAppEnvironment(Environment.GetEnvironmentVariable("SG_APPENVIRONMENT")!);
+            AppEnvironment appEnvironment = EnvironmentUtil.ParseEnum<AppEnvironment>(EnvVariable.SG_APPENVIRONMENT);
             
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
