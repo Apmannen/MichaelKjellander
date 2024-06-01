@@ -15,18 +15,21 @@
     @(CurrentPage > 1 ? $"Michael Kjellander - Senaste inläggen - Sida {CurrentPage}" : "Michael Kjellanders hemsida")
 </PageTitle>
 
-<div class="bg-white sg-title-section">
-    @*Borders ruins the padding*@
-    <div class="sg-title-section-side hidden sm:block"></div>
-    <div class="py-10 px-10 sm:px-20">
-        <h1 class="text-2xl font-bold">Välkommen till Michael Kjellanders hemsida!</h1>
-        <div class="h-4"></div>
-        <h2 class="text-slate-500">
-            Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt. 
-            Mode: @Options.Value.AppEnvironment, url: @Options.Value.SiteUrl
-        </h2>
+@if (CurrentPage == null)
+{
+    <div class="bg-white sg-title-section">
+        @*Borders ruins the padding*@
+        <div class="sg-title-section-side hidden sm:block"></div>
+        <div class="py-10 px-10 sm:px-20">
+            <h1 class="text-2xl font-bold">Välkommen till Michael Kjellanders hemsida!</h1>
+            <div class="h-4"></div>
+            <h2 class="text-slate-500">
+                Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt. 
+                Mode: @Options.Value.AppEnvironment, url: @Options.Value.SiteUrl
+            </h2>
+        </div>
     </div>
-</div>
+}
 
 @if (_posts == null)
 {
@@ -36,7 +39,7 @@ else
 {
     @foreach (WpPost post in _posts)
     {
-        <PostBox Post="@post"/>
+        <PostBox Post="post"/>
     }
 }
 
