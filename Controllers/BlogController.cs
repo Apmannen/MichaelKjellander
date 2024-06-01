@@ -1,5 +1,4 @@
-using System.Text.Json;
-using MichaelKjellander.Data;
+using MichaelKjellander.Services;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +10,10 @@ namespace MichaelKjellander.Controllers;
 public class BlogController : Controller
 {
     private const int OneHour = 3600;
-    private readonly WpContext _wpContext;
-    public BlogController(WpContext wpContext)
+    private readonly WpApiService _wpApiService;
+    public BlogController(WpApiService wpApiService)
     {
-        _wpContext = wpContext;
+        _wpApiService = wpApiService;
     }
     
     [HttpGet]
@@ -24,7 +23,7 @@ public class BlogController : Controller
     {
         int page = postsRequest.Page ?? 1;
 
-        (ICollection<WpPost> posts, int numPages) = await _wpContext.GetPosts(page: page);
+        (ICollection<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page);
             
         return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
     }

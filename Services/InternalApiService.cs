@@ -5,14 +5,14 @@ using MichaelKjellander.SharedUtils.Json;
 using MichaelKjellander.SharedUtils.Routes;
 using Microsoft.Extensions.Options;
 
-namespace MichaelKjellander.Data;
+namespace MichaelKjellander.Services;
 
-public class InternalApiContext
+public class InternalApiService
 {
     private readonly HttpClient _client;
     private readonly ApiRoutes _apiRoutes;
 
-    public InternalApiContext(HttpClient client, IOptions<AppConfig> options)
+    public InternalApiService(HttpClient client, IOptions<AppConfig> options)
     {
         this._client = client;
         this._apiRoutes = new ApiRoutes(options.Value.SiteUrl!);

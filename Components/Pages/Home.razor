@@ -3,7 +3,7 @@
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Components.Icons
-@using MichaelKjellander.Data
+@using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.Components.Boxes
@@ -104,8 +104,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        InternalApiContext context = new InternalApiContext(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postData = await context.FetchPosts(pageNumber: CurrentPage ?? 1);
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
     }

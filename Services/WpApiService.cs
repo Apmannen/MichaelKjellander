@@ -3,13 +3,13 @@ using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.SharedUtils.Json;
 
-namespace MichaelKjellander.Data;
+namespace MichaelKjellander.Services;
 
-public class WpContext
+public class WpApiService
 {
     private readonly HttpClient _client;
 
-    public WpContext(HttpClient client)
+    public WpApiService(HttpClient client)
     {
         this._client = client;
     }
