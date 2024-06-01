@@ -1,8 +1,5 @@
 ﻿@using MichaelKjellander.SharedUtils.Api
 @inject NavigationManager NavigationManager;
-@rendermode InteractiveServer
-@inject ILogger<PaginationBox> Logger
-@inject IJSRuntime JS
 
 @if (PaginationData != null && @PaginationData.NumPages > 1)
 {
@@ -42,7 +39,7 @@
                     return "/";
                 }
 
-                return $"/sida/{Page}";
+                return $"/senaste/{Page}";
             }
         }
     }
