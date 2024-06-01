@@ -1,4 +1,8 @@
-﻿@using MichaelKjellander.SharedUtils.Routes
+﻿@using System.Text.RegularExpressions
+@using MichaelKjellander.SharedUtils
+@using MichaelKjellander.SharedUtils.Routes
+@inject NavigationManager NavigationManager
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
 <div class="top-row navbar navbar-dark">
     <div class="container-fluid">
@@ -14,9 +18,9 @@
         @foreach (var link in _links)
         {
             <div class="nav-item border-gray-200">
-                <NavLink class="nav-link py-2 text-base" href="@link.Url" Match="NavLinkMatch.Prefix">
+                <a class="nav-link py-2 text-base @(IsCurrent(link) ? "active" : "")" href="@link.Url">
                     @link.Text
-                </NavLink>
+                </a>
             </div>
         }
     </nav>
@@ -27,13 +31,25 @@
 
 @code {
     private readonly NavLink[] _links = [
-        new NavLink("Senaste inläggen", PageRoutes.Home), 
-        new NavLink("Mina spel", PageRoutes.Category("mina-spel")), 
-        new NavLink("Tv-spelrecensioner", PageRoutes.Category("tv-spelrecensioner")), 
-        new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade")), 
-        new NavLink("Kontakt", PageRoutes.Page("kontakt"))
+        new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"), 
+        new NavLink("Mina spel", PageRoutes.Category("mina-spel"), ""), 
+        new NavLink("Tv-spelrecensioner", PageRoutes.Category("tv-spelrecensioner"), ""), 
+        new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade"), ""), 
+        new NavLink("Kontakt", PageRoutes.Page("kontakt"), "/sida/kontakt")
     ];
 
-    private record struct NavLink(string Text, string Url);
+    private record struct NavLink(string Text, string Url, string Pattern);
+    
+    private bool IsCurrent(NavLink navLink)
+    {
+        string currentUrl = NavigationManager.Uri;
 
+        string fullPattern = $"^{Options.Value.SiteUrl}{navLink.Pattern}$";
+        Regex regex = new Regex(fullPattern);
+        bool isMatch = regex.IsMatch(currentUrl);
+
+        Console.WriteLine($"cu={currentUrl}, fp={fullPattern}, m={isMatch}");
+        
+        return isMatch;
+    }
 }
