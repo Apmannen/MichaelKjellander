@@ -27,16 +27,13 @@
 
 @code {
     private readonly NavLink[] _links = [
-        new("Senaste inläggen", PageRoutes.Home), 
-        new("Mina spel", PageRoutes.Category("mina-spel")), 
-        new ("Tv-spelrecensioner", PageRoutes.Category("tv-spelrecensioner")), 
-        new ("Övriga inlägg", PageRoutes.Category("okategoriserade")), 
-        new ("Kontakt", PageRoutes.Contact)
+        new NavLink("Senaste inläggen", PageRoutes.Home), 
+        new NavLink("Mina spel", PageRoutes.Category("mina-spel")), 
+        new NavLink("Tv-spelrecensioner", PageRoutes.Category("tv-spelrecensioner")), 
+        new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade")), 
+        new NavLink("Kontakt", PageRoutes.Contact)
     ];
-    private struct NavLink(string text, string url) //TODO: try use record
-    {
-        public readonly string Text = text;
-        public readonly string Url = url;
-    }
-    
+
+    private record struct NavLink(string Text, string Url);
+
 }
