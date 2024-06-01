@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MichaelKjellander.Data;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
@@ -11,6 +12,7 @@ public class BlogController : Controller
 {
     [HttpGet]
     [Route("posts")]
+    [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["Page"])]
     public async Task<IActionResult> Get([FromQuery] PostsRequest postsRequest)
     {
         int page = postsRequest.Page ?? 1;

@@ -41,12 +41,11 @@ public class Startup
         //}
 
         app.UseHttpsRedirection();
-
-        
         
         app.UseRouting();
         app.UseAuthorization();
         app.UseAntiforgery();
+        app.UseResponseCaching();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
