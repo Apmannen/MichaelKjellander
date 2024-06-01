@@ -13,7 +13,7 @@ public static class PageRoutes
 
     public static string Category(CategoryType type)
     {
-        return Category(WpCategory.GetSlug(type));
+        return Category(WpCategory.GetSlugByType(type));
     }
 
     public static string CategoryPattern(CategoryType type)

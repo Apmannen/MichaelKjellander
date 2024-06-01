@@ -12,10 +12,17 @@
 @rendermode InteractiveServer
 
 <PageTitle>
-    @((_category != null ? _category.Name : "") + (Page > 1 ? "- Sida "+Page : "") + " - Michael Kjellander")
+    @((_category != null ? _category.Name : "") + (Page > 1 ? "- Sida " + Page : "") + " - Michael Kjellander")
 </PageTitle>
 
-<PostBoxes Posts="_posts"/>
+@if (IsFirstPage)
+{
+    <TitleBox Title="@_category?.Name">
+        @_category?.Description
+    </TitleBox>
+}
+
+<PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
 
 <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix"/>
 
@@ -26,6 +33,8 @@
     private WpCategory? _category;
     private PaginationData? _pagination;
     private string? _prefix;
+
+    private bool IsFirstPage => Page is null or 1;
 
     protected override async Task OnInitializedAsync()
     {
@@ -42,9 +51,10 @@
         _prefix = PageRoutes.Category(Slug);
         _pagination = postsData.PaginationData;
     }
-    
+
     protected override void OnAfterRender(bool firstRender)
     {
         JsService.ScrollToTop();
     }
+
 }
