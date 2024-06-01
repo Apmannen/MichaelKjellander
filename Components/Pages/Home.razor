@@ -31,11 +31,7 @@
     </div>
 }
 
-@if (_posts == null)
-{
-    
-}
-else
+@if (_posts != null)
 {
     @foreach (WpPost post in _posts)
     {

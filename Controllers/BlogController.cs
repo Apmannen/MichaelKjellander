@@ -63,7 +63,6 @@ public class BlogController : Controller
     public class PostsRequest
     {
         public string? category_slug { get; set; }
-        [Required]
         public int? page { get; set; }
     }
     

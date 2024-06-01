@@ -19,10 +19,13 @@
     }
 }
 
+<PaginationBox paginationData="@_pagination"/>
+
 @code {
     [Parameter] public string? Slug { get; set; }
     private ICollection<WpPost>? _posts;
     private WpCategory? _category;
+    private PaginationData? _pagination;
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,5 +39,6 @@
         ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: 1, categorySlug: Slug);
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
+        _pagination = postsData.PaginationData;
     }
 }
