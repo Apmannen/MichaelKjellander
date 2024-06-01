@@ -1,4 +1,5 @@
 ﻿@page "/kategori/{Slug}"
+@page "/kategori/{Slug}/{Page:int}"
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils
@@ -7,6 +8,8 @@
 @using MichaelKjellander.SharedUtils.Routes
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@inject JsService JsService
+@rendermode InteractiveServer
 
 <PageTitle>
     @((_category != null ? _category.Name : "") + " - Michael Kjellander")
@@ -20,10 +23,11 @@
     }
 }
 
-<PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" FirstUrlPrefix="@_prefix"/>
+<PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix"/>
 
 @code {
     [Parameter] public string? Slug { get; set; }
+    [Parameter] public int? Page { get; set; }
     private ICollection<WpPost>? _posts;
     private WpCategory? _category;
     private PaginationData? _pagination;
@@ -38,10 +42,15 @@
 
         //TODO: INJECT
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: 1, categorySlug: Slug);
+        ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug);
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
         _prefix = PageRoutes.Category(Slug);
         _pagination = postsData.PaginationData;
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        JsService.ScrollToTop();
     }
 }
