@@ -7,7 +7,16 @@
         <h1 class="text-2xl font-bold">@Title</h1>
         <div class="h-4"></div>
         <h2 class="text-slate-500">
-            @ChildContent
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+            @if (_html != null)
+            {
+                <div class="sg-post-content">
+                    @((MarkupString)@_html)
+                </div>
+            }
         </h2>
     </div>
 </div>
@@ -15,4 +24,15 @@
 @code {
     [Parameter][Required] public string? Title { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Description { get; set; }
+    private string? _html;
+
+    protected override void OnParametersSet()
+    {
+        if (Description != null)
+        {
+            _html = Description.Replace("\n", "<br>");
+        }
+    }
+
 }

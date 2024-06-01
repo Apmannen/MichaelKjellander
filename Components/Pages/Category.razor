@@ -17,9 +17,7 @@
 
 @if (IsFirstPage)
 {
-    <TitleBox Title="@_category?.Name">
-        @_category?.Description
-    </TitleBox>
+    <TitleBox Title="@_category?.Name" Description="@_category?.Description"/>
 }
 
 <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
