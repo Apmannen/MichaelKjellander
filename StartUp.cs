@@ -1,4 +1,5 @@
 using MichaelKjellander.Components;
+using MichaelKjellander.Data;
 using MichaelKjellander.SharedUtils;
 
 namespace MichaelKjellander;
@@ -21,6 +22,7 @@ public class Startup
         services.AddRazorComponents().AddInteractiveServerComponents();
 
         services.AddHttpClient();
+        services.AddHttpClient<WpContext>();
 
         services.Configure<AppConfig>(config =>
         {
