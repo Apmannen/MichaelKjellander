@@ -1,0 +1,18 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<div class="bg-white sg-title-section">
+    @*Borders ruins the padding*@
+    <div class="sg-title-section-side hidden sm:block"></div>
+    <div class="py-10 px-10 sm:px-20">
+        <h1 class="text-2xl font-bold">@Title</h1>
+        <div class="h-4"></div>
+        <h2 class="text-slate-500">
+            @ChildContent
+        </h2>
+    </div>
+</div>
+
+@code {
+    [Parameter][Required] public string? Title { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
