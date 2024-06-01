@@ -1,0 +1,48 @@
+@page "/sida/{Slug}"
+@using MichaelKjellander.Models.Wordpress
+@using MichaelKjellander.Services
+@using MichaelKjellander.SharedUtils
+@using MichaelKjellander.SharedUtils.Api
+@inject IHttpClientFactory ClientFactory
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+
+<PageTitle>
+    @((_page != null ? _page.Title : "") + " - Michael Kjellander")
+</PageTitle>
+
+@if (_page != null)
+{
+    <article class="border border-gray-200">
+        <div class="bg-white sg-post p-10 sm:p-20">
+            <h3 class="text-4xl font-bold">@((MarkupString)@_page.Title!)</h3>
+            <div class="sg-post-content">
+                @((MarkupString)@_page.Content!)
+            </div>
+        </div>
+    </article>
+}
+
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+    private WpPage? _page;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Slug == null)
+        {
+            return;
+        }
+
+        //TODO: INJECT
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPage> pagesData = await service.FetchPages(Slug = Slug);
+        if (pagesData.Items == null)
+        {
+            return;
+        }
+
+        _page = pagesData.Items.FirstOrDefault();
+    }
+
+}

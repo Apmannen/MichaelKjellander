@@ -18,6 +18,10 @@ public class InternalApiService
         this._apiRoutes = new ApiRoutes(options.Value.SiteUrl!);
     }
 
+    public async Task<ApiResponse<WpPage>> FetchPages(string slug = "")
+    {
+        return await Fetch<WpPage>(_apiRoutes.Pages(slug));
+    }
     public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1)
     {
         return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber));
