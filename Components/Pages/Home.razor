@@ -31,13 +31,7 @@
     </div>
 }
 
-@if (_posts != null)
-{
-    @foreach (WpPost post in _posts)
-    {
-        <PostBox Post="post"/>
-    }
-}
+<PostBoxes Posts="_posts"/>
 
 <PaginationBox paginationData="@_pagination" UrlPrefix="/senaste" FirstUrlPrefix="/"/>
 

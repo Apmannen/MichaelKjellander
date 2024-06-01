@@ -1,0 +1,13 @@
+﻿@using MichaelKjellander.Models.Wordpress
+
+@if (Posts != null)
+{
+    @foreach (WpPost post in Posts)
+    {
+        <PostBox Post="post"/>
+    }
+}
+
+@code {
+    [Parameter] public ICollection<WpPost>? Posts { get; set; }
+}
