@@ -8,6 +8,9 @@
 @using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.Components.Boxes
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@rendermode InteractiveServer
+@inject ILogger<PaginationBox> Logger
+@inject IJSRuntime JS
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
 
@@ -24,7 +27,11 @@
     </div>
 </div>
 
-@if (_posts != null)
+@if (_posts == null)
+{
+    
+}
+else
 {
     @foreach (var post in _posts)
     {
@@ -101,5 +108,12 @@
         ApiResponse<WpPost> postData = await context.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine("AFTER RENDER");
+        Logger.LogInformation("OnAfterRender: firstRender = {FirstRender}", firstRender);
+        JS.InvokeVoidAsync("scrollToTop");
     }
 }

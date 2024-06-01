@@ -1,6 +1,8 @@
 ﻿@using MichaelKjellander.SharedUtils.Api
 @inject NavigationManager NavigationManager;
 @rendermode InteractiveServer
+@inject ILogger<PaginationBox> Logger
+@inject IJSRuntime JS
 
 @if (PaginationData != null && @PaginationData.NumPages > 1)
 {
@@ -13,11 +15,9 @@
             }
             else
             {
-                <button class="px-4 text-xl sg-font-sans @(pageData.IsCurrent ? "font-bold" : "")"
-                   @onclick="(() => HandleClick(pageData))"
-                   >
+                <a class="px-4 text-xl sg-font-sans @(pageData.IsCurrent ? "font-bold" : "")" href="@pageData.Link">
                     @pageData.Page
-                </button>
+                </a>
             }
         }
     </div>
@@ -97,8 +97,10 @@
         }
     }
     
-    private void HandleClick(PageData pageData)
-    {
-        NavigationManager.NavigateTo(pageData.Link, true);
-    }
+    // private void HandleClick(PageData pageData)
+    // {
+    //     NavigationManager.NavigateTo(pageData.Link, false);
+    // }
+    
+
 }
