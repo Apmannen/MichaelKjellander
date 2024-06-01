@@ -19,26 +19,28 @@ public class WpApiService
         var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>($"posts?per_page=10&page={page}");
         ICollection<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
-        ICollection<WpCategory> categories = await FetchAndParseFromWpApi<WpCategory>("categories");
+        
 
         //Medias and tags
         var mediaIds = new HashSet<int>();
         var tagIds = new HashSet<int>();
+        var categoryIds = new HashSet<int>();
         foreach (WpPost post in posts)
         {
             if (post.FeaturedMediaId != 0)
             {
                 mediaIds.Add(post.FeaturedMediaId);
             }
-
             foreach (int tagId in post.TagIds!)
             {
                 tagIds.Add(tagId);
             }
+            categoryIds.Add(post.CategoryId);
         }
 
         ICollection<WpMedia> medias = await FetchAndParseExtras<WpMedia>("media", mediaIds);
         ICollection<WpTag> tags = await FetchAndParseExtras<WpTag>("tags", tagIds);
+        ICollection<WpCategory> categories = await FetchAndParseExtras<WpCategory>("categories", categoryIds);
 
         foreach (WpPost post in posts)
         {
