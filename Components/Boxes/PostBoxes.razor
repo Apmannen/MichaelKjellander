@@ -1,13 +1,19 @@
-﻿@using MichaelKjellander.Models.Wordpress
+﻿@using System.ComponentModel.DataAnnotations
+@using MichaelKjellander.Models.Wordpress
 
 @if (Posts != null)
 {
     @for (int i = 0; i < Posts.Count; i++)
     {
+        @if (i > 0 || PaddingForFirst)
+        {
+            <div class="h-16"></div>
+        }
         <PostBox Post="Posts[i]"/>
     }
 }
 
 @code {
-    [Parameter] public IList<WpPost>? Posts { get; set; }
+    [Parameter][Required] public IList<WpPost>? Posts { get; set; }
+    [Parameter][Required] public bool PaddingForFirst { get; set; }
 }

@@ -15,7 +15,7 @@
     @(CurrentPage > 1 ? $"Michael Kjellander - Senaste inläggen - Sida {CurrentPage}" : "Michael Kjellanders hemsida")
 </PageTitle>
 
-@if (CurrentPage == null)
+@if (CurrentPage == 1)
 {
     <div class="bg-white sg-title-section">
         @*Borders ruins the padding*@
@@ -31,7 +31,7 @@
     </div>
 }
 
-<PostBoxes Posts="_posts"/>
+<PostBoxes Posts="_posts" PaddingForFirst="(CurrentPage == 1)"/>
 
 <PaginationBox paginationData="@_pagination" UrlPrefix="/senaste" FirstUrlPrefix="/"/>
 
@@ -43,6 +43,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        CurrentPage ??= 1;
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;

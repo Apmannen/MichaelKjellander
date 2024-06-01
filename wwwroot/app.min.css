@@ -558,16 +558,6 @@ video {
   position: static;
 }
 
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
 .mr-4 {
   margin-right: 1rem;
 }
@@ -590,6 +580,10 @@ video {
 
 .hidden {
   display: none;
+}
+
+.h-16 {
+  height: 4rem;
 }
 
 .h-2 {
@@ -659,6 +653,11 @@ video {
   padding-right: 5rem;
 }
 
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -687,11 +686,6 @@ video {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 
 .pb-1 {
@@ -818,10 +812,6 @@ a:hover {
   .sm\:mx-20 {
     margin-left: 5rem;
     margin-right: 5rem;
-  }
-
-  .sm\:mt-16 {
-    margin-top: 4rem;
   }
 
   .sm\:block {
