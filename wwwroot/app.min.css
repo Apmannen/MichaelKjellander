@@ -837,4 +837,9 @@ a:hover {
     padding-top: 5rem;
     padding-bottom: 5rem;
   }
+
+  .lg\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
 }
