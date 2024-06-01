@@ -14,6 +14,14 @@ public class WpApiService
         this._client = client;
     }
 
+
+    public async Task<WpPage?> GetPage(string slug = "")
+    {
+        var pagesResult = await FetchAndParseFromWpApiWithHeaders<WpPage>($"pages?slug={slug}");
+        ICollection<WpPage> pages = pagesResult.ParsedElements;
+        return pages.FirstOrDefault();
+    }
+    
     public async Task<(ICollection<WpPost>,int)> GetPosts(int page = 1)
     {
         var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>($"posts?per_page=10&page={page}");
