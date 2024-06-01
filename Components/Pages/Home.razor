@@ -24,7 +24,6 @@
     </div>
 </div>
 
-
 @if (_posts != null)
 {
     @foreach (var post in _posts)
@@ -40,7 +39,7 @@
                     <span class="italic">@post.Category!.Name</span>
                     <div class="h-2"></div>
                 }
-                <h3 class="text-4xl font-bold">@post.Title</h3>
+                <h3 class="text-4xl font-bold">@((MarkupString)@post.Title!)</h3>
                 @if (@post.Category!.Type == CategoryType.GameReview)
                 {
                     <div class="h-2"></div>
