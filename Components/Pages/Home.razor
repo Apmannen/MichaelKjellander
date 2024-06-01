@@ -35,64 +35,9 @@
 }
 else
 {
-    @foreach (var post in _posts)
+    @foreach (WpPost post in _posts)
     {
-        <article class="border border-gray-200 sm:mt-16">
-            @if (@post.FeaturedMedia != null)
-            {
-                <img src="@post.FeaturedMedia.PostThumbnailUrl"/>
-            }
-            <div class="bg-white sg-post p-10 sm:p-20">
-                @if (@post.Category!.Type == CategoryType.Game)
-                {
-                    <span class="italic">@post.Category!.Name</span>
-                    <div class="h-2"></div>
-                }
-                <h3 class="text-4xl font-bold">@((MarkupString)@post.Title!)</h3>
-                @if (@post.Category!.Type == CategoryType.GameReview)
-                {
-                    <div class="h-2"></div>
-                    <p class="italic">Recension</p>
-                    <p class="text-sm">Testat på: @String.Join(", ", post.MetaPlatforms!)</p>
-                }
-                <div class="sg-post-content">
-                    @((MarkupString)@post.Content!)
-                </div>
-                @if (post.Category!.Type == CategoryType.GameReview)
-                {
-                    <div class="border border-black border-dashed px-8 py-6">
-                        <div class="font-bold">@post.RatingText</div>
-                        @if (post.MetaPlayAlso != null)
-                        {    
-                            <div class="h-2"></div>
-                            <div class="border-b"></div>
-                            <div class="h-2"></div>
-                        }
-                        @if (post.MetaPlayAlso != null)
-                        {
-                            <div class="text-sm">Spela även @post.MetaPlayAlso</div>
-                        }
-                    </div>
-                    
-                }
-            </div>
-            <div class="px-20 py-10 bg-gray-100">
-                <p>
-                    <IconCalendarMonth/>
-                    <span class="mr-4">@DateUtil.FormatDate(post.Date)</span>
-                    <IconFolder/>
-                    <span class="mr-4">@post.Category.Name</span>
-                    @if (post.TagIds!.Count > 0)
-                    {
-                        <IconTag/>
-                        foreach (WpTag tag in post.Tags!)
-                        {
-                            @tag.Name
-                        }
-                    }
-                </p>
-            </div>
-        </article>
+        <PostBox Post="@post"/>
     }
 }
 

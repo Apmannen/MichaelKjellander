@@ -1,0 +1,67 @@
+﻿@using MichaelKjellander.Models.Wordpress
+@using MichaelKjellander.SharedUtils
+@using MichaelKjellander.Components.Icons
+
+@if (Post != null)
+{
+    <article class="border border-gray-200 sm:mt-16">
+        @if (@Post.FeaturedMedia != null)
+        {
+            <img src="@Post.FeaturedMedia.PostThumbnailUrl"/>
+        }
+        <div class="bg-white sg-post p-10 sm:p-20">
+            @if (@Post.Category!.Type == CategoryType.Game)
+            {
+                <span class="italic">@Post.Category!.Name</span>
+                <div class="h-2"></div>
+            }
+            <h3 class="text-4xl font-bold">@((MarkupString)@Post.Title!)</h3>
+            @if (@Post.Category!.Type == CategoryType.GameReview)
+            {
+                <div class="h-2"></div>
+                <p class="italic">Recension</p>
+                <p class="text-sm">Testat på: @String.Join(", ", Post.MetaPlatforms!)</p>
+            }
+            <div class="sg-post-content">
+                @((MarkupString)@Post.Content!)
+            </div>
+            @if (Post.Category!.Type == CategoryType.GameReview)
+            {
+                <div class="border border-black border-dashed px-8 py-6">
+                    <div class="font-bold">@Post.RatingText</div>
+                    @if (Post.MetaPlayAlso != null)
+                    {
+                        <div class="h-2"></div>
+                        <div class="border-b"></div>
+                        <div class="h-2"></div>
+                    }
+                    @if (Post.MetaPlayAlso != null)
+                    {
+                        <div class="text-sm">Spela även @Post.MetaPlayAlso</div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="px-20 py-10 bg-gray-100">
+            <p>
+                <IconCalendarMonth/>
+                <span class="mr-4">@DateUtil.FormatDate(Post.Date)</span>
+                <IconFolder/>
+                <span class="mr-4">@Post.Category.Name</span>
+                @if (Post.TagIds!.Count > 0)
+                {
+                    <IconTag/>
+                    foreach (WpTag tag in Post.Tags!)
+                    {
+                        @tag.Name
+                    }
+                }
+            </p>
+        </div>
+    </article>
+}
+
+
+@code {
+    [Parameter] public WpPost? Post { get; set; }
+}

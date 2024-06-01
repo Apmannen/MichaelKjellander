@@ -9,5 +9,8 @@ public static class PageRoutes
         return "/kategori/" + slug;
     }
 
-    public const string Contact = "/kontakt";
+    public static string Page(string slug)
+    {
+        return "/sida/" + slug;
+    }
 }

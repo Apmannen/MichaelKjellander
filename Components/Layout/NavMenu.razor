@@ -31,7 +31,7 @@
         new NavLink("Mina spel", PageRoutes.Category("mina-spel")), 
         new NavLink("Tv-spelrecensioner", PageRoutes.Category("tv-spelrecensioner")), 
         new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade")), 
-        new NavLink("Kontakt", PageRoutes.Contact)
+        new NavLink("Kontakt", PageRoutes.Page("kontakt"))
     ];
 
     private record struct NavLink(string Text, string Url);
