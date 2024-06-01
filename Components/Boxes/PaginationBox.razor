@@ -73,6 +73,7 @@
         List<int> tmpList = new List<int>(visiblePagesSet);
         tmpList.Sort();
 
+        _visiblePages.Clear();
         for (int i = 0; i < tmpList.Count; i++)
         {
             int current = tmpList[i];
