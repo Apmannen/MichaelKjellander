@@ -7,11 +7,11 @@ namespace MichaelKjellander.SharedUtils.Api;
 
 public class ApiResponse<T> : IParsableJson where T : IParsableJson
 {
-    public ICollection<T>? Items  {get ; private set; }
+    public IList<T>? Items  {get ; private set; }
     public PaginationData? PaginationData {get ; private set;  }
 
     public ApiResponse() {}
-    public ApiResponse(ICollection<T> items, PaginationData paginationData)
+    public ApiResponse(IList<T> items, PaginationData paginationData)
     {
         this.Items = items;
         this.PaginationData = paginationData;

@@ -22,7 +22,7 @@
 @code {
     [Parameter] public string? Slug { get; set; }
     [Parameter] public int? Page { get; set; }
-    private ICollection<WpPost>? _posts;
+    private IList<WpPost>? _posts;
     private WpCategory? _category;
     private PaginationData? _pagination;
     private string? _prefix;

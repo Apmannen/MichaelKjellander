@@ -49,7 +49,7 @@ public class BlogController : Controller
             ? postsRequest.category_slug
             : null;
 
-        (ICollection<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page, categorySlug: categorySlug);
+        (IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page, categorySlug: categorySlug);
             
         return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
     }

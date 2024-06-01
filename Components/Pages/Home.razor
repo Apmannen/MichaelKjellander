@@ -38,7 +38,7 @@
 
 @code {
     [Parameter] public int? CurrentPage { get; set; }
-    private ICollection<WpPost>? _posts;
+    private IList<WpPost>? _posts;
     private PaginationData? _pagination;
 
     protected override async Task OnInitializedAsync()

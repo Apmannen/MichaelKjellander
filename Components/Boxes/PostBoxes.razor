@@ -2,12 +2,12 @@
 
 @if (Posts != null)
 {
-    @foreach (WpPost post in Posts)
+    @for (int i = 0; i < Posts.Count; i++)
     {
-        <PostBox Post="post"/>
+        <PostBox Post="Posts[i]"/>
     }
 }
 
 @code {
-    [Parameter] public ICollection<WpPost>? Posts { get; set; }
+    [Parameter] public IList<WpPost>? Posts { get; set; }
 }

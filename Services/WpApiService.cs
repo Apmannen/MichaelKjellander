@@ -23,7 +23,7 @@ public class WpApiService
     }
     
     //TODO: use some query builder
-    public async Task<(ICollection<WpPost>,int)> GetPosts(int page = 1, string? categorySlug = null)
+    public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, string? categorySlug = null)
     {
         ICollection<WpCategory>? categories = null;
         string postsFetchString = $"posts?per_page=10&page={page}";
@@ -40,7 +40,7 @@ public class WpApiService
         }
         
         var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>(postsFetchString);
-        ICollection<WpPost> posts = postsResult.ParsedElements;
+        IList<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
         
         var mediaIds = new HashSet<int>();
@@ -94,14 +94,14 @@ public class WpApiService
         where T : IParsableJson
     {
         JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, _client);
-        ICollection<T> parsedElements = JsonUtil.ParseList<T>(result.Root);
+        IList<T> parsedElements = JsonUtil.ParseList<T>(result.Root);
         return new JsonFetchElementsResult<T>(parsedElements, result.Headers);
     }
     
     //TODO: record?
-    private struct JsonFetchElementsResult<T>(ICollection<T> parsedElements, HttpResponseHeaders headers) where T : IParsableJson
+    private struct JsonFetchElementsResult<T>(IList<T> parsedElements, HttpResponseHeaders headers) where T : IParsableJson
     {
-        public readonly ICollection<T> ParsedElements = parsedElements;
+        public readonly IList<T> ParsedElements = parsedElements;
         public readonly HttpResponseHeaders Headers = headers;
     }
 }
