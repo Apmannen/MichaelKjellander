@@ -7,16 +7,16 @@
     <div class="bg-white mt-16 py-4 text-center">
         @foreach (PageData pageData in _visiblePages)
         {
-            if (pageData.page == null)
+            if (pageData.Page == null)
             {
                 <span>...</span>
             }
             else
             {
-                <button class="px-4 text-xl sg-font-sans @(pageData.isCurrent ? "font-bold" : "")"
+                <button class="px-4 text-xl sg-font-sans @(pageData.IsCurrent ? "font-bold" : "")"
                    @onclick="(() => HandleClick(pageData))"
                    >
-                    @pageData.page
+                    @pageData.Page
                 </button>
             }
         }
@@ -30,19 +30,19 @@
 
     private class PageData
     {
-        public int? page;
-        public bool isCurrent;
+        public int? Page;
+        public bool IsCurrent;
 
         public string Link
         {
             get
             {
-                if (page == 1)
+                if (Page == 1)
                 {
                     return "/";
                 }
 
-                return $"/sida/{page}";
+                return $"/sida/{Page}";
             }
         }
     }
@@ -85,14 +85,14 @@
                 int diff = current - (int)prev;
                 if (diff > 1)
                 {
-                    _visiblePages.Insert(i, new PageData() { page = null});
+                    _visiblePages.Insert(i, new PageData() { Page = null});
                 }
             }
 
             _visiblePages.Add(new PageData()
             {
-                page = current, 
-                isCurrent = current == PaginationData.CurrentPage,
+                Page = current, 
+                IsCurrent = current == PaginationData.CurrentPage,
             });
         }
     }
