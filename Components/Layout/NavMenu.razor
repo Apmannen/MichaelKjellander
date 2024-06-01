@@ -25,22 +25,25 @@
             </div>
         }
     </nav>
-    <div><input class="border border-black mt-10" placeholder="Sök ..." type="text"/></div>
+    <div>
+        <input class="border border-black mt-10" placeholder="Sök ..." type="text"/>
+    </div>
 </div>
 
 
-
 @code {
-    private readonly NavLink[] _links = [
-        new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"), 
-        new NavLink("Mina spel", PageRoutes.Category(WpCategory.GetSlug(CategoryType.Game)), ""), 
-        new NavLink("Tv-spelrecensioner", PageRoutes.Category(WpCategory.GetSlug(CategoryType.GameReview)), ""), 
-        new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade"), ""), 
+
+    private readonly NavLink[] _links =
+    [
+        new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"),
+        new NavLink("Mina spel", PageRoutes.Category(CategoryType.Game), PageRoutes.CategoryPattern(CategoryType.Game)),
+        new NavLink("Tv-spelrecensioner", PageRoutes.Category(CategoryType.GameReview), PageRoutes.CategoryPattern(CategoryType.GameReview)),
+        new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade"), ""),
         new NavLink("Kontakt", PageRoutes.Page("kontakt"), "/sida/kontakt")
     ];
 
     private record struct NavLink(string Text, string Url, string Pattern);
-    
+
     private bool IsCurrent(NavLink navLink)
     {
         string currentUrl = NavigationManager.Uri;
@@ -50,7 +53,8 @@
         bool isMatch = regex.IsMatch(currentUrl);
 
         Console.WriteLine($"cu={currentUrl}, fp={fullPattern}, m={isMatch}");
-        
+
         return isMatch;
     }
+
 }
