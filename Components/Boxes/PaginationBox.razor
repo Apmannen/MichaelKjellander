@@ -50,55 +50,20 @@
         {
             return;
         }
-
-        int currentPage = PaginationData.CurrentPage;
+        
+        _visiblePages.Clear();
         int lastPage = PaginationData.NumPages;
-        int prevPage = currentPage - 1;
-        int nextPage = currentPage + 1;
-
-        ISet<int> visiblePagesSet = new HashSet<int>();
-
-        //I changed my mind, I want ALL pages.
-        // visiblePagesSet.Add(1);
-        // visiblePagesSet.Add(prevPage);
-        // visiblePagesSet.Add(currentPage);
-        // visiblePagesSet.Add(nextPage);
-        // visiblePagesSet.Add(lastPage);
-        // visiblePagesSet.Remove(0);
+        int currentPage = PaginationData.CurrentPage;
+        
+        //Yes, I want all pages
         for (int pageNumber = 1; pageNumber <= lastPage; pageNumber++)
         {
-            visiblePagesSet.Add(pageNumber);
-        }
-
-        List<int> tmpList = new List<int>(visiblePagesSet);
-        tmpList.Sort();
-
-        _visiblePages.Clear();
-        for (int i = 0; i < tmpList.Count; i++)
-        {
-            int current = tmpList[i];
-            int? prev = i > 0 ? tmpList[i - 1] : null;
-            if (prev != null)
-            {
-                int diff = current - (int)prev;
-                if (diff > 1)
-                {
-                    _visiblePages.Insert(i, new PageData() { Page = null});
-                }
-            }
-
             _visiblePages.Add(new PageData()
             {
-                Page = current, 
-                IsCurrent = current == PaginationData.CurrentPage,
+                Page = pageNumber,
+                IsCurrent = pageNumber == currentPage,
             });
         }
     }
-    
-    // private void HandleClick(PageData pageData)
-    // {
-    //     NavigationManager.NavigateTo(pageData.Link, false);
-    // }
-    
 
 }
