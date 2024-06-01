@@ -15,7 +15,7 @@
     @(CurrentPage > 1 ? $"Michael Kjellander - Senaste inläggen - Sida {CurrentPage}" : "Michael Kjellanders hemsida")
 </PageTitle>
 
-@if (CurrentPage == 1)
+@if (IsFirstPage)
 {
     <div class="bg-white sg-title-section">
         @*Borders ruins the padding*@
@@ -24,14 +24,14 @@
             <h1 class="text-2xl font-bold">Välkommen till Michael Kjellanders hemsida!</h1>
             <div class="h-4"></div>
             <h2 class="text-slate-500">
-                Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor med API-koppling mot min tidigare Wordpress-sajt. 
+                Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor och har API-koppling mot min tidigare Wordpress-sajt. 
                 Mode: @Options.Value.AppEnvironment, url: @Options.Value.SiteUrl
             </h2>
         </div>
     </div>
 }
 
-<PostBoxes Posts="_posts" PaddingForFirst="(CurrentPage == 1)"/>
+<PostBoxes Posts="_posts" PaddingForFirst="(IsFirstPage)"/>
 
 <PaginationBox paginationData="@_pagination" UrlPrefix="/senaste" FirstUrlPrefix="/"/>
 
@@ -40,6 +40,8 @@
     [Parameter] public int? CurrentPage { get; set; }
     private IList<WpPost>? _posts;
     private PaginationData? _pagination;
+
+    private bool IsFirstPage => CurrentPage is null or 1;
 
     protected override async Task OnInitializedAsync()
     {
