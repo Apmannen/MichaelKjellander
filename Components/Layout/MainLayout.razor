@@ -1,6 +1,4 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager Navigation
-@inject IJSRuntime JS
 
 <div class="page">
     <div class="sidebar border-r border-gray-200 px-16 py-10 lg:py-20 overflow-hidden">
@@ -9,9 +7,7 @@
 
     <main class="">
         <div class="sg-main-inner py-20 sm:mx-20">
-            <ScrollToFragment>
-                @Body
-            </ScrollToFragment>
+            @Body
         </div>
     </main>
 </div>
@@ -22,19 +18,3 @@
     <a class="dismiss">🗙</a>
 </div>
 
-@code {
-    protected override void OnInitialized()
-    {
-        Navigation.LocationChanged += OnLocationChanged;
-    }
-
-    private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
-    {
-        await JS.InvokeVoidAsync("scrollToTop");
-    }
-
-    public void Dispose()
-    {
-        Navigation.LocationChanged -= OnLocationChanged;
-    }
-}
