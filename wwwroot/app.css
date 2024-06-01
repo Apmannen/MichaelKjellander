@@ -46,11 +46,14 @@ a:hover {
 }
 .sg-post-content {
 }
+.sg-post-content a {
+    text-decoration: underline;
+}
 .sg-post-content p {
     margin: theme('margin.8') 0;
 }
-.sg-post-content a {
-    text-decoration: underline;
+.sg-post-content iframe {
+    width: 100%;
 }
 .sg-post-content .wp-block-quote {
     padding-left: theme('margin.4');

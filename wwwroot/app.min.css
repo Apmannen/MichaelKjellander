@@ -562,10 +562,6 @@ video {
   margin-right: 1rem;
 }
 
-.mt-10 {
-  margin-top: 2.5rem;
-}
-
 .mt-16 {
   margin-top: 4rem;
 }
@@ -788,12 +784,16 @@ a:hover {
 .sg-post-content {
 }
 
+.sg-post-content a {
+  text-decoration: underline;
+}
+
 .sg-post-content p {
   margin: 2rem 0;
 }
 
-.sg-post-content a {
-  text-decoration: underline;
+.sg-post-content iframe {
+  width: 100%;
 }
 
 .sg-post-content .wp-block-quote {
