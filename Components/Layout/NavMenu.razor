@@ -14,7 +14,7 @@
         @foreach (var link in _links)
         {
             <div class="nav-item border-gray-200">
-                <NavLink class="nav-link py-2 text-base" href="@link.Url" Match="NavLinkMatch.All">
+                <NavLink class="nav-link py-2 text-base" href="@link.Url" Match="NavLinkMatch.Prefix">
                     @link.Text
                 </NavLink>
             </div>
