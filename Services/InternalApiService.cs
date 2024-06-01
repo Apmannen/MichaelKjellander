@@ -22,9 +22,9 @@ public class InternalApiService
     {
         return await Fetch<WpPage>(_apiRoutes.Pages(slug));
     }
-    public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string?categorySlug = null)
+    public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null)
     {
-        return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug ?? ""));
+        return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug));
     }
 
     private async Task<ApiResponse<T>> Fetch<T>(string path) where T : IParsableJson

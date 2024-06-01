@@ -11,6 +11,15 @@ public class ApiRoutes
     }
     
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}"; 
-    public string Posts(int page, string categorySlug) => 
-        $"{_baseUrl}/api/blog/posts?page={page}&category_slug={categorySlug}"; 
+    //TODO: use some kind of query builder
+    public string Posts(int page, string? categorySlug)
+    {
+        string url = $"{_baseUrl}/api/blog/posts?page={page}";
+        if (!string.IsNullOrEmpty(categorySlug))
+        {
+            url += $"&category_slug={categorySlug}"; 
+        }
+
+        return url;
+    }
 }

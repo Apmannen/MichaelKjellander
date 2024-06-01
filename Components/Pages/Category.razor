@@ -3,6 +3,7 @@
 @using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Api
+@using MichaelKjellander.Components.Boxes
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
@@ -10,6 +11,13 @@
     @((_category != null ? _category.Name : "") + " - Michael Kjellander")
 </PageTitle>
 
+@if (_posts != null)
+{
+    @foreach (WpPost post in _posts)
+    {
+        <PostBox Post="post"/>
+    }
+}
 
 @code {
     [Parameter] public string? Slug { get; set; }
@@ -26,7 +34,7 @@
         //TODO: INJECT
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: 1, categorySlug: Slug);
-
+        _posts = postsData.Items;
+        _category = _posts?.FirstOrDefault()?.Category;
     }
-
 }
