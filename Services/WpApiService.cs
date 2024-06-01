@@ -20,8 +20,6 @@ public class WpApiService
         ICollection<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
         
-
-        //Medias and tags
         var mediaIds = new HashSet<int>();
         var tagIds = new HashSet<int>();
         var categoryIds = new HashSet<int>();
