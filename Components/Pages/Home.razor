@@ -10,7 +10,7 @@
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 @inject ILogger<PaginationBox> Logger
-@inject IJSRuntime JS
+@inject JsService JsService
 
 <PageTitle>Michael Kjellanders hemsida</PageTitle>
 
@@ -112,8 +112,6 @@ else
     
     protected override void OnAfterRender(bool firstRender)
     {
-        Console.WriteLine("AFTER RENDER");
-        Logger.LogInformation("OnAfterRender: firstRender = {FirstRender}", firstRender);
-        JS.InvokeVoidAsync("scrollToTop");
+        JsService.ScrollToTop();
     }
 }

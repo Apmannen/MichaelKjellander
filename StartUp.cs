@@ -19,6 +19,8 @@ public class Startup
         services.AddEndpointsApiExplorer();
 
         services.AddRazorComponents().AddInteractiveServerComponents();
+        
+        services.AddScoped<JsService>();
 
         services.AddHttpClient();
         services.AddHttpClient<WpApiService>();
