@@ -7,7 +7,8 @@ public enum CategoryType
 {
     Unknown,
     GameReview,
-    Game
+    Game,
+    Other
 }
 
 public class WpCategory : IParsableJson
@@ -31,6 +32,7 @@ public class WpCategory : IParsableJson
         {
             CategoryType.GameReview => "tv-spelrecensioner",
             CategoryType.Game => "spel",
+            CategoryType.Other => "okategoriserade",
             _ => ""
         };
     }
@@ -42,6 +44,4 @@ public class WpCategory : IParsableJson
         this.Name = el.GetProperty("name").GetString()!;
         this.Slug = el.GetProperty("slug").GetString();
     }
-
-    
 }

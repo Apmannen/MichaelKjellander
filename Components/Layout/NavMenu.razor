@@ -36,11 +36,16 @@
     private readonly NavLink[] _links =
     [
         new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"),
-        new NavLink("Mina spel", PageRoutes.Category(CategoryType.Game), PageRoutes.CategoryPattern(CategoryType.Game)),
-        new NavLink("Tv-spelrecensioner", PageRoutes.Category(CategoryType.GameReview), PageRoutes.CategoryPattern(CategoryType.GameReview)),
-        new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade"), ""),
+        CreateCategoryNavLink("Mina spel", CategoryType.Game),
+        CreateCategoryNavLink("Tv-spelrecensioner", CategoryType.GameReview),
+        CreateCategoryNavLink("Övriga inlägg", CategoryType.Other),
         new NavLink("Kontakt", PageRoutes.Page("kontakt"), "/sida/kontakt")
     ];
+
+    private static NavLink CreateCategoryNavLink(string text, CategoryType type)
+    {
+        return new NavLink(text, PageRoutes.Category(type), PageRoutes.CategoryPattern(type));
+    }
 
     private record struct NavLink(string Text, string Url, string Pattern);
 
