@@ -11,5 +11,6 @@ public class ApiRoutes
     }
     
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}"; 
-    public string Posts(int page) => $"{_baseUrl}/api/blog/posts?page={page}"; 
+    public string Posts(int page, string categorySlug) => 
+        $"{_baseUrl}/api/blog/posts?page={page}&category_slug={categorySlug}"; 
 }

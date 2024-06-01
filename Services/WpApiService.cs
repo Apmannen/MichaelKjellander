@@ -22,9 +22,24 @@ public class WpApiService
         return pages.FirstOrDefault();
     }
     
-    public async Task<(ICollection<WpPost>,int)> GetPosts(int page = 1)
+    //TODO: use some query builder
+    public async Task<(ICollection<WpPost>,int)> GetPosts(int page = 1, string? categorySlug = null)
     {
-        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>($"posts?per_page=10&page={page}");
+        ICollection<WpCategory>? categories = null;
+        string postsFetchString = $"posts?per_page=10&page={page}";
+        if (categorySlug != null)
+        {
+            var categoriesResult = await FetchAndParseFromWpApiWithHeaders<WpCategory>($"categories?slug={categorySlug}");
+            categories = categoriesResult.ParsedElements;
+            WpCategory? category = categories.FirstOrDefault();
+            if (category == null)
+            {
+                return ([], 0);
+            }
+            postsFetchString += $"&categories={category.Id}";
+        }
+        
+        var postsResult = await FetchAndParseFromWpApiWithHeaders<WpPost>(postsFetchString);
         ICollection<WpPost> posts = postsResult.ParsedElements;
         int numPages = int.Parse(postsResult.Headers.GetValues("X-WP-TotalPages").First());
         
@@ -46,7 +61,7 @@ public class WpApiService
 
         ICollection<WpMedia> medias = await FetchAndParseExtras<WpMedia>("media", mediaIds);
         ICollection<WpTag> tags = await FetchAndParseExtras<WpTag>("tags", tagIds);
-        ICollection<WpCategory> categories = await FetchAndParseExtras<WpCategory>("categories", categoryIds);
+        categories = categories ?? await FetchAndParseExtras<WpCategory>("categories", categoryIds);
 
         foreach (WpPost post in posts)
         {

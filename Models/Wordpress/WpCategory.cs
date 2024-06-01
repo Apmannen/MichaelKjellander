@@ -30,7 +30,7 @@ public class WpCategory : IParsableJson
         return categoryType switch
         {
             CategoryType.GameReview => "tv-spelrecensioner",
-            CategoryType.Game => "mina-spel",
+            CategoryType.Game => "spel",
             _ => ""
         };
     }

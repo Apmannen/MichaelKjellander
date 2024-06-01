@@ -37,12 +37,19 @@ public class BlogController : Controller
     
     [HttpGet]
     [Route("posts")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["Page"])]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
     public async Task<IActionResult> Get([FromQuery] PostsRequest postsRequest)
     {
-        int page = postsRequest.Page ?? 1;
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        int page = postsRequest.page ?? 1;
+        string? categorySlug = !string.IsNullOrEmpty(postsRequest.category_slug)
+            ? postsRequest.category_slug
+            : null;
 
-        (ICollection<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page);
+        (ICollection<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page, categorySlug: categorySlug);
             
         return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
     }
@@ -55,7 +62,10 @@ public class BlogController : Controller
     }
     public class PostsRequest
     {
-        public int? Page { get; set; }
+        [Required]
+        public string? category_slug { get; set; }
+        [Required]
+        public int? page { get; set; }
     }
     
 }

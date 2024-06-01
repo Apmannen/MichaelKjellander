@@ -1,0 +1,32 @@
+﻿@page "/kategori/{Slug}"
+@using MichaelKjellander.Models.Wordpress
+@using MichaelKjellander.Services
+@using MichaelKjellander.SharedUtils
+@using MichaelKjellander.SharedUtils.Api
+@inject IHttpClientFactory ClientFactory
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+
+<PageTitle>
+    @((_category != null ? _category.Name : "") + " - Michael Kjellander")
+</PageTitle>
+
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+    private ICollection<WpPost>? _posts;
+    private WpCategory? _category;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Slug == null)
+        {
+            return;
+        }
+
+        //TODO: INJECT
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: 1, categorySlug: Slug);
+
+    }
+
+}
