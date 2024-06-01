@@ -1,7 +1,6 @@
 ﻿namespace MichaelKjellander.Services;
 
 using Microsoft.JSInterop;
-using System.Threading.Tasks;
 
 public class JsService
 {

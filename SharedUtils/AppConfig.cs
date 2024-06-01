@@ -24,10 +24,6 @@ public class AppConfig
 
         this.SiteUrl = urlsArray[0];
     }
-    // public static AppEnvironment ParseAppEnvironment(string appEnvironmentString)
-    // {
-    //     return Enum.Parse<AppEnvironment>(appEnvironmentString);
-    // }
 
     public static bool IsAnyWww(AppEnvironment appEnvironment)
     {
