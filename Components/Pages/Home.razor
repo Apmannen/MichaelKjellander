@@ -12,7 +12,9 @@
 @inject ILogger<PaginationBox> Logger
 @inject JsService JsService
 
-<PageTitle>Michael Kjellanders hemsida</PageTitle>
+<PageTitle>
+    @(CurrentPage > 1 ? $"Michael Kjellander - Senaste inläggen - Sida {CurrentPage}" : "Michael Kjellanders hemsida")
+</PageTitle>
 
 <div class="bg-white sg-title-section">
     @*Borders ruins the padding*@
