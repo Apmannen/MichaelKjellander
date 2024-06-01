@@ -1,4 +1,5 @@
 ﻿@using System.Text.RegularExpressions
+@using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Routes
 @inject NavigationManager NavigationManager
@@ -32,8 +33,8 @@
 @code {
     private readonly NavLink[] _links = [
         new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"), 
-        new NavLink("Mina spel", PageRoutes.Category("mina-spel"), ""), 
-        new NavLink("Tv-spelrecensioner", PageRoutes.Category("tv-spelrecensioner"), ""), 
+        new NavLink("Mina spel", PageRoutes.Category(WpCategory.GetSlug(CategoryType.Game)), ""), 
+        new NavLink("Tv-spelrecensioner", PageRoutes.Category(WpCategory.GetSlug(CategoryType.GameReview)), ""), 
         new NavLink("Övriga inlägg", PageRoutes.Category("okategoriserade"), ""), 
         new NavLink("Kontakt", PageRoutes.Page("kontakt"), "/sida/kontakt")
     ];

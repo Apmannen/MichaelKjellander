@@ -20,19 +20,22 @@ public class WpCategory : IParsableJson
     {
         get
         {
-            if (Id == 7 || Slug == "tv-spelrecensioner")
-            {
-                return CategoryType.GameReview;
-            }
-            if (Id == 2 || Slug == "mina-spel")
-            {
-                return CategoryType.Game;
-            }
-            return CategoryType.Unknown;
+            return Enum.GetValues<CategoryType>().FirstOrDefault(aType => GetSlug(aType) == Slug);
         }
     }
-
+    
     // Some categories need special treatment, just need to identify them in the way that it's currently possible.
+    public static string GetSlug(CategoryType categoryType)
+    {
+        return categoryType switch
+        {
+            CategoryType.GameReview => "tv-spelrecensioner",
+            CategoryType.Game => "mina-spel",
+            _ => ""
+        };
+    }
+
+    
     public void ParseFromJson(JsonElement el)
     {
         this.Id = el.GetProperty("id").GetInt32();
