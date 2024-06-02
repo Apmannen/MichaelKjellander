@@ -1,4 +1,5 @@
 using MichaelKjellander.Models;
+using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
@@ -29,7 +30,8 @@ public class InternalApiService
 
     public async Task<string> FetchRandomWord()
     {
-        return null;
+        ApiResponse<Word> response = await Fetch<Word>(_apiRoutes.RandomWord);
+        return response.Items.FirstOrDefault().WordString;
     }
 
     private async Task<ApiResponse<T>> Fetch<T>(string path) where T : Model

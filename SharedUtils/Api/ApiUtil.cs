@@ -22,8 +22,12 @@ public static class ApiUtil
         return new JsonFetchResult(root: doc.RootElement, headers: response.Headers);
     }
 
+    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items) where T : Model
+    {
+        return CreateApiResponse(items, 1, 1);
+    }
     public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage, int numPages) where T : Model
     {
-        return new ApiResponse<T>(items, new PaginationData(currentPage, numPages));
+        return new ApiResponse<T>(items, new PaginationData(currentPage, numPages, items.Count));
     }
 }

@@ -30,18 +30,20 @@ public class ApiResponse<T> : Model where T : Model
 
         var currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
         var numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
-        PaginationData = new PaginationData(currentPage, numPages);
+        PaginationData = new PaginationData(currentPage, numPages, Items.Count);
     }
 }
 
 public class PaginationData
 {
-    public int CurrentPage {get ; private set; }
-    public int NumPages {get ; private set;  }
+    public int CurrentPage {get ; private init; }
+    public int NumPages {get ; private init;  }
+    public int Count { get; private init; }
 
-    public PaginationData(int currentPage, int numPages)
+    public PaginationData(int currentPage, int numPages, int count)
     {
         this.CurrentPage = currentPage;
         this.NumPages = numPages;
+        this.Count = count;
     }
 }

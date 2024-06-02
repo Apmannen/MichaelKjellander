@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Options;
-
 namespace MichaelKjellander.SharedUtils.Routes;
 
 public class ApiRoutes
@@ -22,4 +20,6 @@ public class ApiRoutes
 
         return url;
     }
+    
+    public string RandomWord =>  $"{_baseUrl}/api/webgames/random-word"; 
 }

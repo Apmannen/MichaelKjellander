@@ -12,22 +12,31 @@ namespace MichaelKjellander.Controllers;
 public class WebGameController : Controller
 {
     private const int OneHour = 3600;
-    private readonly WpApiService _wpApiService;
-    public WebGameController(WpApiService wpApiService)
+    public WebGameController()
     {
-        _wpApiService = wpApiService;
     }
 
     
     [HttpGet]
     [Route("random-word")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetRandomWord()
     {
         using WebGamesDataContext context = new WebGamesDataContext();
         Word word = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5  ORDER BY RAND() DESC LIMIT 1")
             .FirstOrDefault();
 
-        return Ok(ApiUtil.CreateApiResponse<Word>([word], 1, 1));
+        return Ok(ApiUtil.CreateApiResponse<Word>([word]));
+    }
+    
+    [HttpGet]
+    [Route("words")]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
+    public async Task<IActionResult> GetWords()
+    {
+        using WebGamesDataContext context = new WebGamesDataContext();
+        List<Word> words = await context.Words.Where(row => row.WordString.Length >= 5).ToListAsync();
+
+        return Ok(ApiUtil.CreateApiResponse<Word>(words));
     }
     
 }

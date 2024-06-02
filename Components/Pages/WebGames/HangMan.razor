@@ -7,14 +7,15 @@
 
 <h3>Hänga gubbe</h3>
 
-
+@_currentWord
 
 @code {
+    private string _currentWord;
+    
+    //TODO: will need to request more, can't do it over visible API
     protected override async Task OnInitializedAsync()
     {
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        //ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
-        //this._posts = postData.Items;
-        //this._pagination = postData.PaginationData;
+        _currentWord = await service.FetchRandomWord();
     }
 }
