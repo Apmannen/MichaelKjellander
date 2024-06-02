@@ -25,10 +25,19 @@ public class WebGamesDataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Seed data
-        modelBuilder.Entity<Word>().HasData(
-            new Word { Id = 1, WordString = "Product1" },
-            new Word { Id = 2, WordString = "Product2" }
-        );
+        List<Word> words = [];
+        
+        //string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string path = "Files/ord.niklas.frykholm.txt";
+        using FileStream stream = File.OpenRead(path);
+        using StreamReader reader = new StreamReader(stream);
+        string? line;
+        int id = 1;
+        while ((line = reader.ReadLine()) != null)
+        {
+            words.Add(new Word{Id = id++, WordString = line});
+        }
+        
+        modelBuilder.Entity<Word>().HasData(words);
     }
 }
