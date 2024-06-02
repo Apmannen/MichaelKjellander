@@ -1,9 +1,10 @@
 ﻿using MichaelKjellander.Data;
 using MichaelKjellander.Models.WebGames;
-using MichaelKjellander.Services;
+using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities;
 
 namespace MichaelKjellander.Controllers;
 
@@ -29,14 +30,22 @@ public class WebGameController : Controller
     }
     
     [HttpGet]
-    [Route("words")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
+    [Route("random-words")]
+    //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
     public async Task<IActionResult> GetWords()
     {
         using WebGamesDataContext context = new WebGamesDataContext();
         List<Word> words = await context.Words.Where(row => row.WordString.Length >= 5).ToListAsync();
+        CollectionUtil.Shuffle(words);
 
-        return Ok(ApiUtil.CreateApiResponse<Word>(words));
+        List<Word> filteredWords = [];
+        for (int i = 0; i < 1000; i++)
+        {
+            filteredWords.Add(words[i]);
+        }
+        filteredWords.Sort((word1, word2) => ((int)word1.Id!).CompareTo((int)word2.Id!));
+
+        return Ok(ApiUtil.CreateApiResponse(filteredWords));
     }
     
 }
