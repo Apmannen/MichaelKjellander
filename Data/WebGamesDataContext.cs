@@ -20,4 +20,15 @@ public class WebGamesDataContext : DbContext
             serverVersion: serverVersion,
             mySqlOptionsAction: null);
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Seed data
+        modelBuilder.Entity<Word>().HasData(
+            new Word { Id = 1, WordString = "Product1" },
+            new Word { Id = 2, WordString = "Product2" }
+        );
+    }
 }

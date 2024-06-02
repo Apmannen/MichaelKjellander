@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace MichaelKjellander.Migrations
 {
     /// <inheritdoc />
@@ -28,6 +30,15 @@ namespace MichaelKjellander.Migrations
                     table.PrimaryKey("PK_Words", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Words",
+                columns: new[] { "Id", "WordString" },
+                values: new object[,]
+                {
+                    { 1, "Product1" },
+                    { 2, "Product2" }
+                });
         }
 
         /// <inheritdoc />
