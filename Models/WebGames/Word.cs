@@ -13,8 +13,4 @@ public class Word : Model
     [Required]
     public string? WordString { get; set; }
 
-    public override void ParseFromJson(JsonElement el)
-    {
-        throw new NotImplementedException();
-    }
 }

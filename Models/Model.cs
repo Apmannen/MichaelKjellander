@@ -4,7 +4,15 @@ namespace MichaelKjellander.Models;
 
 public abstract class Model
 {
-    public abstract void ParseFromJson(JsonElement el);
+    /// <summary>
+    /// Intended for external APIs, not all models need it
+    /// </summary>
+    /// <param name="el"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public virtual void ParseFromJson(JsonElement el)
+    {
+        throw new NotImplementedException();
+    }
     
     public static List<T> ParseList<T>(JsonElement root) where T : Model 
     {
