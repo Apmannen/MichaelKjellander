@@ -11,7 +11,7 @@ public enum CategoryType
     Other
 }
 
-public class WpCategory : IParsableJson
+public class WpCategory : Model
 {
     public int Id { get; set; }
     public string? Name { get; set; }
@@ -39,7 +39,7 @@ public class WpCategory : IParsableJson
     }
 
     
-    public void ParseFromJson(JsonElement el)
+    public override void ParseFromJson(JsonElement el)
     {
         this.Id = el.GetProperty("id").GetInt32();
         this.Name = el.GetProperty("name").GetString();

@@ -3,7 +3,7 @@ using MichaelKjellander.SharedUtils.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpPost : IParsableJson
+public class WpPost : Model
 {
     public int Id { get; set; }
     public string? Content { get; set; }
@@ -55,7 +55,7 @@ public class WpPost : IParsableJson
         this.Tags = tags.Where(t => this.TagIds!.Contains(t.Id)).ToArray();
     }
     
-    public void ParseFromJson(JsonElement el)
+    public override void ParseFromJson(JsonElement el)
     {
         int id = el.GetProperty("id").GetInt32();
         string content = el.GetProperty("content").GetProperty("rendered").GetString()!;

@@ -1,6 +1,7 @@
 ﻿using MichaelKjellander.Data;
 using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.Services;
+using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,7 @@ public class WebGameController : Controller
         Word word = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5  ORDER BY RAND() DESC LIMIT 1")
             .FirstOrDefault();
 
-        return Ok(word!.WordString);
+        return Ok(ApiUtil.CreateApiResponse<Word>([word], 1, 1));
     }
     
 }

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace MichaelKjellander.Models.WebGames;
 
-public class Word
+public class Word : Model
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,4 +12,9 @@ public class Word
     [StringLength(50)]
     [Required]
     public string? WordString { get; set; }
+
+    public override void ParseFromJson(JsonElement el)
+    {
+        throw new NotImplementedException();
+    }
 }

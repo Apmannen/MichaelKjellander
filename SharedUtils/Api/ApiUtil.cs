@@ -1,5 +1,5 @@
 using System.Text.Json;
-using MichaelKjellander.SharedUtils.Json;
+using MichaelKjellander.Models;
 
 namespace MichaelKjellander.SharedUtils.Api;
 
@@ -22,7 +22,7 @@ public static class ApiUtil
         return new JsonFetchResult(root: doc.RootElement, headers: response.Headers);
     }
 
-    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage, int numPages) where T : IParsableJson
+    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage, int numPages) where T : Model
     {
         return new ApiResponse<T>(items, new PaginationData(currentPage, numPages));
     }

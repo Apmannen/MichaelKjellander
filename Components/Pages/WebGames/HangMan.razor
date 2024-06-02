@@ -1,0 +1,20 @@
+﻿@page "/webbspel/hanga-gubbe"
+@inject IHttpClientFactory ClientFactory
+@using MichaelKjellander.Services
+@using MichaelKjellander.SharedUtils
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@rendermode InteractiveServer
+
+<h3>Hänga gubbe</h3>
+
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        //ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
+        //this._posts = postData.Items;
+        //this._pagination = postData.PaginationData;
+    }
+}

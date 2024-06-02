@@ -1,7 +1,7 @@
+using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
-using MichaelKjellander.SharedUtils.Json;
 using MichaelKjellander.SharedUtils.Routes;
 using Microsoft.Extensions.Options;
 
@@ -27,7 +27,12 @@ public class InternalApiService
         return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug));
     }
 
-    private async Task<ApiResponse<T>> Fetch<T>(string path) where T : IParsableJson
+    public async Task<string> FetchRandomWord()
+    {
+        return null;
+    }
+
+    private async Task<ApiResponse<T>> Fetch<T>(string path) where T : Model
     {
         JsonFetchResult result = await ApiUtil.FetchJson(path, _client);
         ApiResponse<T> response = new ApiResponse<T>();

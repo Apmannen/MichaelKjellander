@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
+using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
-using MichaelKjellander.SharedUtils.Json;
 
 namespace MichaelKjellander.Services;
 
@@ -73,7 +73,7 @@ public class WpApiService
         return (posts, numPages);
     }
 
-    private async Task<ICollection<T>> FetchAndParseExtras<T>(string type, ICollection<int> ids) where T : IParsableJson
+    private async Task<ICollection<T>> FetchAndParseExtras<T>(string type, ICollection<int> ids) where T : Model
     {
         if (ids.Count == 0)
         {
@@ -85,21 +85,21 @@ public class WpApiService
     }
 
     private async Task<ICollection<T>> FetchAndParseFromWpApi<T>(string uri)
-        where T : IParsableJson
+        where T : Model
     {
         JsonFetchElementsResult<T> result = await FetchAndParseFromWpApiWithHeaders<T>(uri);
         return result.ParsedElements;
     }
     private async Task<JsonFetchElementsResult<T>> FetchAndParseFromWpApiWithHeaders<T>(string uri)
-        where T : IParsableJson
+        where T : Model
     {
         JsonFetchResult result = await ApiUtil.FetchJson("https://michaelkjellander.se/wp-json/wp/v2/" + uri, _client);
-        IList<T> parsedElements = JsonUtil.ParseList<T>(result.Root);
+        IList<T> parsedElements = Model.ParseList<T>(result.Root);
         return new JsonFetchElementsResult<T>(parsedElements, result.Headers);
     }
     
     //TODO: record?
-    private struct JsonFetchElementsResult<T>(IList<T> parsedElements, HttpResponseHeaders headers) where T : IParsableJson
+    private struct JsonFetchElementsResult<T>(IList<T> parsedElements, HttpResponseHeaders headers) where T : Model
     {
         public readonly IList<T> ParsedElements = parsedElements;
         public readonly HttpResponseHeaders Headers = headers;
