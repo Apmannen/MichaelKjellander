@@ -27,7 +27,6 @@ public class WebGamesDataContext : DbContext
 
         List<Word> words = [];
         
-        //string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         string path = "Files/ord.niklas.frykholm.txt";
         using FileStream stream = File.OpenRead(path);
         using StreamReader reader = new StreamReader(stream);
