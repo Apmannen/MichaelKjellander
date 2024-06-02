@@ -1,7 +1,5 @@
 using System.Text.Json;
 using MichaelKjellander.Models;
-using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils.Json;
 using Newtonsoft.Json;
 
 namespace MichaelKjellander.SharedUtils.Api;
