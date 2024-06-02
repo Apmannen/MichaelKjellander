@@ -4,7 +4,6 @@ using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Utilities;
 
 namespace MichaelKjellander.Controllers;
 
@@ -12,7 +11,6 @@ namespace MichaelKjellander.Controllers;
 [Route("api/webgames")]
 public class WebGameController : Controller
 {
-    private const int OneHour = 3600;
     public WebGameController()
     {
     }
@@ -34,7 +32,7 @@ public class WebGameController : Controller
     //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
     public async Task<IActionResult> GetWords()
     {
-        using WebGamesDataContext context = new WebGamesDataContext();
+        await using WebGamesDataContext context = new WebGamesDataContext();
         List<Word> words = await context.Words.Where(row => row.WordString.Length >= 5).ToListAsync();
         CollectionUtil.Shuffle(words);
 
