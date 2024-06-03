@@ -1,4 +1,6 @@
-﻿using MichaelKjellander.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
+using MichaelKjellander.Data;
 using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
@@ -56,5 +58,29 @@ public class WebGameController : Controller
         
         return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progressReturn]));
     }
+
+    [HttpGet]
+    [Route("word-guess/guess")]
+    public async Task<IActionResult> Guess([FromQuery] GuessRequest guessRequest)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        Regex regex = new Regex("[abcdefghijklmnopqrstuvxyzåäö]");
+        bool isValidLetter = regex.IsMatch(guessRequest.letter!);
+        if (!isValidLetter)
+        {
+            return BadRequest("Invalid letter");
+        }
+        
+        return Ok();
+    }
     
+    public class GuessRequest
+    {
+        [Required]
+        [StringLength(1)]
+        public string? letter { get; set; }
+    }
 }
