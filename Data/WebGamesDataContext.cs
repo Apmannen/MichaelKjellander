@@ -25,18 +25,21 @@ public class WebGamesDataContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         List<Word> words = [];
-        
-        string path = "Files/ord.niklas.frykholm.txt";
-        using FileStream stream = File.OpenRead(path);
-        using StreamReader reader = new StreamReader(stream);
-        string? line;
-        int id = 1;
-        while ((line = reader.ReadLine()) != null)
+
+        if (string.IsNullOrEmpty(EnvironmentUtil.Get(EnvVariable.SG_APPENVIRONMENT)))
         {
-            words.Add(new Word{Id = id++, WordString = line});
+            string path = "Files/ord.niklas.frykholm.txt";
+            using FileStream stream = File.OpenRead(path);
+            using StreamReader reader = new StreamReader(stream);
+            string? line;
+            int id = 1;
+            while ((line = reader.ReadLine()) != null)
+            {
+                words.Add(new Word{Id = id++, WordString = line});
+            }
+            modelBuilder.Entity<Word>().HasData(words);
         }
         
-        modelBuilder.Entity<Word>().HasData(words);
         modelBuilder.Entity<Word>()
             .HasMany(w => w.GuessGameProgresses)
             .WithOne(p => p.Word)
