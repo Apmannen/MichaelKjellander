@@ -14,7 +14,6 @@ namespace MichaelKjellander.Controllers;
 public class WebGameController : Controller
 {
     private readonly ILogger _logger;
-    private static string _validLetters = "abcdefghijklmnopqrstuvxyzåäö";
 
     public WebGameController(ILogger<WebGameController> logger)
     {
@@ -64,7 +63,7 @@ public class WebGameController : Controller
 
         char letter = guessRequest.Letter![0];
 
-        bool isValidLetter = _validLetters.Contains(letter);
+        bool isValidLetter = Word.ValidLetters.Contains(letter);
         if (!isValidLetter)
         {
             return BadRequest("Invalid letter");

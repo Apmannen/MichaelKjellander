@@ -14,4 +14,6 @@ public class Word : Model
     public string? WordString { get; set; }
 
     public ICollection<WordGuessGameProgress>? GuessGameProgresses { get; set; }
+    
+    public static readonly string ValidLetters = "abcdefghijklmnopqrstuvxyzåäö";
 }

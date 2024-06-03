@@ -15,12 +15,26 @@ main {
     background-color: rgb(241,241,241);
 }
 
-
+/*Generic*/
 .sg-font-sans {
     font-family: "Noto Sans", sans-serif;
 }
+.btn {
+    @apply font-bold py-2 px-4 rounded;
+}
+.btn-blue {
+    @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+    @apply bg-blue-700;
+}
 
+a:hover {
+    text-decoration: none;
+    color: theme('colors.gray.500');
+}
 
+/*Specific (try to avoid)*/
 .sg-main-inner {
     max-width: 825px;
 }
@@ -35,11 +49,6 @@ main {
     top: 0;
     bottom: 0;
     position: absolute;
-}
-
-a:hover {
-    text-decoration: none;
-    color: theme('colors.gray.500');
 }
 
 .sg-post {

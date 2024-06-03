@@ -9,14 +9,21 @@
 <h3>Gissa ordet</h3>
 <p>Poäng: @_points</p>
 
-@if (_chars != null && _progress != null)
+@if (_initDone)
 {
-    <p>Gissningar kvar: @_progress.GuessesLeft</p>
+    <p>Gissningar kvar: @_progress!.GuessesLeft</p>
     
     <div>
-        @foreach (char aChar in _chars)
+        @foreach (char aChar in _progressChars!)
         {
-            <span class="mr-4 text-2xl">@aChar</span>
+            <span class="mr-4 text-4xl">@aChar</span>
+        }
+    </div>
+    <div class="h-8"></div>
+    <div>
+        @foreach (char aLetter in _lettersLeft!)
+        {
+            <button class="btn btn-blue mr-3 mb-3">@((aLetter+"").ToUpper())</button>
         }
     </div>
 }
@@ -24,20 +31,22 @@
 
 @code {
     private WordGuessGameProgress? _progress;
-    private List<char>? _chars;
+    private IList<char>? _progressChars;
     private int _points = 0;
-    
+    private IList<char>? _lettersLeft;
+    private bool _initDone = false;
+
     //TODO: will need to request more, can't do it over visible API
     protected override async Task OnInitializedAsync()
     {
+        _initDone = false;
+
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         _progress = await service.FetchInitWordGuessGame();
 
-        _chars = [];
-        string wordProgress = _progress.WordProgress!;
-        for (int i = 0; i < wordProgress.Length; i++)
-        {
-            _chars.Add(wordProgress[i]);
-        }
+        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!.ToUpper());
+        _lettersLeft = StringUtil.StringToCharList(Word.ValidLetters);
+
+        _initDone = true;
     }
 }
