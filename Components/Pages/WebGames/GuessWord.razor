@@ -23,9 +23,11 @@
     @if (!_isLoading)
     {
         <div>
-            @foreach (char aLetter in _lettersLeft!)
+            @foreach (char aLetter in _letters!)
             {
-                <button class="btn btn-blue mr-3 mb-3" @onclick="() => OnLetterButtonPress(aLetter)">
+                <button class="btn btn-blue mr-3 mb-3" 
+                        disabled="@(!IsLetterAvailable(aLetter))"
+                        @onclick="() => OnLetterButtonPress(aLetter)">
                     @CharDisplay(aLetter)
                 </button>
             }
@@ -38,6 +40,7 @@
     private WordGuessGameProgress? _progress;
     private IList<char>? _progressChars;
     private int _points = 0;
+    private IList<char>? _letters;
     private IList<char>? _lettersLeft;
     private bool _isLoading = true;
     private bool _isInitialized = false;
@@ -52,6 +55,7 @@
         _progress = await _apiService.FetchInitWordGuessGame();
 
         _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
+        _letters = StringUtil.StringToCharList(Word.ValidLetters);
         _lettersLeft = StringUtil.StringToCharList(Word.ValidLetters);
 
         _isLoading = false;
@@ -61,6 +65,11 @@
     private string CharDisplay(char c)
     {
         return (c + "").ToUpper();
+    }
+
+    private bool IsLetterAvailable(char letter)
+    {
+        return _lettersLeft!.Contains(letter);
     }
 
     private async Task OnLetterButtonPress(char letter)
