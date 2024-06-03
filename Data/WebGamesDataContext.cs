@@ -8,6 +8,7 @@ namespace MichaelKjellander.Data;
 public class WebGamesDataContext : DbContext
 {
     public DbSet<Word> Words { get; set; }
+    public DbSet<WordGuessGameProgress> WordGuessGameProgresses { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -445,3 +445,5 @@ cypress/support
 #MICHAEL CUSTOM
 /bin/Debug
 bin/Debug/net8.0/MichaelKjellander.dll
+Migrations/*.cs
+/Migrations

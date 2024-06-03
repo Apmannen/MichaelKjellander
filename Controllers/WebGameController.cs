@@ -11,16 +11,20 @@ namespace MichaelKjellander.Controllers;
 [Route("api/webgames")]
 public class WebGameController : Controller
 {
-    public WebGameController()
+    private readonly ILogger _logger;
+
+    public WebGameController(ILogger<WebGameController> logger)
     {
+        _logger = logger;
     }
 
     
     [HttpGet]
     [Route("random-word")]
+    [System.Obsolete("Not used")]
     public async Task<IActionResult> GetRandomWord()
     {
-        using WebGamesDataContext context = new WebGamesDataContext();
+        await using WebGamesDataContext context = new WebGamesDataContext();
         Word word = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5  ORDER BY RAND() DESC LIMIT 1")
             .FirstOrDefault();
 
@@ -29,7 +33,7 @@ public class WebGameController : Controller
     
     [HttpGet]
     [Route("random-words")]
-    //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
+    [System.Obsolete("Not used")]
     public async Task<IActionResult> GetWords()
     {
         await using WebGamesDataContext context = new WebGamesDataContext();
@@ -44,6 +48,37 @@ public class WebGameController : Controller
         filteredWords.Sort((word1, word2) => ((int)word1.Id!).CompareTo((int)word2.Id!));
 
         return Ok(ApiUtil.CreateApiResponse(filteredWords));
+    }
+
+    [HttpGet]
+    [Route("init-guess-words-game")]
+    public async Task<IActionResult> InitGame()
+    {
+        _logger.LogInformation("**** Initing game!");
+        
+        Guid uuid = Guid.NewGuid();
+        string uuidString = uuid.ToString();
+        
+        await using WebGamesDataContext context = new WebGamesDataContext();
+        Word randomWord = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5  ORDER BY RAND() DESC LIMIT 1")
+            .FirstOrDefault()!;
+
+        string maskedWord = "";
+        for (int i = 0; i < randomWord.WordString!.Length; i++)
+        {
+            maskedWord += randomWord.WordString[i] == '-' ? '-' : '_';
+        }
+        
+        WordGuessGameProgress progress = new WordGuessGameProgress
+        {
+            Uuid = uuidString,
+            GuessesLeft = 5,
+            WordProgress = maskedWord
+        };
+        context.Add(progress);
+        
+
+        return Ok(progress);
     }
     
 }
