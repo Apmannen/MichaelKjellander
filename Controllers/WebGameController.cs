@@ -40,7 +40,7 @@ public class WebGameController : Controller
         WordGuessGameProgress progress = new WordGuessGameProgress
         {
             Uuid = uuidString,
-            GuessesLeft = 5,
+            GuessesLeft = 8,
             WordId = randomWord.Id,
             WordProgress = maskedWord
         };
@@ -105,7 +105,7 @@ public class WebGameController : Controller
         context.Update(gameProgress);
         await context.SaveChangesAsync();
 
-        bool includeCorrectWord = gameProgress.GuessesLeft == 0;
+        bool includeCorrectWord = gameProgress.GuessesLeft == 0 || gameProgress.IsCorrectlyGuessed;
         return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto(includeCorrectWord)]));
     }
     

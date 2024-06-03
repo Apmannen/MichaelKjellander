@@ -16,4 +16,5 @@ public class Word : Model
     public virtual ICollection<WordGuessGameProgress>? GuessGameProgresses { get; set; }
     
     public static readonly string ValidLetters = "abcdefghijklmnopqrstuvxyzåäö";
+    
 }

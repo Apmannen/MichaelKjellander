@@ -16,11 +16,30 @@
     <div>
         @foreach (char aChar in _progressChars!)
         {
-            <span class="mr-4 text-4xl">@CharDisplay(aChar)</span>
+            <span class="mr-4 text-4xl w-6 inline-block text-center">@CharDisplay(aChar)</span>
         }
     </div>
+    @if (_correctWord != null)
+    {
+        <div class="h-4"></div>
+        <div>
+            @if (_didWin == true)
+            {
+                <p>Grattis! Du gissade det rätta ordet!</p>
+            }
+            else
+            {
+                <p>Du lyckades dessvärre inte att gissa det korrekta ordet som var:</p>
+                <p class="font-bold">@_correctWord.ToUpper()</p>
+            }
+            <div class="h-4"></div>
+            <button class="btn btn-blue mr-3 mb-3" @onclick="OnNewGameButtonPress">
+                Nytt spel
+            </button>
+        </div>
+    }
     <div class="h-8"></div>
-    @if (!_isLoading)
+    @if (_correctWord == null)
     {
         <div>
             @foreach (char aLetter in _letters!)
@@ -42,24 +61,16 @@
     private int _points = 0;
     private IList<char>? _letters;
     private IList<char>? _lettersLeft;
+    private string? _correctWord;
     private bool _isLoading = true;
     private bool _isInitialized = false;
+    private bool? _didWin;
     InternalApiService? _apiService;
-
-    //TODO: will need to request more, can't do it over visible API
+    
     protected override async Task OnInitializedAsync()
     {
-        _isLoading = true;
-
         _apiService = new InternalApiService(ClientFactory.CreateClient(), Options);
-        _progress = await _apiService.FetchInitWordGuessGame();
-
-        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
-        _letters = StringUtil.StringToCharList(Word.ValidLetters);
-        _lettersLeft = StringUtil.StringToCharList(Word.ValidLetters);
-
-        _isLoading = false;
-        _isInitialized = true;
+        await ResetGame();
     }
     
     private string CharDisplay(char c)
@@ -72,12 +83,50 @@
         return _lettersLeft!.Contains(letter);
     }
 
+    private async Task ResetGame()
+    {
+        _isLoading = true;
+
+        _progress = await _apiService!.FetchInitWordGuessGame();
+
+        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
+        _letters = StringUtil.StringToCharList(Word.ValidLetters);
+        _lettersLeft = StringUtil.StringToCharList(Word.ValidLetters);
+        _correctWord = null;
+        _didWin = null;
+
+        _isLoading = false;
+        _isInitialized = true;
+    }
+
+    private async Task OnNewGameButtonPress()
+    {
+        await ResetGame();
+    }
+
     private async Task OnLetterButtonPress(char letter)
     {
+        if (_isLoading)
+        {
+            return;
+        }
+        
         _isLoading = true;
         _lettersLeft!.Remove(letter);
         _progress = await _apiService!.FetchGuessResult(letter, _progress!.Uuid!);
         _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
+        if (_progress.IsCorrectlyGuessed)
+        {
+            _correctWord = _progress.Word!.WordString;
+            _didWin = true;
+            _points += (int)_progress!.GuessesLeft!;
+        }
+        else if (_progress.GuessesLeft == 0)
+        {
+            _correctWord = _progress.Word!.WordString;
+            _didWin = false;
+            _points -= _progress.LettersLeft;
+        }
         _isLoading = false;
     }
 }

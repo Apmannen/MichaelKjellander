@@ -22,6 +22,28 @@ public class WordGuessGameProgress : Model
     [Required]
     public string? WordProgress { get; set; }
 
+    public bool IsCorrectlyGuessed => WordProgress != null && LettersLeft == 0;
+
+    public int LettersLeft
+    {
+        get
+        {
+            if (WordProgress == null)
+            {
+                return 0;
+            }
+            int count = 0;
+            foreach (char letter in WordProgress)
+            {
+                if (letter == '_')
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
+    
     public WordGuessGameProgress CreateDto(bool includeCorrectWord)
     {
         WordGuessGameProgress wordProgress = new WordGuessGameProgress()
