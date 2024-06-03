@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MichaelKjellander.Models.WebGames;
 
-public class WordGuessGameProgress
+public class WordGuessGameProgress : Model
 {
     [Key]
     [StringLength(50)]

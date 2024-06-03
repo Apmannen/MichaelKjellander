@@ -73,12 +73,20 @@ public class WebGameController : Controller
         {
             Uuid = uuidString,
             GuessesLeft = 5,
+            WordId = randomWord.Id,
             WordProgress = maskedWord
         };
         context.Add(progress);
-        
+        await context.SaveChangesAsync();
 
-        return Ok(progress);
+        WordGuessGameProgress progressReturn = new WordGuessGameProgress
+        {
+            Uuid = progress.Uuid,
+            GuessesLeft = progress.GuessesLeft,
+            WordProgress = progress.WordProgress
+        };
+        
+        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progressReturn]));
     }
     
 }
