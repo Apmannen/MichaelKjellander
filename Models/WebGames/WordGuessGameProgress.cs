@@ -12,13 +12,23 @@ public class WordGuessGameProgress : Model
     [Required]
     public int? GuessesLeft { get; set; }
     
-    public virtual Word? Word { get; set; }
+    public Word? Word { get; set; }
     
     [Required]
-    [ForeignKey("Word")]
+    //[ForeignKey("Word")]
     public int? WordId { get; set; }
     
     [StringLength(50)]
     [Required]
     public string? WordProgress { get; set; }
+
+    public WordGuessGameProgress CreateDto()
+    {
+        return new WordGuessGameProgress()
+        {
+            Uuid = this.Uuid,
+            GuessesLeft = this.GuessesLeft,
+            WordProgress = this.WordProgress
+        };
+    }
 }

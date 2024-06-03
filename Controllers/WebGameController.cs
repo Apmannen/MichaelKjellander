@@ -14,6 +14,7 @@ namespace MichaelKjellander.Controllers;
 public class WebGameController : Controller
 {
     private readonly ILogger _logger;
+    private static string _validLetters = "abcdefghijklmnopqrstuvxyzåäö";
 
     public WebGameController(ILogger<WebGameController> logger)
     {
@@ -30,7 +31,7 @@ public class WebGameController : Controller
         string uuidString = uuid.ToString();
         
         await using WebGamesDataContext context = new WebGamesDataContext();
-        Word randomWord = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5  ORDER BY RAND() DESC LIMIT 1")
+        Word randomWord = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5 AND LENGTH(w.WordString)<=50  ORDER BY RAND() DESC LIMIT 1")
             .FirstOrDefault()!;
 
         string maskedWord = "";
@@ -48,15 +49,8 @@ public class WebGameController : Controller
         };
         context.Add(progress);
         await context.SaveChangesAsync();
-
-        WordGuessGameProgress progressReturn = new WordGuessGameProgress
-        {
-            Uuid = progress.Uuid,
-            GuessesLeft = progress.GuessesLeft,
-            WordProgress = progress.WordProgress
-        };
         
-        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progressReturn]));
+        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progress.CreateDto()]));
     }
 
     [HttpGet]
@@ -67,20 +61,63 @@ public class WebGameController : Controller
         {
             return BadRequest(ModelState);
         }
-        Regex regex = new Regex("[abcdefghijklmnopqrstuvxyzåäö]");
-        bool isValidLetter = regex.IsMatch(guessRequest.letter!);
+
+        char letter = guessRequest.Letter![0];
+
+        bool isValidLetter = _validLetters.Contains(letter);
         if (!isValidLetter)
         {
             return BadRequest("Invalid letter");
         }
+        await using WebGamesDataContext context = new WebGamesDataContext();
+        WordGuessGameProgress? gameProgress = context.WordGuessGameProgresses
+            .Include(row => row.Word)
+            .FirstOrDefault(row => row.Uuid == guessRequest.GameId);
+        if (gameProgress == null)
+        {
+            return BadRequest("Invalid game ID");
+        }
+
+        if (gameProgress.GuessesLeft <= 0)
+        {
+            return BadRequest("No guesses left");
+        }
+
+        string fullWord = gameProgress.Word!.WordString!;
+        string wordProgress = gameProgress.WordProgress!;
+        if (fullWord.Contains(letter))
+        {
+            string newWord = "";
+            for (int i = 0; i < wordProgress.Length; i++)
+            {
+                if (fullWord[i] == letter)
+                {
+                    newWord += letter;
+                }
+                else
+                {
+                    newWord += wordProgress[i];
+                }
+            }
+            gameProgress.WordProgress = newWord;
+        }
+        else
+        {
+            gameProgress.GuessesLeft--;
+        }
+        context.Update(gameProgress);
+        await context.SaveChangesAsync();
         
-        return Ok();
+        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto()]));
     }
     
     public class GuessRequest
     {
         [Required]
         [StringLength(1)]
-        public string? letter { get; set; }
+        public string? Letter { get; set; }
+        
+        [Required]
+        public string? GameId { get; set; }
     }
 }

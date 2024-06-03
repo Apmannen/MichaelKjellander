@@ -37,5 +37,10 @@ public class WebGamesDataContext : DbContext
         }
         
         modelBuilder.Entity<Word>().HasData(words);
+        modelBuilder.Entity<Word>()
+            .HasMany(w => w.GuessGameProgresses)
+            .WithOne(p => p.Word)
+            .HasForeignKey(p => p.WordId)
+            .HasPrincipalKey(w => w.Id);
     }
 }

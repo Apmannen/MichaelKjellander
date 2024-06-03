@@ -13,4 +13,5 @@ public class Word : Model
     [Required]
     public string? WordString { get; set; }
 
+    public ICollection<WordGuessGameProgress>? GuessGameProgresses { get; set; }
 }
