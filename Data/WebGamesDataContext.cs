@@ -1,4 +1,5 @@
 ﻿using MichaelKjellander.Models.WebGames;
+using MichaelKjellander.SharedUtils;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
@@ -11,10 +12,7 @@ public class WebGamesDataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         ServerVersion serverVersion = ServerVersion.Create(8, 4, 0, ServerType.MySql);
-        //TODO: configurable connect string
-        string connectionString =
-            "Server=127.0.0.1;Database=kjelle_db;User=root;Password=test;Port=3306;SslMode=none;";
-
+        string connectionString = EnvironmentUtil.Get(EnvVariable.SG_MYSQLCONNSTRING);
         optionsBuilder.UseMySql(
             connectionString: connectionString, 
             serverVersion: serverVersion,
