@@ -32,7 +32,7 @@ main {
     @apply bg-blue-700;
 }
 
-a:hover {
+a:hover, .sg-post-content a:hover {
     text-decoration: none;
     color: theme('colors.gray.500');
 }
@@ -60,6 +60,7 @@ a:hover {
 .sg-post-content {
 }
 .sg-post-content a {
+    color: black;
     text-decoration: underline;
 }
 .sg-post-content p {
