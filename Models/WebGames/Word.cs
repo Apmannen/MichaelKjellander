@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
 
 namespace MichaelKjellander.Models.WebGames;
 
+[Table("words")]
 public class Word : Model
 {
     [Key]
