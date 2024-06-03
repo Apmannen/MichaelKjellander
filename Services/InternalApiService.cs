@@ -28,10 +28,16 @@ public class InternalApiService
         return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug));
     }
 
-    public async Task<string> FetchRandomWord()
+    /*public async Task<string> FetchRandomWord()
     {
         ApiResponse<Word> response = await Fetch<Word>(_apiRoutes.RandomWord);
         return response.Items.FirstOrDefault().WordString;
+    }*/
+
+    public async Task<WordGuessGameProgress> FetchInitWordGuessGame()
+    {
+        ApiResponse<WordGuessGameProgress> response = await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessInit);
+        return response.Items!.FirstOrDefault()!;
     }
 
     private async Task<ApiResponse<T>> Fetch<T>(string path) where T : Model

@@ -1,0 +1,43 @@
+﻿@page "/webbspel/gissa-ordet"
+@inject IHttpClientFactory ClientFactory
+@using MichaelKjellander.Models.WebGames
+@using MichaelKjellander.Services
+@using MichaelKjellander.SharedUtils
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@rendermode InteractiveServer
+
+<h3>Gissa ordet</h3>
+<p>Poäng: @_points</p>
+
+@if (_chars != null && _progress != null)
+{
+    <p>Gissningar kvar: @_progress.GuessesLeft</p>
+    
+    <div>
+        @foreach (char aChar in _chars)
+        {
+            <span class="mr-4 text-2xl">@aChar</span>
+        }
+    </div>
+}
+
+
+@code {
+    private WordGuessGameProgress? _progress;
+    private List<char>? _chars;
+    private int _points = 0;
+    
+    //TODO: will need to request more, can't do it over visible API
+    protected override async Task OnInitializedAsync()
+    {
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        _progress = await service.FetchInitWordGuessGame();
+
+        _chars = [];
+        string wordProgress = _progress.WordProgress!;
+        for (int i = 0; i < wordProgress.Length; i++)
+        {
+            _chars.Add(wordProgress[i]);
+        }
+    }
+}

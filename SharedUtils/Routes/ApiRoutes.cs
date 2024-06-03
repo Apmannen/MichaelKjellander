@@ -21,5 +21,7 @@ public class ApiRoutes
         return url;
     }
     
-    public string RandomWord =>  $"{_baseUrl}/api/webgames/random-word"; 
+    public string WordGuessInit =>  $"{_baseUrl}/api/webgames/word-guess/init"; 
+    
+    //public string RandomWord =>  $"{_baseUrl}/api/webgames/random-word"; 
 }
