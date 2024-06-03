@@ -9,23 +9,28 @@
 <h3>Gissa ordet</h3>
 <p>Poäng: @_points</p>
 
-@if (_initDone)
+@if (_isInitialized)
 {
     <p>Gissningar kvar: @_progress!.GuessesLeft</p>
     
     <div>
         @foreach (char aChar in _progressChars!)
         {
-            <span class="mr-4 text-4xl">@aChar</span>
+            <span class="mr-4 text-4xl">@CharDisplay(aChar)</span>
         }
     </div>
     <div class="h-8"></div>
-    <div>
-        @foreach (char aLetter in _lettersLeft!)
-        {
-            <button class="btn btn-blue mr-3 mb-3">@((aLetter+"").ToUpper())</button>
-        }
-    </div>
+    @if (!_isLoading)
+    {
+        <div>
+            @foreach (char aLetter in _lettersLeft!)
+            {
+                <button class="btn btn-blue mr-3 mb-3" @onclick="() => OnLetterButtonPress(aLetter)">
+                    @CharDisplay(aLetter)
+                </button>
+            }
+        </div>
+    }
 }
 
 
@@ -34,19 +39,36 @@
     private IList<char>? _progressChars;
     private int _points = 0;
     private IList<char>? _lettersLeft;
-    private bool _initDone = false;
+    private bool _isLoading = true;
+    private bool _isInitialized = false;
+    InternalApiService? _apiService;
 
     //TODO: will need to request more, can't do it over visible API
     protected override async Task OnInitializedAsync()
     {
-        _initDone = false;
+        _isLoading = true;
 
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        _progress = await service.FetchInitWordGuessGame();
+        _apiService = new InternalApiService(ClientFactory.CreateClient(), Options);
+        _progress = await _apiService.FetchInitWordGuessGame();
 
-        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!.ToUpper());
+        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
         _lettersLeft = StringUtil.StringToCharList(Word.ValidLetters);
 
-        _initDone = true;
+        _isLoading = false;
+        _isInitialized = true;
+    }
+    
+    private string CharDisplay(char c)
+    {
+        return (c + "").ToUpper();
+    }
+
+    private async Task OnLetterButtonPress(char letter)
+    {
+        _isLoading = true;
+        _lettersLeft!.Remove(letter);
+        _progress = await _apiService!.FetchGuessResult(letter, _progress!.Uuid!);
+        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
+        _isLoading = false;
     }
 }

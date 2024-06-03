@@ -39,6 +39,11 @@ public class InternalApiService
         ApiResponse<WordGuessGameProgress> response = await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessInit);
         return response.Items!.FirstOrDefault()!;
     }
+    public async Task<WordGuessGameProgress> FetchGuessResult(char letter, string gameId)
+    {
+        ApiResponse<WordGuessGameProgress> response = await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessGuess(letter, gameId));
+        return response.Items!.FirstOrDefault()!;
+    }
 
     private async Task<ApiResponse<T>> Fetch<T>(string path) where T : Model
     {

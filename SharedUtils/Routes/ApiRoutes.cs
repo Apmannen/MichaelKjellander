@@ -22,6 +22,7 @@ public class ApiRoutes
     }
     
     public string WordGuessInit =>  $"{_baseUrl}/api/webgames/word-guess/init"; 
+    public string WordGuessGuess(char letter, string uuid) => $"{_baseUrl}/api/webgames/word-guess/guess?letter={letter}&gameId={uuid}"; 
     
     //public string RandomWord =>  $"{_baseUrl}/api/webgames/random-word"; 
 }
