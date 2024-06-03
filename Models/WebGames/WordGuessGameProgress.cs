@@ -12,7 +12,7 @@ public class WordGuessGameProgress : Model
     [Required]
     public int? GuessesLeft { get; set; }
     
-    public Word? Word { get; set; }
+    public virtual Word? Word { get; set; }
     
     [Required]
     //[ForeignKey("Word")]
@@ -22,13 +22,16 @@ public class WordGuessGameProgress : Model
     [Required]
     public string? WordProgress { get; set; }
 
-    public WordGuessGameProgress CreateDto()
+    public WordGuessGameProgress CreateDto(bool includeCorrectWord)
     {
-        return new WordGuessGameProgress()
+        WordGuessGameProgress wordProgress = new WordGuessGameProgress()
         {
             Uuid = this.Uuid,
             GuessesLeft = this.GuessesLeft,
-            WordProgress = this.WordProgress
+            WordProgress = this.WordProgress,
+            Word = includeCorrectWord ? new Word{WordString = this.Word!.WordString} : null
         };
+
+        return wordProgress;
     }
 }

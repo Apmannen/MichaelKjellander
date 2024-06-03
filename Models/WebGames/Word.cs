@@ -13,7 +13,7 @@ public class Word : Model
     [Required]
     public string? WordString { get; set; }
 
-    public ICollection<WordGuessGameProgress>? GuessGameProgresses { get; set; }
+    public virtual ICollection<WordGuessGameProgress>? GuessGameProgresses { get; set; }
     
     public static readonly string ValidLetters = "abcdefghijklmnopqrstuvxyzåäö";
 }

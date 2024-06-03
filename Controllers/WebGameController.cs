@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 using MichaelKjellander.Data;
 using MichaelKjellander.Models.WebGames;
-using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +47,7 @@ public class WebGameController : Controller
         context.Add(progress);
         await context.SaveChangesAsync();
         
-        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progress.CreateDto()]));
+        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progress.CreateDto(false)]));
     }
 
     [HttpGet]
@@ -106,8 +104,9 @@ public class WebGameController : Controller
         }
         context.Update(gameProgress);
         await context.SaveChangesAsync();
-        
-        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto()]));
+
+        bool includeCorrectWord = gameProgress.GuessesLeft == 0;
+        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto(includeCorrectWord)]));
     }
     
     public class GuessRequest

@@ -42,5 +42,6 @@ public class WebGamesDataContext : DbContext
             .WithOne(p => p.Word)
             .HasForeignKey(p => p.WordId)
             .HasPrincipalKey(w => w.Id);
+        //modelBuilder.Entity<WordGuessGameProgress>().HasOne<Word>(p => p.Word).;
     }
 }
