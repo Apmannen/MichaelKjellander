@@ -9,7 +9,7 @@
         {
             <img src="@Post.FeaturedMedia.PostThumbnailUrl"/>
         }
-        <div class="bg-white sg-post p-10 sm:p-20">
+        <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
             {
                 <span class="italic">@Post.Category!.Name</span>
@@ -42,7 +42,7 @@
                 </div>
             }
         </div>
-        <div class="px-20 py-10 bg-gray-100">
+        <div class="sg-post-footer sg-footer-padding">
             <p>
                 <IconCalendarMonth/>
                 <span class="mr-4">@DateUtil.FormatDate(Post.Date)</span>

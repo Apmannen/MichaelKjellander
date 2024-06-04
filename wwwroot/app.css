@@ -37,7 +37,7 @@ a:hover, .sg-post-content a:hover {
     color: theme('colors.gray.500');
 }
 
-/*Specific (try to avoid)*/
+/*Specific, TODO: move some of them to appropriate component css, IF POSSIBLE. Tailwind might not work for component CSS. */
 .sg-main-inner {
     max-width: 825px;
 }
@@ -78,4 +78,10 @@ a:hover, .sg-post-content a:hover {
 .sg-post-content .wp-block-quote cite {
     color: black;
     font-style: normal;
+}
+.sg-post-padding {
+    @apply p-10 sm:p-20;
+}
+.sg-footer-padding {
+    @apply px-10 py-10 sm:px-20;
 }

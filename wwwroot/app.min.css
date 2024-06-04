@@ -640,11 +640,6 @@ video {
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
-.bg-gray-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
-
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -657,11 +652,6 @@ video {
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
-}
-
-.px-20 {
-  padding-left: 5rem;
-  padding-right: 5rem;
 }
 
 .px-4 {
@@ -804,7 +794,7 @@ a:hover, .sg-post-content a:hover {
   color: #6b7280;
 }
 
-/*Specific (try to avoid)*/
+/*Specific, TODO: move some of them to appropriate component css, IF POSSIBLE. Tailwind might not work for component CSS. */
 
 .sg-main-inner {
   max-width: 825px;
@@ -856,9 +846,27 @@ a:hover, .sg-post-content a:hover {
   font-style: normal;
 }
 
+.sg-post-padding {
+  padding: 2.5rem;
+}
+
 @media (min-width: 640px) {
-  .sm\:visible {
-    visibility: visible;
+  .sg-post-padding {
+    padding: 5rem;
+  }
+}
+
+.sg-footer-padding {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .sg-footer-padding {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 
   .sm\:mx-20 {
