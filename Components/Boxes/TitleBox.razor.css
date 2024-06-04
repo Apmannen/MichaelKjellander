@@ -1,0 +1,15 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sg-title-section {
+    position: relative;
+}
+.sg-title-section-side {
+    width: theme('margin[1.5]');
+    height: 100%;
+    background: black;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+}

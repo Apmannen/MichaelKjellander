@@ -1,6 +1,22 @@
+/* _content/MichaelKjellander/Components/Boxes/PostBox.razor.rz.scp.css */
+
+/* TODO: apply not possible in component css? */
+
 /*
-! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+.sg-post-footer {
+    background-color: #f7f7f7;
+}
+.sg-post-padding {
+    @apply p-10 sm:p-20;
+}
+.sg-footer-padding {
+    @apply px-10 py-10 sm:px-20;
+}
 */
+
+/* _content/MichaelKjellander/Components/Boxes/TitleBox.razor.rz.scp.css */
+
+/* ! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -740,131 +756,251 @@ video {
   color: rgb(100 116 139 / var(--tw-text-opacity));
 }
 
-:root {
-  /*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
+.sg-title-section[b-5s4k5nibx4] {
+  position: relative;
 }
 
-html {
+.sg-title-section-side[b-5s4k5nibx4] {
+  width: 0.375rem;
+  height: 100%;
+  background: black;
+  top: 0;
+  bottom: 0;
+  position: absolute;
 }
 
-body {
-  font-family: "Noto Serif", serif;
+/* _content/MichaelKjellander/Components/Layout/MainLayout.razor.rz.scp.css */
+
+.page[b-qnd268w11u] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-main {
-  background-color: rgb(241,241,241);
+main[b-qnd268w11u] {
+  flex: 1;
 }
 
-/*Generic*/
-
-.sg-font-sans {
-  font-family: "Noto Sans", sans-serif;
+.sidebar[b-qnd268w11u] {
+  /*background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);*/
+  background-color: white;
 }
 
-.btn {
-  border-radius: 0.25rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-weight: 700;
+.top-row[b-qnd268w11u] {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #d6d5d5;
+  justify-content: flex-end;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
 }
 
-.btn[disabled] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.btn-blue:not([disabled]) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.btn-blue:not([disabled]):hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
-}
-
-a:hover, .sg-post-content a:hover {
-  text-decoration: none;
-  color: #6b7280;
-}
-
-.sg-break-together {
-  display: inline-block;
+.top-row[b-qnd268w11u]  a, .top-row[b-qnd268w11u]  .btn-link {
   white-space: nowrap;
-  width: auto;
+  margin-left: 1.5rem;
+  text-decoration: none;
 }
 
-/*Specific, TODO: move some of them to appropriate component css, IF POSSIBLE. Tailwind might not work for component CSS. */
-
-.sg-main-inner {
-  max-width: 825px;
-}
-
-.sg-post {
-  font-size: 1.2rem;
-  /*TODO: use tw class for this*/
-}
-
-.sg-post-content {
-}
-
-.sg-post-content a {
-  color: black;
+.top-row[b-qnd268w11u]  a:hover, .top-row[b-qnd268w11u]  .btn-link:hover {
   text-decoration: underline;
 }
 
-.sg-post-content p {
-  margin: 2rem 0;
+.top-row[b-qnd268w11u]  a:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.sg-post-content iframe {
+@media (max-width: 1024px) {
+  .top-row[b-qnd268w11u] {
+    justify-content: space-between;
+  }
+
+  .top-row[b-qnd268w11u]  a, .top-row[b-qnd268w11u]  .btn-link {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page[b-qnd268w11u] {
+    flex-direction: row;
+  }
+
+  .sidebar[b-qnd268w11u] {
+    /*width: 250px;*/
+    margin-left: max(calc(35% - 380px), 0px);
+    width: 30%;
+    max-width: 380px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  }
+
+  .top-row[b-qnd268w11u] {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .top-row.auth[b-qnd268w11u]  a:first-child {
+    flex: 1;
+    text-align: right;
+    width: 0;
+  }
+
+  .top-row[b-qnd268w11u], article[b-qnd268w11u] {
+    padding-left: 2rem !important;
+    padding-right: 1.5rem !important;
+  }
+}
+
+#blazor-error-ui[b-qnd268w11u] {
+  background: lightyellow;
+  bottom: 0;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+  display: none;
+  left: 0;
+  padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+#blazor-error-ui .dismiss[b-qnd268w11u] {
+  cursor: pointer;
+  position: absolute;
+  right: 0.75rem;
+  top: 0.5rem;
+}
+
+/* _content/MichaelKjellander/Components/Layout/NavMenu.razor.rz.scp.css */
+
+/*.navbar-toggler {
+    appearance: none;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 2.5rem;
+    color: white;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 1);
+}
+
+.navbar-toggler:checked {
+    background-color: rgba(255, 255, 255, 0.5);
+}*/
+
+/*.navbar-toggler {
+    appearance: none;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 2.5rem;
+    color: red;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 1);
+
+}*/
+
+.top-row[b-3nswv7bwgi] {
+  height: 3.5rem;
+  /*background-color: rgba(0,0,0,0.4);*/
+}
+
+.sg-navbar-brand[b-3nswv7bwgi] {
+  /*font-size: 1.1rem;*/
+  font-family: "Noto Sans", sans-serif;
+}
+
+/*.bi {
+    display: inline-block;
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+    top: -1px;
+    background-size: cover;
+}*/
+
+/*.bi-house-door-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-house-door-fill' viewBox='0 0 16 16'%3E%3Cpath d='M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z'/%3E%3C/svg%3E");
+}
+
+.bi-plus-square-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus-square-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z'/%3E%3C/svg%3E");
+}
+
+.bi-list-nested-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-list-nested' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
+}*/
+
+/*.nav-item {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}*/
+
+/*.nav-item:first-of-type {
+    padding-top: 1rem;
+}
+
+.nav-item:last-of-type {
+    padding-bottom: 1rem;
+}*/
+
+.nav-item:first-of-type[b-3nswv7bwgi] {
+  border-top-width: 1px;
+}
+
+.nav-item[b-3nswv7bwgi] {
+  border-bottom-width: 1px;
+}
+
+.nav-item[b-3nswv7bwgi]  .nav-link {
+  /*color: #d7d7d7;*/
+  background: none;
+  border: none;
+  border-radius: 4px;
+  /*height: 3rem;*/
+  display: flex;
+  align-items: center;
+  /*line-height: 3rem;*/
   width: 100%;
 }
 
-.sg-post-content .wp-block-quote {
-  padding-left: 1rem;
-  font-style: italic;
-  border-left: 0.25rem #4b5563 solid;
-  color: #374151;
+.nav-item[b-3nswv7bwgi]  a.active {
+  background-color: rgba(255, 255, 255, 0.37);
+  /*color: white;*/
+  font-weight: bold;
 }
 
-.sg-post-content .wp-block-quote cite {
-  color: black;
-  font-style: normal;
+.nav-item[b-3nswv7bwgi]  .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  /* color: white;*/
 }
 
-.sg-post-padding {
-  padding: 2.5rem;
+.nav-scrollable[b-3nswv7bwgi] {
+  display: none;
 }
 
-@media (min-width: 640px) {
-  .sg-post-padding {
-    padding: 5rem;
+.navbar-toggler:checked ~ .nav-scrollable[b-3nswv7bwgi] {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .navbar-toggler[b-3nswv7bwgi] {
+    display: none;
   }
-}
 
-.sg-footer-padding {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
-@media (min-width: 640px) {
-  .sg-footer-padding {
-    padding-left: 5rem;
-    padding-right: 5rem;
+  .nav-scrollable[b-3nswv7bwgi] {
+    /* Never collapse the sidebar for wide screens */
+    display: block;
+    /* Allow sidebar to scroll for tall menus */
+    height: calc(100vh - 3.5rem);
+    overflow-y: auto;
   }
-}
-
-.sg-post-footer {
-  background-color: #f7f7f7;
 }
 
 @media (min-width: 640px) {
