@@ -1,8 +1,9 @@
+
+/* TODO: apply not possible in component css? */
+/*
 .sg-post-footer {
     background-color: #f7f7f7;
 }
-/* TODO: apply not possible in component css? */
-/*
 .sg-post-padding {
     @apply p-10 sm:p-20;
 }

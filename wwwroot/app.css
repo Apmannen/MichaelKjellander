@@ -37,6 +37,12 @@ a:hover, .sg-post-content a:hover {
     color: theme('colors.gray.500');
 }
 
+.sg-break-together {
+    display: inline-block;
+    white-space: nowrap;
+    width: auto;
+}
+
 /*Specific, TODO: move some of them to appropriate component css, IF POSSIBLE. Tailwind might not work for component CSS. */
 .sg-main-inner {
     max-width: 825px;
@@ -84,4 +90,7 @@ a:hover, .sg-post-content a:hover {
 }
 .sg-footer-padding {
     @apply px-10 py-10 sm:px-20;
+}
+.sg-post-footer {
+    background-color: #f7f7f7;
 }

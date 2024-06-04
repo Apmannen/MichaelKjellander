@@ -794,6 +794,12 @@ a:hover, .sg-post-content a:hover {
   color: #6b7280;
 }
 
+.sg-break-together {
+  display: inline-block;
+  white-space: nowrap;
+  width: auto;
+}
+
 /*Specific, TODO: move some of them to appropriate component css, IF POSSIBLE. Tailwind might not work for component CSS. */
 
 .sg-main-inner {
@@ -868,7 +874,13 @@ a:hover, .sg-post-content a:hover {
     padding-left: 5rem;
     padding-right: 5rem;
   }
+}
 
+.sg-post-footer {
+  background-color: #f7f7f7;
+}
+
+@media (min-width: 640px) {
   .sm\:mx-20 {
     margin-left: 5rem;
     margin-right: 5rem;

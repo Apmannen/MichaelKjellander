@@ -43,11 +43,16 @@
             }
         </div>
         <div class="sg-post-footer sg-footer-padding">
-            <p>
+            <div class="sg-break-together">
                 <IconCalendarMonth/>
                 <span class="mr-4">@DateUtil.FormatDate(Post.Date)</span>
+            </div>
+            <div class="sg-break-together">
                 <IconFolder/>
                 <span class="mr-4">@Post.Category.Name</span>
+            </div>
+            <div class="sg-break-together">
+
                 @if (Post.TagIds!.Count > 0)
                 {
                     <IconTag/>
@@ -56,7 +61,7 @@
                         @tag.Name
                     }
                 }
-            </p>
+            </div>
         </div>
     </article>
 }
