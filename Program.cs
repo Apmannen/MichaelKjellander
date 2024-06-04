@@ -21,7 +21,7 @@ namespace MichaelKjellander
                     {
                         webBuilder.UseKestrel(kestrel =>
                         {
-                            //kestrel.ListenAnyIP(80);
+                            kestrel.ListenAnyIP(80);
                             kestrel.ListenAnyIP(443, listenOptions =>
                             {
                                 listenOptions.UseHttps(connectionOptions =>
