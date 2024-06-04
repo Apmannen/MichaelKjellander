@@ -857,6 +857,10 @@ a:hover, .sg-post-content a:hover {
 }
 
 @media (min-width: 640px) {
+  .sm\:visible {
+    visibility: visible;
+  }
+
   .sm\:mx-20 {
     margin-left: 5rem;
     margin-right: 5rem;
