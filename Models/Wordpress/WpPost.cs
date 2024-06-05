@@ -12,9 +12,9 @@ public class WpPost : Model
     public int FeaturedMediaId { get; set; }
     public WpCategory? Category { get; set; }
     public WpMedia? FeaturedMedia { get; set; }
-    public ICollection<int>? TagIds { get; set;  }
-    public ICollection<WpTag>? Tags { get; set;  }
-    public ICollection<string>? MetaPlatforms { get; set; }
+    public IList<int>? TagIds { get; set;  }
+    public IList<WpTag>? Tags { get; set;  }
+    public IList<string>? MetaPlatforms { get; set; }
     public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
     

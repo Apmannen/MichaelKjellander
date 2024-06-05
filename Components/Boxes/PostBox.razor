@@ -51,17 +51,19 @@
                 <IconFolder/>
                 <span class="mr-4">@Post.Category.Name</span>
             </div>
-            <div class="sg-break-together">
-
-                @if (Post.TagIds!.Count > 0)
-                {
+            @if (Post.TagIds!.Count > 0)
+            {
+                <div class="sg-break-together">
                     <IconTag/>
-                    foreach (WpTag tag in Post.Tags!)
-                    {
-                        @tag.Name
-                    }
+                    @FormatTagName(0)
+                </div>
+                @for (int i = 1; i < Post.Tags!.Count; i++)
+                {
+                    <div class="sg-break-together">
+                        @FormatTagName(i)
+                    </div>
                 }
-            </div>
+            }
         </div>
     </article>
 }
@@ -69,4 +71,15 @@
 
 @code {
     [Parameter] public WpPost? Post { get; set; }
+
+    private string FormatTagName(int index)
+    {
+        string formattedTagName = Post!.Tags![index].Name!;
+        bool isLast = Post!.Tags!.Count == index + 1;
+        if (!isLast)
+        {
+            formattedTagName += ", ";
+        }
+        return formattedTagName;
+    }
 }
