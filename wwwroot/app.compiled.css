@@ -789,10 +789,6 @@ main {
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
-a {
-  word-break: break-all;
-}
-
 a:hover, .sg-post-content a:hover {
   text-decoration: none;
   color: #6b7280;
@@ -815,6 +811,7 @@ These are mostly embedded HTML.
 .sg-post-content a {
   color: black;
   text-decoration: underline;
+  word-break: break-all;
 }
 
 .sg-post-content p {

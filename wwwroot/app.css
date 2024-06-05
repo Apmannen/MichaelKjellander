@@ -32,10 +32,6 @@ main {
     @apply bg-blue-700;
 }
 
-a {
-    word-break: break-all;
-}
-
 a:hover, .sg-post-content a:hover {
     text-decoration: none;
     color: theme('colors.gray.500');
@@ -56,6 +52,7 @@ These are mostly embedded HTML.
 .sg-post-content a {
     color: black;
     text-decoration: underline;
+    word-break: break-all;
 }
 .sg-post-content p {
     margin: theme('margin.8') 0;
