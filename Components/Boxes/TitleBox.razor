@@ -29,7 +29,7 @@
 
     protected override void OnParametersSet()
     {
-        if (Description != null)
+        if (Description != null && Description.Trim() != "")
         {
             _html = Description.Replace("\n", "<br>");
         }
