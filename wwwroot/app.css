@@ -43,12 +43,10 @@ a:hover, .sg-post-content a:hover {
     width: auto;
 }
 
-/*Specific. If possible, put these in the component's CSS instead */
-
-
-.sg-post {
-    font-size: 1.2rem; /*TODO: use tw class for this*/
-}
+/*
+Specific. If possible, put these in the component's CSS instead.
+These are mostly embedded HTML.
+*/
 .sg-post-content {
 }
 .sg-post-content a {
@@ -70,13 +68,4 @@ a:hover, .sg-post-content a:hover {
 .sg-post-content .wp-block-quote cite {
     color: black;
     font-style: normal;
-}
-.sg-post-padding {
-    @apply p-10 sm:p-20;
-}
-.sg-footer-padding {
-    @apply px-10 py-10 sm:px-20;
-}
-.sg-post-footer {
-    background-color: #f7f7f7;
 }
