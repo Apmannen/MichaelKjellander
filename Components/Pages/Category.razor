@@ -15,9 +15,14 @@
     @(ComponentUtil.FormatPageTitle(_category?.Name, Page))
 </PageTitle>
 
-@if (IsFirstPage)
+@if (IsFirstPage && _category != null)
 {
-    <TitleBox Title="@_category?.Name" Description="@_category?.Description"/>
+    <TitleBox Title="@_category.Name" Description="@_category?.Description">
+        @if (_category!.Type == CategoryType.GameReview)
+        {
+            <p class="font-bold">Betyg</p>
+        }
+    </TitleBox>
 }
 
 <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
