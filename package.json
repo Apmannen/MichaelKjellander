@@ -1,8 +1,8 @@
 {
   "scripts": {
     "watch": "dotnet watch",
-    "watch-css": "npx tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css --watch",
-    "build-styles": "dotnet build && npx tailwindcss -i obj/Debug/net8.0/scopedcss/bundle/MichaelKjellander.styles.css -o wwwroot/merged-components.css",
+    "watch-css": "npx tailwindcss -i wwwroot/app.css -o wwwroot/app.compiled.css --watch",
+    "build-styles": "npx tailwindcss -i wwwroot/app.css -o wwwroot/app.compiled.css && dotnet build && npx tailwindcss -i obj/Debug/net8.0/scopedcss/bundle/MichaelKjellander.styles.css -o wwwroot/components.compiled.css",
     "https": "dotnet run --launch-profile \"https\""
   },
   "dependencies": {

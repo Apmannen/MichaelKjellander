@@ -800,11 +800,7 @@ a:hover, .sg-post-content a:hover {
   width: auto;
 }
 
-/*Specific, TODO: move some of them to appropriate component css, IF POSSIBLE. Tailwind might not work for component CSS. */
-
-.sg-main-inner {
-  max-width: 825px;
-}
+/*Specific. If possible, put these in the component's CSS instead */
 
 .sg-post {
   font-size: 1.2rem;
