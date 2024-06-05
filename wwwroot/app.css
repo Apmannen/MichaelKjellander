@@ -20,7 +20,10 @@ main {
     font-family: "Noto Sans", sans-serif;
 }
 .btn {
-    @apply font-bold py-2 px-4 rounded;
+    @apply font-bold py-2 px-6;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-family: "Noto Sans", sans-serif;
 }
 .btn[disabled] {
     @apply bg-gray-500 text-white;
@@ -30,6 +33,13 @@ main {
 }
 .btn-blue:not([disabled]):hover {
     @apply bg-blue-700;
+}
+.btn-dark:not([disabled]) {
+    background-color: #333;
+    color: white;
+}
+.btn-dark:not([disabled]):hover {
+    opacity: 0.7;
 }
 
 a:hover, .sg-post-content a:hover {

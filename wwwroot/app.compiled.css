@@ -762,12 +762,14 @@ main {
 }
 
 .btn {
-  border-radius: 0.25rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .btn[disabled] {
@@ -787,6 +789,15 @@ main {
 .btn-blue:not([disabled]):hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
+.btn-dark:not([disabled]) {
+  background-color: #333;
+  color: white;
+}
+
+.btn-dark:not([disabled]):hover {
+  opacity: 0.7;
 }
 
 a:hover, .sg-post-content a:hover {
