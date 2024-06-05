@@ -2,6 +2,7 @@
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Components.Icons
+@using MichaelKjellander.SharedUtils.Routes
 
 @if (Post != null)
 {
@@ -16,7 +17,9 @@
                 <span class="italic">@Post.Category!.Name</span>
                 <div class="h-2"></div>
             }
-            <h3 class="text-4xl font-bold">@((MarkupString)@Post.Title!)</h3>
+            <a href="@PageRoutes.Post(Post.Slug)">
+                <h3 class="text-4xl font-bold">@((MarkupString)@Post.Title!)</h3>
+            </a>
             @if (@Post.Category!.Type == CategoryType.GameReview)
             {
                 <div class="h-2"></div>

@@ -7,6 +7,7 @@ public class WpPost : Model
     public int Id { get; set; }
     public string? Content { get; set; }
     public string? Title { get; set; }
+    public string? Slug { get; set; }
     public DateOnly Date { get; set; }
     public int CategoryId { get; set; }
     public int FeaturedMediaId { get; set; }
@@ -59,6 +60,7 @@ public class WpPost : Model
         int id = el.GetProperty("id").GetInt32();
         string content = el.GetProperty("content").GetProperty("rendered").GetString()!;
         string title = el.GetProperty("title").GetProperty("rendered").GetString()!;
+        string slug = el.GetProperty("slug").GetString()!;
         int categoryId = el.GetProperty("categories").EnumerateArray().FirstOrDefault().GetInt32();
         string dateString = el.GetProperty("date").GetString()!;
         DateOnly date = DateOnly.Parse(dateString);
@@ -74,6 +76,7 @@ public class WpPost : Model
         this.Id = id;
         this.Content = content;
         this.Title = title;
+        this.Slug = slug;
         this.Date = date;
         this.CategoryId = categoryId;
         this.FeaturedMediaId = featuredMediaId;

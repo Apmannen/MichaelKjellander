@@ -26,4 +26,9 @@ public static class PageRoutes
     {
         return "/sida/" + slug;
     }
+    
+    public static string Post(string slug)
+    {
+        return "/inlagg/" + slug;
+    }
 }
