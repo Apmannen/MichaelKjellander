@@ -12,7 +12,7 @@
 @rendermode InteractiveServer
 
 <PageTitle>
-    @((_category != null ? _category.Name : "") + (Page > 1 ? "- Sida " + Page : "") + " - Michael Kjellander")
+    @(ComponentUtil.FormatPageTitle(_category?.Name, Page))
 </PageTitle>
 
 @if (IsFirstPage)
