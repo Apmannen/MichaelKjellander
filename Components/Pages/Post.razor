@@ -1,0 +1,41 @@
+@page "/inlagg/{Slug}"
+@using MichaelKjellander.Models.Wordpress
+@using MichaelKjellander.Services
+@using MichaelKjellander.SharedUtils
+@using MichaelKjellander.SharedUtils.Api
+@using MichaelKjellander.Components.Boxes
+@inject IHttpClientFactory ClientFactory
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@inject JsService JsService
+@rendermode InteractiveServer
+
+@if (_post != null)
+{
+    <PageTitle>
+        @ComponentUtil.FormatPageTitle(_post.Title!)
+    </PageTitle>
+    <PostBox Post="_post"/>
+}
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+    private WpPost? _post;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Slug == null)
+        {
+            return;
+        }
+
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postsData = await service.FetchPosts(postSlug: Slug);
+        _post = postsData.Items![0];
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        JsService.ScrollToTop();
+    }
+
+}
