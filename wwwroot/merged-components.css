@@ -37,6 +37,10 @@
 
 /* _content/MichaelKjellander/Components/Layout/MainLayout.razor.rz.scp.css */
 
+.sg-main-inner[b-qnd268w11u] {
+  max-width: 825px;
+}
+
 .page[b-qnd268w11u] {
   position: relative;
   display: flex;

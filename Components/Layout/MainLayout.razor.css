@@ -1,3 +1,9 @@
+.sg-main-inner {
+    max-width: 825px;
+}
+
+
+
 .page {
     position: relative;
     display: flex;
