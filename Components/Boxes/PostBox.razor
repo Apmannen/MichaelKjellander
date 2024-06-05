@@ -17,9 +17,18 @@
                 <span class="italic">@Post.Category!.Name</span>
                 <div class="h-2"></div>
             }
-            <a href="@PageRoutes.Post(Post.Slug)">
-                <h3 class="text-4xl font-bold">@((MarkupString)@Post.Title!)</h3>
-            </a>
+            @if (IsSingle == true)
+            {
+                <a href="@PageRoutes.Post(Post.Slug!)">
+                    <h3 class="sg-post-title">@((MarkupString)@Post.Title!)</h3>
+                </a>
+            }
+            else
+            {
+                <a href="@PageRoutes.Post(Post.Slug!)">
+                    <h1 class="sg-post-title">@((MarkupString)@Post.Title!)</h1>
+                </a>
+            }
             @if (@Post.Category!.Type == CategoryType.GameReview)
             {
                 <div class="h-2"></div>
@@ -75,6 +84,7 @@
 
 @code {
     [Parameter][Required] public WpPost? Post { get; set; }
+    [Parameter][Required] public bool? IsSingle { get; set; }
 
     private string FormatTagName(int index)
     {

@@ -10,3 +10,6 @@
 .sg-post-footer {
     background-color: #f7f7f7;
 }
+.sg-post-title {
+    @apply text-4xl font-bold;
+}
