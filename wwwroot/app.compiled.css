@@ -800,7 +800,10 @@ a:hover, .sg-post-content a:hover {
   width: auto;
 }
 
-/*Specific. If possible, put these in the component's CSS instead */
+/*
+Specific. If possible, put these in the component's CSS instead.
+These are mostly embedded HTML.
+*/
 
 .sg-post-content {
 }

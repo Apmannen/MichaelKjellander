@@ -1,5 +1,5 @@
 .sg-post {
-    font-size: 1.2rem; /*TODO: use tw class for this*/
+    font-size: theme('fontSize.lg');
 }
 .sg-post-padding {
     @apply p-10 sm:p-20;

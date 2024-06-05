@@ -1,8 +1,7 @@
 /* _content/MichaelKjellander/Components/Boxes/PostBox.razor.rz.scp.css */
 
 .sg-post[b-czezmwtik2] {
-  font-size: 1.2rem;
-  /*TODO: use tw class for this*/
+  font-size: 1.125rem;
 }
 
 .sg-post-padding[b-czezmwtik2] {
