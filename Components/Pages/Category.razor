@@ -21,6 +21,12 @@
         @if (_category!.Type == CategoryType.GameReview)
         {
             <span class="font-bold">Betyg</span>
+            <div></div>
+            @for (int i = 1; i <= 10; i++)
+            {
+                <input id="rating@(i)" type="checkbox"/>
+                <label for="rating@(i)">@i</label>
+            }
         }
     </TitleBox>
 }
