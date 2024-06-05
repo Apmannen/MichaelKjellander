@@ -22,11 +22,16 @@ public class WpApiService
         return pages.FirstOrDefault();
     }
     
-    //TODO: use some query builder
-    public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, string? categorySlug = null)
+    //TODO: use some query builder, #16
+    public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, string? categorySlug = null, string? postSlug = null)
     {
         ICollection<WpCategory>? categories = null;
         string postsFetchString = $"posts?per_page=10&page={page}";
+
+        if (postSlug != null)
+        {
+            postsFetchString += $"&slug={postSlug}";
+        }
         if (categorySlug != null)
         {
             var categoriesResult = await FetchAndParseFromWpApiWithHeaders<WpCategory>($"categories?slug={categorySlug}");

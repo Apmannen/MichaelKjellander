@@ -37,23 +37,26 @@ public class BlogController : Controller
     
     [HttpGet]
     [Route("posts")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["category_slug", "page"])]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["categorySlug", "page", "slug"])]
     public async Task<IActionResult> Get([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        int page = postsRequest.page ?? 1;
-        string? categorySlug = !string.IsNullOrEmpty(postsRequest.category_slug)
-            ? postsRequest.category_slug
-            : null;
+        int page = postsRequest.Page ?? 1;
+        string? categorySlug = GetStringValue(postsRequest.CategorySlug);
+        string? postSlug = GetStringValue(postsRequest.Slug);
 
-        (IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page, categorySlug: categorySlug);
+        (IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(page: page, categorySlug: categorySlug, postSlug);
             
         return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
     }
-    
+
+    private static string? GetStringValue(string? s)
+    {
+        return string.IsNullOrEmpty(s) ? null : s;
+    }
     
     public class PagesRequest
     {
@@ -62,8 +65,9 @@ public class BlogController : Controller
     }
     public class PostsRequest
     {
-        public string? category_slug { get; set; }
-        public int? page { get; set; }
+        public string? CategorySlug { get; set; }
+        public int? Page { get; set; }
+        public string? Slug { get; set; }
     }
     
 }
