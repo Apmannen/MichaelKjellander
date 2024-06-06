@@ -52,9 +52,8 @@
     private PaginationData? _pagination;
     private string? _prefix;
     [SupplyParameterFromForm] public GameReviewFilter? Filter { get; set; }
-
+    InternalApiService? _service;
     private const string RatingName = "betyg";
-
     private bool IsFirstPage => Page is null or 1;
 
     protected override async Task OnInitializedAsync()
@@ -69,13 +68,17 @@
         ICollection<int> ratingParams = ComponentUtil.GetQueryParametersInt(Navigation, RatingName);
         Filter.Ratings.Values.UnionWith(ratingParams);
 
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
-            metaRatings: Filter.Ratings.Values);
+        _service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        await FetchData();
+    }
 
+    private async Task FetchData()
+    {
+        ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
+            metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
-        _prefix = PageRoutes.Category(Slug);
+        _prefix = PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
     }
 
@@ -86,12 +89,13 @@
 
     //Specific to GameReview from here onwards. Perhaps move to seperate page route?
     //Filters should be used for Game category as well: #20
-    private void Submit()
+    private async Task Submit()
     {
         string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
             .Add(RatingName, Filter!.Ratings.Values)
             .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
         Navigation.NavigateTo(newUrl);
+        await FetchData();
     }
 
     private void ToggleRating(ChangeEventArgs args, int rating)
