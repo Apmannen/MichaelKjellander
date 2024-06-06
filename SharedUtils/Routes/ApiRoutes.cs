@@ -1,3 +1,5 @@
+using MichaelKjellander.SharedUtils.Api;
+
 namespace MichaelKjellander.SharedUtils.Routes;
 
 public class ApiRoutes
@@ -9,19 +11,14 @@ public class ApiRoutes
     }
     
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}"; 
-    //TODO: use some kind of query builder, #16
-    public string Posts(int page, string? categorySlug, string? postSlug)
+    public string Posts(int page, string? categorySlug, int[]? metaRatings, string? postSlug)
     {
-        string url = $"{_baseUrl}/api/blog/posts?page={page}";
-        if (!string.IsNullOrEmpty(categorySlug))
-        {
-            url += $"&categorySlug={categorySlug}"; 
-        }
-        if (!string.IsNullOrEmpty(postSlug))
-        {
-            url += $"&slug={postSlug}"; 
-        }
-        return url;
+        return new HttpQueryBuilder()
+            .Add("categorySlug", categorySlug)
+            .Add("metaRatings", metaRatings)
+            .Add("page", page)
+            .Add("slug", postSlug)
+            .Build($"{_baseUrl}/api/blog/posts");
     }
     
     public string WordGuessInit =>  $"{_baseUrl}/api/webgames/word-guess/init"; 
