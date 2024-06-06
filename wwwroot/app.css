@@ -65,7 +65,8 @@ These are mostly embedded HTML.
     word-break: break-all;
 }
 .sg-post-content p {
-    margin: theme('margin.8') 0;
+    /*margin: theme('margin.8') 0;*/
+    @apply mb-8;
 }
 .sg-post-content iframe {
     width: 100%;

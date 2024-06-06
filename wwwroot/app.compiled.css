@@ -826,7 +826,8 @@ These are mostly embedded HTML.
 }
 
 .sg-post-content p {
-  margin: 2rem 0;
+  /*margin: theme('margin.8') 0;*/
+  margin-bottom: 2rem;
 }
 
 .sg-post-content iframe {

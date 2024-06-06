@@ -2,6 +2,7 @@
 
 namespace MichaelKjellander.Models.Wordpress;
 
+[System.Obsolete]
 public class WpMedia : Model
 {
     public int Id { get; set; }

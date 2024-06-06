@@ -7,9 +7,9 @@
 @if (Post != null)
 {
     <article class="border border-gray-200">
-        @if (@Post.FeaturedMedia != null)
+        @if (@Post.FeaturedMediaUrl != null)
         {
-            <img src="@Post.FeaturedMedia.PostThumbnailUrl"/>
+            <img src="@Post.FeaturedMediaUrl"/>
         }
         <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
@@ -34,7 +34,7 @@
                 <p class="text-sm">Testat på: @String.Join(", ", Post.MetaPlatforms!)</p>
             }
             <div class="sg-post-content">
-                @((MarkupString)@Post.Content!)
+                @((MarkupString)_html!)
             </div>
             @if (Post.Category!.Type == CategoryType.GameReview)
             {
@@ -62,19 +62,20 @@
                 <IconFolder/>
                 <span class="mr-4">@Post.Category.Name</span>
             </div>
-            @if (Post.TagIds!.Count > 0)
-            {
-                <div class="sg-break-together">
-                    <IconTag/>
-                    @FormatTagName(0)
-                </div>
-                @for (int i = 1; i < Post.Tags!.Count; i++)
-                {
-                    <div class="sg-break-together">
-                        @FormatTagName(i)
-                    </div>
-                }
-            }
+            TODO: replace with meta platform
+            @* @if (Post.TagIds!.Count > 0) *@
+            @* { *@
+            @*     <div class="sg-break-together"> *@
+            @*         <IconTag/> *@
+            @*         @FormatTagName(0) *@
+            @*     </div> *@
+            @*     @for (int i = 1; i < Post.Tags!.Count; i++) *@
+            @*     { *@
+            @*         <div class="sg-break-together"> *@
+            @*             @FormatTagName(i) *@
+            @*         </div> *@
+            @*     } *@
+            @* } *@
         </div>
     </article>
 }
@@ -83,15 +84,30 @@
 @code {
     [Parameter][Required] public WpPost? Post { get; set; }
     [Parameter][Required] public bool IsSingle { get; set; }
-
-    private string FormatTagName(int index)
+    private string? _html;
+    
+    //TODO: generalize
+    protected override void OnParametersSet()
     {
-        string formattedTagName = Post!.Tags![index].Name!;
-        bool isLast = Post!.Tags!.Count == index + 1;
-        if (!isLast)
+        if (Post != null)
         {
-            formattedTagName += ", ";
+            _html = Post.Content!;
+            if (!_html.Contains("<p>"))
+            {
+                _html = _html.Replace("\n", "<br>");
+            }
+            //_html = Post.Content!.Replace("\n", "<br>");
         }
-        return formattedTagName;
     }
+
+    // private string FormatTagName(int index)
+    // {
+    //     string formattedTagName = Post!.Tags![index].Name!;
+    //     bool isLast = Post!.Tags!.Count == index + 1;
+    //     if (!isLast)
+    //     {
+    //         formattedTagName += ", ";
+    //     }
+    //     return formattedTagName;
+    // }
 }
