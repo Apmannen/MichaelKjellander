@@ -34,7 +34,7 @@
                 <p class="text-sm">Testat på: @String.Join(", ", Post.MetaPlatforms!)</p>
             }
             <div class="sg-post-content">
-                @((MarkupString)_html!)
+                @((MarkupString)Post.Content!)
             </div>
             @if (Post.Category!.Type == CategoryType.GameReview)
             {
@@ -84,7 +84,7 @@
 @code {
     [Parameter][Required] public WpPost? Post { get; set; }
     [Parameter][Required] public bool IsSingle { get; set; }
-    private string? _html;
+    //private string? _html;
     
     //TODO: generalize
     // protected override void OnParametersSet()

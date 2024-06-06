@@ -34,10 +34,10 @@ public abstract class Model
     {
         if (!html.Contains("<p>"))
         {
-            html = html.Replace("\n", "<br>");
-            html += "<br>";
+            html = "<p>" + html;
+            html = html.Replace("\n", "</p><p>");
+            html += "</p>";
         }
-
         return html;
     }
 
