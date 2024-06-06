@@ -24,11 +24,13 @@
             <form method="post" @onsubmit="Submit" @formname="starship-plain-form">
                 <span class="font-bold">Betyg</span>
                 <div></div>
-                @for (int i = 1; i <= 10; i++)
+                @for (int rating = 1; rating <= 10; rating++)
                 {
-                    @*<input id="rating@(i)" type="checkbox"/>
-                    <label class="mr-3" for="rating@(i)">@i</label>*@
-                    <InputCheckbox @bind-Value="Filter!.Ratings[i]"/>
+                    
+                    int localRating = rating;
+                    <input id="rating@(rating)" type="checkbox" @onchange="args=>ToggleRating(args,localRating)"/>
+                    <label class="mr-3" for="rating@(rating)">@rating</label>
+                    @*<InputCheckbox @onchange="args=>ToggleRating(args, i)"/>*@
                 }
                 <p></p>
                 <button class="btn btn-dark">Filtrera</button>
@@ -62,6 +64,7 @@
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug);
         Filter ??= new();
+        //Filter.Ratings ??= new();
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
         _prefix = PageRoutes.Category(Slug);
@@ -75,17 +78,34 @@
 
     private void Submit()
     {
-        for(int i = 0; i <= 10; i++)
+        Logger.LogInformation($"SUBMITTING!!");
+        foreach (int r in Filter!.Ratings)
         {
-            //Logger.LogInformation($"i={i}, r={Filter!.Ratings[i]}");
+            Logger.LogInformation($"submitting r={r}");
+        }
+    }
+    
+    private void ToggleRating(ChangeEventArgs args, int rating)
+    {
+        bool isSelected = (bool)args.Value!;
+        Logger.LogInformation($"TOGGLING r={rating}, val={isSelected}");
+        if (isSelected)
+        {
+            Filter!.Ratings.Add(rating);
+        }
+        else
+        {
+            Filter!.Ratings.Remove(rating);
         }
     }
 
     public class GameReviewFilter
     {
-        public RatingCollection Ratings = new();
+        public readonly HashSet<int> Ratings = new();
+        
+        
     }
-    public class RatingCollection
+    /*public class RatingCollection
     {
         private readonly HashSet<int> _ratings = new();
         public bool this[int rating]
@@ -93,7 +113,7 @@
             get => _ratings.Contains(rating);
             set
             {
-                Console.WriteLine("**** SETTING val="+value);
+                Console.WriteLine("**** SETTING newval="+value+", curr="+this[rating]);
                 if (value)
                 {
                     _ratings.Add(rating);
@@ -102,8 +122,10 @@
                 {
                     _ratings.Remove(rating);
                 }
+                
+                Console.WriteLine("**** newval="+this[rating]);
             } 
         }
-    }
+    }*/
     
 }
