@@ -2,7 +2,7 @@ using System.Text.Json;
 using MichaelKjellander.Models;
 using Newtonsoft.Json;
 
-namespace MichaelKjellander.SharedUtils.Api;
+namespace MichaelKjellander.Models;
 
 public class ApiResponse<T> : Model where T : Model
 {
@@ -16,7 +16,7 @@ public class ApiResponse<T> : Model where T : Model
         this.PaginationData = paginationData;
     }
 
-    public override void ParseFromJson(JsonElement el)
+    public override Model ParseFromJson(JsonElement el)
     {
         var items = el.GetProperty("items").EnumerateArray();
         List<T> deserializedList = new List<T>();
@@ -31,6 +31,8 @@ public class ApiResponse<T> : Model where T : Model
         var currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
         var numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
         PaginationData = new PaginationData(currentPage, numPages, Items.Count);
+
+        return this;
     }
 }
 

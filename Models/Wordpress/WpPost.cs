@@ -38,13 +38,12 @@ public class WpPost : Model
         }
     }
     
-    public override void ParseFromJson(JsonElement el)
+    public override WpPost ParseFromJson(JsonElement el)
     {
         int id = el.GetProperty("ID").GetInt32();
         string content = el.GetProperty("post_content").GetString()!;
         string title = el.GetProperty("post_title").GetString()!;
         string slug = el.GetProperty("post_name").GetString()!;
-        //int categoryId = el.GetProperty("category_id").GetInt32();
         string dateString = el.GetProperty("post_date").GetString()!;
         dateString = dateString.Replace(' ', 'T');
         DateOnly date = DateOnly.Parse(dateString);
@@ -56,12 +55,13 @@ public class WpPost : Model
         this.Title = title;
         this.Slug = slug;
         this.Date = date;
-        this.Category = new WpCategory();
-        this.Category.ParseFromJson(el.GetProperty("category"));
+        this.Category = new WpCategory().ParseFromJson(el.GetProperty("category"));
         this.FeaturedMediaUrl = featuredMediaUrl;
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
+
+        return this;
     }
 
     private static string? TryParseString(JsonElement parent, string key)

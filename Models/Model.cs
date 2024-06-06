@@ -9,7 +9,7 @@ public abstract class Model
     /// </summary>
     /// <param name="el"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public virtual void ParseFromJson(JsonElement el)
+    public virtual Model ParseFromJson(JsonElement el)
     {
         throw new NotImplementedException();
     }

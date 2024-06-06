@@ -9,7 +9,7 @@ public class WpPage : Model
     public string? Title { get; set; }
     public DateOnly Date { get; set; }
     
-    public override void ParseFromJson(JsonElement el)
+    public override WpPage ParseFromJson(JsonElement el)
     {
         int id = el.GetProperty("id").GetInt32();
         string content = el.GetProperty("content").GetProperty("rendered").GetString()!;
@@ -21,5 +21,7 @@ public class WpPage : Model
         this.Content = content;
         this.Title = title;
         this.Date = date;
+
+        return this;
     }
 }
