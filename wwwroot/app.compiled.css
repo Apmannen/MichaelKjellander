@@ -827,7 +827,6 @@ These are mostly embedded HTML.
 }
 
 .sg-post-content p {
-  /*margin: theme('margin.8') 0;*/
   margin-bottom: 2rem;
 }
 
@@ -840,6 +839,8 @@ These are mostly embedded HTML.
   font-style: italic;
   border-left: 0.25rem #4b5563 solid;
   color: #374151;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .sg-post-content .wp-block-quote cite {

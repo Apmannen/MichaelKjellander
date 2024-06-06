@@ -66,7 +66,6 @@ These are mostly embedded HTML.
     word-break: break-all;
 }
 .sg-post-content p {
-    /*margin: theme('margin.8') 0;*/
     @apply mb-8;
 }
 .sg-post-content iframe {
@@ -77,6 +76,7 @@ These are mostly embedded HTML.
     font-style: italic;
     border-left: theme('margin.1') theme('colors.gray.600') solid;
     color: theme('colors.gray.700');
+    @apply my-8;
 }
 .sg-post-content .wp-block-quote cite {
     color: black;
