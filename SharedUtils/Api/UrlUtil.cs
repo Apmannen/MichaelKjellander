@@ -15,7 +15,7 @@ public class UrlUtil
     }
     public static ICollection<int> GetQueryParametersInt(string url, string name)
     {
-        ICollection<string> stringValues = GetQueryParameter(url, name).Split(",");
+        ICollection<string> stringValues = GetQueryParameters(url, name);
         List<int> intValues = new();
         foreach (string stringValue in stringValues)
         {
