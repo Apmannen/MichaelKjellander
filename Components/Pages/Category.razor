@@ -77,6 +77,8 @@
         JsService.ScrollToTop();
     }
 
+    //Specific to GameReview from here onwards. Perhaps move to seperate page route?
+    //Filters should be used for Game category as well: #20
     private void Submit()
     {
         string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
@@ -84,7 +86,6 @@
             .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
         Navigation.NavigateTo(newUrl);
     }
-    
     private void ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
@@ -97,7 +98,6 @@
             Filter!.Ratings.Remove(rating);
         }
     }
-
     public class GameReviewFilter
     {
         public readonly HashSet<int> Ratings = new();
