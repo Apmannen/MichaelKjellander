@@ -1,8 +1,15 @@
 ﻿namespace MichaelKjellander.SharedUtils.Api;
 
+public enum QueryArrayMode { Multiple, CommaSeparated }
 public class HttpQueryBuilder
 {
     private readonly List<KeyValuePair<string,string>> _entries = new();
+    private readonly QueryArrayMode _arrayMode;
+
+    public HttpQueryBuilder(QueryArrayMode arrayMode)
+    {
+        this._arrayMode = arrayMode;
+    }
     
     public HttpQueryBuilder Add(string key, string? value)
     {
@@ -32,10 +39,19 @@ public class HttpQueryBuilder
         {
             return this;
         }
-        foreach (T obj in values)
+
+        if (_arrayMode == QueryArrayMode.Multiple)
         {
-            AddObject(key, obj);
+            foreach (T obj in values)
+            {
+                AddObject(key, obj);
+            }
         }
+        else if (_arrayMode == QueryArrayMode.CommaSeparated)
+        {
+            AddObject(key, string.Join(',', values));
+        }
+        
         return this;
     }
     

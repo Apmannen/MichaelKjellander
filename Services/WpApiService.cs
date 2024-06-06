@@ -28,7 +28,7 @@ public class WpApiService
     //TODO: multiple return values isn't the best
     public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, int[]? metaRatings = null, string? categorySlug = null, string? postSlug = null)
     {
-        string fullUrl = new HttpQueryBuilder()
+        string fullUrl = new HttpQueryBuilder(QueryArrayMode.CommaSeparated)
             .Add("page", page)
             .Add("ratings", metaRatings)
             .Add("category_slug", categorySlug)
