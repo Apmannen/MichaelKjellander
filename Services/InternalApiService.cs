@@ -23,25 +23,23 @@ public class InternalApiService
     {
         return await Fetch<WpPage>(_apiRoutes.Pages(slug));
     }
-    public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null, string? postSlug = null)
-    {
-        return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, postSlug));
-    }
 
-    /*public async Task<string> FetchRandomWord()
+    public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null,
+        int[]? metaRatings = null, string? postSlug = null)
     {
-        ApiResponse<Word> response = await Fetch<Word>(_apiRoutes.RandomWord);
-        return response.Items.FirstOrDefault().WordString;
-    }*/
+        return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, metaRatings, postSlug));
+    }
 
     public async Task<WordGuessGameProgress> FetchInitWordGuessGame()
     {
         ApiResponse<WordGuessGameProgress> response = await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessInit);
         return response.Items!.FirstOrDefault()!;
     }
+
     public async Task<WordGuessGameProgress> FetchGuessResult(char letter, string gameId)
     {
-        ApiResponse<WordGuessGameProgress> response = await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessGuess(letter, gameId));
+        ApiResponse<WordGuessGameProgress> response =
+            await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessGuess(letter, gameId));
         return response.Items!.FirstOrDefault()!;
     }
 

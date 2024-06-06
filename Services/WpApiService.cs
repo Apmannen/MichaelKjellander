@@ -9,7 +9,10 @@ namespace MichaelKjellander.Services;
 public class WpApiService
 {
     private readonly HttpClient _client;
-
+    private const string WpApiBaseUrl = "https://michaelkjellander.se/wp-json";
+    private const string NamespaceDefault = "wp/v2";
+    private const string NamespacePlugin = "sgplugin/v1";
+    
     public WpApiService(HttpClient client)
     {
         this._client = client;
@@ -17,25 +20,21 @@ public class WpApiService
     
     public async Task<WpPage?> GetPage(string slug = "")
     {
-        var pagesResult = await ApiUtil.FetchJson(CreateRequestUrl($"pages?slug={slug}"), _client);
+        var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}?slug={slug}", _client);
         IList<WpPage> parsedPages = Model.ParseList<WpPage>(pagesResult.Root);
         return parsedPages.FirstOrDefault();
     }
     
-    //TODO: use some query builder, #16
     //TODO: multiple return values isn't the best
-    public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, string? categorySlug = null, string? postSlug = null)
+    public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, int[]? metaRatings = null, string? categorySlug = null, string? postSlug = null)
     {
-        string postsFetchString = $"posts?page={page}";
-        if (postSlug != null)
-        {
-            postsFetchString += $"&slug={postSlug}";
-        }
-        if (categorySlug != null)
-        {
-            postsFetchString += $"&category_slug={categorySlug}";
-        }
-        string fullUrl = CreateRequestUrl(postsFetchString, "sgplugin/v1");
+        string fullUrl = new HttpQueryBuilder()
+            .Add("page", page)
+            .Add("ratings", metaRatings)
+            .Add("category_slug", categorySlug)
+            .Add("post_slug", postSlug)
+            .Build(GetFullBaseUrl(NamespacePlugin, "posts"));
+        
         var postsResult = await ApiUtil.FetchJson(fullUrl, _client);
         JsonElement root = postsResult.Root;
         int numPages = root.GetProperty("num_pages").GetInt32();
@@ -44,8 +43,8 @@ public class WpApiService
         return (parsedPosts, numPages);
     }
 
-    private static string CreateRequestUrl(string uri, string nameSpace = "wp/v2")
+    private static string GetFullBaseUrl(string nameSpace, string path)
     {
-        return $"https://michaelkjellander.se/wp-json/{nameSpace}/{uri}";
+        return $"{WpApiBaseUrl}/{nameSpace}/{path}";
     }
 }
