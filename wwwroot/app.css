@@ -58,6 +58,7 @@ Specific. If possible, put these in the component's CSS instead.
 These are mostly embedded HTML.
 */
 .sg-post-content {
+    @apply mt-8;
 }
 .sg-post-content a {
     color: black;

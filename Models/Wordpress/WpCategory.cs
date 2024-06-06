@@ -42,7 +42,7 @@ public class WpCategory : Model
     {
         this.Id = el.GetProperty("term_id").GetInt32();
         this.Name = el.GetProperty("name").GetString();
-        this.Description = el.GetProperty("category_description").GetString();
+        this.Description = HarmonizeHtmlContent(el.GetProperty("category_description").GetString()!);
         this.Slug = el.GetProperty("slug").GetString();
         return this;
     }

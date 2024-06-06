@@ -87,18 +87,18 @@
     private string? _html;
     
     //TODO: generalize
-    protected override void OnParametersSet()
-    {
-        if (Post != null)
-        {
-            _html = Post.Content!;
-            if (!_html.Contains("<p>"))
-            {
-                _html = _html.Replace("\n", "<br>");
-            }
-            //_html = Post.Content!.Replace("\n", "<br>");
-        }
-    }
+    // protected override void OnParametersSet()
+    // {
+    //     if (Post != null)
+    //     {
+    //         _html = Post.Content!;
+    //         if (!_html.Contains("<p>"))
+    //         {
+    //             _html = _html.Replace("\n", "<br>");
+    //         }
+    //         //_html = Post.Content!.Replace("\n", "<br>");
+    //     }
+    // }
 
     // private string FormatTagName(int index)
     // {

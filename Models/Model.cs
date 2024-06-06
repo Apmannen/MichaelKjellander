@@ -25,6 +25,21 @@ public abstract class Model
         }
         return list;
     }
+    
+    /// <summary>
+    /// Wordpress seems to be returning different HTML formatting.
+    /// </summary>
+    /// <returns></returns>
+    protected static string HarmonizeHtmlContent(string html)
+    {
+        if (!html.Contains("<p>"))
+        {
+            html = html.Replace("\n", "<br>");
+            html += "<br>";
+        }
+
+        return html;
+    }
 
     private static T CreateModelInstance<T>()
     {

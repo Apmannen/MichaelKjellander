@@ -817,6 +817,7 @@ These are mostly embedded HTML.
 */
 
 .sg-post-content {
+  margin-top: 2rem;
 }
 
 .sg-post-content a {

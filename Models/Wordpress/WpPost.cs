@@ -51,7 +51,7 @@ public class WpPost : Model
         var metaElement = el.GetProperty("meta");
         
         this.Id = id;
-        this.Content = content;
+        this.Content = HarmonizeHtmlContent(content);
         this.Title = title;
         this.Slug = slug;
         this.Date = date;
