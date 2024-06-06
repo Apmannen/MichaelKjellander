@@ -19,7 +19,7 @@ public class HttpQueryBuilder
     {
         return AddObject(key, value);
     }
-    public HttpQueryBuilder Add(string key, int[]? values)
+    public HttpQueryBuilder Add(string key, ICollection<int>? values)
     {
         return AddObjects(key, values);
     }
@@ -33,9 +33,9 @@ public class HttpQueryBuilder
         }
         return this;
     }
-    private HttpQueryBuilder AddObjects<T>(string key, T[]? values)
+    private HttpQueryBuilder AddObjects<T>(string key, ICollection<T>? values)
     {
-        if (values == null || values.Length == 0)
+        if (values == null || values.Count == 0)
         {
             return this;
         }

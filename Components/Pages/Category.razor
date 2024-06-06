@@ -5,11 +5,13 @@
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Components.Boxes
 @using MichaelKjellander.Models
+@using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.SharedUtils.Routes
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
 @inject ILogger<Category> Logger
+@inject NavigationManager Navigation
 @rendermode InteractiveServer
 
 <PageTitle>
@@ -64,7 +66,6 @@
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug);
         Filter ??= new();
-        //Filter.Ratings ??= new();
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
         _prefix = PageRoutes.Category(Slug);
@@ -78,17 +79,15 @@
 
     private void Submit()
     {
-        Logger.LogInformation($"SUBMITTING!!");
-        foreach (int r in Filter!.Ratings)
-        {
-            Logger.LogInformation($"submitting r={r}");
-        }
+        string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
+            .Add("betyg", Filter!.Ratings)
+            .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
+        Navigation.NavigateTo(newUrl);
     }
     
     private void ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
-        Logger.LogInformation($"TOGGLING r={rating}, val={isSelected}");
         if (isSelected)
         {
             Filter!.Ratings.Add(rating);
@@ -102,30 +101,6 @@
     public class GameReviewFilter
     {
         public readonly HashSet<int> Ratings = new();
-        
-        
     }
-    /*public class RatingCollection
-    {
-        private readonly HashSet<int> _ratings = new();
-        public bool this[int rating]
-        {
-            get => _ratings.Contains(rating);
-            set
-            {
-                Console.WriteLine("**** SETTING newval="+value+", curr="+this[rating]);
-                if (value)
-                {
-                    _ratings.Add(rating);
-                }
-                else
-                {
-                    _ratings.Remove(rating);
-                }
-                
-                Console.WriteLine("**** newval="+this[rating]);
-            } 
-        }
-    }*/
     
 }
