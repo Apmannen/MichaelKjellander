@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.Models
-@inject NavigationManager NavigationManager;
+@using MichaelKjellander.SharedUtils.Api
+@inject NavigationManager Navigation;
 
 @if (PaginationData != null && @PaginationData.NumPages > 1)
 {
@@ -37,12 +38,13 @@
 
     private string GetLink(int page)
     {
+        string queryString = UrlUtil.GetQueryString(Navigation.Uri);
         if (page == 1)
         {
-            return FirstUrlPrefix!;
+            return FirstUrlPrefix! + queryString;
         }
 
-        return UrlPrefix + "/" + page;
+        return UrlPrefix + "/" + page + queryString;
     }
 
     protected override void OnParametersSet()

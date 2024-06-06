@@ -8,11 +8,12 @@ public class UrlUtil
         var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
         return query[name] ?? "";
     }
-    
+
     public static ICollection<string> GetQueryParameters(string url, string name)
     {
         return GetQueryParameter(url, name).Split(",");
     }
+
     public static ICollection<int> GetQueryParametersInt(string url, string name)
     {
         ICollection<string> stringValues = GetQueryParameters(url, name);
@@ -25,6 +26,13 @@ public class UrlUtil
                 intValues.Add(parsedValue);
             }
         }
+
         return intValues;
+    }
+
+    public static string GetQueryString(string url)
+    {
+        string[] splits = url.Split("?");
+        return splits.Length == 2 ? "?" + splits[1] : "";
     }
 }
