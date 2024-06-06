@@ -1,8 +1,8 @@
 @page "/sida/{Slug}"
+@using MichaelKjellander.Models
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils
-@using MichaelKjellander.SharedUtils.Api
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
@@ -34,7 +34,6 @@
             return;
         }
 
-        //TODO: INJECT
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPage> pagesData = await service.FetchPages(Slug = Slug);
         if (pagesData.Items == null)
