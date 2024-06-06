@@ -2,7 +2,7 @@
 
 public class HttpQueryBuilder
 {
-    private List<KeyValuePair<string,string>> _entries = new();
+    private readonly List<KeyValuePair<string,string>> _entries = new();
     
     public HttpQueryBuilder Add(string key, string? value)
     {
