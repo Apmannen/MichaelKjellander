@@ -65,7 +65,7 @@
 
         Filter ??= new();
 
-        ICollection<int> ratingParams = ComponentUtil.GetQueryParametersInt(Navigation, RatingName);
+        ICollection<int> ratingParams = UrlUtil.GetQueryParametersInt(Navigation.Uri, RatingName);
         Filter.Ratings.Values.UnionWith(ratingParams);
 
         _service = new InternalApiService(ClientFactory.CreateClient(), Options);
