@@ -25,7 +25,7 @@ public class InternalApiService
     }
 
     public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null,
-        int[]? metaRatings = null, string? postSlug = null)
+        ICollection<int>? metaRatings = null, string? postSlug = null)
     {
         return await Fetch<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, metaRatings, postSlug));
     }

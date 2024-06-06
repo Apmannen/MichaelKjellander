@@ -1,6 +1,6 @@
-﻿namespace MichaelKjellander.SharedUtils;
+﻿namespace MichaelKjellander.SharedUtils.Collections;
 
-[System.Obsolete]
+[System.Obsolete("Perhaps merge with string util")]
 public static class CollectionUtil
 {
     private static Random random = new Random();  

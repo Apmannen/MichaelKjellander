@@ -6,6 +6,7 @@
 @using MichaelKjellander.Components.Boxes
 @using MichaelKjellander.Models
 @using MichaelKjellander.SharedUtils.Api
+@using MichaelKjellander.SharedUtils.Collections
 @using MichaelKjellander.SharedUtils.Routes
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
@@ -28,11 +29,9 @@
                 <div></div>
                 @for (int rating = 1; rating <= 10; rating++)
                 {
-                    
                     int localRating = rating;
-                    <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args=>ToggleRating(args,localRating)"/>
+                    <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
                     <label class="mr-3" for="rating@(rating)">@rating</label>
-                    @*<InputCheckbox @onchange="args=>ToggleRating(args, i)"/>*@
                 }
                 <p></p>
                 <button class="btn btn-dark">Filtrera</button>
@@ -52,8 +51,7 @@
     private WpCategory? _category;
     private PaginationData? _pagination;
     private string? _prefix;
-    [SupplyParameterFromForm]
-    public GameReviewFilter? Filter { get; set; }
+    [SupplyParameterFromForm] public GameReviewFilter? Filter { get; set; }
 
     private const string RatingName = "betyg";
 
@@ -65,16 +63,20 @@
         {
             return;
         }
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug);
+
         Filter ??= new();
+
+        ICollection<int> ratingParams = ComponentUtil.GetQueryParametersInt(Navigation, RatingName);
+        Filter.Ratings.Values.UnionWith(ratingParams);
+
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
+            metaRatings: Filter.Ratings.Values);
+
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
         _prefix = PageRoutes.Category(Slug);
         _pagination = postsData.PaginationData;
-
-        ICollection<int> ratingParams = ComponentUtil.GetQueryParametersInt(Navigation, RatingName);
-        Filter.Ratings.Values.UnionWith(ratingParams);
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -91,35 +93,16 @@
             .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
         Navigation.NavigateTo(newUrl);
     }
+
     private void ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
         Filter!.Ratings[rating] = isSelected;
     }
+
     public class GameReviewFilter
     {
-        public readonly RatingCollection Ratings = new();
-    }
-
-    public class RatingCollection
-    {
-        public readonly HashSet<int> Values = new();
-
-        public bool this[int rating]
-        {
-            get => Values.Contains(rating);
-            set
-            {
-                if (value)
-                {
-                    Values.Add(rating);
-                }
-                else
-                {
-                    Values.Remove(rating);
-                }
-            }
-        }
+        public readonly Indexer Ratings = new();
     }
 
 }

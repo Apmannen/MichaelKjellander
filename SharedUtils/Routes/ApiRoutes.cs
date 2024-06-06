@@ -11,7 +11,7 @@ public class ApiRoutes
     }
     
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}"; 
-    public string Posts(int page, string? categorySlug, int[]? metaRatings, string? postSlug)
+    public string Posts(int page, string? categorySlug, ICollection<int>? metaRatings, string? postSlug)
     {
         return new HttpQueryBuilder(QueryArrayMode.Multiple)
             .Add("categorySlug", categorySlug)
