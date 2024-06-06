@@ -1,5 +1,6 @@
 namespace MichaelKjellander.SharedUtils;
 
+[System.Obsolete("Perhaps merge with CollectionUtil")]
 public static class StringUtil
 {
     public static IList<char> StringToCharList(string s)

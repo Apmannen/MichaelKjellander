@@ -30,7 +30,7 @@
                 {
                     
                     int localRating = rating;
-                    <input id="rating@(rating)" type="checkbox" @onchange="args=>ToggleRating(args,localRating)"/>
+                    <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args=>ToggleRating(args,localRating)"/>
                     <label class="mr-3" for="rating@(rating)">@rating</label>
                     @*<InputCheckbox @onchange="args=>ToggleRating(args, i)"/>*@
                 }
@@ -55,6 +55,8 @@
     [SupplyParameterFromForm]
     public GameReviewFilter? Filter { get; set; }
 
+    private const string RatingName = "betyg";
+
     private bool IsFirstPage => Page is null or 1;
 
     protected override async Task OnInitializedAsync()
@@ -70,6 +72,9 @@
         _category = _posts?.FirstOrDefault()?.Category;
         _prefix = PageRoutes.Category(Slug);
         _pagination = postsData.PaginationData;
+
+        ICollection<int> ratingParams = ComponentUtil.GetQueryParametersInt(Navigation, RatingName);
+        Filter.Ratings.Values.UnionWith(ratingParams);
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -82,25 +87,39 @@
     private void Submit()
     {
         string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
-            .Add("betyg", Filter!.Ratings)
+            .Add(RatingName, Filter!.Ratings.Values)
             .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
         Navigation.NavigateTo(newUrl);
     }
     private void ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
-        if (isSelected)
-        {
-            Filter!.Ratings.Add(rating);
-        }
-        else
-        {
-            Filter!.Ratings.Remove(rating);
-        }
+        Filter!.Ratings[rating] = isSelected;
     }
     public class GameReviewFilter
     {
-        public readonly HashSet<int> Ratings = new();
+        public readonly RatingCollection Ratings = new();
     }
-    
+
+    public class RatingCollection
+    {
+        public readonly HashSet<int> Values = new();
+
+        public bool this[int rating]
+        {
+            get => Values.Contains(rating);
+            set
+            {
+                if (value)
+                {
+                    Values.Add(rating);
+                }
+                else
+                {
+                    Values.Remove(rating);
+                }
+            }
+        }
+    }
+
 }

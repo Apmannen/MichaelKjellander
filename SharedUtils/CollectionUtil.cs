@@ -1,5 +1,6 @@
 ﻿namespace MichaelKjellander.SharedUtils;
 
+[System.Obsolete]
 public static class CollectionUtil
 {
     private static Random random = new Random();  
