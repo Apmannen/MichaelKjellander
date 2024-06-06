@@ -9,6 +9,7 @@
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
+@inject ILogger<Category> Logger
 @rendermode InteractiveServer
 
 <PageTitle>
@@ -20,15 +21,18 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <span class="font-bold">Betyg</span>
-            <div></div>
-            @for (int i = 1; i <= 10; i++)
-            {
-                <input id="rating@(i)" type="checkbox"/>
-                <label class="mr-3" for="rating@(i)">@i</label>
-            }
-            <p></p>
-            <button class="btn btn-dark">Filtrera</button>
+            <form method="post" @onsubmit="Submit" @formname="starship-plain-form">
+                <span class="font-bold">Betyg</span>
+                <div></div>
+                @for (int i = 1; i <= 10; i++)
+                {
+                    @*<input id="rating@(i)" type="checkbox"/>
+                    <label class="mr-3" for="rating@(i)">@i</label>*@
+                    <InputCheckbox @bind-Value="Filter!.Ratings[i]"/>
+                }
+                <p></p>
+                <button class="btn btn-dark">Filtrera</button>
+            </form>
         }
     </TitleBox>
 }
@@ -44,6 +48,8 @@
     private WpCategory? _category;
     private PaginationData? _pagination;
     private string? _prefix;
+    [SupplyParameterFromForm]
+    public GameReviewFilter? Filter { get; set; }
 
     private bool IsFirstPage => Page is null or 1;
 
@@ -53,10 +59,9 @@
         {
             return;
         }
-
-        //TODO: INJECT
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postsData = await service.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug);
+        Filter ??= new();
         _posts = postsData.Items;
         _category = _posts?.FirstOrDefault()?.Category;
         _prefix = PageRoutes.Category(Slug);
@@ -67,4 +72,38 @@
     {
         JsService.ScrollToTop();
     }
+
+    private void Submit()
+    {
+        for(int i = 0; i <= 10; i++)
+        {
+            //Logger.LogInformation($"i={i}, r={Filter!.Ratings[i]}");
+        }
+    }
+
+    public class GameReviewFilter
+    {
+        public RatingCollection Ratings = new();
+    }
+    public class RatingCollection
+    {
+        private readonly HashSet<int> _ratings = new();
+        public bool this[int rating]
+        {
+            get => _ratings.Contains(rating);
+            set
+            {
+                Console.WriteLine("**** SETTING val="+value);
+                if (value)
+                {
+                    _ratings.Add(rating);
+                }
+                else
+                {
+                    _ratings.Remove(rating);
+                }
+            } 
+        }
+    }
+    
 }
