@@ -42,7 +42,7 @@
 
 <div class="sg-posts-related-container" data-loading="@_isLoading">
     <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
-    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Counter="@_counter" Query="@_query"/>
+    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Query="@_query"/>
 </div>
 
 @code {
@@ -97,17 +97,7 @@
         //JsService.ScrollToTop();
     }
 
-    //Specific to GameReview from here onwards. Perhaps move to seperate page route?
-    //Filters should be used for Game category as well: #20
-    /*private async Task Submit()
-    {
-        string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
-            .Add(RatingName, Filter!.Ratings.Values)
-            .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
-        Navigation.NavigateTo(newUrl, false, true);
-        await FetchData();
-    }*/
-
+    //Specific to GameReview stuff from here onwards. Perhaps move to seperate page route?
     private async Task ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
