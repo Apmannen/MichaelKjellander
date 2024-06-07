@@ -42,7 +42,7 @@
 
 <div class="sg-posts-related-container" data-loading="@_isLoading">
     <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
-    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix"/>
+    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Counter="@_counter" Query="@_query"/>
 </div>
 
 @code {
@@ -58,6 +58,8 @@
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading;
     private Url? _url;
+    private int _counter;
+    private string? _query;
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,9 +71,10 @@
         Filter ??= new();
 
         _url = new Url(Navigation.Uri);
+        _query = _url!.GetQueryString();
         ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
         Filter.Ratings.ReplaceWithRange(ratingParams);
-        
+
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
         await FetchData();
     }
@@ -79,13 +82,14 @@
     private async Task FetchData()
     {
         _isLoading = true;
-        ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
+        ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug,
             metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
         _category ??= _posts?.FirstOrDefault()?.Category;
         _prefix ??= PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
         _isLoading = false;
+        _counter++;
     }
 
     protected override void OnAfterRender(bool isFirstRender)
@@ -108,11 +112,12 @@
     {
         bool isSelected = (bool)args.Value!;
         Filter!.Ratings[rating] = isSelected;
-        
-        string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
+
+        _url = new HttpQueryBuilder("/kategori/tv-spelrecensioner", QueryArrayMode.Multiple) //TODO: hardcoded
             .Add(RatingName, Filter!.Ratings.Values)
-            .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
-        Navigation.NavigateTo(newUrl, false, true);
+            .ToUrl();
+        _query = _url.GetQueryString();
+        Navigation.NavigateTo(_url.ToString(), false, true);
 
         await FetchData();
     }

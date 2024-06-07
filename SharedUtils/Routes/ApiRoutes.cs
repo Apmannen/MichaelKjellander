@@ -13,12 +13,12 @@ public class ApiRoutes
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}"; 
     public string Posts(int page, string? categorySlug, ICollection<int>? metaRatings, string? postSlug)
     {
-        return new HttpQueryBuilder(QueryArrayMode.Multiple)
+        return new HttpQueryBuilder($"{_baseUrl}/api/blog/posts", QueryArrayMode.Multiple)
             .Add("categorySlug", categorySlug)
             .Add("metaRatings", metaRatings)
             .Add("page", page)
             .Add("slug", postSlug)
-            .Build($"{_baseUrl}/api/blog/posts");
+            .ToString();
     }
     
     public string WordGuessInit =>  $"{_baseUrl}/api/webgames/word-guess/init"; 

@@ -42,4 +42,9 @@ public class Url
         string[] splits = _urlString.Split("?");
         return splits.Length == 2 ? "?" + splits[1] : "";
     }
+
+    public override string ToString()
+    {
+        return _urlString;
+    }
 }

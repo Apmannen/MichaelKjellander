@@ -4,12 +4,14 @@
 @inject NavigationManager Navigation;
 @rendermode InteractiveServer
 
+COUNTER: @Counter
 @if (PaginationData != null && @PaginationData.NumPages > 1 && _visiblePages != null)
 {
     <div class="bg-white mt-16 py-4 text-center">
         @foreach (int pageNumber in _visiblePages)
         {
-            <a class="px-4 text-xl sg-font-sans @(IsCurrent(pageNumber) ? "font-bold" : "")" href="@(GetLink(pageNumber))">
+            string linkCopy = GetLink(pageNumber);
+            <a class="px-4 text-xl sg-font-sans @(IsCurrent(pageNumber) ? "font-bold" : "")" href="@linkCopy">
                 @pageNumber
             </a>
         }
@@ -20,6 +22,8 @@
     [Parameter][Required] public PaginationData? PaginationData { get; set; }
     [Parameter][Required] public string? UrlPrefix { get; set; }
     [Parameter] public string? FirstUrlPrefix { get; set; }
+    [Parameter] public int Counter { get; set; }
+    [Parameter] public string Query { get; set; }
 
     private List<int>? _visiblePages = null;
 
@@ -38,7 +42,7 @@
     private string GetLink(int pageNumber)
     {
         FirstUrlPrefix ??= UrlPrefix;
-        string queryString = new Url(Navigation.Uri).GetQueryString();
+        string queryString = Query ?? "";//new Url(Navigation.Uri).GetQueryString();
         if (pageNumber == 1)
         {
             return FirstUrlPrefix! + queryString;

@@ -1,13 +1,17 @@
-﻿namespace MichaelKjellander.SharedUtils.Api;
+﻿using MichaelKjellander.Models.UtilModels;
+
+namespace MichaelKjellander.SharedUtils.Api;
 
 public enum QueryArrayMode { Multiple, CommaSeparated }
 public class HttpQueryBuilder
 {
     private readonly List<KeyValuePair<string,string>> _entries = new();
     private readonly QueryArrayMode _arrayMode;
+    private readonly string _baseUrl;
 
-    public HttpQueryBuilder(QueryArrayMode arrayMode)
+    public HttpQueryBuilder(string baseUrl, QueryArrayMode arrayMode)
     {
+        this._baseUrl = baseUrl;
         this._arrayMode = arrayMode;
     }
     
@@ -55,9 +59,9 @@ public class HttpQueryBuilder
         return this;
     }
     
-    public string Build(string baseUrl)
+    public override string ToString()
     {
-        string fullUrl = baseUrl;
+        string fullUrl = _baseUrl;
         bool isFirst = true;
         foreach (KeyValuePair<string,string> pair in _entries)
         {
@@ -68,5 +72,10 @@ public class HttpQueryBuilder
         }
         
         return fullUrl;
+    }
+
+    public Url ToUrl()
+    {
+        return new Url(ToString());
     }
 }

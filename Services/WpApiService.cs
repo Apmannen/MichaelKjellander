@@ -11,29 +11,30 @@ public class WpApiService
     private const string WpApiBaseUrl = "https://michaelkjellander.se/wp-json";
     private const string NamespaceDefault = "wp/v2";
     private const string NamespacePlugin = "sgplugin/v1";
-    
+
     public WpApiService(HttpClient client)
     {
         this._client = client;
     }
-    
+
     public async Task<WpPage?> GetPage(string slug = "")
     {
         var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}?slug={slug}", _client);
         IList<WpPage> parsedPages = Model.ParseList<WpPage>(pagesResult.Root);
         return parsedPages.FirstOrDefault();
     }
-    
+
     //TODO: multiple return values isn't the best
-    public async Task<(IList<WpPost>,int)> GetPosts(int page = 1, int[]? metaRatings = null, string? categorySlug = null, string? postSlug = null)
+    public async Task<(IList<WpPost>, int)> GetPosts(int page = 1, int[]? metaRatings = null,
+        string? categorySlug = null, string? postSlug = null)
     {
-        string fullUrl = new HttpQueryBuilder(QueryArrayMode.CommaSeparated)
+        string fullUrl = new HttpQueryBuilder(GetFullBaseUrl(NamespacePlugin, "posts"), QueryArrayMode.CommaSeparated)
             .Add("page", page)
             .Add("ratings", metaRatings)
             .Add("category_slug", categorySlug)
             .Add("post_slug", postSlug)
-            .Build(GetFullBaseUrl(NamespacePlugin, "posts"));
-        
+            .ToString();
+
         var postsResult = await ApiUtil.FetchJson(fullUrl, _client);
         JsonElement root = postsResult.Root;
         int numPages = root.GetProperty("num_pages").GetInt32();
