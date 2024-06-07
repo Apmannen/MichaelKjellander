@@ -4,21 +4,14 @@
 @inject NavigationManager Navigation;
 @rendermode InteractiveServer
 
-@if (PaginationData != null && @PaginationData.NumPages > 1)
+@if (PaginationData != null && @PaginationData.NumPages > 1 && _visiblePages != null)
 {
     <div class="bg-white mt-16 py-4 text-center">
-        @foreach (PageData pageData in _visiblePages)
+        @foreach (int pageNumber in _visiblePages)
         {
-            if (pageData.Page == null)
-            {
-                <span>...</span>
-            }
-            else
-            {
-                <a class="px-4 text-xl sg-font-sans @(pageData.IsCurrent ? "font-bold" : "")" href="@pageData.Link">
-                    @pageData.Page
-                </a>
-            }
+            <a class="px-4 text-xl sg-font-sans @(IsCurrent(pageNumber) ? "font-bold" : "")" href="@(GetLink(pageNumber))">
+                @pageNumber
+            </a>
         }
     </div>
 }
@@ -29,7 +22,7 @@
     [Parameter] public string? FirstUrlPrefix { get; set; }
     [Parameter] public string? Query { get; set; }
 
-    private List<PageData> _visiblePages = [];
+    private List<int>? _visiblePages = null;
 
     private class PageData
     {
@@ -38,18 +31,20 @@
         public string Link = "";
     }
 
-
-    private string GetLink(int page)
+    private bool IsCurrent(int pageNumber)
+    {
+        int currentPage = PaginationData!.CurrentPage;
+        return pageNumber == currentPage;
+    }
+    private string GetLink(int pageNumber)
     {
         FirstUrlPrefix ??= UrlPrefix;
         string queryString = new Url(Navigation.Uri).GetQueryString();
-        Console.WriteLine($"*** p={page}, first={FirstUrlPrefix}, prf={UrlPrefix}, q={queryString}");
-        if (page == 1)
+        if (pageNumber == 1)
         {
             return FirstUrlPrefix! + queryString;
         }
-
-        return UrlPrefix + "/" + page + queryString;
+        return UrlPrefix + "/" + pageNumber + queryString;
     }
 
     protected override void OnParametersSet()
@@ -58,20 +53,14 @@
         {
             return;
         }
+
+        _visiblePages = [];
         
-        _visiblePages.Clear();
-        int lastPage = PaginationData.NumPages;
-        int currentPage = PaginationData.CurrentPage;
         
         //Yes, I want all pages
-        for (int pageNumber = 1; pageNumber <= lastPage; pageNumber++)
+        for (int pageNumber = 1; pageNumber <= PaginationData.NumPages; pageNumber++)
         {
-            _visiblePages.Add(new PageData()
-            {
-                Page = pageNumber,
-                IsCurrent = pageNumber == currentPage,
-                Link = GetLink(pageNumber)
-            });
+            _visiblePages.Add(pageNumber);
         }
     }
 
