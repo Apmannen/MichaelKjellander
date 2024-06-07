@@ -300,3 +300,9 @@ main[b-qnd268w11u] {
     overflow-y: auto;
   }
 }
+
+/* _content/MichaelKjellander/Components/Pages/Category.razor.rz.scp.css */
+
+.sg-posts-related-container[data-loading][b-gh13x91vyy] {
+  visibility: hidden;
+}
