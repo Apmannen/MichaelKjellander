@@ -37,6 +37,11 @@ public class WpApiService
 
         var postsResult = await ApiUtil.FetchJson(fullUrl, _client);
         JsonElement root = postsResult.Root;
+        if (root.ValueKind != JsonValueKind.Object)
+        {
+            return ([], 1);
+        }
+
         int numPages = root.GetProperty("num_pages").GetInt32();
         IList<WpPost> parsedPosts = Model.ParseList<WpPost>(root.GetProperty("posts"));
 
