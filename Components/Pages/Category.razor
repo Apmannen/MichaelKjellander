@@ -8,6 +8,7 @@
 @using MichaelKjellander.SharedUtils.Api
 @using MichaelKjellander.SharedUtils.Collections
 @using MichaelKjellander.SharedUtils.Routes
+@using MichaelKjellander.Models.UtilModels
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
@@ -41,7 +42,7 @@
 
 <div class="sg-posts-related-container" data-loading="@_isLoading">
     <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
-    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix"/>
+    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Query="@_url!.GetQueryString()"/>
 </div>
 
 @code {
@@ -56,6 +57,7 @@
     private const string RatingName = "betyg";
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading;
+    private Url? _url;
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,7 +68,8 @@
 
         Filter ??= new();
 
-        ICollection<int> ratingParams = UrlUtil.GetQueryParametersInt(Navigation.Uri, RatingName);
+        _url = new Url(Navigation.Uri);
+        ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
         Filter.Ratings.ReplaceWithRange(ratingParams);
 
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
@@ -76,12 +79,11 @@
     private async Task FetchData()
     {
         _isLoading = true;
-        _prefix = null;
         ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
             metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
         _category ??= _posts?.FirstOrDefault()?.Category;
-        _prefix = PageRoutes.Category(Slug!);
+        _prefix ??= PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
         _isLoading = false;
     }
