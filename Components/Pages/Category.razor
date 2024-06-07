@@ -24,7 +24,7 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <form method="post" @onsubmit="Submit" @formname="starship-plain-form">
+            <form method="post">
                 <span class="font-bold">Betyg</span>
                 <div></div>
                 @for (int rating = 1; rating <= 10; rating++)
@@ -33,8 +33,7 @@
                     <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
                     <label class="mr-3" for="rating@(rating)">@rating</label>
                 }
-                <p></p>
-                <button class="btn btn-dark">Filtrera</button>
+                @*<button class="btn btn-dark">Filtrera</button>*@
             </form>
         }
     </TitleBox>
@@ -75,6 +74,7 @@
     private async Task FetchData()
     {
         _posts = null;
+        _pagination = null;
         ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
             metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
@@ -93,19 +93,24 @@
 
     //Specific to GameReview from here onwards. Perhaps move to seperate page route?
     //Filters should be used for Game category as well: #20
-    private async Task Submit()
+    /*private async Task Submit()
     {
         string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
             .Add(RatingName, Filter!.Ratings.Values)
             .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
         Navigation.NavigateTo(newUrl, false, true);
         await FetchData();
-    }
+    }*/
 
     private async Task ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
         Filter!.Ratings[rating] = isSelected;
+        
+        string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
+            .Add(RatingName, Filter!.Ratings.Values)
+            .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
+        Navigation.NavigateTo(newUrl, false, true);
 
         await FetchData();
     }
