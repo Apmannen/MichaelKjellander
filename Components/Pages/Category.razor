@@ -40,10 +40,17 @@
     </TitleBox>
 }
 
-<div class="sg-posts-related-container" data-loading="@_isLoading">
-    <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
-    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Query="@_query"/>
-</div>
+@if (NoPostsFound)
+{
+    <div class="pt-10">Det finns inga inlägg med det filtret.</div>
+}
+else
+{
+    <div class="sg-posts-related-container" data-loading="@_isLoading">
+        <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
+        <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Query="@_query"/>
+    </div>
+}
 
 @code {
     [Parameter] public string? Slug { get; set; }
@@ -58,8 +65,8 @@
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading;
     private Url? _url;
-    private int _counter;
     private string? _query;
+    private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
 
     protected override async Task OnInitializedAsync()
     {
@@ -89,7 +96,6 @@
         _prefix ??= PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
         _isLoading = false;
-        _counter++;
     }
 
     protected override void OnAfterRender(bool isFirstRender)
