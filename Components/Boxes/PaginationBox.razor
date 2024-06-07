@@ -1,7 +1,8 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.Models
-@using MichaelKjellander.SharedUtils.Api
+@using MichaelKjellander.Models.UtilModels
 @inject NavigationManager Navigation;
+@rendermode InteractiveServer
 
 @if (PaginationData != null && @PaginationData.NumPages > 1)
 {
@@ -14,7 +15,7 @@
             }
             else
             {
-                <a class="px-4 text-xl sg-font-sans @(pageData.IsCurrent ? "font-bold" : "")" href="@(GetLink(pageData.Page ?? 1))">
+                <a class="px-4 text-xl sg-font-sans @(pageData.IsCurrent ? "font-bold" : "")" href="@pageData.Link">
                     @pageData.Page
                 </a>
             }
@@ -32,14 +33,17 @@
 
     private class PageData
     {
-        public int? Page;
+        public int Page;
         public bool IsCurrent;
+        public string Link = "";
     }
 
 
     private string GetLink(int page)
     {
-        string queryString = Query ?? "";
+        FirstUrlPrefix ??= UrlPrefix;
+        string queryString = new Url(Navigation.Uri).GetQueryString();
+        Console.WriteLine($"*** p={page}, first={FirstUrlPrefix}, prf={UrlPrefix}, q={queryString}");
         if (page == 1)
         {
             return FirstUrlPrefix! + queryString;
@@ -66,10 +70,9 @@
             {
                 Page = pageNumber,
                 IsCurrent = pageNumber == currentPage,
+                Link = GetLink(pageNumber)
             });
         }
-
-        FirstUrlPrefix ??= UrlPrefix;
     }
 
 }

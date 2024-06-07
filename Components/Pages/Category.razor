@@ -42,7 +42,7 @@
 
 <div class="sg-posts-related-container" data-loading="@_isLoading">
     <PostBoxes Posts="_posts" PaddingForFirst="IsFirstPage"/>
-    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Query="@_url!.GetQueryString()"/>
+    <PaginationBox paginationData="@_pagination" UrlPrefix="@_prefix" Query="@_query"/>
 </div>
 
 @code {
@@ -58,6 +58,7 @@
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading;
     private Url? _url;
+    private string? _query;
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,7 +72,7 @@
         _url = new Url(Navigation.Uri);
         ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
         Filter.Ratings.ReplaceWithRange(ratingParams);
-
+        
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
         await FetchData();
     }
@@ -85,6 +86,7 @@
         _category ??= _posts?.FirstOrDefault()?.Category;
         _prefix ??= PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
+        _query = _url!.GetQueryString();
         _isLoading = false;
     }
 
