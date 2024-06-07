@@ -66,25 +66,29 @@
         Filter ??= new();
 
         ICollection<int> ratingParams = UrlUtil.GetQueryParametersInt(Navigation.Uri, RatingName);
-        Filter.Ratings.Values.UnionWith(ratingParams);
+        Filter.Ratings.ReplaceWithRange(ratingParams);
 
-        _service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
         await FetchData();
     }
 
     private async Task FetchData()
     {
+        _posts = null;
         ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug, 
             metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
-        _category = _posts?.FirstOrDefault()?.Category;
-        _prefix = PageRoutes.Category(Slug!);
+        _category ??= _posts?.FirstOrDefault()?.Category;
+        _prefix ??= PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        JsService.ScrollToTop();
+        if (firstRender)
+        {
+            JsService.ScrollToTop();
+        }
     }
 
     //Specific to GameReview from here onwards. Perhaps move to seperate page route?
@@ -94,19 +98,21 @@
         string newUrl = new HttpQueryBuilder(QueryArrayMode.Multiple)
             .Add(RatingName, Filter!.Ratings.Values)
             .Build("/kategori/tv-spelrecensioner"); //TODO: hardcoded
-        Navigation.NavigateTo(newUrl);
+        Navigation.NavigateTo(newUrl, false, true);
         await FetchData();
     }
 
-    private void ToggleRating(ChangeEventArgs args, int rating)
+    private async Task ToggleRating(ChangeEventArgs args, int rating)
     {
         bool isSelected = (bool)args.Value!;
         Filter!.Ratings[rating] = isSelected;
+
+        await FetchData();
     }
 
     public class GameReviewFilter
     {
-        public readonly Indexer Ratings = new();
+        public readonly Indexer<int> Ratings = new();
     }
 
 }

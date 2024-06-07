@@ -1,20 +1,27 @@
 ﻿namespace MichaelKjellander.SharedUtils.Collections;
 
-public class Indexer
+public class Indexer<T>
 {
-    public readonly HashSet<int> Values = new();
-    public bool this[int rating]
+    public readonly HashSet<T> Values = new();
+
+    public void ReplaceWithRange(ICollection<T> indexes)
     {
-        get => Values.Contains(rating);
+        Values.Clear();
+        Values.UnionWith(indexes);
+    }
+    
+    public bool this[T index]
+    {
+        get => Values.Contains(index);
         set
         {
             if (value)
             {
-                Values.Add(rating);
+                Values.Add(index);
             }
             else
             {
-                Values.Remove(rating);
+                Values.Remove(index);
             }
         }
     }
