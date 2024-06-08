@@ -26,6 +26,7 @@ public class WpApiService
         {
             platforms.Add(el.GetString()!);
         }
+
         return platforms;
     }
 
@@ -37,11 +38,13 @@ public class WpApiService
     }
 
     //TODO: multiple return values isn't the best
-    public async Task<(IList<WpPost>, int)> GetPosts(int page = 1, int[]? metaRatings = null,
+    public async Task<(IList<WpPost>, int)> GetPosts(int page = 1, string[]? metaPlatforms = null,
+        int[]? metaRatings = null,
         string? categorySlug = null, string? postSlug = null)
     {
         string fullUrl = new HttpQueryBuilder(GetFullBaseUrl(NamespacePlugin, "posts"), QueryArrayMode.CommaSeparated)
             .Add("page", page)
+            .Add("formats", metaPlatforms)
             .Add("ratings", metaRatings)
             .Add("category_slug", categorySlug)
             .Add("post_slug", postSlug)

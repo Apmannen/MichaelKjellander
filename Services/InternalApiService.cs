@@ -32,9 +32,10 @@ public class InternalApiService
     }
 
     public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null,
-        ICollection<int>? metaRatings = null, string? postSlug = null)
+        ICollection<string>? metaPlatforms = null, ICollection<int>? metaRatings = null, string? postSlug = null)
     {
-        return await FetchModels<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, metaRatings, postSlug));
+        return await FetchModels<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, metaPlatforms, metaRatings,
+            postSlug));
     }
 
     public async Task<WordGuessGameProgress> FetchInitWordGuessGame()

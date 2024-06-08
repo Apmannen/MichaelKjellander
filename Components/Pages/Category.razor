@@ -25,29 +25,29 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <form method="post">
-                <span class="font-bold">Betyg</span>
-                <div></div>
-                @for (int rating = 1; rating <= 10; rating++)
-                {
-                    int localRating = rating;
-                    <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
-                    <label class="mr-3" for="rating@(rating)">@rating</label>
-                }
-                <p></p>
-                <span class="font-bold">Plattform</span>
-                <div></div>
-                @foreach (string platform in _allPlatforms)
-                {
-                    string localPlatform = platform;
-                    <span class="sg-break-together">
-                        <input id="platform-@(localPlatform)" type="checkbox" checked="@Filter!.Platforms[localPlatform]" @onchange="args => TogglePlatform(args, localPlatform)"/>
-                        <label class="mr-3" for="platform-@(localPlatform)">@localPlatform</label>
-                    </span>
-                }
-                <p></p>
-                <button class="btn btn-dark">Rensa</button>
-            </form>
+            <span class="font-bold">Betyg</span>
+            <div></div>
+            @for (int rating = 1; rating <= 10; rating++)
+            {
+                int localRating = rating;
+                <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
+                <label class="mr-3" for="rating@(rating)">@rating</label>
+            }
+
+            <p></p>
+            <span class="font-bold">Plattform</span>
+            <div></div>
+            @foreach (string platform in _allPlatforms)
+            {
+                string localPlatform = platform;
+                <span class="sg-break-together">
+                    <input id="platform-@(localPlatform)" type="checkbox" checked="@Filter!.Platforms[localPlatform]" @onchange="args => TogglePlatform(args, localPlatform)"/>
+                    <label class="mr-3" for="platform-@(localPlatform)">@localPlatform</label>
+                </span>
+            }
+
+            <p></p>
+            <button class="btn btn-dark">Rensa</button>
         }
     </TitleBox>
 }
@@ -82,7 +82,7 @@ else
     private Url? _url;
     private string? _query;
     private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
-    private List<string> _allPlatforms = [];
+    private readonly List<string> _allPlatforms = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,7 +112,7 @@ else
     {
         _isLoading = true;
         ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug,
-            metaRatings: Filter!.Ratings.Values);
+            metaPlatforms: Filter!.Platforms.Values, metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
         _category ??= _posts?.FirstOrDefault()?.Category;
         _prefix ??= PageRoutes.Category(Slug!);
@@ -159,3 +159,4 @@ else
     }
 
 }
+

@@ -17,7 +17,7 @@ public class BlogController : Controller
     {
         _wpApiService = wpApiService;
     }
-    
+
     [HttpGet]
     [Route("meta-platforms")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
@@ -49,21 +49,24 @@ public class BlogController : Controller
 
     [HttpGet]
     [Route("posts")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["categorySlug", "metaRatings", "page", "slug"])]
+    //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
+    //    VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+
         int page = postsRequest.Page ?? 1;
 
         (IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
-                categorySlug: postsRequest.CategorySlug,
-                metaRatings: postsRequest.MetaRatings ?? [],
-                page: postsRequest.Page ?? 1, 
-                postSlug: postsRequest.Slug
-                );
+            categorySlug: postsRequest.CategorySlug,
+            metaPlatforms: postsRequest.MetaPlatforms ?? [],
+            metaRatings: postsRequest.MetaRatings ?? [],
+            page: postsRequest.Page ?? 1,
+            postSlug: postsRequest.Slug
+        );
 
         return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
     }
@@ -77,6 +80,7 @@ public class BlogController : Controller
     public class PostsRequest
     {
         public string? CategorySlug { get; set; }
+        public string[]? MetaPlatforms { get; set; }
         public int[]? MetaRatings { get; set; }
         public int? Page { get; set; }
         public string? Slug { get; set; }
