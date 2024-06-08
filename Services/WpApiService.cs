@@ -17,6 +17,18 @@ public class WpApiService
         this._client = client;
     }
 
+    public async Task<IList<string>> GetMetas()
+    {
+        var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespacePlugin, "metas")}", _client);
+        var platformsEnumerator = pagesResult.Root.GetProperty("formats").EnumerateArray();
+        List<string> platforms = [];
+        foreach (JsonElement el in platformsEnumerator)
+        {
+            platforms.Add(el.GetString()!);
+        }
+        return platforms;
+    }
+
     public async Task<WpPage?> GetPage(string slug = "")
     {
         var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}?slug={slug}", _client);

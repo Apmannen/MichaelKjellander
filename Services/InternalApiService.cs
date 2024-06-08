@@ -19,6 +19,12 @@ public class InternalApiService
         this._apiRoutes = new ApiRoutes(options.Value.SiteUrl!);
     }
 
+    public async Task<IList<string>> FetchMetaFormats()
+    {
+        ApiResponse<string> response = await Fetch<string>(_apiRoutes.Metas);
+        return response.Items!;
+    }
+
     public async Task<ApiResponse<WpPage>> FetchPages(string slug = "")
     {
         return await Fetch<WpPage>(_apiRoutes.Pages(slug));
@@ -42,8 +48,8 @@ public class InternalApiService
             await Fetch<WordGuessGameProgress>(_apiRoutes.WordGuessGuess(letter, gameId));
         return response.Items!.FirstOrDefault()!;
     }
-
-    private async Task<ApiResponse<T>> Fetch<T>(string path) where T : Model
+    
+    private async Task<ApiResponse<T>> Fetch<T>(string path)
     {
         JsonFetchResult result = await ApiUtil.FetchJson(path, _client);
         ApiResponse<T> response = new ApiResponse<T>();

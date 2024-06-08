@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MichaelKjellander.Models;
 
-public class ApiResponse<T> : Model where T : Model
+public class ApiResponse<T> : Model
 {
     public IList<T>? Items  {get ; private set; }
     public PaginationData? PaginationData {get ; private set;  }

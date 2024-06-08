@@ -17,12 +17,21 @@ public class BlogController : Controller
     {
         _wpApiService = wpApiService;
     }
+    
+    [HttpGet]
+    [Route("meta-platforms")]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
+    public async Task<IActionResult> GetPlatforms()
+    {
+        IList<string> platforms = await _wpApiService.GetMetas();
+        return Ok(ApiUtil.CreateApiResponse([platforms]));
+    }
 
     [HttpGet]
     [Route("pages")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
         VaryByQueryKeys = ["Slug"])]
-    public async Task<IActionResult> Get([FromQuery] PagesRequest pageRequest)
+    public async Task<IActionResult> GetPages([FromQuery] PagesRequest pageRequest)
     {
         if (!ModelState.IsValid)
         {
@@ -41,7 +50,7 @@ public class BlogController : Controller
     [HttpGet]
     [Route("posts")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false, VaryByQueryKeys = ["categorySlug", "metaRatings", "page", "slug"])]
-    public async Task<IActionResult> Get([FromQuery] PostsRequest postsRequest)
+    public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
         {
