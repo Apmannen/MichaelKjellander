@@ -36,10 +36,16 @@
                 }
                 <p></p>
                 <span class="font-bold">Plattform</span>
-                @foreach(string platform in _allPlatforms)
+                <div></div>
+                @foreach (string platform in _allPlatforms)
                 {
-                    <div>@platform</div>
+                    string localPlatform = platform;
+                    <span class="sg-break-together">
+                        <input id="platform-@(localPlatform)" type="checkbox" checked="@Filter!.Platforms[localPlatform]" @onchange="args => TogglePlatform(args, localPlatform)"/>
+                        <label class="mr-3" for="platform-@(localPlatform)">@localPlatform</label>
+                    </span>
                 }
+                <p></p>
                 <button class="btn btn-dark">Rensa</button>
             </form>
         }
@@ -70,6 +76,7 @@ else
     [SupplyParameterFromForm] public GameReviewFilter? Filter { get; set; }
     InternalApiService? _service;
     private const string RatingName = "betyg";
+    private const string PlatformName = "plattform";
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading;
     private Url? _url;
@@ -90,6 +97,8 @@ else
         _query = _url!.GetQueryString();
         ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
         Filter.Ratings.ReplaceWithRange(ratingParams);
+        ICollection<string> platformParams = _url.GetQueryParameters(RatingName);
+        Filter.Platforms.ReplaceWithRange(platformParams);
 
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
 
@@ -117,13 +126,11 @@ else
     }
 
     //Specific to GameReview stuff from here onwards. Perhaps move to seperate page route?
-    private async Task ToggleRating(ChangeEventArgs args, int rating)
+    private async Task RefreshUrlAndFetch()
     {
-        bool isSelected = (bool)args.Value!;
-        Filter!.Ratings[rating] = isSelected;
-
         _url = new HttpQueryBuilder("/kategori/tv-spelrecensioner", QueryArrayMode.Multiple) //TODO: hardcoded
             .Add(RatingName, Filter!.Ratings.Values)
+            .Add(PlatformName, Filter!.Platforms.Values)
             .ToUrl();
         _query = _url.GetQueryString();
         Navigation.NavigateTo(_url.ToString(), false, true);
@@ -131,8 +138,23 @@ else
         await FetchData();
     }
 
+    private async Task ToggleRating(ChangeEventArgs args, int rating)
+    {
+        bool isSelected = (bool)args.Value!;
+        Filter!.Ratings[rating] = isSelected;
+        await RefreshUrlAndFetch();
+    }
+
+    private async Task TogglePlatform(ChangeEventArgs args, string platform)
+    {
+        bool isSelected = (bool)args.Value!;
+        Filter!.Platforms[platform] = isSelected;
+        await RefreshUrlAndFetch();
+    }
+
     public class GameReviewFilter
     {
+        public readonly Indexer<string> Platforms = new();
         public readonly Indexer<int> Ratings = new();
     }
 

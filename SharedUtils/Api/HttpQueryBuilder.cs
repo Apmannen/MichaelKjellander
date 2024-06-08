@@ -27,6 +27,10 @@ public class HttpQueryBuilder
     {
         return AddObjects(key, values);
     }
+    public HttpQueryBuilder Add(string key, ICollection<string>? values)
+    {
+        return AddObjects(key, values);
+    }
 
     private HttpQueryBuilder AddObject(string key, object? value)
     {
