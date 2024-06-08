@@ -47,7 +47,7 @@
             }
 
             <p></p>
-            <button class="btn btn-dark">Rensa</button>
+            <button class="btn btn-dark" @onclick="OnClearClick">Rensa</button>
         }
     </TitleBox>
 }
@@ -153,10 +153,22 @@ else
         await RefreshUrlAndFetch();
     }
 
+    private async Task OnClearClick()
+    {
+        Filter!.Clear();
+        await RefreshUrlAndFetch();
+    }
+
     public class GameReviewFilter
     {
         public readonly Indexer<string> Platforms = new();
         public readonly Indexer<int> Ratings = new();
+
+        public void Clear()
+        {
+            Platforms.Values.Clear();
+            Ratings.Values.Clear();
+        }
     }
 
 }
