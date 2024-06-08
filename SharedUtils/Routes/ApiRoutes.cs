@@ -9,7 +9,7 @@ public class ApiRoutes
     {
         _baseUrl = baseUrl;
     }
-    public string Metas => $"{_baseUrl}/api/blog/metas";
+    public string MetaPlatforms => $"{_baseUrl}/api/blog/meta-platforms";
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}"; 
     public string Posts(int page, string? categorySlug, ICollection<int>? metaRatings, string? postSlug)
     {

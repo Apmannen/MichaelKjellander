@@ -36,7 +36,11 @@
                 }
                 <p></p>
                 <span class="font-bold">Plattform</span>
-                @*<button class="btn btn-dark">Filtrera</button>*@
+                @foreach(string platform in _allPlatforms)
+                {
+                    <div>@platform</div>
+                }
+                <button class="btn btn-dark">Rensa</button>
             </form>
         }
     </TitleBox>
@@ -55,6 +59,8 @@ else
 }
 
 @code {
+
+    //TODO: seperate specific category stuff, like GameReview filters, in seperate component: #12
     [Parameter] public string? Slug { get; set; }
     [Parameter] public int? Page { get; set; }
     private IList<WpPost>? _posts;
@@ -69,6 +75,7 @@ else
     private Url? _url;
     private string? _query;
     private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
+    private List<string> _allPlatforms = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,6 +92,10 @@ else
         Filter.Ratings.ReplaceWithRange(ratingParams);
 
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
+
+        _allPlatforms.Clear();
+        _allPlatforms.AddRange(await _service.FetchMetaPlatforms());
+
         await FetchData();
     }
 

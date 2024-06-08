@@ -24,7 +24,7 @@ public class BlogController : Controller
     public async Task<IActionResult> GetPlatforms()
     {
         IList<string> platforms = await _wpApiService.GetMetas();
-        return Ok(ApiUtil.CreateApiResponse([platforms]));
+        return Ok(ApiUtil.CreateApiResponse(platforms));
     }
 
     [HttpGet]
