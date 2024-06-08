@@ -49,8 +49,8 @@ public class BlogController : Controller
 
     [HttpGet]
     [Route("posts")]
-    //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-    //    VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
+        VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)

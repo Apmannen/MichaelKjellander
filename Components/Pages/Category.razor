@@ -78,7 +78,7 @@ else
     private const string RatingName = "betyg";
     private const string PlatformName = "plattform";
     private bool IsFirstPage => Page is null or 1;
-    private bool _isLoading;
+    private bool _isLoading = true;
     private Url? _url;
     private string? _query;
     private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
@@ -91,13 +91,14 @@ else
             return;
         }
 
+        _isLoading = true;
         Filter ??= new();
 
         _url = new Url(Navigation.Uri);
         _query = _url!.GetQueryString();
         ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
         Filter.Ratings.ReplaceWithRange(ratingParams);
-        ICollection<string> platformParams = _url.GetQueryParameters(RatingName);
+        ICollection<string> platformParams = _url.GetQueryParameters(PlatformName);
         Filter.Platforms.ReplaceWithRange(platformParams);
 
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
