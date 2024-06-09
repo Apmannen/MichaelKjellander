@@ -23,7 +23,7 @@ Show: @_show*@
     {
         if (ShowCallbacker != null)
         {
-            ShowCallbacker.Action = Toggle;
+            ShowCallbacker.Action = Show;
         }
     }
 
@@ -36,13 +36,10 @@ Show: @_show*@
             _show = false;
         }
     }
-    
-    private void Toggle()
+
+    private void Show()
     {
-        _show = !_show;
-        if (_show)
-        {
-            JsService.AttachExclusiveListener(ElementId!);
-        }
+        _show = true;
+        JsService.AttachExclusiveListener(ElementId!);
     }
 }
