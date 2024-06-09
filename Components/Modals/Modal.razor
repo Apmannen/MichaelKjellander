@@ -3,9 +3,6 @@
 @using MichaelKjellander.SharedUtils.Components
 @inject JsService JsService
 
-@*<button class="btn btn-dark"  @onclick="Toggle">Toggle</button>
-Show: @_show*@
-
 <div id="@ElementId" class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
     <div class="sg-modal bg-white p-10 relative">
         @ChildContent

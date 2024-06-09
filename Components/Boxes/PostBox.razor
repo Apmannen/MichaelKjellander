@@ -8,23 +8,13 @@
 
 @if (Post != null)
 {
-    
     <article class="border border-gray-200">
         @if (@Post.FeaturedImage!.IsSet)
         {
-            if (@IsSingle)
-            {
-                <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)">
-                    <img src="@Post.FeaturedImage.FullUrl"/>
-                </Modal>
-                <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>
-            }
-            else
-            {
-                <a href="@PageRoutes.Post(Post.Slug!)">
-                    <img src="@Post.FeaturedImage.ThumbnailUrl"/>
-                </a>
-            }
+            <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-" + Post.Id)">
+                <img src="@Post.FeaturedImage.FullUrl"/>
+            </Modal>
+            <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>
         }
         <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
@@ -122,4 +112,5 @@
 
         return formattedTagName;
     }
+
 }
