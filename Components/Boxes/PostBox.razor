@@ -17,7 +17,7 @@
                 <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)">
                     <img src="@Post.FeaturedMediaUrl"/>
                 </Modal>
-                <img src="@Post.FeaturedMediaUrl" @onclick="OnImageClick"/>
+                <img class="cursor-pointer" src="@Post.FeaturedMediaUrl" @onclick="OnImageClick"/>
             }
             else
             {

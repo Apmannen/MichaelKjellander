@@ -618,6 +618,10 @@ video {
   width: 1.5rem;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
