@@ -23,18 +23,11 @@ Show: @_show
     private async Task HandleBackgroundClick()
     {
         bool wasClicked = await JsService.WasClicked("tmp");
-        Console.WriteLine("*** wasc="+wasClicked);
         if (wasClicked)
         {
             _show = false;
         }
     }
-
-    /*private void Hide(MouseEventArgs args)
-    {
-        JsService.DebugArgs(args);
-        _show = false;
-    }*/
     
     private void Toggle()
     {
