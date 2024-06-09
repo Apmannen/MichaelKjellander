@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpPost : Model
+public class WpPost : WordpressModel
 {
     public int Id { get; set; }
     public string? Content { get; set; }

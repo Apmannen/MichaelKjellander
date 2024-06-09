@@ -2,7 +2,7 @@
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public class WpPage : Model
+public class WpPage : WordpressModel
 {
     public int Id { get; set; }
     public string? Content { get; set; }
