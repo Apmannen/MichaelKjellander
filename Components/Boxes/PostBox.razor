@@ -10,19 +10,19 @@
 {
     
     <article class="border border-gray-200">
-        @if (@Post.FeaturedMediaUrl != null)
+        @if (@Post.FeaturedImage!.IsSet)
         {
             if (@IsSingle)
             {
                 <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)">
-                    <img src="@Post.FeaturedMediaUrl"/>
+                    <img src="@Post.FeaturedImage.ThumbnailUrl"/>
                 </Modal>
-                <img class="cursor-pointer" src="@Post.FeaturedMediaUrl" @onclick="OnImageClick"/>
+                <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>
             }
             else
             {
                 <a href="@PageRoutes.Post(Post.Slug!)">
-                    <img src="@Post.FeaturedMediaUrl"/>
+                    <img src="@Post.FeaturedImage.ThumbnailUrl"/>
                 </a>
             }
         }
