@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Components;
-
-namespace MichaelKjellander.SharedUtils;
+namespace MichaelKjellander.SharedUtils.Components;
 
 public static class ComponentUtil
 {

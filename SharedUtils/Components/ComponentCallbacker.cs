@@ -1,4 +1,4 @@
-﻿namespace MichaelKjellander.SharedUtils;
+﻿namespace MichaelKjellander.SharedUtils.Components;
 
 public class ComponentCallbacker
 {
