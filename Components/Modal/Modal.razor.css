@@ -1,16 +1,17 @@
 ﻿.sg-modal-parent {
+    background-color: rgba(0,0,0,0.5);
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,0.5);
     position: fixed;
     top: 0;
     left: 0;
-    justify-content: center; 
-    align-items: center;
+    justify-content: center;
+    align-items: center;,
+    pointer-events: none;
 }
 .sg-modal {
     z-index: 1000;
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 
 /*

@@ -4,7 +4,7 @@
 <button class="btn btn-dark"  @onclick="Toggle">Toggle</button>
 Show: @_show
 
-<div class="sg-modal-parent @(_show ? "flex" : "hidden")" @onclick="Hide">
+<div id="tmp" class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
     <div class="sg-modal bg-white p-10 relative">
         MODAL CONTENT
     </div>
@@ -14,14 +14,34 @@ Show: @_show
 @code {
     private bool _show = false;
 
-    private void Hide(MouseEventArgs args)
+    protected override void OnInitialized()
+    {
+        
+    }
+
+    //TODO: try avoid reacting on parent child click. Try to find a better way than this workdaround.
+    private async Task HandleBackgroundClick()
+    {
+        bool wasClicked = await JsService.WasClicked("tmp");
+        Console.WriteLine("*** wasc="+wasClicked);
+        if (wasClicked)
+        {
+            _show = false;
+        }
+    }
+
+    /*private void Hide(MouseEventArgs args)
     {
         JsService.DebugArgs(args);
         _show = false;
-    }
+    }*/
     
     private void Toggle()
     {
         _show = !_show;
+        if (_show)
+        {
+            JsService.AttachExclusiveListener("tmp");
+        }
     }
 }

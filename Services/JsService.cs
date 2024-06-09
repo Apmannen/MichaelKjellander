@@ -13,6 +13,15 @@ public class JsService
         _js = js;
     }
 
+    public void AttachExclusiveListener(string id)
+    {
+        _js.InvokeVoidAsync("attachExclusiveListener", id);
+    }
+    public async Task<bool> WasClicked(string id)
+    {
+        return await _js.InvokeAsync<bool>("getClickResult", id);
+    }
+
     public void DebugArgs(MouseEventArgs args)
     {
         _js.InvokeVoidAsync("debugObject", args);
