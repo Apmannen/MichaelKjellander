@@ -6,23 +6,9 @@
     top: 0;
     left: 0;
     justify-content: center;
-    align-items: center;,
+    align-items: center;
     pointer-events: none;
 }
 .sg-modal {
     z-index: 1000;
-    /*pointer-events: none;*/
 }
-
-/*
-.sg-modal {
-    background-color: purple;
-    animation-name: example;
-    animation-duration: 4s;
-}
-@keyframes example {
-    0%   {background-color: red;}
-    25%  {background-color: yellow;}
-    50%  {background-color: blue;}
-    100% {background-color: green;}
-}*/
