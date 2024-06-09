@@ -129,7 +129,7 @@ else
     //Specific to GameReview stuff from here onwards. Perhaps move to seperate page route?
     private async Task RefreshUrlAndFetch()
     {
-        _url = new HttpQueryBuilder("/kategori/tv-spelrecensioner", QueryArrayMode.Multiple) //TODO: hardcoded
+        _url = new HttpQueryBuilder(PageRoutes.Category(CategoryType.GameReview), QueryArrayMode.Multiple) //TODO: hardcoded
             .Add(RatingName, Filter!.Ratings.Values)
             .Add(PlatformName, Filter!.Platforms.Values)
             .ToUrl();
