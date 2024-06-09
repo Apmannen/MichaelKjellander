@@ -8,6 +8,9 @@
     justify-content: center; 
     align-items: center;
 }
+.sg-modal {
+    z-index: 1000;
+}
 
 /*
 .sg-modal {

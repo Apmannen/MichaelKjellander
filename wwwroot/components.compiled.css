@@ -314,6 +314,10 @@ main[b-qnd268w11u] {
   align-items: center;
 }
 
+.sg-modal[b-v3y4yi9c6p] {
+  z-index: 1000;
+}
+
 /*
 .sg-modal {
     background-color: purple;
