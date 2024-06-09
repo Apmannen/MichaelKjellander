@@ -1,10 +1,12 @@
-﻿@using MichaelKjellander.Services
+﻿@using System.ComponentModel.DataAnnotations
+@using MichaelKjellander.Services
+@using MichaelKjellander.SharedUtils
 @inject JsService JsService
 
-<button class="btn btn-dark"  @onclick="Toggle">Toggle</button>
-Show: @_show
+@*<button class="btn btn-dark"  @onclick="Toggle">Toggle</button>
+Show: @_show*@
 
-<div id="tmp" class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
+<div id="@ElementId" class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
     <div class="sg-modal bg-white p-10 relative">
         MODAL CONTENT
     </div>
@@ -12,17 +14,23 @@ Show: @_show
 
 
 @code {
+    [Parameter] [Required] public string? ElementId { get; set; }
+    [Parameter] public ComponentCallbacker? ShowCallbacker { get; set; }
+    
     private bool _show = false;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        
+        if (ShowCallbacker != null)
+        {
+            ShowCallbacker.Action = Toggle;
+        }
     }
 
     //TODO: try avoid reacting on parent child click. Try to find a better way than this workdaround.
     private async Task HandleBackgroundClick()
     {
-        bool wasClicked = await JsService.WasClicked("tmp");
+        bool wasClicked = await JsService.WasClicked(ElementId!);
         if (wasClicked)
         {
             _show = false;
@@ -34,7 +42,7 @@ Show: @_show
         _show = !_show;
         if (_show)
         {
-            JsService.AttachExclusiveListener("tmp");
+            JsService.AttachExclusiveListener(ElementId!);
         }
     }
 }

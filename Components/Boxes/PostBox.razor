@@ -3,13 +3,16 @@
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Components.Icons
 @using MichaelKjellander.SharedUtils.Routes
+@using MichaelKjellander.Components.Modals
 
 @if (Post != null)
 {
+    
     <article class="border border-gray-200">
         @if (@Post.FeaturedMediaUrl != null)
         {
-            <img src="@Post.FeaturedMediaUrl"/>
+            <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)"/>
+            <img src="@Post.FeaturedMediaUrl" @onclick="OnImageClick"/>
         }
         <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
@@ -83,6 +86,18 @@
 @code {
     [Parameter] [Required] public WpPost? Post { get; set; }
     [Parameter] [Required] public bool IsSingle { get; set; }
+
+    private ComponentCallbacker? _showModalCallbacker;
+
+    protected override void OnInitialized()
+    {
+        _showModalCallbacker ??= new ComponentCallbacker();
+    }
+
+    private void OnImageClick()
+    {
+        _showModalCallbacker!.Action!();
+    }
 
     private string FormatPlattform(int index)
     {
