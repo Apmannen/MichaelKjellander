@@ -1,0 +1,16 @@
+﻿<button class="btn btn-dark"  @onclick="Toggle">Toggle</button>
+Show: @_show
+
+<div class="sg-modal fixed w-20 h-20 to-50% @(_show ? "" : "hidden")">
+    MODAL CONTENT
+</div>
+
+
+@code {
+    private bool _show = false;
+    
+    private void Toggle()
+    {
+        _show = !_show;
+    }
+}

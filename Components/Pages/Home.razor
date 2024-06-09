@@ -6,6 +6,7 @@
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Components.Boxes
 @using MichaelKjellander.Models
+@using MichaelKjellander.Components.Modal
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 @inject ILogger<PaginationBox> Logger
@@ -24,6 +25,8 @@
         <p><a href="/webbspel/gissa-ordet">Gissa ordet</a></p>
     </TitleBox>
 }
+<Modal/>
+
 
 <PostBoxes Posts="_posts" PaddingForFirst="(IsFirstPage)"/>
 
