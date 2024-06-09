@@ -7,7 +7,7 @@
     left: 0;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 .sg-modal {
     z-index: 1000;

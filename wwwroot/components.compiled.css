@@ -312,7 +312,7 @@ main[b-qnd268w11u] {
   left: 0;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
 .sg-modal[b-4wyytgzrp8] {
