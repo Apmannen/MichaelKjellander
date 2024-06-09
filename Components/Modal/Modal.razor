@@ -4,8 +4,8 @@
 <button class="btn btn-dark"  @onclick="Toggle">Toggle</button>
 Show: @_show
 
-<div class="sg-modal-parent @(_show ? "flex" : "hidden")" @onclick="(args) => Hide(args)">
-    <div class="sg-modal bg-white p-10">
+<div class="sg-modal-parent @(_show ? "flex" : "hidden")" @onclick="Hide">
+    <div class="sg-modal bg-white p-10 relative">
         MODAL CONTENT
     </div>
 </div>

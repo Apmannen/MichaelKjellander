@@ -15,7 +15,7 @@ public class JsService
 
     public void DebugArgs(MouseEventArgs args)
     {
-        _js.InvokeVoidAsync("debugArgs", args);
+        _js.InvokeVoidAsync("debugObject", args);
     }
 
     public void ScrollToTop()
