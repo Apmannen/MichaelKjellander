@@ -8,13 +8,14 @@ Show: @_show*@
 
 <div id="@ElementId" class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
     <div class="sg-modal bg-white p-10 relative">
-        MODAL CONTENT
+        @ChildContent
     </div>
 </div>
 
 
 @code {
     [Parameter] [Required] public string? ElementId { get; set; }
+    [Parameter] [Required] public RenderFragment? ChildContent { get; set; }
     [Parameter] public ComponentCallbacker? ShowCallbacker { get; set; }
     
     private bool _show = false;

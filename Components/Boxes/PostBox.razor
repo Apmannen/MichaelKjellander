@@ -12,7 +12,9 @@
     <article class="border border-gray-200">
         @if (@Post.FeaturedMediaUrl != null)
         {
-            <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)"/>
+            <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)">
+                <img src="@Post.FeaturedMediaUrl"/>
+            </Modal>
             <img src="@Post.FeaturedMediaUrl" @onclick="OnImageClick"/>
         }
         <div class="bg-white sg-post sg-post-padding">
