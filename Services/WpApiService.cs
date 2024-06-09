@@ -47,7 +47,7 @@ public class WpApiService
             .Add("formats", metaPlatforms)
             .Add("ratings", metaRatings)
             .Add("category_slug", categorySlug)
-            .Add("post_slug", postSlug)
+            .Add("slug", postSlug)
             .ToString();
 
         var postsResult = await ApiUtil.FetchJson(fullUrl, _client);
