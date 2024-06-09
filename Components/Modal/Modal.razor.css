@@ -1,4 +1,16 @@
-﻿.sg-modal {
+﻿.sg-modal-parent {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    justify-content: center; 
+    align-items: center;
+}
+
+/*
+.sg-modal {
     background-color: purple;
     animation-name: example;
     animation-duration: 4s;
@@ -8,4 +20,4 @@
     25%  {background-color: yellow;}
     50%  {background-color: blue;}
     100% {background-color: green;}
-}
+}*/

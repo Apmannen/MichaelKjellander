@@ -558,10 +558,6 @@ video {
   position: static;
 }
 
-.fixed {
-  position: fixed;
-}
-
 .mb-3 {
   margin-bottom: 0.75rem;
 }
@@ -586,6 +582,10 @@ video {
   display: inline;
 }
 
+.flex {
+  display: flex;
+}
+
 .table {
   display: table;
 }
@@ -602,20 +602,12 @@ video {
   height: 0.5rem;
 }
 
-.h-20 {
-  height: 5rem;
-}
-
 .h-4 {
   height: 1rem;
 }
 
 .h-8 {
   height: 2rem;
-}
-
-.w-20 {
-  width: 5rem;
 }
 
 .w-6 {
@@ -655,10 +647,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.to-50\% {
-  --tw-gradient-to-position: 50%;
 }
 
 .p-10 {
