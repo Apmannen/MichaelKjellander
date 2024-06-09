@@ -304,6 +304,9 @@ main[b-qnd268w11u] {
 /* _content/MichaelKjellander/Components/Modals/Modal.razor.rz.scp.css */
 
 .sg-modal-parent[b-4wyytgzrp8] {
+  animation-name: sg-bg-animation-b-4wyytgzrp8;
+  animation-duration: 0.2s;
+  /*animation-timing-function: ease-in;*/
   background-color: rgba(0,0,0,0.5);
   width: 100vw;
   height: 100vh;
@@ -315,8 +318,19 @@ main[b-qnd268w11u] {
   /*pointer-events: none;*/
 }
 
+@keyframes sg-bg-animation-b-4wyytgzrp8 {
+  from {
+    background-color: rgba(0,0,0,0);
+  }
+
+  to {
+    background-color: rgba(0,0,0,0.5);
+  }
+}
+
 .sg-modal[b-4wyytgzrp8] {
   z-index: 1000;
+  max-width: 80%;
 }
 
 /* _content/MichaelKjellander/Components/Pages/Category.razor.rz.scp.css */

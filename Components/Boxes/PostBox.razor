@@ -15,7 +15,7 @@
             if (@IsSingle)
             {
                 <Modal ShowCallbacker="_showModalCallbacker" ElementId="@("post-modal-"+Post.Id)">
-                    <img src="@Post.FeaturedImage.ThumbnailUrl"/>
+                    <img src="@Post.FeaturedImage.FullUrl"/>
                 </Modal>
                 <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>
             }
