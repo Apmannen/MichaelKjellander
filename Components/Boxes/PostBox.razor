@@ -62,52 +62,38 @@
                 <IconFolder/>
                 <span class="mr-4">@Post.Category.Name</span>
             </div>
-            TODO: replace with meta platform
-            @* @if (Post.TagIds!.Count > 0) *@
-            @* { *@
-            @*     <div class="sg-break-together"> *@
-            @*         <IconTag/> *@
-            @*         @FormatTagName(0) *@
-            @*     </div> *@
-            @*     @for (int i = 1; i < Post.Tags!.Count; i++) *@
-            @*     { *@
-            @*         <div class="sg-break-together"> *@
-            @*             @FormatTagName(i) *@
-            @*         </div> *@
-            @*     } *@
-            @* } *@
+            @if (Post.MetaPlatforms!.Count > 0)
+            {
+                <div class="sg-break-together">
+                    <IconTag/>
+                    @FormatPlattform(0)
+                </div>
+                @for (int i = 1; i < Post.MetaPlatforms!.Count; i++)
+                {
+                    <div class="sg-break-together">
+                        @FormatPlattform(i)
+                    </div>
+                }
+            }
         </div>
     </article>
 }
 
 
 @code {
-    [Parameter][Required] public WpPost? Post { get; set; }
-    [Parameter][Required] public bool IsSingle { get; set; }
-    //private string? _html;
-    
-    //TODO: generalize
-    // protected override void OnParametersSet()
-    // {
-    //     if (Post != null)
-    //     {
-    //         _html = Post.Content!;
-    //         if (!_html.Contains("<p>"))
-    //         {
-    //             _html = _html.Replace("\n", "<br>");
-    //         }
-    //         //_html = Post.Content!.Replace("\n", "<br>");
-    //     }
-    // }
+    [Parameter] [Required] public WpPost? Post { get; set; }
+    [Parameter] [Required] public bool IsSingle { get; set; }
 
-    // private string FormatTagName(int index)
-    // {
-    //     string formattedTagName = Post!.Tags![index].Name!;
-    //     bool isLast = Post!.Tags!.Count == index + 1;
-    //     if (!isLast)
-    //     {
-    //         formattedTagName += ", ";
-    //     }
-    //     return formattedTagName;
-    // }
+    private string FormatPlattform(int index)
+    {
+        string formattedTagName = Post!.MetaPlatforms![index];
+        bool isLast = Post!.MetaPlatforms!.Count == index + 1;
+        if (!isLast)
+        {
+            formattedTagName += ", ";
+        }
+
+        return formattedTagName;
+    }
+
 }
