@@ -33,7 +33,7 @@ public class WpApiService
     public async Task<WpPage?> GetPage(string slug = "")
     {
         var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}?slug={slug}", _client);
-        IList<WpPage> parsedPages = Model.ParseList<WpPage>(pagesResult.Root);
+        IList<WpPage> parsedPages = ParseList<WpPage>(pagesResult.Root);
         return parsedPages.FirstOrDefault();
     }
 
@@ -58,7 +58,7 @@ public class WpApiService
         }
 
         int numPages = root.GetProperty("num_pages").GetInt32();
-        IList<WpPost> parsedPosts = Model.ParseList<WpPost>(root.GetProperty("posts"));
+        IList<WpPost> parsedPosts = ParseList<WpPost>(root.GetProperty("posts"));
 
         return (parsedPosts, numPages);
     }
@@ -66,5 +66,15 @@ public class WpApiService
     private static string GetFullBaseUrl(string nameSpace, string path)
     {
         return $"{WpApiBaseUrl}/{nameSpace}/{path}";
+    }
+    
+    private static List<T> ParseList<T>(JsonElement root) where T : Model 
+    {
+        List<T> list = [];
+        foreach (JsonElement el in root.EnumerateArray())
+        {
+            list.Add(Model.ParseNewFromJson<T>(el));
+        }
+        return list;
     }
 }

@@ -5,7 +5,8 @@ namespace MichaelKjellander.Models;
 public abstract class Model
 {
     /// <summary>
-    /// Intended for external APIs, not all models need it
+    /// Intended for external APIs, not all models need it. Since not all models need it,
+    /// maybe use an interface or a subclass?
     /// </summary>
     /// <param name="el"></param>
     /// <exception cref="NotImplementedException"></exception>
@@ -13,17 +14,12 @@ public abstract class Model
     {
         throw new NotImplementedException();
     }
-    
-    public static List<T> ParseList<T>(JsonElement root) where T : Model 
+
+    public static T ParseNewFromJson<T>(JsonElement el) where T : Model
     {
-        List<T> list = [];
-        foreach (var el in root.EnumerateArray())
-        {
-            T parsableJson = CreateModelInstance<T>();
-            parsableJson.ParseFromJson(el);
-            list.Add(parsableJson);
-        }
-        return list;
+        T parsableJson = CreateModelInstance<T>();
+        parsableJson.ParseFromJson(el);
+        return parsableJson;
     }
 
     private static T CreateModelInstance<T>()
