@@ -10,19 +10,19 @@
 @if (IncludeScript)
 {
     <script>
-        function listenToClicksForActivatingModal(targetElement, contentContainer) {
-            const rootElement = targetElement.parentElement;
+        function listenToClicksForActivatingModal(modalContainer, contentContainer) {
+            const rootElement = modalContainer.parentElement;
             const images = rootElement.getElementsByTagName("img");
             
-            const handleCloseClick = (closeClickEvent) => {
-                if(closeClickEvent.target === targetElement) {
-                    targetElement.removeAttribute("data-active");
+            const handleBackgroundClick = (closeClickEvent) => {
+                if(closeClickEvent.target === modalContainer) {
+                    modalContainer.removeAttribute("data-active");
                 }
             }
             
             const handleImageClick = (imageClickEvent, image) => {
                 imageClickEvent.preventDefault();
-                targetElement.setAttribute("data-active", true);
+                modalContainer.setAttribute("data-active", true);
                 const src = image.getAttribute("src");
                 const splits = src.split(/-[0-9]+x[0-9]+/);
                 let fullSizeSrc = src;
@@ -31,8 +31,8 @@
                 }
                 contentContainer.innerHTML = "<img src='"+fullSizeSrc+"'>";
 
-                targetElement.addEventListener("click", (closeClickEvent) => {
-                    handleCloseClick(closeClickEvent);
+                modalContainer.addEventListener("click", (closeClickEvent) => {
+                    handleBackgroundClick(closeClickEvent);
                 });
             }
             
