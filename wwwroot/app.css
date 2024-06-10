@@ -68,6 +68,9 @@ These are mostly embedded HTML.
 .sg-post-content p {
     @apply mb-8;
 }
+.sg-post-content img {
+    cursor: pointer;
+}
 .sg-post-content iframe {
     width: 100%;
 }

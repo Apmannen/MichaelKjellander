@@ -1,11 +1,13 @@
 ﻿window.listenToClicksForActivatingTarget = function (targetElement, contentContainer) {
-    console.log("*** cont", contentContainer);
     const rootElement = targetElement.parentElement;
     const images = rootElement.getElementsByTagName("img");
     for(let image of images) {
         image.addEventListener("click", (event) => {
             event.preventDefault();
             targetElement.setAttribute("data-active", true);
+            contentContainer.innerHTML = "";
+            contentContainer.appendChild(image.cloneNode());
+            
             targetElement.addEventListener("click", (event) => {
                 if(event.target === targetElement) {
                     targetElement.removeAttribute("data-active");

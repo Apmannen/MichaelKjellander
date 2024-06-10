@@ -842,6 +842,10 @@ These are mostly embedded HTML.
   margin-bottom: 2rem;
 }
 
+.sg-post-content img {
+  cursor: pointer;
+}
+
 .sg-post-content iframe {
   width: 100%;
 }
