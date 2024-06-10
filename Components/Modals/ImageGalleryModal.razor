@@ -10,7 +10,7 @@
 @if (IncludeScript)
 {
     <script>
-        function listenToClicksForActivatingTarget(targetElement, contentContainer) {
+        function listenToClicksForActivatingModal(targetElement, contentContainer) {
             const rootElement = targetElement.parentElement;
             const images = rootElement.getElementsByTagName("img");
             
@@ -57,7 +57,7 @@
     {
         if (firstRender)
         {
-            Js.InvokeVoidAsync("listenToClicksForActivatingTarget", _modalParentRef, _contentContainerRef);
+            Js.InvokeVoidAsync("listenToClicksForActivatingModal", _modalParentRef, _contentContainerRef);
         }
     }
 
