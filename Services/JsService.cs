@@ -14,11 +14,6 @@ public class JsService
         _js = js;
     }
 
-    public void ListenToClicksForActivatingTarget(ElementReference targetElement, ElementReference contentContainer)
-    {
-        _js.InvokeVoidAsync("listenToClicksForActivatingTarget", targetElement, contentContainer);
-    }
-
     public void DebugArgs(MouseEventArgs args)
     {
         _js.InvokeVoidAsync("debugObject", args);

@@ -9,7 +9,7 @@
 @if (Post != null)
 {
     <article class="border border-gray-200" @ref=_containerRef>
-        <ImageGalleryModal Container="_containerRef"/>
+        <ImageGalleryModal Container="_containerRef" IncludeScript=@(Index == 0)/>
         @if (@Post.FeaturedImage!.IsSet)
         {
             <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl"/>
@@ -86,6 +86,7 @@
 @code {
     [Parameter] [Required] public WpPost? Post { get; set; }
     [Parameter] [Required] public bool IsSingle { get; set; }
+    [Parameter] [Required] public int Index { get; set; }
 
     private ElementReference _containerRef;
     private ComponentCallbacker? _showModalCallbacker;
