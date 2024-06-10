@@ -3,7 +3,7 @@
 @using MichaelKjellander.SharedUtils.Components
 @inject JsService JsService
 
-<div id="@ElementId" class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
+<div @ref=_modalParentReference class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
     <div class="sg-modal bg-white p-10 relative">
         @ChildContent
     </div>
@@ -11,9 +11,9 @@
 
 
 @code {
-    [Parameter] [Required] public string? ElementId { get; set; }
     [Parameter] [Required] public RenderFragment? ChildContent { get; set; }
     [Parameter] public ComponentCallbacker? ShowCallbacker { get; set; }
+    private ElementReference _modalParentReference;
     
     private bool _show = false;
 
@@ -28,7 +28,7 @@
     //TODO: try avoid reacting on parent child click. Try to find a better way than this workdaround.
     private async Task HandleBackgroundClick()
     {
-        bool wasClicked = await JsService.WasClicked(ElementId!);
+        bool wasClicked = await JsService.CheckIfTargetHasBeenClicked(_modalParentReference);
         if (wasClicked)
         {
             _show = false;
@@ -38,6 +38,6 @@
     private void Show()
     {
         _show = true;
-        JsService.AttachExclusiveListener(ElementId!);
+        JsService.AttachExclusiveListener(_modalParentReference);
     }
 }

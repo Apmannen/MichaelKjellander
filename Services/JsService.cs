@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace MichaelKjellander.Services;
 
@@ -12,14 +13,16 @@ public class JsService
     {
         _js = js;
     }
+    
+    
 
-    public void AttachExclusiveListener(string id)
+    public void AttachExclusiveListener(ElementReference element)
     {
-        _js.InvokeVoidAsync("attachExclusiveListener", id);
+        _js.InvokeVoidAsync("attachExclusiveListener", element);
     }
-    public async Task<bool> WasClicked(string id)
+    public async Task<bool> CheckIfTargetHasBeenClicked(ElementReference element)
     {
-        return await _js.InvokeAsync<bool>("getClickResult", id);
+        return await _js.InvokeAsync<bool>("checkIfTargetHasBeenClicked", element);
     }
 
     public void DebugArgs(MouseEventArgs args)
