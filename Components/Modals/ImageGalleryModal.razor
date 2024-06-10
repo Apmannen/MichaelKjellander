@@ -2,9 +2,9 @@
 @using MichaelKjellander.Services
 @inject JsService JsService
 
-<div @ref=_modalParentReference class="sg-modal-parent" data-active="@false">
+<div @ref=_modalParentRef class="sg-modal-parent" data-active="@false">
     <div class="sg-modal bg-white p-10 relative">
-        
+        <div @ref=_contentContainerRef></div>
     </div>
 </div>
 
@@ -12,15 +12,14 @@
 @code {
     [Parameter, Required] public ElementReference Container { get; set; }
     
-    private ElementReference _modalParentReference;
+    private ElementReference _modalParentRef;
+    private ElementReference _contentContainerRef;
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            JsService.ListenToClicksForActivatingTarget(Container, _modalParentReference);
-            //List<string> classNames = new(Images!.Select(image => image.ClassName));
-            //JsService.TrackClickAndActivateTarget(classNames, _modalParentReference);
+            JsService.ListenToClicksForActivatingTarget(_modalParentRef, _contentContainerRef);
         }
     }
 }

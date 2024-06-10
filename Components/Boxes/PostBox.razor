@@ -1,30 +1,18 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@using System.Text.RegularExpressions
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Components.Icons
 @using MichaelKjellander.SharedUtils.Routes
 @using MichaelKjellander.Components.Modals
-@using MichaelKjellander.Models.ComponentModels
 @using MichaelKjellander.SharedUtils.Components
 
 @if (Post != null)
 {
     <article class="border border-gray-200" @ref=_containerRef>
         <ImageGalleryModal Container="_containerRef"/>
-        @*@if (_imageClasses.Count > 0)
-        {
-            <Modal ClickableClasses="_imageClasses">
-                <div>test</div>
-            </Modal>
-        }*@
         @if (@Post.FeaturedImage!.IsSet)
         {
             <img src="@Post.FeaturedImage.FullUrl"/>
-            @*<Modal ShowCallbacker="_showModalCallbacker">
-                <img src="@Post.FeaturedImage.FullUrl"/>
-            </Modal>
-            <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>*@
         }
         <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
@@ -100,7 +88,6 @@
     [Parameter] [Required] public bool IsSingle { get; set; }
 
     private ElementReference _containerRef;
-    //private IList<Image> _images = [];
     private ComponentCallbacker? _showModalCallbacker;
 
     protected override void OnInitialized()
@@ -110,23 +97,7 @@
 
     protected override void OnParametersSet()
     {
-        IdentifyImages();
-    }
-
-    private void IdentifyImages()
-    {
-        /*Regex regex = new Regex("<img.*class=\"(.*?)\".*?src=\"(.*?)\".*?>");
-        MatchCollection matches = regex.Matches(Post!.Content!);
-        List<Image> imageClasses = [];
-        for(int i = 0; i < matches.Count; i++)
-        {
-            Match match = matches[i];
-            string className = match.Groups[1].ToString();
-            string source = match.Groups[2].ToString();
-            Console.WriteLine("*** c="+className+", s="+source);
-            imageClasses.Add(new(className, source));
-        }
-        this._images = imageClasses;*/
+        
     }
     
     private void OnImageClick()

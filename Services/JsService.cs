@@ -14,27 +14,9 @@ public class JsService
         _js = js;
     }
 
-    public void ListenToClicksForActivatingTarget(ElementReference rootElement, ElementReference targetElement)
+    public void ListenToClicksForActivatingTarget(ElementReference targetElement, ElementReference contentContainer)
     {
-        _js.InvokeVoidAsync("listenToClicksForActivatingTarget", targetElement);
-    }
-    
-    public void TrackClickAndActivateTarget(IList<string> classes, ElementReference target)
-    {
-        Console.WriteLine("*** TRACK:"+classes.Count);
-        _js.InvokeVoidAsync("debugObject", classes);
-        _js.InvokeVoidAsync("trackClickAndActivateTarget", classes, target);
-    }
-    
-    [Obsolete("Might be replaced")]
-    public void AttachExclusiveListener(ElementReference element)
-    {
-        _js.InvokeVoidAsync("attachExclusiveListener", element);
-    }
-    [Obsolete("Might be replace")]
-    public async Task<bool> CheckIfTargetHasBeenClicked(ElementReference element)
-    {
-        return await _js.InvokeAsync<bool>("checkIfTargetHasBeenClicked", element);
+        _js.InvokeVoidAsync("listenToClicksForActivatingTarget", targetElement, contentContainer);
     }
 
     public void DebugArgs(MouseEventArgs args)
