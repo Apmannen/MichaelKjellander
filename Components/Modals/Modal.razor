@@ -13,6 +13,8 @@
 @code {
     [Parameter] [Required] public RenderFragment? ChildContent { get; set; }
     [Parameter] public ComponentCallbacker? ShowCallbacker { get; set; }
+    [Parameter][Required] public IList<string>? ClickableClasses { get; set; }
+    
     private ElementReference _modalParentReference;
     
     private bool _show = false;
@@ -25,19 +27,27 @@
         }
     }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            JsService.TrackClickAndActivateTarget(ClickableClasses!, _modalParentReference);
+        }
+    }
+
     //TODO: try avoid reacting on parent child click. Try to find a better way than this workdaround.
     private async Task HandleBackgroundClick()
     {
-        bool wasClicked = await JsService.CheckIfTargetHasBeenClicked(_modalParentReference);
+        /*bool wasClicked = await JsService.CheckIfTargetHasBeenClicked(_modalParentReference);
         if (wasClicked)
         {
             _show = false;
-        }
+        }*/
     }
 
     private void Show()
     {
-        _show = true;
-        JsService.AttachExclusiveListener(_modalParentReference);
+        /*_show = true;
+        JsService.AttachExclusiveListener(_modalParentReference);*/
     }
 }

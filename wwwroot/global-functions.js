@@ -1,5 +1,15 @@
 ﻿window.trackedClickElement = null;
 
+window.trackClickAndActivateTarget = function (classes, targetElement) {
+    console.log("**** classes", classes, "target", targetElement);
+    for (let c of classes) {
+        const anElement = document.getElementsByClassName(c)[0];
+        anElement.addEventListener("click", (event) => {
+            console.log("**** el click", this)
+        });
+    }
+}
+
 window.attachExclusiveListener = function (target) {
     target.addEventListener("click", (event) => {
         window.trackedClickElement = event.target;

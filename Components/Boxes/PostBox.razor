@@ -10,12 +10,19 @@
 @if (Post != null)
 {
     <article class="border border-gray-200">
+        @if (_imageClasses.Count > 0)
+        {
+            <Modal ClickableClasses="_imageClasses">
+                <div>test</div>
+            </Modal>
+        }
         @if (@Post.FeaturedImage!.IsSet)
         {
-            <Modal ShowCallbacker="_showModalCallbacker">
+            <img src="@Post.FeaturedImage.FullUrl"/>
+            @*<Modal ShowCallbacker="_showModalCallbacker">
                 <img src="@Post.FeaturedImage.FullUrl"/>
             </Modal>
-            <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>
+            <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl" @onclick="OnImageClick"/>*@
         }
         <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
@@ -90,6 +97,7 @@
     [Parameter] [Required] public WpPost? Post { get; set; }
     [Parameter] [Required] public bool IsSingle { get; set; }
 
+    private IList<string> _imageClasses = [];
     private ComponentCallbacker? _showModalCallbacker;
 
     protected override void OnInitialized()
@@ -99,14 +107,20 @@
 
     protected override void OnParametersSet()
     {
-        Regex regex = new Regex("<img.*class=\"(.*?)\".*?>");
-        var match = regex.Match(Post!.Content!);
-        foreach (var group in match.Groups)
-        {
-            //Console.WriteLine("**** mg="+group);
-        }
+        IdentifyImages();
+    }
 
-        //TODO: I'll probably handle open and close modal with JS, make us of class
+    private void IdentifyImages()
+    {
+        Regex regex = new Regex("<img.*class=\"(.*?)\".*?>");
+        MatchCollection matches = regex.Matches(Post!.Content!);
+        List<string> imageClasses = [];
+        for(int i = 0; i < matches.Count; i++)
+        {
+            Match match = matches[i];
+            imageClasses.Add(match.Groups[1].ToString());
+        }
+        this._imageClasses = imageClasses;
     }
     
     private void OnImageClick()

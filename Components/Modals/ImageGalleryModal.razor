@@ -1,8 +1,11 @@
 ﻿@using System.ComponentModel.DataAnnotations
-<h3>ImageModal</h3>
+@using MichaelKjellander.SharedUtils.Components
+
+<Modal ComponentCallbacker="_showModalCallbacker">test</Modal>
 
 @code {
-    [Parameter][Required] public string ImageSrc { get; set; }
+    [Parameter][Required] public IList<string> ClickableClasses { get; set; }
+    
     
     
 }
