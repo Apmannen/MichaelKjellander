@@ -1,4 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Components.Icons
@@ -96,6 +97,18 @@
         _showModalCallbacker ??= new ComponentCallbacker();
     }
 
+    protected override void OnParametersSet()
+    {
+        Regex regex = new Regex("<img.*class=\"(.*?)\".*?>");
+        var match = regex.Match(Post!.Content!);
+        foreach (var group in match.Groups)
+        {
+            Console.WriteLine("**** mg="+group);
+        }
+
+        //TODO: I'll probably handle open and close modal with JS, make us of class
+    }
+    
     private void OnImageClick()
     {
         _showModalCallbacker!.Action!();
