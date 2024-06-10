@@ -3,11 +3,12 @@
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils
+@using MichaelKjellander.SharedUtils.Components
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 
 <PageTitle>
-    @((_page != null ? _page.Title : "") + " - Michael Kjellander")
+    @(ComponentUtil.FormatPageTitle(_page?.Title))
 </PageTitle>
 
 @if (_page != null)
