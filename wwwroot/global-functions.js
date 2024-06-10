@@ -2,7 +2,7 @@
 
 window.attachExclusiveListener = function (target) {
     target.addEventListener("click", (event) => {
-        window.trackedClickElement = target;
+        window.trackedClickElement = event.target;
     });
 }
 window.checkIfTargetHasBeenClicked = function (target) {
