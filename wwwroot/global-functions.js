@@ -12,7 +12,10 @@ window.listenToClicksForActivatingTarget = function (targetElement) {
             
             console.log("*** target el", targetElement)
             targetElement.addEventListener("click", (event) => {
-                targetElement.setAttribute("data-active", false);
+                if(event.target === targetElement) {
+                    console.log("*** CLICK BG")
+                    targetElement.removeAttribute("data-active");
+                }
             });
         });
     }
