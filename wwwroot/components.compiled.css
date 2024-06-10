@@ -301,10 +301,10 @@ main[b-qnd268w11u] {
   }
 }
 
-/* _content/MichaelKjellander/Components/Modals/Modal.razor.rz.scp.css */
+/* _content/MichaelKjellander/Components/Modals/ImageGalleryModal.razor.rz.scp.css */
 
-.sg-modal-parent[b-4wyytgzrp8] {
-  animation-name: sg-bg-animation-b-4wyytgzrp8;
+.sg-modal-parent[b-ng5wczn7xo] {
+  animation-name: sg-bg-animation-b-ng5wczn7xo;
   animation-duration: 0.2s;
   display: none;
   background-color: rgba(0,0,0,0.5);
@@ -317,11 +317,11 @@ main[b-qnd268w11u] {
   align-items: center;
 }
 
-.sg-modal-parent[data-active][b-4wyytgzrp8] {
+.sg-modal-parent[data-active][b-ng5wczn7xo] {
   display: flex;
 }
 
-@keyframes sg-bg-animation-b-4wyytgzrp8 {
+@keyframes sg-bg-animation-b-ng5wczn7xo {
   from {
     background-color: rgba(0,0,0,0);
   }
@@ -331,7 +331,7 @@ main[b-qnd268w11u] {
   }
 }
 
-.sg-modal[b-4wyytgzrp8] {
+.sg-modal[b-ng5wczn7xo] {
   z-index: 1000;
   max-width: 80%;
 }

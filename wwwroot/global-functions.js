@@ -1,6 +1,24 @@
 ﻿
 
-window.trackClickAndActivateTarget = function (classes, targetElement) {
+window.listenToClicksForActivatingTarget = function (targetElement) {
+    const rootElement = targetElement.parentElement;
+    //console.log("*** listenToClicksForActivatingTarget", rootElement, targetElement);
+    const images = rootElement.getElementsByTagName("img");
+    console.log("*** images", images);
+    for(let image of images) {
+        image.addEventListener("click", (event) => {
+            event.preventDefault();
+            targetElement.setAttribute("data-active", true);
+            
+            console.log("*** target el", targetElement)
+            targetElement.addEventListener("click", (event) => {
+                targetElement.setAttribute("data-active", false);
+            });
+        });
+    }
+}
+
+/*window.trackClickAndActivateTarget = function (classes, targetElement) {
     console.log("**** classes", classes, "target", targetElement);
     for (let c of classes) {
         const anElement = document.getElementsByClassName(c)[0];
@@ -8,7 +26,7 @@ window.trackClickAndActivateTarget = function (classes, targetElement) {
             targetElement.setAttribute("data-active", true);
         });
     }
-}
+}*/
 
 /*window.trackedClickElement = null;
 window.attachExclusiveListener = function (target) {

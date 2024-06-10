@@ -1,11 +1,26 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@using MichaelKjellander.SharedUtils.Components
+@using MichaelKjellander.Services
+@inject JsService JsService
 
-<Modal ComponentCallbacker="_showModalCallbacker">test</Modal>
+<div @ref=_modalParentReference class="sg-modal-parent" data-active="@false">
+    <div class="sg-modal bg-white p-10 relative">
+        
+    </div>
+</div>
+
 
 @code {
-    [Parameter][Required] public IList<string> ClickableClasses { get; set; }
+    [Parameter, Required] public ElementReference Container { get; set; }
     
-    
-    
+    private ElementReference _modalParentReference;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            JsService.ListenToClicksForActivatingTarget(Container, _modalParentReference);
+            //List<string> classNames = new(Images!.Select(image => image.ClassName));
+            //JsService.TrackClickAndActivateTarget(classNames, _modalParentReference);
+        }
+    }
 }

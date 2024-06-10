@@ -5,17 +5,19 @@
 @using MichaelKjellander.Components.Icons
 @using MichaelKjellander.SharedUtils.Routes
 @using MichaelKjellander.Components.Modals
+@using MichaelKjellander.Models.ComponentModels
 @using MichaelKjellander.SharedUtils.Components
 
 @if (Post != null)
 {
-    <article class="border border-gray-200">
-        @if (_imageClasses.Count > 0)
+    <article class="border border-gray-200" @ref=_containerRef>
+        <ImageGalleryModal Container="_containerRef"/>
+        @*@if (_imageClasses.Count > 0)
         {
             <Modal ClickableClasses="_imageClasses">
                 <div>test</div>
             </Modal>
-        }
+        }*@
         @if (@Post.FeaturedImage!.IsSet)
         {
             <img src="@Post.FeaturedImage.FullUrl"/>
@@ -97,7 +99,8 @@
     [Parameter] [Required] public WpPost? Post { get; set; }
     [Parameter] [Required] public bool IsSingle { get; set; }
 
-    private IList<string> _imageClasses = [];
+    private ElementReference _containerRef;
+    //private IList<Image> _images = [];
     private ComponentCallbacker? _showModalCallbacker;
 
     protected override void OnInitialized()
@@ -112,15 +115,18 @@
 
     private void IdentifyImages()
     {
-        Regex regex = new Regex("<img.*class=\"(.*?)\".*?>");
+        /*Regex regex = new Regex("<img.*class=\"(.*?)\".*?src=\"(.*?)\".*?>");
         MatchCollection matches = regex.Matches(Post!.Content!);
-        List<string> imageClasses = [];
+        List<Image> imageClasses = [];
         for(int i = 0; i < matches.Count; i++)
         {
             Match match = matches[i];
-            imageClasses.Add(match.Groups[1].ToString());
+            string className = match.Groups[1].ToString();
+            string source = match.Groups[2].ToString();
+            Console.WriteLine("*** c="+className+", s="+source);
+            imageClasses.Add(new(className, source));
         }
-        this._imageClasses = imageClasses;
+        this._images = imageClasses;*/
     }
     
     private void OnImageClick()

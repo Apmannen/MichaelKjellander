@@ -14,6 +14,11 @@ public class JsService
         _js = js;
     }
 
+    public void ListenToClicksForActivatingTarget(ElementReference rootElement, ElementReference targetElement)
+    {
+        _js.InvokeVoidAsync("listenToClicksForActivatingTarget", targetElement);
+    }
+    
     public void TrackClickAndActivateTarget(IList<string> classes, ElementReference target)
     {
         Console.WriteLine("*** TRACK:"+classes.Count);
