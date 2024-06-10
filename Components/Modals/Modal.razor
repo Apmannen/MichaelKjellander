@@ -3,7 +3,7 @@
 @using MichaelKjellander.SharedUtils.Components
 @inject JsService JsService
 
-<div @ref=_modalParentReference class="sg-modal-parent @(_show ? "flex" : "hidden")"  @onclick="HandleBackgroundClick">
+<div @ref=_modalParentReference class="sg-modal-parent" data-active="@_show"  @onclick="HandleBackgroundClick">
     <div class="sg-modal bg-white p-10 relative">
         @ChildContent
     </div>

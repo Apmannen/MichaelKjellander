@@ -586,10 +586,6 @@ video {
   display: inline;
 }
 
-.flex {
-  display: flex;
-}
-
 .table {
   display: table;
 }
