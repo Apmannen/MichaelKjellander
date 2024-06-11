@@ -35,9 +35,9 @@ public class WpCategory : WordpressModel
     
     public override WpCategory ParseFromJson(JsonElement el)
     {
-        this.Id = el.GetProperty("term_id").GetInt32();
+        this.Id = el.GetProperty("id").GetInt32();
         this.Name = el.GetProperty("name").GetString();
-        this.Description = HarmonizeHtmlContent(el.GetProperty("category_description").GetString()!);
+        this.Description = HarmonizeHtmlContent(el.GetProperty("description").GetString()!);
         this.Slug = el.GetProperty("slug").GetString();
         return this;
     }

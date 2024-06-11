@@ -17,6 +17,15 @@ public class BlogController : Controller
     {
         _wpApiService = wpApiService;
     }
+    
+    [HttpGet]
+    [Route("categories")]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
+    public async Task<IActionResult> GetCategories()
+    {
+        IList<WpCategory> items = await _wpApiService.GetCategories();
+        return Ok(ApiUtil.CreateApiResponse(items));
+    }
 
     [HttpGet]
     [Route("meta-platforms")]

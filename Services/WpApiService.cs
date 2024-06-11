@@ -16,6 +16,15 @@ public class WpApiService
     {
         this._client = client;
     }
+    
+    public async Task<IList<WpCategory>> GetCategories()
+    {
+        var result = await ApiUtil.FetchJson(GetFullBaseUrl(NamespaceDefault, "categories"), _client);
+        JsonElement root = result.Root;
+        IList<WpCategory> parsedItems = ParseList<WpCategory>(root);
+
+        return parsedItems;
+    }
 
     public async Task<IList<string>> GetMetas()
     {
