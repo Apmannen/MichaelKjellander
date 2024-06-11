@@ -17,13 +17,8 @@ public class WpCategory : WordpressModel
     public string? Description { get; set; }
     public string? Slug { get; set; }
     
-    public CategoryType Type
-    {
-        get
-        {
-            return Enum.GetValues<CategoryType>().FirstOrDefault(aType => GetSlugByType(aType) == Slug);
-        }
-    }
+    public CategoryType Type => Enum.GetValues<CategoryType>().FirstOrDefault(aType => GetSlugByType(aType) == Slug);
+    public string TypeString => Type.ToString();
     
     // Some categories need special treatment, just need to identify them in the way that it's currently possible.
     public static string GetSlugByType(CategoryType categoryType)

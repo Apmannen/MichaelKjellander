@@ -32,6 +32,8 @@
 
 <PaginationBox paginationData="@_pagination" UrlPrefix="/senaste" FirstUrlPrefix="/"/>
 
+<button id="testb" @onclick="TriggerTest">test</button>
+
 
 @code {
     [Parameter] public int? CurrentPage { get; set; }
@@ -51,7 +53,12 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        JsService.ScrollToTop();
+        //JsService.ScrollToTop();
+    }
+
+    private void TriggerTest()
+    {
+        Console.WriteLine("*** Was triggered!");
     }
 
 }
