@@ -24,10 +24,10 @@ public class WebGamesDataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        List<Word> words = [];
-
-        if (string.IsNullOrEmpty(EnvironmentUtil.Get(EnvVariable.SG_APPENVIRONMENT)))
+        bool calledByPopulateScript = string.IsNullOrEmpty(EnvironmentUtil.Get(EnvVariable.SG_APPENVIRONMENT));
+        if (calledByPopulateScript)
         {
+            List<Word> words = [];
             string path = "Files/ord.niklas.frykholm.txt";
             using FileStream stream = File.OpenRead(path);
             using StreamReader reader = new StreamReader(stream);
@@ -45,6 +45,5 @@ public class WebGamesDataContext : DbContext
             .WithOne(p => p.Word)
             .HasForeignKey(p => p.WordId)
             .HasPrincipalKey(w => w.Id);
-        //modelBuilder.Entity<WordGuessGameProgress>().HasOne<Word>(p => p.Word).;
     }
 }

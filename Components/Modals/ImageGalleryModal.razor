@@ -1,6 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@using MichaelKjellander.Services
-@inject JsService JsService
+@inject IJSRuntime Js
 
 <div @ref=_modalParentRef class="sg-modal-parent" data-active="@false">
     <div class="sg-modal bg-white p-10 relative">
@@ -8,10 +7,49 @@
     </div>
 </div>
 
+@if (IncludeScript)
+{
+    <script>
+        function listenToClicksForActivatingModal(modalContainer, contentContainer) {
+            const rootElement = modalContainer.parentElement;
+            const images = rootElement.getElementsByTagName("img");
+            
+            const handleBackgroundClick = (closeClickEvent) => {
+                if(closeClickEvent.target === modalContainer) {
+                    modalContainer.removeAttribute("data-active");
+                }
+            }
+            
+            const handleImageClick = (imageClickEvent, image) => {
+                imageClickEvent.preventDefault();
+                modalContainer.setAttribute("data-active", true);
+                const src = image.getAttribute("src");
+                const splits = src.split(/-[0-9]+x[0-9]+/);
+                let fullSizeSrc = src;
+                if(splits.length === 2) {
+                    fullSizeSrc = splits[0]+splits[1];
+                }
+                contentContainer.innerHTML = "<img src='"+fullSizeSrc+"'>";
+
+                modalContainer.addEventListener("click", (closeClickEvent) => {
+                    handleBackgroundClick(closeClickEvent);
+                });
+            }
+            
+            for(let image of images) {
+                image.addEventListener("click", (imageClickEvent) => {
+                    handleImageClick(imageClickEvent, image);                    
+                });
+            }
+        }
+    
+    </script>
+}
 
 @code {
     [Parameter, Required] public ElementReference Container { get; set; }
-    
+    [Parameter, Required] public bool IncludeScript { get; set; }
+
     private ElementReference _modalParentRef;
     private ElementReference _contentContainerRef;
 
@@ -19,7 +57,8 @@
     {
         if (firstRender)
         {
-            JsService.ListenToClicksForActivatingTarget(_modalParentRef, _contentContainerRef);
+            Js.InvokeVoidAsync("listenToClicksForActivatingModal", _modalParentRef, _contentContainerRef);
         }
     }
+
 }
