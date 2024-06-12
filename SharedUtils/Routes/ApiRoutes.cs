@@ -11,6 +11,7 @@ public class ApiRoutes
         _baseUrl = baseUrl;
     }
 
+    public string Categories => $"{_baseUrl}/api/blog/categories";
     public string MetaPlatforms => $"{_baseUrl}/api/blog/meta-platforms";
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}";
 

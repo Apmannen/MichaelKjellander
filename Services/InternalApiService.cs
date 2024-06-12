@@ -20,6 +20,12 @@ public class InternalApiService
     }
 
     //Publics
+    public async Task<IList<WpCategory>> FetchCategories()
+    {
+        ApiResponse<WpCategory> response = await FetchModels<WpCategory>(_apiRoutes.Categories);
+        return response.Items!;
+    }
+
     public async Task<IList<string>> FetchMetaPlatforms()
     {
         ApiResponse<string> response = await FetchStrings(_apiRoutes.MetaPlatforms);
