@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MichaelKjellander.Models;
 
-public class ApiResponse<T> : Model
+public class ApiResponse<T> : IModel, IParsableJson
 {
     public IList<T>? Items  {get ; private set; }
     public PaginationData? PaginationData {get ; private set;  }
@@ -28,7 +28,7 @@ public class ApiResponse<T> : Model
         PaginationData = ParsePaginationData(el, Items!.Count);
     }
 
-    public override Model ParseFromJson(JsonElement el)
+    public IModel ParseFromJson(JsonElement el)
     {
         var items = el.GetProperty("items").EnumerateArray();
         List<T> deserializedList = new List<T>();

@@ -77,12 +77,12 @@ public class WpApiService
         return $"{WpApiBaseUrl}/{nameSpace}/{path}";
     }
     
-    private static List<T> ParseList<T>(JsonElement root) where T : Model 
+    private static List<T> ParseList<T>(JsonElement root) where T : IParsableJson 
     {
         List<T> list = [];
         foreach (JsonElement el in root.EnumerateArray())
         {
-            list.Add(Model.ParseNewFromJson<T>(el));
+            list.Add(IParsableJson.ParseNewFromJson<T>(el));
         }
         return list;
     }
