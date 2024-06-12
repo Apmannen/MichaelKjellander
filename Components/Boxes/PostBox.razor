@@ -12,7 +12,9 @@
         <ImageGalleryModal Container="_containerRef" IncludeScript=@(Index == 0)/>
         @if (@Post.FeaturedImage!.IsSet)
         {
-            <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl"/>
+            <div class="bg-white items-center justify-center flex">
+                <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl"/>
+            </div>
         }
         <div class="bg-white sg-post sg-post-padding">
             @if (@Post.Category!.Type == CategoryType.Game)
