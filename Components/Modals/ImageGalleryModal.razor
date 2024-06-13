@@ -9,6 +9,9 @@
 
 @if (IncludeScript)
 {
+    <script id="modal-image-template" type="text/x-handlebars-template">
+        <img src="{{src}}"/>
+    </script>
     <script>
         function setModalActive(modalContainer, active) {
             if (active) {
@@ -29,6 +32,8 @@
         function listenToClicksForActivatingModal(modalContainer, contentContainer) {
             const rootElement = modalContainer.parentElement;
             const images = rootElement.getElementsByTagName("img");
+            const templateScript = document.getElementById("modal-image-template").innerText;
+            const template = Handlebars.compile(templateScript);            
             
             const handleBackgroundClick = (closeClickEvent) => {
                 if(closeClickEvent.target === modalContainer) {
@@ -45,7 +50,9 @@
                 if(splits.length === 2) {
                     fullSizeSrc = splits[0]+splits[1];
                 }
-                contentContainer.innerHTML = "<img src='"+fullSizeSrc+"'>";
+
+                const html = template({src: fullSizeSrc});
+                contentContainer.innerHTML = html;
 
                 modalContainer.addEventListener("click", (closeClickEvent) => {
                     handleBackgroundClick(closeClickEvent);
@@ -79,3 +86,4 @@
     }
 
 }
+
