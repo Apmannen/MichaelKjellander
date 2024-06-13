@@ -1,7 +1,7 @@
+using MichaelKjellander.Config;
 using MichaelKjellander.Models;
 using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils;
 using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.SharedUtils.Routes;
 using Microsoft.Extensions.Options;
