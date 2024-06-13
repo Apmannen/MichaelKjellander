@@ -1,5 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@using MichaelKjellander.Services
 @inject IJSRuntime Js
+@inject JsService JsService
 
 <div @ref=_modalParentRef class="sg-modal-parent" data-active="@false">
     <div class="sg-modal bg-white p-10 relative">
@@ -20,27 +22,29 @@
                 modalContainer.removeAttribute("data-active");
             }
         }
-        
-        function listenToKeyPresses(modalContainer) {
-            document.onkeydown = function(event) {
-                if (event.key === "Escape") {
-                    setModalActive(modalContainer, false);
+
+        document.onkeydown = function(event) {
+            if (event.key === "Escape") {
+                const modals = document.getElementsByClassName("sg-modal-parent");
+                for(let modal of modals) {
+                    setModalActive(modal, false);
                 }
-            };
-        }
-        
-        function listenToClicksForActivatingModal(modalContainer, contentContainer) {
+            }
+        };
+
+        //Since we get HTML as a string from Wordpress, I think this is the best way to handle click events for them.
+        window.listenToClicksForActivatingModal = function(modalContainer, contentContainer) {
             const rootElement = modalContainer.parentElement;
             const images = rootElement.getElementsByTagName("img");
             const templateScript = document.getElementById("modal-image-template").innerText;
-            const template = Handlebars.compile(templateScript);            
-            
+            const template = Handlebars.compile(templateScript);
+
             const handleBackgroundClick = (closeClickEvent) => {
                 if(closeClickEvent.target === modalContainer) {
                     setModalActive(modalContainer, false);
                 }
             }
-            
+
             const handleImageClick = (imageClickEvent, image) => {
                 imageClickEvent.preventDefault();
                 setModalActive(modalContainer, true);
@@ -51,21 +55,19 @@
                     fullSizeSrc = splits[0]+splits[1];
                 }
 
-                const html = template({src: fullSizeSrc});
-                contentContainer.innerHTML = html;
+                contentContainer.innerHTML = template({src: fullSizeSrc});
 
                 modalContainer.addEventListener("click", (closeClickEvent) => {
                     handleBackgroundClick(closeClickEvent);
                 });
             }
-            
+
             for(let image of images) {
                 image.addEventListener("click", (imageClickEvent) => {
-                    handleImageClick(imageClickEvent, image);                    
+                    handleImageClick(imageClickEvent, image);
                 });
             }
         }
-    
     </script>
 }
 
@@ -81,9 +83,7 @@
         if (firstRender)
         {
             Js.InvokeVoidAsync("listenToClicksForActivatingModal", _modalParentRef, _contentContainerRef);
-            Js.InvokeVoidAsync("listenToKeyPresses", _modalParentRef);
         }
     }
 
 }
-
