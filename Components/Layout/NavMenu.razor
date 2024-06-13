@@ -1,26 +1,31 @@
 ﻿@using System.Text.RegularExpressions
-@using MichaelKjellander.Components.Pages
 @using MichaelKjellander.Config
-@using MichaelKjellander.Models
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.Services
-@using MichaelKjellander.SharedUtils
 @using MichaelKjellander.SharedUtils.Routes
+@using MichaelKjellander.Components.Icons
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject IHttpClientFactory ClientFactory
 
-<div class="top-row navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="sg-navbar-brand font-bold text-3xl" href="/">Michael Kjellander</a>
+<div class="top-row navbar navbar-dark relative">
+    <div class="container-fluid  pr-12">
+        <a class="sg-navbar-brand font-bold text-2xl sm:text-3xl" href="/">Michael Kjellander</a>
+    </div>
+    <div class="absolute right-0 top-1 lg:hidden">
+        <button class="border-gray-200 border hover:border-black pt-2 pb-2 pr-2 pl-2 " onclick="document.querySelector('.navbar-toggler').click()">
+            <IconMenu2 Size="30"/>
+        </button>
     </div>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
-<div class="lg:h-20"></div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler hidden"/>
+
 
 <div class="nav-scrollable">
     <nav class="flex-column">
+        <div class="h-6 lg:h-20"></div>
         @foreach (var link in _links)
         {
             <div class="nav-item border-gray-200">
@@ -35,13 +40,14 @@
 
 @code {
     private NavLink[] _links = [];
-    
+
     protected override async Task OnInitializedAsync()
     {
         InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
         IList<WpCategory> categories = await service.FetchCategories();
-        
-        _links = [
+
+        _links =
+        [
             new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"),
             CreateCategoryNavLink(categories, CategoryType.Game),
             CreateCategoryNavLink(categories, CategoryType.GameReview),
@@ -50,7 +56,6 @@
         ];
     }
 
-    
 
     private static NavLink CreateCategoryNavLink(IList<WpCategory> categories, CategoryType type)
     {
