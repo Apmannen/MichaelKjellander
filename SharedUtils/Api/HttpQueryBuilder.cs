@@ -69,8 +69,7 @@ public class HttpQueryBuilder
         bool isFirst = true;
         foreach (KeyValuePair<string,string> pair in _entries)
         {
-            char seperatorChar = isFirst ? '?' : '&';
-            fullUrl += seperatorChar;
+            fullUrl += isFirst ? '?' : '&';
             fullUrl += pair.Key + "=" + pair.Value;
             isFirst = false;
         }
