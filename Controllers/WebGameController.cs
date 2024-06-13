@@ -29,7 +29,7 @@ public class WebGameController : Controller
         
         await using WebGamesDataContext context = new WebGamesDataContext();
         Word randomWord = context.Words.FromSqlRaw("SELECT * FROM words w WHERE LENGTH(w.WordString)>=5 AND LENGTH(w.WordString)<=50  ORDER BY RAND() DESC LIMIT 1")
-            .FirstOrDefault()!;
+            .First();
 
         string maskedWord = "";
         for (int i = 0; i < randomWord.WordString!.Length; i++)
