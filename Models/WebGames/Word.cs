@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MichaelKjellander.Models.WebGames;
 
 [Table("words")]
-public class Word : IModel
+public class Word
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

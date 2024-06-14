@@ -7,9 +7,6 @@ namespace MichaelKjellander.Models.Wordpress;
 [Table("wp_posts")]
 public class WpPost : WordpressModel
 {
-    [Key]
-    [Required]
-    public int Id { get; set; }
     [Required]
     public string? Content { get; set; }
     [Required]
@@ -24,7 +21,9 @@ public class WpPost : WordpressModel
     public int? CategoryId { get; set; }
     [Required]
     public virtual WpCategory? Category { get; set; }
-    public WpImage? FeaturedImage { get; set; }
+    [Required] 
+    public int? FeaturedImageId { get; set; }
+    public virtual WpImage? FeaturedImage { get; set; }
     [System.Obsolete("Replace with tags")]
     public IList<string>? MetaPlatforms { get; set; }
     [MaxLength(VarcharLength)]

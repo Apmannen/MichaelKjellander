@@ -7,9 +7,6 @@ namespace MichaelKjellander.Models.Wordpress;
 [Table("wp_pages")]
 public class WpPage : WordpressModel
 {
-    [Key]
-    [Required]
-    public int Id { get; set; }
     [Required]
     public string? Content { get; set; }
     [Required]

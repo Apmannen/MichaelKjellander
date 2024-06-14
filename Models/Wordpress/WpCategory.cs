@@ -15,9 +15,6 @@ public enum CategoryType
 [Table("wp_categories")]
 public class WpCategory : WordpressModel
 {
-    [Key]
-    [Required]
-    public int Id { get; set; }
     [Required]
     [MaxLength(VarcharLength)]
     public string? Name { get; set; }

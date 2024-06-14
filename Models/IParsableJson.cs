@@ -4,7 +4,7 @@ namespace MichaelKjellander.Models;
 
 public interface IParsableJson
 {
-    public IModel ParseFromJson(JsonElement el);
+    public IParsableJson ParseFromJson(JsonElement el);
 
     public static T ParseNewFromJson<T>(JsonElement el) where T : IParsableJson
     {

@@ -1,4 +1,5 @@
 using MichaelKjellander.Config;
+using MichaelKjellander.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
@@ -16,6 +17,16 @@ public abstract class DataContext : DbContext
     }
 
     protected static bool IsCalledByPopulateScript => EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Unknown;
+
+    protected void AddIfIdDoesntExist<T>(DbSet<T> dbSet, T newRow) where T : DbModel
+    {
+        T? existingRow = dbSet.FirstOrDefault(row => row.Id == newRow.Id);
+        if (existingRow == null)
+        {
+            dbSet.Add(newRow);
+            SaveChanges();
+        }
+    }
     
     protected static void ClearTable<T>(DbSet<T> dbSet) where T : class
     {

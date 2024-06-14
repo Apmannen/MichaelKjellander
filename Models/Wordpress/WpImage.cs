@@ -7,9 +7,6 @@ namespace MichaelKjellander.Models.Wordpress;
 [Table("wp_images")]
 public class WpImage : WordpressModel
 {
-    [Key]
-    [Required]
-    public int? Id { get; set; }
     [Required]
     [MaxLength(VarcharLength)]
     public string? ThumbnailUrl { get; set; }

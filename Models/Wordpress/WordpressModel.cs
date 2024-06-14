@@ -2,10 +2,10 @@
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public abstract class WordpressModel : IModel, IParsableJson
+public abstract class WordpressModel : DbModel, IParsableJson
 {
     protected const int VarcharLength = 256;
-    public abstract IModel ParseFromJson(JsonElement el);
+    public abstract IParsableJson ParseFromJson(JsonElement el);
     
     /// <summary>
     /// Wordpress seems to be returning different HTML formatting.
