@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using MichaelKjellander.Data;
 using MichaelKjellander.Services;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
@@ -11,6 +12,7 @@ namespace MichaelKjellander.Controllers;
 public class BlogController : Controller
 {
     private const int OneHour = 3600;
+    [Obsolete("Use internal DB instead")]
     private readonly WpApiService _wpApiService;
 
     public BlogController(WpApiService wpApiService)
@@ -23,7 +25,8 @@ public class BlogController : Controller
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
     public async Task<IActionResult> GetCategories()
     {
-        IList<WpCategory> items = await _wpApiService.GetCategories();
+        await using var context = new BlogDataContext();
+        IList<WpCategory> items = context.Categories.ToList();
         return Ok(ApiUtil.CreateApiResponse(items));
     }
 
