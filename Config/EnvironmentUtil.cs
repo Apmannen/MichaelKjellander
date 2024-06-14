@@ -52,6 +52,7 @@ public static class EnvironmentUtil
         return ParseString(EnvVariable.SG_MYSQLCONNSTRING);
     }
 
+    [System.Obsolete("Will check if DB is empty instead")]
     public static bool GetShouldCleanWpDb()
     {
         return ParseBool(EnvVariable.SG_CLEAN_INTERNAL_WP_DB, false);

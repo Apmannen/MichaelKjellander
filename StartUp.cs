@@ -1,5 +1,6 @@
 using MichaelKjellander.Components;
 using MichaelKjellander.Config;
+using MichaelKjellander.Data;
 using MichaelKjellander.Services;
 using Microsoft.Extensions.Options;
 
@@ -15,6 +16,8 @@ public class Startup
         {
             services.AddLettuceEncrypt();
         }
+
+        services.AddDbContext<BlogDataContext>();
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -59,16 +62,10 @@ public class Startup
 
     private async Task InitializeDatabase(IServiceProvider serviceProvider)
     {
-        AppConfig appConfig = serviceProvider.GetRequiredService<IOptions<AppConfig>>().Value;
-
-
-        //serviceProvider.
-
-        //using var scope = serviceProvider.CreateScope();
-
-
-        /*using var scope = serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<BlogDataContext>();
-        await context.CheckFillData();*/
+        using IServiceScope scope = serviceProvider.CreateScope();
+        BlogDataContext context = scope.ServiceProvider.GetRequiredService<BlogDataContext>();
+        using HttpClient client = new HttpClient();
+        WpApiService service = new WpApiService(client);
+        await context.CheckFillData(service);
     }
 }
