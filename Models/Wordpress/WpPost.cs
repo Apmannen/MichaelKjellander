@@ -20,6 +20,7 @@ public class WpPost : WordpressModel
     public int? MetaRating { get; set; }
     
     public IList<WpPostTag> PostTags { get; set; }
+    //public IList<int> TagIds { get; set; } 
 
     //Yep, I think it's fine to keep texts like these in a single language application.
     //They could easily be swapped otherwise.
@@ -55,6 +56,22 @@ public class WpPost : WordpressModel
         DateOnly date = DateOnly.Parse(dateString);
         var metaElement = el.GetProperty("meta");
         WpImage featuredImage = new WpImage().ParseFromJson(el.GetProperty("featured_image"));
+        WpCategory category = new WpCategory().ParseFromJson(el.GetProperty("category"));
+        var tags = el.GetProperty("tags").EnumerateArray();
+        //IList<int> tagIds = [];
+        IList<WpPostTag> wpPostTags = [];
+        foreach(JsonElement tagEl in tags)
+        {
+            WpTag tag = new WpTag().ParseFromJson(tagEl);
+            //tagIds.Add(tag.Id);
+
+            WpPostTag postTag = new WpPostTag
+            {
+                TagId = tag.Id,
+                PostId = id
+            };
+            wpPostTags.Add(postTag);
+        }
         
 
         this.Id = id;
@@ -63,12 +80,14 @@ public class WpPost : WordpressModel
         this.Slug = slug;
         this.Date = date;
         this.Category = new WpCategory().ParseFromJson(el.GetProperty("category"));
-        this.CategoryId = this.Category.Id;
+        this.CategoryId = category.Id;
         this.FeaturedImage = featuredImage.IsSet ? featuredImage : null;
         this.FeaturedImageId = featuredImage.IsSet ? featuredImage.Id : null;
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
+        this.PostTags = wpPostTags;
+        //this.TagIds = tagIds;
 
         return this;
     }

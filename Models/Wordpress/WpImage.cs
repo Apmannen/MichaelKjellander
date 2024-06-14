@@ -14,7 +14,7 @@ public class WpImage : WordpressModel
     [MaxLength(VarcharLength)]
     public string? FullUrl { get; set; }
 
-    public bool IsSet => Id != null;
+    public bool IsSet => Id != 0;
     
     public override WpImage ParseFromJson(JsonElement el)
     {

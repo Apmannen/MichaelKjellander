@@ -8,5 +8,5 @@ public abstract class DbModel
     
     [Key]
     [Required]
-    public int? Id { get; set; }
+    public int Id { get; set; }
 }
