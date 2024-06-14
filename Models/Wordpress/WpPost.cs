@@ -20,6 +20,8 @@ public class WpPost : WordpressModel
     public string? Slug { get; set; }
     [Required]
     public DateOnly Date { get; set; }
+    [Required] 
+    public int? CategoryId { get; set; }
     [Required]
     public virtual WpCategory? Category { get; set; }
     public WpImage? FeaturedImage { get; set; }
@@ -70,6 +72,7 @@ public class WpPost : WordpressModel
         this.Slug = slug;
         this.Date = date;
         this.Category = new WpCategory().ParseFromJson(el.GetProperty("category"));
+        this.CategoryId = this.Category.Id;
         this.FeaturedImage = featuredImage.IsSet ? featuredImage : null;
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");

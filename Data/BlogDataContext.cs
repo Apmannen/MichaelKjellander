@@ -14,27 +14,24 @@ public class BlogDataContext : DataContext
     public async Task FillData(WpApiService service)
     {
         ClearTable(Categories);
+        ClearTable(Posts);
         
         IList<WpCategory> categories = await service.GetCategories();
         this.Categories.AddRange(categories);
+        await SaveChangesAsync();
+        
         
         int currentPage = 1;
         while (true)
         {
-            
-            
             (IList<WpPost> posts, int numPages) = await service.GetPosts();
-            /*
-            IList<WpCategory> categories = [];
-            foreach (WpPost post in posts)
+            foreach (WpPost post in posts) 
             {
-                WpCategory? existingCategory = categories.FirstOrDefault(c => c.Id == post.Category!.Id);
-                if (existingCategory != null)
-                {
-                    categories.Add(post.Category!);
-                }
+                post.Category = null;
+                this.Posts.Add(post);
+                await SaveChangesAsync();
             }
-            this.Categories.AddRange(categories);*/
+            //this.Posts.AddRange(posts);
 
             currentPage++;
             if (currentPage > numPages || posts.Count == 0)
@@ -42,7 +39,6 @@ public class BlogDataContext : DataContext
                 break;
             }
         }
-        await this.SaveChangesAsync();
-        
+        await SaveChangesAsync();
     }
 }
