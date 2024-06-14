@@ -18,7 +18,7 @@ public abstract class DataContext : DbContext
 
     protected static bool IsCalledByPopulateScript => EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Unknown;
 
-    protected void AddIfIdDoesntExist<T>(DbSet<T> dbSet, T newRow) where T : DbModel
+    public static void AddIfIdDoesntExist<T>(DbSet<T> dbSet, T newRow) where T : DbModel
     {
         T? existingRow = dbSet.FirstOrDefault(row => row.Id == newRow.Id);
         if (existingRow == null)
@@ -27,7 +27,7 @@ public abstract class DataContext : DbContext
         }
     }
     
-    protected static void ClearTable<T>(DbSet<T> dbSet) where T : class
+    public static void ClearTable<T>(DbSet<T> dbSet) where T : class
     {
         dbSet.RemoveRange(dbSet);
     }

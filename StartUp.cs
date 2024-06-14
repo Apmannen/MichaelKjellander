@@ -1,6 +1,7 @@
 using MichaelKjellander.Components;
 using MichaelKjellander.Config;
 using MichaelKjellander.Data;
+using MichaelKjellander.Scripts.Startup;
 using MichaelKjellander.Services;
 
 namespace MichaelKjellander;
@@ -61,6 +62,7 @@ public class Startup
         {
             case StartupScript.CleanWpDb:
                 CleanWpDb(app.ApplicationServices).Wait();
+                System.Environment.Exit(0);
                 break;
             default:
                 break;
@@ -73,7 +75,6 @@ public class Startup
         BlogDataContext context = scope.ServiceProvider.GetRequiredService<BlogDataContext>();
         using HttpClient client = new HttpClient();
         WpApiService service = new WpApiService(client);
-        await context.FillData(service);
-        System.Environment.Exit(0);
+        await new CleanWpDbScript().Run(context, service);
     }
 }
