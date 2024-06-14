@@ -12,14 +12,13 @@ namespace MichaelKjellander.Controllers;
 public class BlogController : Controller
 {
     private const int OneHour = 3600;
-    [Obsolete("Use internal DB instead")]
-    private readonly WpApiService _wpApiService;
+    [Obsolete("Use internal DB instead")] private readonly WpApiService _wpApiService;
 
     public BlogController(WpApiService wpApiService)
     {
         _wpApiService = wpApiService;
     }
-    
+
     [HttpGet]
     [Route("categories")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
@@ -51,7 +50,8 @@ public class BlogController : Controller
             return BadRequest(ModelState);
         }
 
-        WpPage? page = await _wpApiService.GetPage(slug: pageRequest.Slug!);
+        await using var context = new BlogDataContext();
+        WpPage? page = context.Pages.FirstOrDefault(p => p.Slug == pageRequest.Slug);
         if (page == null)
         {
             return NotFound();

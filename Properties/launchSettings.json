@@ -9,17 +9,6 @@
       }
     },
     "profiles": {
-      "http": {
-        "commandName": "Project",
-        "dotnetRunMessages": true,
-        "launchBrowser": false,
-        "applicationUrl": "http://localhost",
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "SG_APPENVIRONMENT": "Local",
-          "SG_MYSQLCONNSTRING": "Server=127.0.0.1;Database=kjelle_db;User=root;Port=3306;SslMode=none;"
-        }
-      },
       "home": {
         "commandName": "Project",
         "dotnetRunMessages": true,
@@ -29,6 +18,17 @@
           "ASPNETCORE_ENVIRONMENT": "Development",
           "SG_APPENVIRONMENT": "Local",
           "SG_MYSQLCONNSTRING": "Server=127.0.0.1;Database=kjelle_db;User=root;Password=test;Port=3306;SslMode=none;"
+        }
+      },
+      "http": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": false,
+        "applicationUrl": "http://localhost",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "SG_APPENVIRONMENT": "Local",
+          "SG_MYSQLCONNSTRING": "Server=127.0.0.1;Database=kjelle_db;User=root;Port=3306;SslMode=none;"
         }
       },
       "clean-wp-db": {
