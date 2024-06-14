@@ -62,8 +62,8 @@ public class BlogController : Controller
 
     [HttpGet]
     [Route("posts")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-        VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
+    //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
+     //   VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
@@ -71,9 +71,19 @@ public class BlogController : Controller
             return BadRequest(ModelState);
         }
 
-        int page = postsRequest.Page ?? 1;
+        int pageNumber = postsRequest.Page ?? 1;
+        
+        await using var context = new BlogDataContext();
+        IQueryable<WpPost> query = context.Posts;
+        if (postsRequest.Slug != null)
+        {
+            query = query.Where(row => row.Slug == postsRequest.Slug);
+        }
 
-        (IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
+        IList<WpPost> posts = query.ToList();
+        
+        return Ok(ApiUtil.CreateApiResponse(posts, 1, 1));
+        /*(IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
             categorySlug: postsRequest.CategorySlug,
             metaPlatforms: postsRequest.MetaPlatforms ?? [],
             metaRatings: postsRequest.MetaRatings ?? [],
@@ -81,7 +91,7 @@ public class BlogController : Controller
             postSlug: postsRequest.Slug
         );
 
-        return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));
+        return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));*/
     }
 
 
