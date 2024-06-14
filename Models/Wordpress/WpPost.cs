@@ -22,7 +22,6 @@ public class WpPost : WordpressModel
     public DateOnly Date { get; set; }
     [Required]
     public WpCategory? Category { get; set; }
-    [Required]
     public WpImage? FeaturedImage { get; set; }
     [System.Obsolete("Replace with tags")]
     public IList<string>? MetaPlatforms { get; set; }
@@ -63,7 +62,7 @@ public class WpPost : WordpressModel
         dateString = dateString.Replace(' ', 'T');
         DateOnly date = DateOnly.Parse(dateString);
         var metaElement = el.GetProperty("meta");
-        
+        WpImage featuredImage = new WpImage().ParseFromJson(el.GetProperty("featured_image"));
         
         this.Id = id;
         this.Content = HarmonizeHtmlContent(content);
@@ -71,7 +70,7 @@ public class WpPost : WordpressModel
         this.Slug = slug;
         this.Date = date;
         this.Category = new WpCategory().ParseFromJson(el.GetProperty("category"));
-        this.FeaturedImage = new WpImage().ParseFromJson(el.GetProperty("featured_image"));
+        this.FeaturedImage = featuredImage.IsSet ? featuredImage : null;
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
