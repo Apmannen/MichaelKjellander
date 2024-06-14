@@ -9,7 +9,7 @@ public class WpImage : WordpressModel
 {
     [Key]
     [Required]
-    public int InternalId { get; set; }
+    public int? Id { get; set; }
     [Required]
     [MaxLength(VarcharLength)]
     public string? ThumbnailUrl { get; set; }
@@ -17,10 +17,11 @@ public class WpImage : WordpressModel
     [MaxLength(VarcharLength)]
     public string? FullUrl { get; set; }
 
-    public bool IsSet => ThumbnailUrl != null && FullUrl != null;
+    public bool IsSet => Id != null;
     
     public override WpImage ParseFromJson(JsonElement el)
     {
+        Id = el.GetProperty("id").GetInt32();
         ThumbnailUrl = el.GetProperty("thumbnail").GetString();
         FullUrl = el.GetProperty("full").GetString();
 
