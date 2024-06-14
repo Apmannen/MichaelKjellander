@@ -1,41 +1,40 @@
-
 using MichaelKjellander.Config;
+using MichaelKjellander.Data;
 using MichaelKjellander.SharedUtils;
 
-namespace MichaelKjellander
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+namespace MichaelKjellander;
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            AppEnvironment appEnvironment = EnvironmentUtil.ParseEnum<AppEnvironment>(EnvVariable.SG_APPENVIRONMENT);
-            
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        AppEnvironment appEnvironment = EnvironmentUtil.ParseEnum<AppEnvironment>(EnvVariable.SG_APPENVIRONMENT);
+
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                if (AppConfig.IsAnyWww(appEnvironment))
                 {
-                    if (AppConfig.IsAnyWww(appEnvironment))
+                    webBuilder.UseKestrel(kestrel =>
                     {
-                        webBuilder.UseKestrel(kestrel =>
-                        {
-                            kestrel.ListenAnyIP(80);
-                            kestrel.ListenAnyIP(443, listenOptions =>
+                        kestrel.ListenAnyIP(80);
+                        kestrel.ListenAnyIP(443,
+                            listenOptions =>
                             {
                                 listenOptions.UseHttps(connectionOptions =>
                                 {
                                     connectionOptions.UseLettuceEncrypt(kestrel.ApplicationServices);
                                 });
                             });
-                        });
-                    }
-                    webBuilder.UseStartup<Startup>();
-                });
-            
-        }
-            
+                    });
+                }
+
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }
