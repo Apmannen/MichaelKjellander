@@ -26,6 +26,16 @@ public class WpApiService
         return parsedItems;
     }
 
+    public async Task<IList<WpTag>> GetTags()
+    {
+        var result = await ApiUtil.FetchJson(GetFullBaseUrl(NamespaceDefault, "tags"), _client);
+        JsonElement root = result.Root;
+        IList<WpTag> parsedItems = ParseList<WpTag>(root);
+
+        return parsedItems;
+    }
+
+    [Obsolete]
     public async Task<IList<string>> GetMetas()
     {
         var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespacePlugin, "metas")}", _client);

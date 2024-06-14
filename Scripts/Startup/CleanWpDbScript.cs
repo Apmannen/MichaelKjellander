@@ -8,10 +8,17 @@ public class CleanWpDbScript
 {
     public async Task Run(BlogDataContext context, WpApiService service)
     {
+        DataContext.ClearTable(context.PostTags);
+        DataContext.ClearTable(context.Tags);
         DataContext.ClearTable(context.Categories);
         DataContext.ClearTable(context.Images);
         DataContext.ClearTable(context.Pages);
         DataContext.ClearTable(context.Posts);
+        
+        //Tags
+        IList<WpTag> tags = await service.GetTags();
+        context.Tags.AddRange(tags);
+        await context.SaveChangesAsync();
 
         //Categories
         IList<WpCategory> categories = await service.GetCategories();

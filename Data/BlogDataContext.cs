@@ -10,4 +10,6 @@ public class BlogDataContext : DataContext
     public DbSet<WpImage> Images { get; set; }
     public DbSet<WpPage> Pages { get; set; }
     public DbSet<WpPost> Posts { get; set; }
+    public DbSet<WpTag> Tags { get; set; }
+    public DbSet<WpPostTag> PostTags { get; set; }
 }
