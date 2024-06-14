@@ -64,7 +64,7 @@ public class BlogController : Controller
     [HttpGet]
     [Route("posts")]
     //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-     //   VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
+    //   VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
@@ -73,21 +73,31 @@ public class BlogController : Controller
         }
 
         int pageNumber = postsRequest.Page ?? 1;
-        
+
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
+        query = query.OrderByDescending(row => row.Date).ThenByDescending(row => row.Id);
         query = query.Include(row => row.Category);
         if (postsRequest.Slug != null)
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
         }
+
         if (postsRequest.MetaRatings is { Count: > 0 })
         {
-            query = query.Where(row => row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
+            query = query.Where(row =>
+                row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
         }
 
+        if (postsRequest.CategorySlug != null)
+        {
+        }
+
+        query = DataContext.SetPageToQuery(query, pageNumber);
+
+
         IList<WpPost> posts = query.ToList();
-        
+
         return Ok(ApiUtil.CreateApiResponse(posts, 1, 1));
         /*(IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
             categorySlug: postsRequest.CategorySlug,

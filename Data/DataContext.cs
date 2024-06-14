@@ -14,6 +14,11 @@ public abstract class DataContext : DbContext
             connectionString: EnvironmentUtil.GetMysqlConnectionString(),
             serverVersion: serverVersion,
             mySqlOptionsAction: null);
+
+        if (EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Local)
+        {
+            optionsBuilder.LogTo(Console.WriteLine);
+        }
     }
 
     protected static bool IsCalledByPopulateScript => EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Unknown;
@@ -27,8 +32,19 @@ public abstract class DataContext : DbContext
         }
     }
     
-    public static void ClearTable<T>(DbSet<T> dbSet) where T : class
+    public static void ClearTable<T>(DbSet<T> dbSet) where T : DbModel
     {
         dbSet.RemoveRange(dbSet);
+    }
+
+    public static IQueryable<T> SetPageToQuery<T>(IQueryable<T> query, int page) where T : DbModel
+    {
+        int perPage = 10;
+        if (page > 1)
+        {
+            query = query.Skip(perPage * (page - 1));
+        }
+        query = query.Take(perPage);
+        return query;
     }
 }
