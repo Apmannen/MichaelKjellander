@@ -1,5 +1,4 @@
 using MichaelKjellander.Config;
-using MichaelKjellander.SharedUtils;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 

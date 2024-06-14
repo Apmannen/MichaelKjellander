@@ -1,8 +1,6 @@
 ﻿using MichaelKjellander.Config;
 
-namespace MichaelKjellander.SharedUtils;
-
-
+namespace MichaelKjellander.Config;
 
 public static class EnvironmentUtil
 {
@@ -27,14 +25,14 @@ public static class EnvironmentUtil
         return Environment.GetEnvironmentVariable(variable.ToString())!;
     }
 
+    private static bool ParseBool(EnvVariable variable, bool defaultValue)
+    {
+        bool isValid = bool.TryParse(ParseString(variable), out bool result);
+        return isValid ? result : defaultValue;
+    }
     private static string[] ParseArray(EnvVariable variable)
     {
         return ParseString(variable).Split(";");
-    }
-    private static TEnum ParseEnum<TEnum>(EnvVariable variable) where TEnum : struct,Enum
-    {
-        string value = ParseString(variable);
-        return Enum.Parse<TEnum>(value);
     }
     private static TEnum ParseEnum<TEnum>(EnvVariable variable, TEnum defaultValue) where TEnum : struct,Enum
     {
@@ -52,6 +50,11 @@ public static class EnvironmentUtil
     public static string GetMysqlConnectionString()
     {
         return ParseString(EnvVariable.SG_MYSQLCONNSTRING);
+    }
+
+    public static bool GetShouldCleanWpDb()
+    {
+        return ParseBool(EnvVariable.SG_CLEAN_INTERNAL_WP_DB, false);
     }
     private static string GetSiteUrl()
     {

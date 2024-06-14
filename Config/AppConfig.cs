@@ -1,5 +1,3 @@
-using MichaelKjellander.SharedUtils;
-
 namespace MichaelKjellander.Config;
 
 public class AppConfig

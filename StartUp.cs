@@ -1,7 +1,6 @@
 using MichaelKjellander.Components;
 using MichaelKjellander.Config;
 using MichaelKjellander.Services;
-using MichaelKjellander.SharedUtils;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander;

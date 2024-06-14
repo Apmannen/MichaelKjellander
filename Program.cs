@@ -1,6 +1,4 @@
 using MichaelKjellander.Config;
-using MichaelKjellander.Data;
-using MichaelKjellander.SharedUtils;
 
 namespace MichaelKjellander;
 
