@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 
+[Table("wp_images")]
 public class WpImage : WordpressModel
 {
     [Key]
