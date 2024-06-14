@@ -21,6 +21,11 @@ public class WpImage : WordpressModel
     
     public override WpImage ParseFromJson(JsonElement el)
     {
+        bool isSet = el.GetProperty("id").ValueKind != JsonValueKind.Null;
+        if (!isSet)
+        {
+            return this;
+        }
         Id = el.GetProperty("id").GetInt32();
         ThumbnailUrl = el.GetProperty("thumbnail").GetString();
         FullUrl = el.GetProperty("full").GetString();
