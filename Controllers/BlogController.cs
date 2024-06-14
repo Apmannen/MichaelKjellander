@@ -4,6 +4,7 @@ using MichaelKjellander.Services;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MichaelKjellander.Controllers;
 
@@ -75,6 +76,7 @@ public class BlogController : Controller
         
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
+        query = query.Include(row => row.Category);
         if (postsRequest.Slug != null)
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
