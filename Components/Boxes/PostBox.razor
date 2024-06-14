@@ -10,7 +10,7 @@
 {
     <article class="border border-gray-200" @ref=_containerRef>
         <ImageGalleryModal Container="_containerRef" IncludeScript=@(Index == 0)/>
-        @if (@Post.FeaturedImage!.IsSet)
+        @if (@Post.FeaturedImage != null)
         {
             <div class="bg-white items-center justify-center flex">
                 <img class="cursor-pointer" src="@Post.FeaturedImage.ThumbnailUrl"/>

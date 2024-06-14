@@ -21,4 +21,10 @@ public static class EnvironmentUtil
         string value = Get(variable);
         return Enum.Parse<TEnum>(value);
     }
+    public static TEnum ParseEnum<TEnum>(EnvVariable variable, TEnum defaultValue) where TEnum : struct,Enum
+    {
+        string value = Get(variable);
+        bool successful = Enum.TryParse(value, out TEnum enumValue);
+        return successful ? enumValue : defaultValue;
+    }
 }

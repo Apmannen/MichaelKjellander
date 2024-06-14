@@ -1,5 +1,4 @@
 ﻿using MichaelKjellander.Models.WebGames;
-using MichaelKjellander.SharedUtils;
 using Microsoft.EntityFrameworkCore;
 
 namespace MichaelKjellander.Data;
@@ -13,8 +12,7 @@ public class WebGamesDataContext : DataContext
     {
         base.OnModelCreating(modelBuilder);
 
-        bool calledByPopulateScript = string.IsNullOrEmpty(EnvironmentUtil.Get(EnvVariable.SG_APPENVIRONMENT));
-        if (calledByPopulateScript)
+        if (IsCalledByPopulateScript)
         {
             List<Word> words = [];
             string path = "Files/ord.niklas.frykholm.txt";
