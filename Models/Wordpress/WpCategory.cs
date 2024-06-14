@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 
@@ -12,9 +13,16 @@ public enum CategoryType
 
 public class WpCategory : WordpressModel
 {
+    [Key]
+    [Required]
     public int Id { get; set; }
+    [Required]
+    [MaxLength(VarcharLength)]
     public string? Name { get; set; }
+    [Required]
     public string? Description { get; set; }
+    [Required]
+    [MaxLength(VarcharLength)]
     public string? Slug { get; set; }
     
     public CategoryType Type => Enum.GetValues<CategoryType>().FirstOrDefault(aType => GetSlugByType(aType) == Slug);

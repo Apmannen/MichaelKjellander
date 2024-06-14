@@ -1,17 +1,30 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 
 public class WpPost : WordpressModel
 {
+    [Key]
+    [Required]
     public int Id { get; set; }
+    [Required]
     public string? Content { get; set; }
+    [Required]
+    [MaxLength(VarcharLength)]
     public string? Title { get; set; }
+    [Required]
+    [MaxLength(VarcharLength)]
     public string? Slug { get; set; }
+    [Required]
     public DateOnly Date { get; set; }
+    [Required]
     public WpCategory? Category { get; set; }
+    [Required]
     public WpImage? FeaturedImage { get; set; }
+    [System.Obsolete("Replace with tags")]
     public IList<string>? MetaPlatforms { get; set; }
+    [MaxLength(VarcharLength)]
     public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
     

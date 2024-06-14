@@ -1,24 +1,13 @@
 ﻿using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.SharedUtils;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace MichaelKjellander.Data;
 
-public class WebGamesDataContext : DbContext
+public class WebGamesDataContext : DataContext
 {
     public DbSet<Word> Words { get; set; }
     public DbSet<WordGuessGameProgress> WordGuessGameProgresses { get; set; }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        ServerVersion serverVersion = ServerVersion.Create(8, 4, 0, ServerType.MySql);
-        string connectionString = EnvironmentUtil.Get(EnvVariable.SG_MYSQLCONNSTRING);
-        optionsBuilder.UseMySql(
-            connectionString: connectionString, 
-            serverVersion: serverVersion,
-            mySqlOptionsAction: null);
-    }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
