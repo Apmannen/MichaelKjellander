@@ -81,6 +81,10 @@ public class BlogController : Controller
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
         }
+        if (postsRequest.MetaRatings is { Count: > 0 })
+        {
+            query = query.Where(row => row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
+        }
 
         IList<WpPost> posts = query.ToList();
         
@@ -106,7 +110,7 @@ public class BlogController : Controller
     {
         public string? CategorySlug { get; set; }
         public string[]? MetaPlatforms { get; set; }
-        public int[]? MetaRatings { get; set; }
+        public List<int>? MetaRatings { get; set; }
         public int? Page { get; set; }
         public string? Slug { get; set; }
     }
