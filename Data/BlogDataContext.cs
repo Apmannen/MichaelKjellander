@@ -10,4 +10,15 @@ public class BlogDataContext : DataContext
     public DbSet<WpImage> Images { get; set; }
     public DbSet<WpPage> Pages { get; set; }
     public DbSet<WpPost> Posts { get; set; }
+
+    public async Task CheckFillData()
+    {
+        
+        
+        /*bool hasData = await Posts.AnyAsync();
+        if (hasData)
+        {
+            return;
+        }*/
+    }
 }

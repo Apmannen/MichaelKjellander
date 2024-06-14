@@ -10,19 +10,11 @@ public abstract class DataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         ServerVersion serverVersion = ServerVersion.Create(8, 4, 0, ServerType.MySql);
-        string connectionString = EnvironmentUtil.Get(EnvVariable.SG_MYSQLCONNSTRING);
         optionsBuilder.UseMySql(
-            connectionString: connectionString,
+            connectionString: EnvironmentUtil.GetMysqlConnectionString(),
             serverVersion: serverVersion,
             mySqlOptionsAction: null);
     }
 
-    protected bool IsCalledByPopulateScript
-    {
-        get
-        {
-            return EnvironmentUtil.ParseEnum(EnvVariable.SG_APPENVIRONMENT, AppEnvironment.Unknown) ==
-                   AppEnvironment.Unknown;
-        }
-    }
+    protected static bool IsCalledByPopulateScript => EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Unknown;
 }

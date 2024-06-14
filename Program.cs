@@ -13,7 +13,7 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
     {
-        AppEnvironment appEnvironment = EnvironmentUtil.ParseEnum<AppEnvironment>(EnvVariable.SG_APPENVIRONMENT);
+        AppEnvironment appEnvironment = EnvironmentUtil.GetAppEnvironment();
 
         return Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
