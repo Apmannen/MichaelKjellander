@@ -20,11 +20,26 @@ public class BlogDataContext : DataContext
             return;
         }
         
+        IList<WpCategory> categories = await service.GetCategories();
+        this.Categories.AddRange(categories);
+        
         int currentPage = 1;
         while (true)
         {
+            
+            
             (IList<WpPost> posts, int numPages) = await service.GetPosts();
-            this.AddRange(posts);
+            /*
+            IList<WpCategory> categories = [];
+            foreach (WpPost post in posts)
+            {
+                WpCategory? existingCategory = categories.FirstOrDefault(c => c.Id == post.Category!.Id);
+                if (existingCategory != null)
+                {
+                    categories.Add(post.Category!);
+                }
+            }
+            this.Categories.AddRange(categories);*/
 
             currentPage++;
             if (currentPage > numPages || posts.Count == 0)

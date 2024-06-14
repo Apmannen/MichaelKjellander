@@ -21,7 +21,7 @@ public class WpPost : WordpressModel
     [Required]
     public DateOnly Date { get; set; }
     [Required]
-    public WpCategory? Category { get; set; }
+    public virtual WpCategory? Category { get; set; }
     public WpImage? FeaturedImage { get; set; }
     [System.Obsolete("Replace with tags")]
     public IList<string>? MetaPlatforms { get; set; }
