@@ -24,7 +24,6 @@ public abstract class DataContext : DbContext
         if (existingRow == null)
         {
             dbSet.Add(newRow);
-            SaveChanges();
         }
     }
     

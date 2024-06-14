@@ -26,26 +26,19 @@ public class BlogDataContext : DataContext
         while (true)
         {
             (IList<WpPost> posts, int numPages) = await service.GetPosts(page: currentPage);
-            IList<WpImage> images = new List<WpImage>();
             foreach (WpPost post in posts)
             {
                 if (post.FeaturedImage != null)
                 {
-                    images.Add(post.FeaturedImage);
+                    this.AddIfIdDoesntExist(Images, post.FeaturedImage);
+                    await SaveChangesAsync();
                 }
-
                 post.Category = null;
                 post.FeaturedImage = null;
             }
             
-            
-            /*foreach (WpPost post in posts)
-            {
-                post.Category = null;
-                this.Posts.Add(post);
-                await SaveChangesAsync();
-            }*/
-            //this.Posts.AddRange(posts);
+            this.Posts.AddRange(posts);
+            await SaveChangesAsync();
 
             currentPage++;
             if (currentPage > numPages || posts.Count == 0)

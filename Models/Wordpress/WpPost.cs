@@ -7,29 +7,18 @@ namespace MichaelKjellander.Models.Wordpress;
 [Table("wp_posts")]
 public class WpPost : WordpressModel
 {
-    [Required]
-    public string? Content { get; set; }
-    [Required]
-    [MaxLength(VarcharLength)]
-    public string? Title { get; set; }
-    [Required]
-    [MaxLength(VarcharLength)]
-    public string? Slug { get; set; }
-    [Required]
-    public DateOnly Date { get; set; }
-    [Required] 
-    public int? CategoryId { get; set; }
-    [Required]
-    public virtual WpCategory? Category { get; set; }
-    [Required] 
+    [Required] public string? Content { get; set; }
+    [Required] [MaxLength(VarcharLength)] public string? Title { get; set; }
+    [Required] [MaxLength(VarcharLength)] public string? Slug { get; set; }
+    [Required] public DateOnly Date { get; set; }
+    [Required] public int? CategoryId { get; set; }
+    [Required] public virtual WpCategory? Category { get; set; }
     public int? FeaturedImageId { get; set; }
     public virtual WpImage? FeaturedImage { get; set; }
-    [System.Obsolete("Replace with tags")]
-    public IList<string>? MetaPlatforms { get; set; }
-    [MaxLength(VarcharLength)]
-    public string? MetaPlayAlso { get; set; }
+    [System.Obsolete("Replace with tags")] public IList<string>? MetaPlatforms { get; set; }
+    [MaxLength(VarcharLength)] public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
-    
+
     //Yep, I think it's fine to keep texts like these in a single language application.
     //They could easily be swapped otherwise.
     public string RatingText
@@ -52,7 +41,7 @@ public class WpPost : WordpressModel
             };
         }
     }
-    
+
     public override WpPost ParseFromJson(JsonElement el)
     {
         int id = el.GetProperty("ID").GetInt32();
@@ -64,7 +53,7 @@ public class WpPost : WordpressModel
         DateOnly date = DateOnly.Parse(dateString);
         var metaElement = el.GetProperty("meta");
         WpImage featuredImage = new WpImage().ParseFromJson(el.GetProperty("featured_image"));
-        
+
         this.Id = id;
         this.Content = HarmonizeHtmlContent(content);
         this.Title = title;
@@ -73,6 +62,7 @@ public class WpPost : WordpressModel
         this.Category = new WpCategory().ParseFromJson(el.GetProperty("category"));
         this.CategoryId = this.Category.Id;
         this.FeaturedImage = featuredImage.IsSet ? featuredImage : null;
+        this.FeaturedImageId = featuredImage.IsSet ? featuredImage.Id : null;
         this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
@@ -87,8 +77,10 @@ public class WpPost : WordpressModel
         {
             return null;
         }
+
         return child.EnumerateArray().FirstOrDefault().GetString();
     }
+
     private static List<string> TryParseStrings(JsonElement parent, string key)
     {
         bool didSet = parent.TryGetProperty(key, out JsonElement child);
@@ -102,8 +94,10 @@ public class WpPost : WordpressModel
         {
             strings.Add(el.GetString()!);
         }
+
         return strings;
     }
+
     private static int? TryParseInt(JsonElement parent, string key)
     {
         string? parsedString = TryParseString(parent, key);
