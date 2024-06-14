@@ -33,6 +33,7 @@ public class BlogController : Controller
     [HttpGet]
     [Route("meta-platforms")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
+    [Obsolete("Replace with tags")] //TODO: note! obsolete!
     public async Task<IActionResult> GetPlatforms()
     {
         IList<string> platforms = await _wpApiService.GetMetas();

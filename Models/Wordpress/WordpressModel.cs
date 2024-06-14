@@ -4,7 +4,6 @@ namespace MichaelKjellander.Models.Wordpress;
 
 public abstract class WordpressModel : DbModel, IParsableJson
 {
-    protected const int VarcharLength = 256;
     public abstract IParsableJson ParseFromJson(JsonElement el);
     
     /// <summary>
