@@ -74,5 +74,6 @@ public class Startup
         using HttpClient client = new HttpClient();
         WpApiService service = new WpApiService(client);
         await context.FillData(service);
+        System.Environment.Exit(0);
     }
 }

@@ -15,12 +15,6 @@ public class BlogDataContext : DataContext
     {
         ClearTable(Categories);
         
-        WpPost? aPost = this.Posts.FirstOrDefault();
-        if (aPost != null)
-        {
-            return;
-        }
-        
         IList<WpCategory> categories = await service.GetCategories();
         this.Categories.AddRange(categories);
         
@@ -49,6 +43,6 @@ public class BlogDataContext : DataContext
             }
         }
         await this.SaveChangesAsync();
-        System.Environment.Exit(0);
+        
     }
 }
