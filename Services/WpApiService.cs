@@ -39,11 +39,16 @@ public class WpApiService
         return platforms;
     }
 
-    public async Task<WpPage?> GetPage(string slug = "")
+    public async Task<WpPage?> GetPage(string slug)
     {
-        var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}?slug={slug}", _client);
+        IList<WpPage> pages = await GetPages();
+        return pages.FirstOrDefault();
+    }
+    public async Task<IList<WpPage>> GetPages()
+    {
+        var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}", _client);
         IList<WpPage> parsedPages = ParseList<WpPage>(pagesResult.Root);
-        return parsedPages.FirstOrDefault();
+        return parsedPages;
     }
 
     //TODO: multiple return values isn't the best

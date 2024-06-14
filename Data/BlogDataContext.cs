@@ -15,13 +15,16 @@ public class BlogDataContext : DataContext
     public async Task FillData(WpApiService service)
     {
         ClearTable(Categories);
+        ClearTable(Images);
+        ClearTable(Pages);
         ClearTable(Posts);
 
+        //Categories
         IList<WpCategory> categories = await service.GetCategories();
         this.Categories.AddRange(categories);
         await SaveChangesAsync();
-
-
+        
+        //Posts
         int currentPage = 1;
         while (true)
         {
@@ -30,6 +33,7 @@ public class BlogDataContext : DataContext
             {
                 if (post.FeaturedImage != null)
                 {
+                    //Images
                     this.AddIfIdDoesntExist(Images, post.FeaturedImage);
                     await SaveChangesAsync();
                 }
@@ -46,7 +50,11 @@ public class BlogDataContext : DataContext
                 break;
             }
         }
-
+        await SaveChangesAsync();
+        
+        //Pages
+        IList<WpPage> pages = await service.GetPages();
+        this.Pages.AddRange(pages);
         await SaveChangesAsync();
     }
 }
