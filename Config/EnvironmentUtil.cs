@@ -2,6 +2,11 @@
 
 namespace MichaelKjellander.Config;
 
+public enum StartupScript
+{
+    None,
+    CleanWpDb
+}
 public static class EnvironmentUtil
 {
     private enum EnvVariable
@@ -11,8 +16,9 @@ public static class EnvironmentUtil
         //Example:
         //Server=127.0.0.1;Database=kjelle_db;User=root;Password=test;Port=3306;SslMode=none;
         SG_MYSQLCONNSTRING,
-        SG_CLEAN_INTERNAL_WP_DB
+        SG_STARTUPSCRIPT
     }
+    
     public static void SetupAppConfig(AppConfig config)
     {
         config.AppEnvironment = GetAppEnvironment();
@@ -52,10 +58,9 @@ public static class EnvironmentUtil
         return ParseString(EnvVariable.SG_MYSQLCONNSTRING);
     }
 
-    [System.Obsolete("Will check if DB is empty instead")]
-    public static bool GetShouldCleanWpDb()
+    public static StartupScript GetStartupScript()
     {
-        return ParseBool(EnvVariable.SG_CLEAN_INTERNAL_WP_DB, false);
+        return ParseEnum(EnvVariable.SG_STARTUPSCRIPT, StartupScript.None);
     }
     private static string GetSiteUrl()
     {

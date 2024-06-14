@@ -1,4 +1,3 @@
-using MichaelKjellander.Components.Pages;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +11,10 @@ public class BlogDataContext : DataContext
     public DbSet<WpPage> Pages { get; set; }
     public DbSet<WpPost> Posts { get; set; }
 
-    public async Task CheckFillData(WpApiService service)
+    public async Task FillData(WpApiService service)
     {
+        ClearTable(Categories);
+        
         WpPost? aPost = this.Posts.FirstOrDefault();
         if (aPost != null)
         {
@@ -48,5 +49,6 @@ public class BlogDataContext : DataContext
             }
         }
         await this.SaveChangesAsync();
+        System.Environment.Exit(0);
     }
 }

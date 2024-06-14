@@ -16,4 +16,9 @@ public abstract class DataContext : DbContext
     }
 
     protected static bool IsCalledByPopulateScript => EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Unknown;
+    
+    protected static void ClearTable<T>(DbSet<T> dbSet) where T : class
+    {
+        dbSet.RemoveRange(dbSet);
+    }
 }

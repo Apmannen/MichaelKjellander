@@ -2,7 +2,6 @@ using MichaelKjellander.Components;
 using MichaelKjellander.Config;
 using MichaelKjellander.Data;
 using MichaelKjellander.Services;
-using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander;
 
@@ -57,15 +56,23 @@ public class Startup
             endpoints.MapRazorComponents<App>().AddInteractiveServerRenderMode();
         });
 
-        InitializeDatabase(app.ApplicationServices).Wait();
+        StartupScript startupScript = EnvironmentUtil.GetStartupScript();
+        switch (startupScript)
+        {
+            case StartupScript.CleanWpDb:
+                CleanWpDb(app.ApplicationServices).Wait();
+                break;
+            default:
+                break;
+        }
     }
 
-    private async Task InitializeDatabase(IServiceProvider serviceProvider)
+    private async Task CleanWpDb(IServiceProvider serviceProvider)
     {
         using IServiceScope scope = serviceProvider.CreateScope();
         BlogDataContext context = scope.ServiceProvider.GetRequiredService<BlogDataContext>();
         using HttpClient client = new HttpClient();
         WpApiService service = new WpApiService(client);
-        await context.CheckFillData(service);
+        await context.FillData(service);
     }
 }
