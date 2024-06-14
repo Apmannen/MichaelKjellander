@@ -82,15 +82,14 @@ public class BlogController : Controller
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
         }
-
         if (postsRequest.MetaRatings is { Count: > 0 })
         {
             query = query.Where(row =>
                 row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
         }
-
         if (postsRequest.CategorySlug != null)
         {
+            query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
         }
 
         query = DataContext.SetPageToQuery(query, pageNumber);
