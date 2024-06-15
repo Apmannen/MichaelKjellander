@@ -47,9 +47,10 @@ public class ApiResponse<T> : IParsableJson
 
     private PaginationData ParsePaginationData(JsonElement el, int count)
     {
-        var currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
-        var numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
-        return new PaginationData(currentPage, numPages, count);
+        int currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
+        int numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
+        int totalCount = el.GetProperty("paginationData").GetProperty("totalCount").GetInt32();
+        return new PaginationData(currentPage, numPages, count, totalCount);
     }
 }
 
@@ -58,11 +59,13 @@ public class PaginationData
     public int CurrentPage {get ; private init; }
     public int NumPages {get ; private init;  }
     public int Count { get; private init; }
+    public int TotalCount { get; private init;  }
 
-    public PaginationData(int currentPage, int numPages, int count)
+    public PaginationData(int currentPage, int numPages, int count, int totalCount)
     {
         this.CurrentPage = currentPage;
         this.NumPages = numPages;
         this.Count = count;
+        this.TotalCount = totalCount;
     }
 }

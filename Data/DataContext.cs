@@ -37,9 +37,8 @@ public abstract class DataContext : DbContext
         dbSet.RemoveRange(dbSet);
     }
 
-    public static IQueryable<T> SetPageToQuery<T>(IQueryable<T> query, int page) where T : DbModel
+    public static IQueryable<T> SetPageToQuery<T>(IQueryable<T> query, int page, int perPage) where T : DbModel
     {
-        int perPage = 10;
         if (page > 1)
         {
             query = query.Skip(perPage * (page - 1));

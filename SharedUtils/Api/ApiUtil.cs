@@ -23,12 +23,17 @@ public static class ApiUtil
         return new JsonFetchResult(root: doc.RootElement, headers: response.Headers);
     }
 
-    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items)
+    public static ApiResponse<T> CreateSimpleApiResponse<T>(IList<T> items)
     {
-        return CreateApiResponse(items, 1, 1);
+        return CreateApiResponse(items, currentPage:1, totalCount: items.Count, perPage: -1);
     }
-    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage, int numPages)
+    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage = 0, int totalCount = 0, int perPage = 0)
     {
-        return new ApiResponse<T>(items, new PaginationData(currentPage, numPages, items.Count));
+        int numPages = 1;
+        if (perPage >= 0)
+        {
+            numPages = (int)Math.Ceiling((float)totalCount / (float)perPage);
+        }
+        return new ApiResponse<T>(items, new PaginationData(currentPage, numPages, items.Count, totalCount));
     }
 }

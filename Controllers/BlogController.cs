@@ -28,7 +28,7 @@ public class BlogController : Controller
     {
         await using var context = new BlogDataContext();
         IList<WpCategory> items = context.Categories.ToList();
-        return Ok(ApiUtil.CreateApiResponse(items));
+        return Ok(ApiUtil.CreateSimpleApiResponse(items));
     }
 
     [HttpGet]
@@ -62,7 +62,7 @@ public class BlogController : Controller
             }
         }
 
-        return Ok(ApiUtil.CreateApiResponse(tags));
+        return Ok(ApiUtil.CreateSimpleApiResponse(tags));
 
         //SELECT * FROM wp_tags t LEFT JOIN wp_post_tags pt ON pt.TagId=t.id LEFT JOIN wp_posts p ON p.id=pt.PostId LEFT JOIN wp_categories c ON c.Id = p.CategoryId WHERE c.Slug="tv-spelrecensioner";
     }
@@ -85,7 +85,7 @@ public class BlogController : Controller
             return NotFound();
         }
 
-        return Ok(ApiUtil.CreateApiResponse([page], 1, 1));
+        return Ok(ApiUtil.CreateSimpleApiResponse([page]));
     }
 
     [HttpGet]
@@ -103,10 +103,7 @@ public class BlogController : Controller
 
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
-        query = query.OrderByDescending(row => row.Date).ThenByDescending(row => row.Id);
-        query = query.Include(row => row.Category);
-        query = query.Include(p => p.PostTags).ThenInclude(pt => pt.Tag);
-        query = query.Include(p => p.FeaturedImage);
+
         if (postsRequest.Slug != null)
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
@@ -130,11 +127,21 @@ public class BlogController : Controller
             );
         }
 
-        query = DataContext.SetPageToQuery(query, pageNumber);
+        int totalCount = await query.CountAsync();
 
-        Console.WriteLine("**** AFTER Q1");
-        IList<WpPost> posts = query.ToList();
-        Console.WriteLine("**** AFTER Q2");
+        query = query.OrderByDescending(row => row.Date)
+            .ThenByDescending(row => row.Id)
+            .Include(row => row.Category)
+            .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
+            .Include(p => p.FeaturedImage);
+
+        int perPage = 10;
+        query = DataContext.SetPageToQuery(query, pageNumber, perPage);
+
+        Console.WriteLine("************** totalCount=" + totalCount);
+
+
+        IList<WpPost> posts = await query.ToListAsync();
 
         foreach (WpPost post in posts)
         {
@@ -146,7 +153,7 @@ public class BlogController : Controller
             }
         }
 
-        return Ok(ApiUtil.CreateApiResponse(posts, 1, 1));
+        return Ok(ApiUtil.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage, totalCount: totalCount));
         /*(IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
             categorySlug: postsRequest.CategorySlug,
             metaPlatforms: postsRequest.MetaPlatforms ?? [],
