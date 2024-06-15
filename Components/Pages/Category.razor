@@ -43,7 +43,7 @@
                 WpTag localTag = tag;
                 <span class="sg-break-together">
                     <input id="tag-@(localTag.Id)" type="checkbox" checked="@Filter!.Tags[localTag.Id]" @onchange="args => TogglePlatform(args, localTag.Id)"/>
-                    <label class="mr-3" for="platform-@(localTag.Id)">@localTag.Name</label>
+                    <label class="mr-3" for="tag-@(localTag.Id)">@localTag.Name</label>
                 </span>
             }
 
