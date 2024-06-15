@@ -27,7 +27,7 @@ public class BlogController : Controller
     public async Task<IActionResult> GetCategories()
     {
         await using var context = new BlogDataContext();
-        IList<WpCategory> items = context.Categories.ToList();
+        List<WpCategory> items = context.Categories.ToList();
         return Ok(ApiUtil.CreateSimpleApiResponse(items));
     }
 
@@ -61,7 +61,9 @@ public class BlogController : Controller
                 tags.Add(row.Tag);
             }
         }
-
+        
+        tags.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
+ 
         return Ok(ApiUtil.CreateSimpleApiResponse(tags));
 
         //SELECT * FROM wp_tags t LEFT JOIN wp_post_tags pt ON pt.TagId=t.id LEFT JOIN wp_posts p ON p.id=pt.PostId LEFT JOIN wp_categories c ON c.Id = p.CategoryId WHERE c.Slug="tv-spelrecensioner";
