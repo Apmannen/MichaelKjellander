@@ -106,6 +106,7 @@ public class BlogController : Controller
         query = query.OrderByDescending(row => row.Date).ThenByDescending(row => row.Id);
         query = query.Include(row => row.Category);
         query = query.Include(p => p.PostTags).ThenInclude(pt => pt.Tag);
+        query = query.Include(p => p.FeaturedImage);
         if (postsRequest.Slug != null)
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
