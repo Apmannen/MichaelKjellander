@@ -38,12 +38,12 @@
             <p></p>
             <span class="font-bold">Plattform</span>
             <div></div>
-            @foreach (string platform in _allPlatforms)
+            @foreach (WpTag tag in _allTags)
             {
-                string localPlatform = platform;
+                WpTag localTag = tag;
                 <span class="sg-break-together">
-                    <input id="platform-@(localPlatform)" type="checkbox" checked="@Filter!.Platforms[localPlatform]" @onchange="args => TogglePlatform(args, localPlatform)"/>
-                    <label class="mr-3" for="platform-@(localPlatform)">@localPlatform</label>
+                    <input id="tag-@(localTag.Id)" type="checkbox" checked="@Filter!.Tags[localTag.Id]" @onchange="args => TogglePlatform(args, localTag.Id)"/>
+                    <label class="mr-3" for="platform-@(localTag.Id)">@localTag.Name</label>
                 </span>
             }
 
@@ -76,14 +76,14 @@ else
     private string? _prefix;
     [SupplyParameterFromForm] public GameReviewFilter? Filter { get; set; }
     InternalApiService? _service;
-    private const string RatingName = "betyg";
-    private const string PlatformName = "plattform";
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading = true;
     private Url? _url;
     private string? _query;
     private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
-    private readonly List<string> _allPlatforms = [];
+    private readonly List<WpTag> _allTags = [];
+    private const string RatingName = "betyg";
+    private const string TagsName = "taggar";
 
     protected override async Task OnInitializedAsync()
     {
@@ -99,13 +99,13 @@ else
         _query = _url!.GetQueryString();
         ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
         Filter.Ratings.ReplaceWithRange(ratingParams);
-        ICollection<string> platformParams = _url.GetQueryParameters(PlatformName);
-        Filter.Platforms.ReplaceWithRange(platformParams);
+        ICollection<int> tagParams = _url.GetQueryParametersInt(TagsName);
+        Filter.Tags.ReplaceWithRange(tagParams);
 
         _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
 
-        _allPlatforms.Clear();
-        _allPlatforms.AddRange(await _service.FetchMetaPlatforms());
+        _allTags.Clear();
+        _allTags.AddRange(await _service.FetchTags(Slug));
 
         await FetchData();
     }
@@ -114,7 +114,7 @@ else
     {
         _isLoading = true;
         ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug,
-            metaPlatforms: Filter!.Platforms.Values, metaRatings: Filter!.Ratings.Values);
+            tagIds: Filter!.Tags.Values, metaRatings: Filter!.Ratings.Values);
         _posts = postsData.Items;
         _category ??= _posts?.FirstOrDefault()?.Category;
         _prefix ??= PageRoutes.Category(Slug!);
@@ -132,7 +132,7 @@ else
     {
         _url = new HttpQueryBuilder(PageRoutes.Category(CategoryType.GameReview), QueryArrayMode.Multiple) //TODO: hardcoded
             .Add(RatingName, Filter!.Ratings.Values)
-            .Add(PlatformName, Filter!.Platforms.Values)
+            .Add(TagsName, Filter!.Tags.Values)
             .ToUrl();
         _query = _url.GetQueryString();
         Navigation.NavigateTo(_url.ToString(), false, true);
@@ -147,10 +147,10 @@ else
         await RefreshUrlAndFetch();
     }
 
-    private async Task TogglePlatform(ChangeEventArgs args, string platform)
+    private async Task TogglePlatform(ChangeEventArgs args, int tagId)
     {
         bool isSelected = (bool)args.Value!;
-        Filter!.Platforms[platform] = isSelected;
+        Filter!.Tags[tagId] = isSelected;
         await RefreshUrlAndFetch();
     }
 
@@ -162,15 +162,13 @@ else
 
     public class GameReviewFilter
     {
-        public readonly Indexer<string> Platforms = new();
+        public readonly Indexer<int> Tags = new();
         public readonly Indexer<int> Ratings = new();
 
         public void Clear()
         {
-            Platforms.Values.Clear();
+            Tags.Values.Clear();
             Ratings.Values.Clear();
         }
     }
-
 }
-

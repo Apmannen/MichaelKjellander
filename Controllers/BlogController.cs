@@ -13,6 +13,7 @@ namespace MichaelKjellander.Controllers;
 public class BlogController : Controller
 {
     private const int OneHour = 3600;
+
     [Obsolete("Use internal DB instead")] private readonly WpApiService _wpApiService;
 
     public BlogController(WpApiService wpApiService)
@@ -31,13 +32,39 @@ public class BlogController : Controller
     }
 
     [HttpGet]
-    [Route("meta-platforms")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
-    [Obsolete("Replace with tags")] //TODO: note! obsolete!
-    public async Task<IActionResult> GetPlatforms()
+    [Route("tags")]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
+        VaryByQueryKeys = ["CategorySlug"])]
+    public async Task<IActionResult> GetTags([FromQuery] TagsRequest tagsRequest)
     {
-        IList<string> platforms = await _wpApiService.GetMetas();
-        return Ok(ApiUtil.CreateApiResponse(platforms));
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        await using var context = new BlogDataContext();
+        var result = context.Tags
+            .Where(t => t.PostTags
+                .Any(pt => pt.Post.Category!.Slug == tagsRequest.CategorySlug))
+            .Select(t => new
+            {
+                Tag = t,
+                Posts = t.PostTags.Select(pt => pt.Post)
+            })
+            .ToList();
+        List<WpTag> tags = [];
+        foreach (var row in result)
+        {
+            //TODO: use those post counters
+            if (row.Tag.Slug != "fran-samlingen")
+            {
+                tags.Add(row.Tag);
+            }
+        }
+
+        return Ok(ApiUtil.CreateApiResponse(tags));
+
+        //SELECT * FROM wp_tags t LEFT JOIN wp_post_tags pt ON pt.TagId=t.id LEFT JOIN wp_posts p ON p.id=pt.PostId LEFT JOIN wp_categories c ON c.Id = p.CategoryId WHERE c.Slug="tv-spelrecensioner";
     }
 
     [HttpGet]
@@ -64,7 +91,7 @@ public class BlogController : Controller
     [HttpGet]
     [Route("posts")]
     //[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-    //   VaryByQueryKeys = ["categorySlug", "metaPlatforms", "metaRatings", "page", "slug"])]
+    //    VaryByQueryKeys = ["categorySlug", "tagIds", "metaRatings", "page", "slug"])]
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
@@ -78,24 +105,45 @@ public class BlogController : Controller
         IQueryable<WpPost> query = context.Posts;
         query = query.OrderByDescending(row => row.Date).ThenByDescending(row => row.Id);
         query = query.Include(row => row.Category);
+        query = query.Include(p => p.PostTags).ThenInclude(pt => pt.Tag);
         if (postsRequest.Slug != null)
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
         }
+
         if (postsRequest.MetaRatings is { Count: > 0 })
         {
             query = query.Where(row =>
                 row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
         }
+
         if (postsRequest.CategorySlug != null)
         {
             query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
         }
 
+        if (postsRequest.TagIds is { Count: > 0 })
+        {
+            query = query.Where(
+                p => p.PostTags.Any(pt => postsRequest.TagIds.Contains(pt.TagId))
+            );
+        }
+
         query = DataContext.SetPageToQuery(query, pageNumber);
 
-
+        Console.WriteLine("**** AFTER Q1");
         IList<WpPost> posts = query.ToList();
+        Console.WriteLine("**** AFTER Q2");
+
+        foreach (WpPost post in posts)
+        {
+            //post.PostTags = null;
+            foreach (WpPostTag postTag in post.PostTags)
+            {
+                postTag.Post = null;
+                postTag.Tag.PostTags = null;
+            }
+        }
 
         return Ok(ApiUtil.CreateApiResponse(posts, 1, 1));
         /*(IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
@@ -122,5 +170,11 @@ public class BlogController : Controller
         public List<int>? MetaRatings { get; set; }
         public int? Page { get; set; }
         public string? Slug { get; set; }
+        public List<int>? TagIds { get; set; }
+    }
+
+    public class TagsRequest
+    {
+        [Required] public string? CategorySlug { get; set; }
     }
 }

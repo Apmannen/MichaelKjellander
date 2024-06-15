@@ -12,21 +12,20 @@ public class ApiRoutes
     }
 
     public string Categories => $"{_baseUrl}/api/blog/categories";
-    public string MetaPlatforms => $"{_baseUrl}/api/blog/meta-platforms";
     public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}";
 
-    public string Posts(int page, string? categorySlug, ICollection<string>? metaPlatforms,
+    public string Posts(int page, string? categorySlug, ICollection<int>? tagIds,
         ICollection<int>? metaRatings, string? postSlug)
     {
         return new HttpQueryBuilder($"{_baseUrl}/api/blog/posts", QueryArrayMode.Multiple)
             .Add("categorySlug", categorySlug)
-            .Add("metaPlatforms", metaPlatforms)
+            .Add("tagIds", tagIds)
             .Add("metaRatings", metaRatings)
             .Add("page", page)
             .Add("slug", postSlug)
             .ToString();
     }
-
+    public string Tags(string categorySlug) => $"{_baseUrl}/api/blog/tags?categorySlug={categorySlug}";
     public string WordGuessInit => $"{_baseUrl}/api/webgames/word-guess/init";
 
     public string WordGuessGuess(char letter, string uuid) =>

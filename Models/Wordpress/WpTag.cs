@@ -8,7 +8,7 @@ public class WpTag : WordpressModel
 {
     public string? Name { get; set; }
     public string? Slug { get; set; }
-    public IList<WpPostTag> PostTags { get; set; }
+    public IList<WpPostTag>? PostTags { get; set; }
     
     public override WpTag ParseFromJson(JsonElement el)
     {

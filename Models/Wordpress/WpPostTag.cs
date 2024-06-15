@@ -9,7 +9,7 @@ public class WpPostTag : WordpressModel
 {
     [Required]
     public int PostId { get; set; }
-    public WpPost Post { get; set; }
+    public WpPost? Post { get; set; }
     
     [Required]
     public int TagId { get; set; }

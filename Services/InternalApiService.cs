@@ -26,9 +26,9 @@ public class InternalApiService
         return response.Items!;
     }
 
-    public async Task<IList<string>> FetchMetaPlatforms()
+    public async Task<IList<WpTag>> FetchTags(string categorySlug)
     {
-        ApiResponse<string> response = await FetchStrings(_apiRoutes.MetaPlatforms);
+        ApiResponse<WpTag> response = await FetchModels<WpTag>(_apiRoutes.Tags(categorySlug));
         return response.Items!;
     }
 
@@ -38,9 +38,9 @@ public class InternalApiService
     }
 
     public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null,
-        ICollection<string>? metaPlatforms = null, ICollection<int>? metaRatings = null, string? postSlug = null)
+        ICollection<int>? tagIds = null, ICollection<int>? metaRatings = null, string? postSlug = null)
     {
-        return await FetchModels<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, metaPlatforms, metaRatings,
+        return await FetchModels<WpPost>(_apiRoutes.Posts(pageNumber, categorySlug, tagIds, metaRatings,
             postSlug));
     }
 
