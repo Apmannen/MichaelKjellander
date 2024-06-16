@@ -17,7 +17,7 @@ public abstract class DataContext : DbContext
 
         if (EnvVariables.GetAppEnvironment() == AppEnvironment.Local)
         {
-            optionsBuilder.LogTo(Console.WriteLine);
+            //optionsBuilder.LogTo(Console.WriteLine);
         }
     }
 

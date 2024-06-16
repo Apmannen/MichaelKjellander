@@ -14,6 +14,12 @@ public class CleanWpDbScript
         DataContext.ClearTable(context.Images);
         DataContext.ClearTable(context.Pages);
         DataContext.ClearTable(context.Posts);
+        DataContext.ClearTable(context.TranslationEntries);
+        
+        //Translations
+        List<WpTranslationEntry> translationEntries = await service.GetTranslations();
+        context.TranslationEntries.AddRange(translationEntries);
+        await context.SaveChangesAsync();
         
         //Tags
         IList<WpTag> tags = await service.GetTags();
