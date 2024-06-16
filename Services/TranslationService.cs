@@ -14,7 +14,7 @@ public class TranslationService
 
     public TranslationService()
     {
-        BlogDataContext context = new();
+        using BlogDataContext context = new();
         List<WpTranslationEntry> entries = context.TranslationEntries.ToList();
 
         foreach (WpTranslationEntry entry in entries)
