@@ -12,4 +12,12 @@ public class BlogDataContext : DataContext
     public DbSet<WpPost> Posts { get; set; }
     public DbSet<WpTag> Tags { get; set; }
     public DbSet<WpPostTag> PostTags { get; set; }
+    public DbSet<WpTranslationEntry> TranslationEntries { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<WpTranslationEntry>()
+            .HasIndex(te => new { te.Language, te.Key }).IsUnique();
+    }
 }

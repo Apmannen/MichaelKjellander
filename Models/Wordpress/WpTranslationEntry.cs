@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MichaelKjellander.Models.Wordpress;
 
@@ -7,6 +8,7 @@ public enum Language
     Swedish = 0
 }
 
+[Table("wp_translation_entries")]
 public class WpTranslationEntry : DbModel
 {
     [Required]
@@ -15,5 +17,6 @@ public class WpTranslationEntry : DbModel
     [Required] 
     public Language Language { get; set; }
     [Required] 
-    public string? Translation { get; set; }
+    [Column(TypeName = "text")]
+    public string? Text { get; set; }
 }
