@@ -11,7 +11,7 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
     {
-        AppEnvironment appEnvironment = EnvironmentUtil.GetAppEnvironment();
+        AppEnvironment appEnvironment = EnvVariables.GetAppEnvironment();
 
         return Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>

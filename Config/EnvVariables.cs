@@ -7,7 +7,7 @@ public enum StartupScript
     None,
     CleanWpDb
 }
-public static class EnvironmentUtil
+public static class EnvVariables
 {
     private enum EnvVariable
     {

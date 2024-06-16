@@ -10,7 +10,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        AppEnvironment environment = EnvironmentUtil.GetAppEnvironment();
+        AppEnvironment environment = EnvVariables.GetAppEnvironment();
 
         if (AppConfig.IsAnyWww(environment))
         {
@@ -29,7 +29,7 @@ public class Startup
         services.AddHttpClient();
         services.AddHttpClient<WpApiService>();
 
-        services.Configure<AppConfig>(config => { EnvironmentUtil.SetupAppConfig(config); });
+        services.Configure<AppConfig>(config => { EnvVariables.SetupAppConfig(config); });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -57,7 +57,7 @@ public class Startup
             endpoints.MapRazorComponents<App>().AddInteractiveServerRenderMode();
         });
 
-        StartupScript startupScript = EnvironmentUtil.GetStartupScript();
+        StartupScript startupScript = EnvVariables.GetStartupScript();
         switch (startupScript)
         {
             case StartupScript.CleanWpDb:

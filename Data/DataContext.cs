@@ -11,17 +11,17 @@ public abstract class DataContext : DbContext
     {
         ServerVersion serverVersion = ServerVersion.Create(8, 4, 0, ServerType.MySql);
         optionsBuilder.UseMySql(
-            connectionString: EnvironmentUtil.GetMysqlConnectionString(),
+            connectionString: EnvVariables.GetMysqlConnectionString(),
             serverVersion: serverVersion,
             mySqlOptionsAction: null);
 
-        if (EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Local)
+        if (EnvVariables.GetAppEnvironment() == AppEnvironment.Local)
         {
             optionsBuilder.LogTo(Console.WriteLine);
         }
     }
 
-    protected static bool IsCalledByPopulateScript => EnvironmentUtil.GetAppEnvironment() == AppEnvironment.Unknown;
+    protected static bool IsCalledByPopulateScript => EnvVariables.GetAppEnvironment() == AppEnvironment.Unknown;
 
     public static void AddIfIdDoesntExist<T>(DbSet<T> dbSet, T newRow) where T : DbModel
     {
