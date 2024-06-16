@@ -24,26 +24,7 @@ public class WpPost : WordpressModel
 
     //Yep, I think it's fine to keep texts like these in a single language application.
     //They could easily be swapped otherwise.
-    public string RatingText
-    {
-        get
-        {
-            return MetaRating switch
-            {
-                1 => "Ospelbart",
-                2 => "Mycket dåligt",
-                3 => "Dåligt",
-                4 => "Ganska dåligt",
-                5 => "Medelmåttigt",
-                6 => "Ganska bra",
-                7 => "Bra",
-                8 => "Mycket bra",
-                9 => "Fantastiskt",
-                10 => "Mästerverk",
-                _ => ""
-            };
-        }
-    }
+    public string RatingTranslationKey => "RATING_" + MetaRating;
 
     public override WpPost ParseFromJson(JsonElement el)
     {

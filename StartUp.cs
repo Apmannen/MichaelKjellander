@@ -25,6 +25,7 @@ public class Startup
         services.AddRazorComponents().AddInteractiveServerComponents();
 
         services.AddScoped<JsService>();
+        services.AddScoped<TranslationService>();
 
         services.AddHttpClient();
         services.AddHttpClient<WpApiService>();

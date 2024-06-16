@@ -4,7 +4,9 @@
 @using MichaelKjellander.Components.Icons
 @using MichaelKjellander.SharedUtils.Routes
 @using MichaelKjellander.Components.Modals
+@using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils.Components
+@inject TranslationService Ts
 
 @if (Post != null)
 {
@@ -44,7 +46,7 @@
             @if (Post.Category!.Type == CategoryType.GameReview)
             {
                 <div class="border border-black border-dashed px-8 py-6">
-                    <div class="font-bold">@Post.RatingText</div>
+                    <div class="font-bold">@Ts.Get(Post.RatingTranslationKey)</div>
                     @if (Post.MetaPlayAlso != null)
                     {
                         <div class="h-2"></div>
@@ -100,9 +102,8 @@
 
     protected override void OnParametersSet()
     {
-        
     }
-    
+
     private void OnImageClick()
     {
         _showModalCallbacker!.Action!();
