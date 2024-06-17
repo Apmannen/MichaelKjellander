@@ -1,6 +1,7 @@
 using System.Text.Json;
 using MichaelKjellander.Models;
 using MichaelKjellander.Tools.Parsers;
+using MichaelKjellander.Tools.Parsers.Json;
 using Newtonsoft.Json;
 
 namespace MichaelKjellander.Models;

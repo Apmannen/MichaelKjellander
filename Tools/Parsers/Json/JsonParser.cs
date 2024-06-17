@@ -2,7 +2,7 @@
 using MichaelKjellander.Models;
 using Newtonsoft.Json;
 
-namespace MichaelKjellander.Tools.Parsers;
+namespace MichaelKjellander.Tools.Parsers.Json;
 
 public static class JsonParser
 {

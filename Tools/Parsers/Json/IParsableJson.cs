@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace MichaelKjellander.Models;
+namespace MichaelKjellander.Tools.Parsers.Json;
 
 public interface IParsableJson
 {
