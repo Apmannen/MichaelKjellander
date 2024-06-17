@@ -1,10 +1,11 @@
 @page "/inlagg/{Slug}"
+@using MichaelKjellander.Communicators
 @using MichaelKjellander.SharedUtils.Components
 @using MichaelKjellander.Models.Wordpress
-@using MichaelKjellander.Services
 @using MichaelKjellander.Components.Boxes
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models
+@using MichaelKjellander.TmpName
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
@@ -29,8 +30,8 @@
             return;
         }
 
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postsData = await service.FetchPosts(postSlug: Slug);
+        InternalApiCommunicator communicator = new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postsData = await communicator.FetchPosts(postSlug: Slug);
         _post = postsData.Items![0];
     }
 

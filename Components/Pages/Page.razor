@@ -1,8 +1,8 @@
 @page "/sida/{Slug}"
+@using MichaelKjellander.Communicators
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models
 @using MichaelKjellander.Models.Wordpress
-@using MichaelKjellander.Services
 @using MichaelKjellander.SharedUtils.Components
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
@@ -35,8 +35,8 @@
             return;
         }
 
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPage> pagesData = await service.FetchPages(Slug = Slug);
+        InternalApiCommunicator communicator = new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPage> pagesData = await communicator.FetchPages(Slug = Slug);
         if (pagesData.Items == null)
         {
             return;

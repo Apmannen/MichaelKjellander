@@ -3,16 +3,16 @@ using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 
-namespace MichaelKjellander.Services;
+namespace MichaelKjellander.Communicators;
 
-public class WpApiService
+public class WpApiCommunicator
 {
     private readonly HttpClient _client;
     private const string WpApiBaseUrl = "https://michaelkjellander.se/wp-json";
     private const string NamespaceDefault = "wp/v2";
     private const string NamespacePlugin = "sgplugin/v1";
 
-    public WpApiService(HttpClient client)
+    public WpApiCommunicator(HttpClient client)
     {
         this._client = client;
     }

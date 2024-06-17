@@ -1,12 +1,12 @@
-﻿using MichaelKjellander.Data;
+﻿using MichaelKjellander.Communicators;
+using MichaelKjellander.Data;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.Services;
 
 namespace MichaelKjellander.Scripts.Startup;
 
 public class CleanWpDbScript
 {
-    public async Task Run(BlogDataContext context, WpApiService service)
+    public async Task Run(BlogDataContext context, WpApiCommunicator communicator)
     {
         DataContext.ClearTable(context.PostTags);
         DataContext.ClearTable(context.Tags);
@@ -17,17 +17,17 @@ public class CleanWpDbScript
         DataContext.ClearTable(context.TranslationEntries);
         
         //Translations
-        List<WpTranslationEntry> translationEntries = await service.GetTranslations();
+        List<WpTranslationEntry> translationEntries = await communicator.GetTranslations();
         context.TranslationEntries.AddRange(translationEntries);
         await context.SaveChangesAsync();
         
         //Tags
-        IList<WpTag> tags = await service.GetTags();
+        IList<WpTag> tags = await communicator.GetTags();
         context.Tags.AddRange(tags);
         await context.SaveChangesAsync();
 
         //Categories
-        IList<WpCategory> categories = await service.GetCategories();
+        IList<WpCategory> categories = await communicator.GetCategories();
         context.Categories.AddRange(categories);
         await context.SaveChangesAsync();
         
@@ -35,7 +35,7 @@ public class CleanWpDbScript
         int currentPage = 1;
         while (true)
         {
-            (IList<WpPost> posts, int numPages) = await service.GetPosts(page: currentPage);
+            (IList<WpPost> posts, int numPages) = await communicator.GetPosts(page: currentPage);
             foreach (WpPost post in posts)
             {
                 if (post.FeaturedImage != null)
@@ -60,7 +60,7 @@ public class CleanWpDbScript
         await context.SaveChangesAsync();
         
         //Pages
-        IList<WpPage> pages = await service.GetPages();
+        IList<WpPage> pages = await communicator.GetPages();
         context.Pages.AddRange(pages);
         await context.SaveChangesAsync();
     }

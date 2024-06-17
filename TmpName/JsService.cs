@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.JSInterop;
 
-namespace MichaelKjellander.Services;
-
-using Microsoft.JSInterop;
+namespace MichaelKjellander.TmpName;
 
 public class JsService
 {

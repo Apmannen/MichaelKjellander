@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using MichaelKjellander.Communicators;
 using MichaelKjellander.Data;
-using MichaelKjellander.Services;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +14,11 @@ public class BlogController : Controller
 {
     private const int OneHour = 3600;
 
-    [Obsolete("Use internal DB instead")] private readonly WpApiService _wpApiService;
+    [Obsolete("Use internal DB instead")] private readonly WpApiCommunicator _wpApiCommunicator;
 
-    public BlogController(WpApiService wpApiService)
+    public BlogController(WpApiCommunicator wpApiCommunicator)
     {
-        _wpApiService = wpApiService;
+        _wpApiCommunicator = wpApiCommunicator;
     }
 
     [HttpGet]

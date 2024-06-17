@@ -1,7 +1,7 @@
 ﻿using MichaelKjellander.Data;
 using MichaelKjellander.Models.Wordpress;
 
-namespace MichaelKjellander.Services;
+namespace MichaelKjellander.TmpName;
 
 /// <summary>
 /// Only supports one language for now.
