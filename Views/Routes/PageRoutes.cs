@@ -1,6 +1,6 @@
 using MichaelKjellander.Models.Wordpress;
 
-namespace MichaelKjellander.SharedUtils.Routes;
+namespace MichaelKjellander.Views.Routes;
 
 public static class PageRoutes
 {
