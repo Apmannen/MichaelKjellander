@@ -7,7 +7,6 @@ namespace MichaelKjellander.Views.Services.Api;
 
 /// <summary>
 /// Only supports one language for now.
-/// TODO: I want to generate a class with translation keys as enums.
 /// </summary>
 public class TranslationsService : InternalApiService
 {
