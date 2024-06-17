@@ -2,11 +2,11 @@ namespace MichaelKjellander.IndependentUtils.Parsers.TranslationFile;
 
 public static class TranslationFileParser
 {
-    public static List<T> ParsePortableObjectFile<T>(string poFileContent, Func<T> createTranslationEntry) where T : class,ITranslationEntry
+    public static Dictionary<string,string> ParsePortableObjectFile(string poFileContent)
     {
-        List<T> entries = [];
+        Dictionary<string, string> translationsByKey = new();
         string[] rows = poFileContent.Split("\n");
-        T? currentEntry = null;
+        Pair? currentEntry = null;
         foreach (string row in rows)
         {
             string[] pieces = row.Split(' ', 2);
@@ -17,7 +17,7 @@ public static class TranslationFileParser
             }
             if (currentEntry == null)
             {
-                currentEntry = createTranslationEntry();
+                currentEntry = new Pair();
             }
 
             string fileKey = pieces[0];
@@ -25,20 +25,26 @@ public static class TranslationFileParser
             switch (fileKey)
             {
                 case "msgid":
-                    currentEntry.SetKey(fileValue);
+                    currentEntry.key = fileValue;
                     break;
                 case "msgstr":
-                    currentEntry.SetText(fileValue);
+                    currentEntry.value = fileValue;
                     break;
             }
 
-            if (currentEntry.GetKey().Length > 0 && currentEntry.GetText().Length > 0)
+            if (!string.IsNullOrEmpty(currentEntry.key) && !string.IsNullOrEmpty(currentEntry.value))
             {
-                entries.Add(currentEntry);
+                translationsByKey[currentEntry.key] = currentEntry.value; 
                 currentEntry = null;
             }
         }
 
-        return entries;
+        return translationsByKey;
+    }
+
+    private class Pair
+    {
+        public string? key;
+        public string? value;
     }
 }

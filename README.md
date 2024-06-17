@@ -38,8 +38,10 @@ npm run build-styles
 
 **Migrate database (environment variables depend on local MySQL setup)**
 ```
-dotnet ef migrations add InitialCreate
-$Env:SG_MYSQLCONNSTRING="Server=127.0.0.1;Database=kjelle_db;User=root;Port=3306;SslMode=none;" ; dotnet ef database update --verbose
+dotnet ef migrations add BlogMigration --context BlogDataContext
+dotnet ef migrations add WebGamesMigration --context WebGamesDataContext
+$Env:SG_MYSQLCONNSTRING="Server=127.0.0.1;Database=kjelle_db;User=root;Port=3306;SslMode=none;Password=test;" ; dotnet ef database update --verbose --context BlogDataContext
+$Env:SG_MYSQLCONNSTRING="Server=127.0.0.1;Database=kjelle_db;User=root;Port=3306;SslMode=none;Password=test;" ; dotnet ef database update --verbose --context WebGamesDataContext
 ```
 
 **Fetch data from Wordpress API and update local database**

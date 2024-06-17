@@ -24,16 +24,17 @@ public class WpApiService
         var result = await ApiUtil.FetchJson(GetFullBaseUrl(NamespacePlugin, "translations"), _client);
         JsonElement root = result.Root;
         string translationFileContent = root.GetString()!;
-        List<WpTranslationEntry> entries = TranslationFileParser.ParsePortableObjectFile(translationFileContent, () =>
-        {
-            WpTranslationEntry translationEntry = new WpTranslationEntry();
-            translationEntry.Language = Language.Swedish;
-            return translationEntry;
-        });
-        
+        List<WpTranslationEntry> entries = TranslationFileParser.ParsePortableObjectFile(translationFileContent).Select(
+            pair => new WpTranslationEntry()
+            {
+                Key = pair.Key,
+                Text = pair.Value,
+                Language = Language.Swedish
+            }).ToList();
+
         return entries;
     }
-    
+
     public async Task<IList<WpCategory>> GetCategories()
     {
         var result = await ApiUtil.FetchJson(GetFullBaseUrl(NamespaceDefault, "categories"), _client);
@@ -51,7 +52,7 @@ public class WpApiService
 
         return parsedItems;
     }
-    
+
     public async Task<IList<WpPage>> GetPages()
     {
         var pagesResult = await ApiUtil.FetchJson($"{GetFullBaseUrl(NamespaceDefault, "pages")}", _client);
@@ -94,6 +95,4 @@ public class WpApiService
     {
         return $"{WpApiBaseUrl}/{nameSpace}/{path}";
     }
-    
-    
 }

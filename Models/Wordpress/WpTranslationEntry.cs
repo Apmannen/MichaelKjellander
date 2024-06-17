@@ -10,7 +10,7 @@ public enum Language
 }
 
 [Table("wp_translation_entries")]
-public class WpTranslationEntry : DbModel, ITranslationEntry
+public class WpTranslationEntry : DbModel
 {
     [Required]
     [MaxLength(VarcharLength)]
@@ -20,24 +20,4 @@ public class WpTranslationEntry : DbModel, ITranslationEntry
     [Required] 
     [Column(TypeName = "text")]
     public string? Text { get; set; }
-
-    public void SetKey(string key)
-    {
-        Key = key;
-    }
-
-    public void SetText(string text)
-    {
-        Text = text;
-    }
-
-    public string GetKey()
-    {
-        return Key ?? "";
-    }
-
-    public string GetText()
-    {
-        return Text ?? "";
-    }
 }
