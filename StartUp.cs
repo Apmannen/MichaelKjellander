@@ -10,6 +10,14 @@ namespace MichaelKjellander;
 
 public class Startup
 {
+    
+    /// <summary>
+    /// * Transient: A new instance of the service is created each time it is requested.
+    /// * Scoped: A new instance of the service is created per request within a given scope (e.g., an HTTP request in a
+    /// server application, or a user session in a Blazor WebAssembly application).
+    /// * Singleton: A single instance of the service is created and reused throughout the application's lifetime.
+    /// </summary>
+    /// <param name="services"></param>
     public void ConfigureServices(IServiceCollection services)
     {
         AppEnvironment environment = EnvVariables.GetAppEnvironment();
@@ -27,7 +35,7 @@ public class Startup
         services.AddRazorComponents().AddInteractiveServerComponents();
 
         services.AddScoped<JsService>();
-        services.AddScoped<TranslationsService>();
+        services.AddSingleton<TranslationsService>();
 
         services.AddHttpClient();
         services.AddHttpClient<WpApiService>();

@@ -7,8 +7,6 @@ namespace MichaelKjellander.Views.Services.Api;
 /// <summary>
 /// Only supports one language for now.
 /// TODO: I want to generate a class with translation keys as enums.
-/// TODO: add a API endpoint for getting translations
-/// TODO: The idea is that it should only be created once, but now it's added on every page change.
 /// </summary>
 public class TranslationsService : InternalApiService
 {
