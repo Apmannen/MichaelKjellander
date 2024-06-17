@@ -10,11 +10,11 @@ namespace MichaelKjellander.Views.Services.Api;
 /// TODO: add a API endpoint for getting translations
 /// TODO: The idea is that it should only be created once, but now it's added on every page change.
 /// </summary>
-public class TranslationService : InternalApiService
+public class TranslationsService : InternalApiService
 {
     private readonly Dictionary<string, WpTranslationEntry> _translationsByKey = new();
 
-    public TranslationService(HttpClient client, IOptions<AppConfig> options) : base(client, options)
+    public TranslationsService(HttpClient client, IOptions<AppConfig> options) : base(client, options)
     {
         Console.WriteLine("***** INIT TS!!!!!!!!!");
         var task = Task.Run(async () => await this.FetchModels<WpTranslationEntry>(this.ApiRoutes.Translations));
