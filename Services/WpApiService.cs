@@ -2,6 +2,7 @@ using System.Text.Json;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.Tools.Parsers.Json;
+using MichaelKjellander.Tools.Parsers.TranslationFile;
 using MichaelKjellander.Tools.Url;
 
 namespace MichaelKjellander.Services;
@@ -23,44 +24,12 @@ public class WpApiService
         var result = await ApiUtil.FetchJson(GetFullBaseUrl(NamespacePlugin, "translations"), _client);
         JsonElement root = result.Root;
         string translationFileContent = root.GetString()!;
-
-        //TODO: should have a new directory for parsers. Include JSON parser and po/pot there.
-        //It could have it's own DTO format to return.
-        List<WpTranslationEntry> entries = new List<WpTranslationEntry>();
-        string[] rows = translationFileContent.Split("\n");
-        WpTranslationEntry? currentEntry = null;
-        foreach (string row in rows)
+        List<WpTranslationEntry> entries = TranslationFileParser.ParsePortableObjectFile(translationFileContent, () =>
         {
-            string[] pieces = row.Split(' ', 2);
-            if (pieces.Length != 2)
-            {
-                currentEntry = null;
-                continue;
-            }
-            if (currentEntry == null)
-            {
-                currentEntry = new WpTranslationEntry();
-                currentEntry.Language = Language.Swedish;
-            }
-
-            string fileKey = pieces[0];
-            string fileValue = pieces[1].Substring(1, pieces[1].Length - 2);
-            switch (fileKey)
-            {
-                case "msgid":
-                    currentEntry.Key = fileValue;
-                    break;
-                case "msgstr":
-                    currentEntry.Text = fileValue;
-                    break;
-            }
-
-            if (currentEntry is { Key.Length: > 0, Text: not null })
-            {
-                entries.Add(currentEntry);
-                currentEntry = null;
-            }
-        }
+            WpTranslationEntry translationEntry = new WpTranslationEntry();
+            translationEntry.Language = Language.Swedish;
+            return translationEntry;
+        });
         
         return entries;
     }
