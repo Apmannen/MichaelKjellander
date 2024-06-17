@@ -23,7 +23,7 @@ public static class JsonParser
         return deserializedList;
     }
     
-    private static T ParseParsableJson<T>(JsonElement jsonElement) where T : IParsableJson
+    public static T ParseParsableJson<T>(JsonElement jsonElement) where T : IParsableJson
     {
         T parsableJson = CreateModelInstance<T>();
         parsableJson.ParseFromJson(jsonElement);

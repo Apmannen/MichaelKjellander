@@ -4,6 +4,7 @@ using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.SharedUtils.Routes;
+using MichaelKjellander.Tools.Parsers;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander.Communicators;
@@ -59,19 +60,10 @@ public class InternalApiCommunicator
     }
 
     //Privates
-    private async Task<ApiResponse<T>> FetchModels<T>(string path)
+    private async Task<ApiResponse<T>> FetchModels<T>(string path)  where T : DbModel
     {
         JsonFetchResult result = await ApiUtil.FetchJson(path, _client);
-        ApiResponse<T> response = new();
-        response.ParseFromJson(result.Root);
-        return response;
-    }
-
-    private async Task<ApiResponse<string>> FetchStrings(string path)
-    {
-        JsonFetchResult result = await ApiUtil.FetchJson(path, _client);
-        ApiResponse<string> response = new();
-        response.ParseStringsFromJson(result.Root);
+        ApiResponse<T> response = JsonParser.ParseParsableJson<ApiResponse<T>>(result.Root);
         return response;
     }
 }
