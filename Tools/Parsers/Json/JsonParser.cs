@@ -25,7 +25,7 @@ public static class JsonParser
     
     public static T ParseParsableJson<T>(JsonElement jsonElement) where T : IParsableJson
     {
-        T parsableJson = CreateModelInstance<T>();
+        T parsableJson = CreateParsableJson<T>();
         parsableJson.ParseFromJson(jsonElement);
         return parsableJson;
     }
@@ -40,7 +40,7 @@ public static class JsonParser
         return list;
     }
     
-    private static T CreateModelInstance<T>()
+    private static T CreateParsableJson<T>() where T : IParsableJson
     {
         return Activator.CreateInstance<T>();
     }
