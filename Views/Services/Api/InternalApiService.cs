@@ -1,8 +1,8 @@
 using MichaelKjellander.Config;
+using MichaelKjellander.IndependentUtils.Api;
+using MichaelKjellander.IndependentUtils.Parsers.Json;
 using MichaelKjellander.Models;
-using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.SharedUtils.Routes;
-using MichaelKjellander.Tools.Parsers.Json;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander.Views.Services.Api;

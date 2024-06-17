@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MichaelKjellander.Tools.Parsers.TranslationFile;
+using MichaelKjellander.IndependentUtils.Parsers.TranslationFile;
 
 namespace MichaelKjellander.Models.Wordpress;
 

@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace MichaelKjellander.SharedUtils.Api;
+namespace MichaelKjellander.IndependentUtils.Api;
 
 public static class ApiUtil
 {

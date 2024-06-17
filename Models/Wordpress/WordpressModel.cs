@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using MichaelKjellander.Tools.Parsers.Json;
+using MichaelKjellander.IndependentUtils.Parsers.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 

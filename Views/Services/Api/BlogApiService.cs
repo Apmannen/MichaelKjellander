@@ -1,7 +1,6 @@
 using MichaelKjellander.Config;
 using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils.Routes;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander.Views.Services.Api;

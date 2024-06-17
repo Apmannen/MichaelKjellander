@@ -1,4 +1,4 @@
-﻿namespace MichaelKjellander.SharedUtils.Collections;
+﻿namespace MichaelKjellander.IndependentUtils.Collections;
 
 public class Indexer<T>
 {

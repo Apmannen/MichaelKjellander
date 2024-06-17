@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using MichaelKjellander.Data;
 using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

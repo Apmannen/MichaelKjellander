@@ -1,4 +1,4 @@
-namespace MichaelKjellander.Tools.Parsers.TranslationFile;
+namespace MichaelKjellander.IndependentUtils.Parsers.TranslationFile;
 
 public interface ITranslationEntry
 {

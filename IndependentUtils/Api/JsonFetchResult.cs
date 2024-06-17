@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace MichaelKjellander.SharedUtils.Api;
+namespace MichaelKjellander.IndependentUtils.Api;
 
 public class JsonFetchResult(JsonElement root, HttpResponseHeaders headers)
 {

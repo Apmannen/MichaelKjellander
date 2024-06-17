@@ -2,7 +2,6 @@
 using MichaelKjellander.Data;
 using MichaelKjellander.Models;
 using MichaelKjellander.Models.WebGames;
-using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

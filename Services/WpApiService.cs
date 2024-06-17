@@ -1,8 +1,8 @@
 using System.Text.Json;
+using MichaelKjellander.IndependentUtils.Api;
+using MichaelKjellander.IndependentUtils.Parsers.Json;
+using MichaelKjellander.IndependentUtils.Parsers.TranslationFile;
 using MichaelKjellander.Models.Wordpress;
-using MichaelKjellander.SharedUtils.Api;
-using MichaelKjellander.Tools.Parsers.Json;
-using MichaelKjellander.Tools.Parsers.TranslationFile;
 using MichaelKjellander.Tools.Url;
 
 namespace MichaelKjellander.Services;

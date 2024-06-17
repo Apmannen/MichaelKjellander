@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
-using MichaelKjellander.Models;
 using Newtonsoft.Json;
 
-namespace MichaelKjellander.Tools.Parsers.Json;
+namespace MichaelKjellander.IndependentUtils.Parsers.Json;
 
 public static class JsonParser
 {
