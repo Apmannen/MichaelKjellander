@@ -11,6 +11,7 @@
 @using MichaelKjellander.Models.UtilModels
 @using MichaelKjellander.SharedUtils.Components
 @using MichaelKjellander.TmpName
+@using MichaelKjellander.Tools.Url
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
@@ -131,9 +132,9 @@ else
     //Specific to GameReview stuff from here onwards. Perhaps move to seperate page route?
     private async Task RefreshUrlAndFetch()
     {
-        _url = new HttpQueryBuilder(PageRoutes.Category(CategoryType.GameReview), QueryArrayMode.Multiple) //TODO: hardcoded
-            .Add(RatingName, Filter!.Ratings.Values)
-            .Add(TagsName, Filter!.Tags.Values)
+        _url = new UrlBuilder(PageRoutes.Category(CategoryType.GameReview), QueryArrayMode.Multiple) //TODO: hardcoded
+            .AddParam(RatingName, Filter!.Ratings.Values)
+            .AddParam(TagsName, Filter!.Tags.Values)
             .ToUrl();
         _query = _url.GetQueryString();
         Navigation.NavigateTo(_url.ToString(), false, true);

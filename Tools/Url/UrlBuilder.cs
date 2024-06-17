@@ -1,38 +1,36 @@
-﻿using MichaelKjellander.Models.UtilModels;
-
-namespace MichaelKjellander.SharedUtils.Api;
+﻿namespace MichaelKjellander.Tools.Url;
 
 public enum QueryArrayMode { Multiple, CommaSeparated }
-public class HttpQueryBuilder
+public class UrlBuilder
 {
     private readonly List<KeyValuePair<string,string>> _entries = new();
     private readonly QueryArrayMode _arrayMode;
     private readonly string _baseUrl;
 
-    public HttpQueryBuilder(string baseUrl, QueryArrayMode arrayMode)
+    public UrlBuilder(string baseUrl, QueryArrayMode arrayMode)
     {
         this._baseUrl = baseUrl;
         this._arrayMode = arrayMode;
     }
     
-    public HttpQueryBuilder Add(string key, string? value)
+    public UrlBuilder AddParam(string key, string? value)
     {
         return AddObject(key, value);
     }
-    public HttpQueryBuilder Add(string key, int? value)
+    public UrlBuilder AddParam(string key, int? value)
     {
         return AddObject(key, value);
     }
-    public HttpQueryBuilder Add(string key, ICollection<int>? values)
+    public UrlBuilder AddParam(string key, ICollection<int>? values)
     {
         return AddObjects(key, values);
     }
-    public HttpQueryBuilder Add(string key, ICollection<string>? values)
+    public UrlBuilder AddParam(string key, ICollection<string>? values)
     {
         return AddObjects(key, values);
     }
 
-    private HttpQueryBuilder AddObject(string key, object? value)
+    private UrlBuilder AddObject(string key, object? value)
     {
         string? stringValue;
         if (value != null && !string.IsNullOrEmpty(stringValue = value.ToString()))
@@ -41,7 +39,7 @@ public class HttpQueryBuilder
         }
         return this;
     }
-    private HttpQueryBuilder AddObjects<T>(string key, ICollection<T>? values)
+    private UrlBuilder AddObjects<T>(string key, ICollection<T>? values)
     {
         if (values == null || values.Count == 0)
         {
@@ -77,8 +75,8 @@ public class HttpQueryBuilder
         return fullUrl;
     }
 
-    public Url ToUrl()
+    public Models.UtilModels.Url ToUrl()
     {
-        return new Url(ToString());
+        return new Models.UtilModels.Url(ToString());
     }
 }

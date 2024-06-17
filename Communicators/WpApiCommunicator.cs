@@ -3,6 +3,7 @@ using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.Tools.Parsers;
+using MichaelKjellander.Tools.Url;
 
 namespace MichaelKjellander.Communicators;
 
@@ -95,12 +96,12 @@ public class WpApiCommunicator
         int[]? metaRatings = null,
         string? categorySlug = null, string? postSlug = null)
     {
-        string fullUrl = new HttpQueryBuilder(GetFullBaseUrl(NamespacePlugin, "posts"), QueryArrayMode.CommaSeparated)
-            .Add("page", page)
-            .Add("formats", metaPlatforms)
-            .Add("ratings", metaRatings)
-            .Add("category_slug", categorySlug)
-            .Add("slug", postSlug)
+        string fullUrl = new UrlBuilder(GetFullBaseUrl(NamespacePlugin, "posts"), QueryArrayMode.CommaSeparated)
+            .AddParam("page", page)
+            .AddParam("formats", metaPlatforms)
+            .AddParam("ratings", metaRatings)
+            .AddParam("category_slug", categorySlug)
+            .AddParam("slug", postSlug)
             .ToString();
 
         var postsResult = await ApiUtil.FetchJson(fullUrl, _client);

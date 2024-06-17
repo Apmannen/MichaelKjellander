@@ -1,4 +1,5 @@
 using MichaelKjellander.SharedUtils.Api;
+using MichaelKjellander.Tools.Url;
 
 namespace MichaelKjellander.SharedUtils.Routes;
 
@@ -17,12 +18,12 @@ public class ApiRoutes
     public string Posts(int page, string? categorySlug, ICollection<int>? tagIds,
         ICollection<int>? metaRatings, string? postSlug)
     {
-        return new HttpQueryBuilder($"{_baseUrl}/api/blog/posts", QueryArrayMode.Multiple)
-            .Add("categorySlug", categorySlug)
-            .Add("tagIds", tagIds)
-            .Add("metaRatings", metaRatings)
-            .Add("page", page)
-            .Add("slug", postSlug)
+        return new UrlBuilder($"{_baseUrl}/api/blog/posts", QueryArrayMode.Multiple)
+            .AddParam("categorySlug", categorySlug)
+            .AddParam("tagIds", tagIds)
+            .AddParam("metaRatings", metaRatings)
+            .AddParam("page", page)
+            .AddParam("slug", postSlug)
             .ToString();
     }
     public string Tags(string categorySlug) => $"{_baseUrl}/api/blog/tags?categorySlug={categorySlug}";
