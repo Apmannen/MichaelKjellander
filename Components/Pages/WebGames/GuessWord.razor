@@ -3,7 +3,6 @@
 @using MichaelKjellander.Communicators
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models.WebGames
-@using MichaelKjellander.SharedUtils
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 
@@ -90,14 +89,19 @@
 
         _progress = await _apiService!.FetchInitWordGuessGame();
 
-        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
-        _letters = StringUtil.StringToCharList(Word.ValidLetters);
-        _lettersLeft = StringUtil.StringToCharList(Word.ValidLetters);
+        _progressChars = StringToCharList(_progress.WordProgress!);
+        _letters = StringToCharList(Word.ValidLetters);
+        _lettersLeft = StringToCharList(Word.ValidLetters);
         _correctWord = null;
         _didWin = null;
 
         _isLoading = false;
         _isInitialized = true;
+    }
+    
+    private static IList<char> StringToCharList(string s)
+    {
+        return s.ToList();
     }
 
     private async Task OnNewGameButtonPress()
@@ -115,7 +119,7 @@
         _isLoading = true;
         _lettersLeft!.Remove(letter);
         _progress = await _apiService!.FetchGuessResult(letter, _progress!.Uuid!);
-        _progressChars = StringUtil.StringToCharList(_progress.WordProgress!);
+        _progressChars = StringToCharList(_progress.WordProgress!);
         if (_progress.IsCorrectlyGuessed)
         {
             _correctWord = _progress.Word!.WordString;

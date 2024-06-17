@@ -1,9 +1,9 @@
 ﻿namespace MichaelKjellander.SharedUtils.Collections;
 
-[System.Obsolete("Perhaps merge with string util")]
+[Obsolete("Not used anymore, but the shuffle method might be useful. Otherwise remove the class.")]
 public static class CollectionUtil
 {
-    private static Random random = new Random();  
+    /*private static Random random = new Random();  
 
     public static void Shuffle<T>(IList<T> list)  
     {  
@@ -15,5 +15,5 @@ public static class CollectionUtil
             list[k] = list[n];  
             list[n] = value;  
         }  
-    }
+    }*/
 }
