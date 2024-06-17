@@ -1,21 +1,19 @@
 using System.Text.Json;
-using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
-using MichaelKjellander.Tools.Parsers;
 using MichaelKjellander.Tools.Parsers.Json;
 using MichaelKjellander.Tools.Url;
 
-namespace MichaelKjellander.Communicators;
+namespace MichaelKjellander.Services;
 
-public class WpApiCommunicator
+public class WpApiService
 {
     private readonly HttpClient _client;
     private const string WpApiBaseUrl = "https://michaelkjellander.se/wp-json";
     private const string NamespaceDefault = "wp/v2";
     private const string NamespacePlugin = "sgplugin/v1";
 
-    public WpApiCommunicator(HttpClient client)
+    public WpApiService(HttpClient client)
     {
         this._client = client;
     }

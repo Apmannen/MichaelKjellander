@@ -1,8 +1,8 @@
-using MichaelKjellander.Communicators;
 using MichaelKjellander.Views.Components;
 using MichaelKjellander.Config;
 using MichaelKjellander.Data;
 using MichaelKjellander.Scripts.Startup;
+using MichaelKjellander.Services;
 using MichaelKjellander.TmpName;
 
 namespace MichaelKjellander;
@@ -29,7 +29,7 @@ public class Startup
         services.AddScoped<TranslationService>();
 
         services.AddHttpClient();
-        services.AddHttpClient<WpApiCommunicator>();
+        services.AddHttpClient<WpApiService>();
 
         services.Configure<AppConfig>(config => { EnvVariables.SetupAppConfig(config); });
     }
@@ -76,7 +76,7 @@ public class Startup
         using IServiceScope scope = serviceProvider.CreateScope();
         BlogDataContext context = scope.ServiceProvider.GetRequiredService<BlogDataContext>();
         using HttpClient client = new HttpClient();
-        WpApiCommunicator communicator = new WpApiCommunicator(client);
-        await new CleanWpDbScript().Run(context, communicator);
+        WpApiService service = new WpApiService(client);
+        await new CleanWpDbScript().Run(context, service);
     }
 }

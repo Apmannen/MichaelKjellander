@@ -4,18 +4,17 @@ using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using MichaelKjellander.SharedUtils.Routes;
-using MichaelKjellander.Tools.Parsers;
 using MichaelKjellander.Tools.Parsers.Json;
 using Microsoft.Extensions.Options;
 
-namespace MichaelKjellander.Communicators;
+namespace MichaelKjellander.Views.Services;
 
-public class InternalApiCommunicator
+public class InternalApiService
 {
     private readonly HttpClient _client;
     private readonly ApiRoutes _apiRoutes;
 
-    public InternalApiCommunicator(HttpClient client, IOptions<AppConfig> options)
+    public InternalApiService(HttpClient client, IOptions<AppConfig> options)
     {
         this._client = client;
         this._apiRoutes = new ApiRoutes(options.Value.SiteUrl!);

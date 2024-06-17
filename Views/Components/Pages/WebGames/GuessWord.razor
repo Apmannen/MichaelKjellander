@@ -1,8 +1,8 @@
 ﻿@page "/webbspel/gissa-ordet"
 @inject IHttpClientFactory ClientFactory
-@using MichaelKjellander.Communicators
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models.WebGames
+@using MichaelKjellander.Views.Services
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 
@@ -65,11 +65,11 @@
     private bool _isLoading = true;
     private bool _isInitialized = false;
     private bool? _didWin;
-    InternalApiCommunicator? _apiService;
+    InternalApiService? _apiService;
     
     protected override async Task OnInitializedAsync()
     {
-        _apiService = new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
+        _apiService = new InternalApiService(ClientFactory.CreateClient(), Options);
         await ResetGame();
     }
     

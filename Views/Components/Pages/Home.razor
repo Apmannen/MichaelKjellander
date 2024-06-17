@@ -1,12 +1,12 @@
 ﻿@page "/"
 @page "/senaste/{CurrentPage:int}"
-@using MichaelKjellander.Communicators
 @using MichaelKjellander.Models.Wordpress
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models
 @using MichaelKjellander.TmpName
+@using MichaelKjellander.Views.Services
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 @inject ILogger<PaginationBox> Logger
@@ -43,8 +43,8 @@
     protected override async Task OnInitializedAsync()
     {
         CurrentPage ??= 1;
-        InternalApiCommunicator communicator = new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postData = await communicator.FetchPosts(pageNumber: CurrentPage ?? 1);
+        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
     }

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using MichaelKjellander.Communicators;
 using MichaelKjellander.Data;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;

@@ -1,15 +1,15 @@
 ﻿@page "/kategori/{Slug}"
 @page "/kategori/{Slug}/{Page:int}"
-@using MichaelKjellander.Communicators
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models
 @using MichaelKjellander.SharedUtils.Collections
 @using MichaelKjellander.SharedUtils.Routes
-@using MichaelKjellander.SharedUtils.Components
 @using MichaelKjellander.TmpName
 @using MichaelKjellander.Tools.Url
+@using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Utils
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
@@ -75,7 +75,7 @@ else
     private PaginationData? _pagination;
     private string? _prefix;
     [SupplyParameterFromForm] public GameReviewFilter? Filter { get; set; }
-    InternalApiCommunicator? _service;
+    InternalApiService? _service;
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading = true;
     private Url? _url;
@@ -102,7 +102,7 @@ else
         ICollection<int> tagParams = _url.GetQueryParametersInt(TagsName);
         Filter.Tags.ReplaceWithRange(tagParams);
 
-        _service ??= new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
+        _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
 
         _allTags.Clear();
         _allTags.AddRange(await _service.FetchTags(Slug));
