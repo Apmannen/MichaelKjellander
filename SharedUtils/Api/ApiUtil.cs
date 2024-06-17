@@ -2,7 +2,6 @@ using System.Text.Json;
 
 namespace MichaelKjellander.SharedUtils.Api;
 
-//TODO: should be a class that's instansiated probably, with client as parameter. See internal api.
 public static class ApiUtil
 {
     public static async Task<JsonFetchResult> FetchJson(string url, HttpClient client)

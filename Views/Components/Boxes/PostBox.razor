@@ -1,6 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.Models.Wordpress
-@using MichaelKjellander.SharedUtils
 @using MichaelKjellander.Views.Components.Icons
 @using MichaelKjellander.SharedUtils.Routes
 @using MichaelKjellander.Views.Components.Modals
@@ -63,7 +62,7 @@
         <div class="sg-post-footer sg-footer-padding">
             <div class="sg-break-together">
                 <IconCalendarMonth/>
-                <span class="mr-4">@DateUtil.FormatDate(Post.Date)</span>
+                <span class="mr-4">@ComponentUtil.FormatDate(Post.Date)</span>
             </div>
             <div class="sg-break-together">
                 <IconFolder/>
