@@ -1,5 +1,6 @@
 ﻿using MichaelKjellander.Config;
 using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Scripts.Startup.Generated;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander.Views.Services.Api;
@@ -24,12 +25,13 @@ public class TranslationsService : InternalApiService
     }
 
 
-    public string Get(string translationKey)
+    public string Get(TKey translationKey)
     {
-        if (!_translationsByKey.ContainsKey(translationKey))
+        string stringKey = translationKey.ToString();
+        if (!_translationsByKey.TryGetValue(stringKey, out WpTranslationEntry? entry))
         {
             return "";
         }
-        return _translationsByKey[translationKey].Text!;
+        return entry.Text!;
     }
 }

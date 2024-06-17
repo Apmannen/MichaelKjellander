@@ -5,6 +5,7 @@
 @using MichaelKjellander.Config
 @using MichaelKjellander.IndependentUtils.Collections
 @using MichaelKjellander.Models
+@using MichaelKjellander.Scripts.Startup.Generated
 @using MichaelKjellander.SharedUtils.Routes
 @using MichaelKjellander.Tools.Url
 @using MichaelKjellander.Views.Services
@@ -27,7 +28,7 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <span class="font-bold">@Ts.Get("Meta_Rating")</span>
+            <span class="font-bold">@Ts.Get(TKey.Meta_Rating)</span>
             <div></div>
             @for (int rating = 1; rating <= 10; rating++)
             {
@@ -37,7 +38,7 @@
             }
 
             <p></p>
-            <span class="font-bold">@Ts.Get("Meta_Platform")</span>
+            <span class="font-bold">@Ts.Get(TKey.Meta_Platform)</span>
             <div></div>
             @foreach (WpTag tag in _allTags)
             {
@@ -55,7 +56,7 @@
 
 @if (NoPostsFound)
 {
-    <div class="pt-10">@Ts.Get("Posts_NoPostWithFilter")</div>
+    <div class="pt-10">@Ts.Get(TKey.Posts_NoPostWithFilter)</div>
 }
 else
 {
@@ -82,8 +83,8 @@ else
     private string? _query;
     private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
     private readonly List<WpTag> _allTags = [];
-    private string RatingName => Ts.Get("Slug_QueryRatings");
-    private string TagsName => Ts.Get("Slug_QueryTags");
+    private string RatingName => Ts.Get(TKey.Slug_QueryRatings);
+    private string TagsName => Ts.Get(TKey.Slug_QueryTags);
 
     protected override async Task OnInitializedAsync()
     {

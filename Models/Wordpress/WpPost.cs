@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
+using MichaelKjellander.Scripts.Startup.Generated;
 
 namespace MichaelKjellander.Models.Wordpress;
 
@@ -18,13 +19,13 @@ public class WpPost : WordpressModel
     [System.Obsolete("Replace with tags")] public IList<string>? MetaPlatforms { get; set; }
     [MaxLength(VarcharLength)] public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
-    
+
     public IList<WpPostTag> PostTags { get; set; }
     //public IList<int> TagIds { get; set; } 
 
     //Yep, I think it's fine to keep texts like these in a single language application.
     //They could easily be swapped otherwise.
-    public string RatingTranslationKey => "Rating_" + MetaRating;
+    public TKey RatingTranslationKey => MetaRating != null ? Enum.Parse<TKey>("Rating_" + MetaRating) : TKey.Illegal;
 
     public override WpPost ParseFromJson(JsonElement el)
     {
@@ -41,7 +42,7 @@ public class WpPost : WordpressModel
         var tags = el.GetProperty("tags").EnumerateArray();
         //IList<int> tagIds = [];
         IList<WpPostTag> wpPostTags = [];
-        foreach(JsonElement tagEl in tags)
+        foreach (JsonElement tagEl in tags)
         {
             WpTag tag = new WpTag().ParseFromJson(tagEl);
             //tagIds.Add(tag.Id);
@@ -53,7 +54,7 @@ public class WpPost : WordpressModel
             };
             wpPostTags.Add(postTag);
         }
-        
+
 
         this.Id = id;
         this.Content = HarmonizeHtmlContent(content);

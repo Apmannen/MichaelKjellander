@@ -86,6 +86,6 @@ public class Startup
         BlogDataContext context = scope.ServiceProvider.GetRequiredService<BlogDataContext>();
         using HttpClient client = new HttpClient();
         WpApiService service = new WpApiService(client);
-        await new CleanWpDbScript().Run(context, service);
+        await new CleanWpDbScript(context, service).Run();
     }
 }
