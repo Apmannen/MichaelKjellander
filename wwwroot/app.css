@@ -69,7 +69,7 @@ These are mostly embedded HTML.
     @apply mb-8;
 }
 .sg-post-content img {
-    cursor: pointer;
+    @apply cursor-zoom-in;
 }
 .sg-post-content iframe {
     width: 100%;

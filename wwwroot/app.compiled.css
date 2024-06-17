@@ -634,8 +634,8 @@ video {
   width: 1.5rem;
 }
 
-.cursor-pointer {
-  cursor: pointer;
+.cursor-zoom-in {
+  cursor: zoom-in;
 }
 
 .items-center {
@@ -885,7 +885,7 @@ These are mostly embedded HTML.
 }
 
 .sg-post-content img {
-  cursor: pointer;
+  cursor: zoom-in;
 }
 
 .sg-post-content iframe {
