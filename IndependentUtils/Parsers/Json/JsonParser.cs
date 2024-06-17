@@ -13,13 +13,7 @@ public static class JsonParser
 
     public static List<T> DeserializeObjectCollection<T>(JsonElement.ArrayEnumerator collectionElement)
     {
-        List<T> deserializedList = new List<T>();
-        foreach (JsonElement item in collectionElement)
-        {
-            T deserialized = DeserializeObject<T>(item);
-            deserializedList.Add(deserialized);
-        }
-        return deserializedList;
+        return collectionElement.Select(item => DeserializeObject<T>(item)).ToList();
     }
     
     public static T ParseParsableJson<T>(JsonElement jsonElement) where T : IParsableJson
@@ -31,12 +25,7 @@ public static class JsonParser
 
     public static List<T> ParseParsableJsonCollection<T>(JsonElement.ArrayEnumerator collectionElement) where T : IParsableJson
     {
-        List<T> list = [];
-        foreach (JsonElement el in collectionElement)
-        {
-            list.Add(ParseParsableJson<T>(el));
-        }
-        return list;
+        return collectionElement.Select(el => ParseParsableJson<T>(el)).ToList();
     }
     
     private static T CreateParsableJson<T>() where T : IParsableJson
