@@ -1,5 +1,5 @@
 using MichaelKjellander.Communicators;
-using MichaelKjellander.Components;
+using MichaelKjellander.Views.Components;
 using MichaelKjellander.Config;
 using MichaelKjellander.Data;
 using MichaelKjellander.Scripts.Startup;
