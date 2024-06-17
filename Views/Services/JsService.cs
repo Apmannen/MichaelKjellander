@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace MichaelKjellander.TmpName;
+namespace MichaelKjellander.Views.Services;
 
 public class JsService
 {
