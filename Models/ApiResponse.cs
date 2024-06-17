@@ -8,7 +8,10 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
     public IList<T>? Items  {get ; private set; }
     public PaginationData? PaginationData {get ; private set;  }
     
-    private ApiResponse() {}
+    /// <summary>
+    /// Needed for parameterless construction
+    /// </summary>
+    public ApiResponse() {}
     public ApiResponse(IList<T> items, PaginationData paginationData)
     {
         this.Items = items;

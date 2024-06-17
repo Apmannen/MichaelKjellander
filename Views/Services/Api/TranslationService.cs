@@ -1,5 +1,4 @@
 ﻿using MichaelKjellander.Config;
-using MichaelKjellander.Data;
 using MichaelKjellander.Models.Wordpress;
 using Microsoft.Extensions.Options;
 
@@ -18,14 +17,14 @@ public class TranslationService : InternalApiService
     public TranslationService(HttpClient client, IOptions<AppConfig> options) : base(client, options)
     {
         Console.WriteLine("***** INIT TS!!!!!!!!!");
-        using BlogDataContext context = new();
-        List<WpTranslationEntry> entries = context.TranslationEntries.ToList();
-
-        foreach (WpTranslationEntry entry in entries)
+        var task = Task.Run(async () => await this.FetchModels<WpTranslationEntry>(this.ApiRoutes.Translations));
+        
+        foreach (WpTranslationEntry entry in task.Result.Items!)
         {
             _translationsByKey[entry.Key!] = entry;
         }
     }
+
 
     public string Get(string translationKey)
     {

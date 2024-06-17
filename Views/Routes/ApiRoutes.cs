@@ -1,6 +1,6 @@
 using MichaelKjellander.Tools.Url;
 
-namespace MichaelKjellander.SharedUtils.Routes;
+namespace MichaelKjellander.Views.Routes;
 
 public class ApiRoutes
 {
@@ -31,6 +31,7 @@ public class ApiRoutes
     }
 
     public string Tags(string categorySlug) => $"{_baseUrl}/api/blog/tags?categorySlug={categorySlug}";
+    public string Translations => $"{_baseUrl}/api/blog/translations";
     public string WordGuessInit => $"{_baseUrl}/api/webgames/word-guess/init";
 
     public string WordGuessGuess(char letter, string uuid) =>
