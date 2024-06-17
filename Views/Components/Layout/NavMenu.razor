@@ -3,7 +3,7 @@
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.SharedUtils.Routes
 @using MichaelKjellander.Views.Components.Icons
-@using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Services.Api
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject IHttpClientFactory ClientFactory
@@ -43,7 +43,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        BlogApiService service = new(ClientFactory.CreateClient(), Options);
         IList<WpCategory> categories = await service.FetchCategories();
         IList<WpPage> pages = await service.FetchPages();
 

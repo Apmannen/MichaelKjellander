@@ -3,6 +3,7 @@
 @using MichaelKjellander.Models
 @using MichaelKjellander.Models.Wordpress
 @using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Services.Api
 @using MichaelKjellander.Views.Utils
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
@@ -35,7 +36,7 @@
             return;
         }
 
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        BlogApiService service = new(ClientFactory.CreateClient(), Options);
         WpPage? page = (await service.FetchPages(Slug = Slug)).FirstOrDefault();
         if (page == null)
         {

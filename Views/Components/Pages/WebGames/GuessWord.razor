@@ -3,6 +3,7 @@
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models.WebGames
 @using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Services.Api
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 
@@ -65,11 +66,11 @@
     private bool _isLoading = true;
     private bool _isInitialized = false;
     private bool? _didWin;
-    InternalApiService? _apiService;
+    WebGamesApiService? _apiService;
     
     protected override async Task OnInitializedAsync()
     {
-        _apiService = new InternalApiService(ClientFactory.CreateClient(), Options);
+        _apiService = new WebGamesApiService(ClientFactory.CreateClient(), Options);
         await ResetGame();
     }
     

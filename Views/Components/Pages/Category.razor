@@ -6,9 +6,9 @@
 @using MichaelKjellander.Models
 @using MichaelKjellander.SharedUtils.Collections
 @using MichaelKjellander.SharedUtils.Routes
-@using MichaelKjellander.TmpName
 @using MichaelKjellander.Tools.Url
 @using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Services.Api
 @using MichaelKjellander.Views.Utils
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
@@ -75,7 +75,7 @@ else
     private PaginationData? _pagination;
     private string? _prefix;
     [SupplyParameterFromForm] public GameReviewFilter? Filter { get; set; }
-    InternalApiService? _service;
+    BlogApiService? _service;
     private bool IsFirstPage => Page is null or 1;
     private bool _isLoading = true;
     private Url? _url;
@@ -102,7 +102,7 @@ else
         ICollection<int> tagParams = _url.GetQueryParametersInt(TagsName);
         Filter.Tags.ReplaceWithRange(tagParams);
 
-        _service ??= new InternalApiService(ClientFactory.CreateClient(), Options);
+        _service ??= new BlogApiService(ClientFactory.CreateClient(), Options);
 
         _allTags.Clear();
         _allTags.AddRange(await _service.FetchTags(Slug));

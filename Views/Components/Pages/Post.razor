@@ -3,8 +3,8 @@
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models
-@using MichaelKjellander.TmpName
 @using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Services.Api
 @using MichaelKjellander.Views.Utils
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
@@ -30,7 +30,7 @@
             return;
         }
 
-        InternalApiService service = new InternalApiService(ClientFactory.CreateClient(), Options);
+        BlogApiService service = new(ClientFactory.CreateClient(), Options);
         ApiResponse<WpPost> postsData = await service.FetchPosts(postSlug: Slug);
         _post = postsData.Items![0];
     }
