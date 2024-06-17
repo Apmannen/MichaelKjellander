@@ -6,7 +6,7 @@ The site is built using the full-stack framework Blazor. API endpoints aren't ne
 but they are used for the following reasons:
 1. It makes it easy to swap frontend (or backend), or build a completely separate app, e.g.
 a mobile app. I've tried out this idea by developing a separate front using NextJS 
-([MichaelKjellander-frontend](https://github.com/Apmannen/MichaelKjellander-frontend)), but
+([MichaelKjellander-altfrontend](https://github.com/Apmannen/MichaelKjellander-frontend)), but
 it's not prioritized.
 2. It makes it super easy to cache the data request responses.
 3. To give it more of a typical .NET backend, with some tweaks according to my own taste. 
@@ -21,7 +21,8 @@ External plugins are intentionally kept at a minimum since in the long run you a
 into problems with them, and the point of this challenge is for me to dive deeper into
 .NET and to learn Blazor. Only Interactive Server Side Rendering (SSR) is used at the moment,
 so some JavaScript for some client functionality is unavoidable. Stuff like tracking user 
-scrolling is as far as I know not possible otherwise.
+scrolling is as far as I know not possible otherwise, and it's not really desirable to
+do at the server side either.
 
 Tailwind CSS is used for styling. It's pretty lightweight and easy to use. However, I often
 write custom CSS, but since I usually keep that isolated in the component CSS files (.razor.css) 
@@ -50,7 +51,7 @@ dotnet run --launch-profile "clean-wp-db"
 ```
 **Run with hot/live reloading**
 ```
-dotnet run --launch-profile "home"
+dotnet watch --launch-profile "home"
 ```
 Dev environment profiles are set in Properties/launchSettings.json
 
