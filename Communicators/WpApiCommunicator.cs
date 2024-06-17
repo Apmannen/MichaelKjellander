@@ -2,6 +2,7 @@ using System.Text.Json;
 using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
+using MichaelKjellander.Tools.Parsers;
 
 namespace MichaelKjellander.Communicators;
 
@@ -115,18 +116,15 @@ public class WpApiCommunicator
         return (parsedPosts, numPages);
     }
 
+    private static List<T> ParseList<T>(JsonElement collectionElement) where T : IParsableJson
+    {
+        return JsonParser.ParseParsableJsonCollection<T>(collectionElement.EnumerateArray());
+    }
+
     private static string GetFullBaseUrl(string nameSpace, string path)
     {
         return $"{WpApiBaseUrl}/{nameSpace}/{path}";
     }
     
-    private static List<T> ParseList<T>(JsonElement root) where T : IParsableJson 
-    {
-        List<T> list = [];
-        foreach (JsonElement el in root.EnumerateArray())
-        {
-            list.Add(IParsableJson.ParseNewFromJson<T>(el));
-        }
-        return list;
-    }
+    
 }

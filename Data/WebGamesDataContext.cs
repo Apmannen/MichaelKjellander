@@ -32,5 +32,8 @@ public class WebGamesDataContext : DataContext
             .WithOne(p => p.Word)
             .HasForeignKey(p => p.WordId)
             .HasPrincipalKey(w => w.Id);
+        
+        modelBuilder.Entity<WordGuessGameProgress>()
+            .HasIndex(wggp => new { wggp.Uuid }).IsUnique();
     }
 }

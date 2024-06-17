@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MichaelKjellander.Models.WebGames;
 
 [Table("word_guess_game_progresses")]
-public class WordGuessGameProgress
+public class WordGuessGameProgress : DbModel
 {
-    [Key]
     [StringLength(50)]
     public string? Uuid { get; set; }
     

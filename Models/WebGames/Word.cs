@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MichaelKjellander.Models.WebGames;
 
 [Table("words")]
-public class Word
+public class Word : DbModel
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int? Id { get; set; }
     [StringLength(50)]
     [Required]
     public string? WordString { get; set; }

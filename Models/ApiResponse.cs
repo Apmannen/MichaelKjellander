@@ -1,5 +1,6 @@
 using System.Text.Json;
 using MichaelKjellander.Models;
+using MichaelKjellander.Tools.Parsers;
 using Newtonsoft.Json;
 
 namespace MichaelKjellander.Models;
@@ -30,16 +31,7 @@ public class ApiResponse<T> : IParsableJson
 
     public IParsableJson ParseFromJson(JsonElement el)
     {
-        var items = el.GetProperty("items").EnumerateArray();
-        List<T> deserializedList = new List<T>();
-        foreach (JsonElement item in items)
-        {
-            string jsonString = item.ToString();
-            T deserialized = JsonConvert.DeserializeObject<T>(item.ToString())!;
-            deserializedList.Add(deserialized);
-        }
-        this.Items = deserializedList;
-
+        this.Items = JsonParser.DeserializeObjectCollection<T>(el.GetProperty("items").EnumerateArray());
         PaginationData = ParsePaginationData(el, Items.Count);
 
         return this;
