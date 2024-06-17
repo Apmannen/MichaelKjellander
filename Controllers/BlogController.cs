@@ -154,6 +154,22 @@ public class BlogController : Controller
 
         return Ok(ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage, totalCount: totalCount));
     }
+    
+    [HttpGet]
+    [Route("translations")]
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]
+    public async Task<IActionResult> GetPages()
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        await using var context = new BlogDataContext();
+        IQueryable<WpTranslationEntry> query = context.TranslationEntries;
+        List<WpTranslationEntry> translationEntries = query.ToList();
+        return Ok(ModelFactory.CreateSimpleApiResponse(translationEntries));
+    }
 
 
     public class PagesRequest
