@@ -14,11 +14,8 @@ public class BlogController : Controller
 {
     private const int OneHour = 3600;
 
-    [Obsolete("Use internal DB instead")] private readonly WpApiCommunicator _wpApiCommunicator;
-
-    public BlogController(WpApiCommunicator wpApiCommunicator)
+    public BlogController()
     {
-        _wpApiCommunicator = wpApiCommunicator;
     }
 
     [HttpGet]
@@ -81,13 +78,15 @@ public class BlogController : Controller
         }
 
         await using var context = new BlogDataContext();
-        WpPage? page = context.Pages.FirstOrDefault(p => p.Slug == pageRequest.Slug);
-        if (page == null)
+        IQueryable<WpPage> query = context.Pages;
+        if (pageRequest.Slug != null)
         {
-            return NotFound();
+            query = query.Where(p => p.Slug == pageRequest.Slug);
         }
 
-        return Ok(ApiUtil.CreateSimpleApiResponse([page]));
+        List<WpPage> pages = query.ToList();
+
+        return Ok(ApiUtil.CreateSimpleApiResponse(pages));
     }
 
     [HttpGet]
@@ -170,7 +169,7 @@ public class BlogController : Controller
 
     public class PagesRequest
     {
-        [Required] public string? Slug { get; set; }
+        public string? Slug { get; set; }
     }
 
     public class PostsRequest

@@ -13,7 +13,11 @@ public class ApiRoutes
     }
 
     public string Categories => $"{_baseUrl}/api/blog/categories";
-    public string Pages(string slug) => $"{_baseUrl}/api/blog/pages?slug={slug}";
+
+    public string Pages(string slug)
+    {
+        return new UrlBuilder($"{_baseUrl}/api/blog/pages", QueryArrayMode.Multiple).AddParam("slug", slug).ToString();
+    }
 
     public string Posts(int page, string? categorySlug, ICollection<int>? tagIds,
         ICollection<int>? metaRatings, string? postSlug)
@@ -26,6 +30,7 @@ public class ApiRoutes
             .AddParam("slug", postSlug)
             .ToString();
     }
+
     public string Tags(string categorySlug) => $"{_baseUrl}/api/blog/tags?categorySlug={categorySlug}";
     public string WordGuessInit => $"{_baseUrl}/api/webgames/word-guess/init";
 

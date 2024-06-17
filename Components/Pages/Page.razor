@@ -36,13 +36,13 @@
         }
 
         InternalApiCommunicator communicator = new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPage> pagesData = await communicator.FetchPages(Slug = Slug);
-        if (pagesData.Items == null)
+        WpPage? page = (await communicator.FetchPages(Slug = Slug)).FirstOrDefault();
+        if (page == null)
         {
             return;
         }
 
-        _page = pagesData.Items.FirstOrDefault();
+        _page = page;
     }
 
 }

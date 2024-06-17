@@ -45,6 +45,7 @@
     {
         InternalApiCommunicator communicator = new InternalApiCommunicator(ClientFactory.CreateClient(), Options);
         IList<WpCategory> categories = await communicator.FetchCategories();
+        IList<WpPage> pages = await communicator.FetchPages();
 
         _links =
         [
@@ -52,7 +53,7 @@
             CreateCategoryNavLink(categories, CategoryType.Game),
             CreateCategoryNavLink(categories, CategoryType.GameReview),
             CreateCategoryNavLink(categories, CategoryType.Other),
-            new NavLink("Kontakt", PageRoutes.Page("kontakt"), "/sida/kontakt") //TODO: get pages from DB too
+            CreatePageNavLink(pages, "kontakt")
         ];
     }
 
@@ -61,6 +62,12 @@
     {
         WpCategory category = categories.First(category => category.Type == type);
         return new NavLink(category.Name!, PageRoutes.Category(type), PageRoutes.CategoryPattern(type));
+    }
+
+    private static NavLink CreatePageNavLink(IList<WpPage> pages, string slug)
+    {
+        WpPage page = pages.First(page => page.Slug == slug);
+        return new NavLink(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + slug);
     }
 
     private record struct NavLink(string Text, string Url, string Pattern);

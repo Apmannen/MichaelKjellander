@@ -33,9 +33,10 @@ public class InternalApiCommunicator
         return response.Items!;
     }
 
-    public async Task<ApiResponse<WpPage>> FetchPages(string slug = "")
+    public async Task<IList<WpPage>> FetchPages(string slug = "")
     {
-        return await FetchModels<WpPage>(_apiRoutes.Pages(slug));
+        ApiResponse<WpPage> response = await FetchModels<WpPage>(_apiRoutes.Pages(slug));
+        return response.Items!;
     }
 
     public async Task<ApiResponse<WpPost>> FetchPosts(int pageNumber = 1, string? categorySlug = null,
