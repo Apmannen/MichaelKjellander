@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MichaelKjellander.Data;
+using MichaelKjellander.Models;
 using MichaelKjellander.Models.WebGames;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,7 @@ public class WebGameController : Controller
         context.Add(progress);
         await context.SaveChangesAsync();
         
-        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([progress.CreateDto(false)]));
+        return Ok(ModelFactory.CreateApiResponse<WordGuessGameProgress>([progress.CreateDto(false)]));
     }
 
     [HttpGet]
@@ -106,7 +107,7 @@ public class WebGameController : Controller
         await context.SaveChangesAsync();
 
         bool includeCorrectWord = gameProgress.GuessesLeft == 0 || gameProgress.IsCorrectlyGuessed;
-        return Ok(ApiUtil.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto(includeCorrectWord)]));
+        return Ok(ModelFactory.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto(includeCorrectWord)]));
     }
     
     public class GuessRequest

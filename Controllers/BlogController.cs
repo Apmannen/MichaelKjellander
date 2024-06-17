@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using MichaelKjellander.Data;
+using MichaelKjellander.Models;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.SharedUtils.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ public class BlogController : Controller
     {
         await using var context = new BlogDataContext();
         List<WpCategory> items = context.Categories.ToList();
-        return Ok(ApiUtil.CreateSimpleApiResponse(items));
+        return Ok(ModelFactory.CreateSimpleApiResponse(items));
     }
 
     [HttpGet]
@@ -60,7 +61,7 @@ public class BlogController : Controller
         
         tags.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
  
-        return Ok(ApiUtil.CreateSimpleApiResponse(tags));
+        return Ok(ModelFactory.CreateSimpleApiResponse(tags));
 
         //SELECT * FROM wp_tags t LEFT JOIN wp_post_tags pt ON pt.TagId=t.id LEFT JOIN wp_posts p ON p.id=pt.PostId LEFT JOIN wp_categories c ON c.Id = p.CategoryId WHERE c.Slug="tv-spelrecensioner";
     }
@@ -85,7 +86,7 @@ public class BlogController : Controller
 
         List<WpPage> pages = query.ToList();
 
-        return Ok(ApiUtil.CreateSimpleApiResponse(pages));
+        return Ok(ModelFactory.CreateSimpleApiResponse(pages));
     }
 
     [HttpGet]
@@ -138,8 +139,7 @@ public class BlogController : Controller
         int perPage = 10;
         query = DataContext.SetPageToQuery(query, pageNumber, perPage);
 
-        Console.WriteLine("************** totalCount=" + totalCount);
-
+        //Console.WriteLine("************** totalCount=" + totalCount);
 
         IList<WpPost> posts = await query.ToListAsync();
 
@@ -153,16 +153,7 @@ public class BlogController : Controller
             }
         }
 
-        return Ok(ApiUtil.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage, totalCount: totalCount));
-        /*(IList<WpPost> posts, int numPages) = await _wpApiService.GetPosts(
-            categorySlug: postsRequest.CategorySlug,
-            metaPlatforms: postsRequest.MetaPlatforms ?? [],
-            metaRatings: postsRequest.MetaRatings ?? [],
-            page: postsRequest.Page ?? 1,
-            postSlug: postsRequest.Slug
-        );
-
-        return Ok(ApiUtil.CreateApiResponse(posts, page, numPages));*/
+        return Ok(ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage, totalCount: totalCount));
     }
 
 

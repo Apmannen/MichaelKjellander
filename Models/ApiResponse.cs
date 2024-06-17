@@ -10,15 +10,15 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
 {
     public IList<T>? Items  {get ; private set; }
     public PaginationData? PaginationData {get ; private set;  }
-
-    public ApiResponse() {}
+    
+    private ApiResponse() {}
     public ApiResponse(IList<T> items, PaginationData paginationData)
     {
         this.Items = items;
         this.PaginationData = paginationData;
     }
 
-    public void ParseStringsFromJson(JsonElement el)
+    /*public void ParseStringsFromJson(JsonElement el)
     {
         var items = el.GetProperty("items").EnumerateArray();
         List<string> list = [];
@@ -28,7 +28,7 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
         }
         this.Items = list as List<T>;
         PaginationData = ParsePaginationData(el, Items!.Count);
-    }
+    }*/
 
     public IParsableJson ParseFromJson(JsonElement el)
     {
@@ -38,7 +38,7 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
         return this;
     }
 
-    private PaginationData ParsePaginationData(JsonElement el, int count)
+    private static PaginationData ParsePaginationData(JsonElement el, int count)
     {
         int currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
         int numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
