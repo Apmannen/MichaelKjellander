@@ -16,6 +16,7 @@
 @inject ILogger<Category> Logger
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
+@inject TranslationsService Ts
 
 <PageTitle>
     @(ComponentUtil.FormatPageTitle(_category?.Name, Page))
@@ -26,7 +27,7 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <span class="font-bold">Betyg</span>
+            <span class="font-bold">@Ts.Get("Meta_Rating")</span>
             <div></div>
             @for (int rating = 1; rating <= 10; rating++)
             {
@@ -36,7 +37,7 @@
             }
 
             <p></p>
-            <span class="font-bold">Plattform</span>
+            <span class="font-bold">@Ts.Get("Meta_Platform")</span>
             <div></div>
             @foreach (WpTag tag in _allTags)
             {
@@ -46,16 +47,15 @@
                     <label class="mr-3" for="tag-@(localTag.Id)">@localTag.Name</label>
                 </span>
             }
-
-            <p></p>
-            <button class="btn btn-dark" @onclick="OnClearClick">Rensa</button>
+            @*<p></p>
+            <button class="btn btn-dark" @onclick="OnClearClick">Rensa</button>*@
         }
     </TitleBox>
 }
 
 @if (NoPostsFound)
 {
-    <div class="pt-10">Det finns inga inlägg med det filtret.</div>
+    <div class="pt-10">@Ts.Get("Posts_NoPostWithFilter")</div>
 }
 else
 {
@@ -82,8 +82,8 @@ else
     private string? _query;
     private bool NoPostsFound => !_isLoading && (_posts == null || _posts!.Count == 0);
     private readonly List<WpTag> _allTags = [];
-    private const string RatingName = "betyg";
-    private const string TagsName = "taggar";
+    private string RatingName => Ts.Get("Slug_QueryRatings");
+    private string TagsName => Ts.Get("Slug_QueryTags");
 
     protected override async Task OnInitializedAsync()
     {

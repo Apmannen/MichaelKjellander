@@ -26,6 +26,10 @@ public class TranslationsService : InternalApiService
 
     public string Get(string translationKey)
     {
+        if (!_translationsByKey.ContainsKey(translationKey))
+        {
+            return "";
+        }
         return _translationsByKey[translationKey].Text!;
     }
 }
