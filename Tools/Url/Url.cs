@@ -1,4 +1,4 @@
-﻿namespace MichaelKjellander.Models.UtilModels;
+﻿namespace MichaelKjellander.Tools.Url;
 
 public class Url
 {

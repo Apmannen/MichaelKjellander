@@ -75,8 +75,8 @@ public class UrlBuilder
         return fullUrl;
     }
 
-    public Models.UtilModels.Url ToUrl()
+    public Url ToUrl()
     {
-        return new Models.UtilModels.Url(ToString());
+        return new Url(ToString());
     }
 }
