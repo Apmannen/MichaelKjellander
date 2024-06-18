@@ -1,7 +1,7 @@
 using System.Text.Json;
 using MichaelKjellander.IndependentUtils.Api;
 using MichaelKjellander.IndependentUtils.Parsers.Json;
-using MichaelKjellander.IndependentUtils.Parsers.TranslationFile;
+using MichaelKjellander.IndependentUtils.Parsers.PortableObject;
 using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.Tools.Url;
 
@@ -24,7 +24,7 @@ public class WpApiService
         var result = await ApiUtil.FetchJson(GetFullBaseUrl(NamespacePlugin, "translations"), _client);
         JsonElement root = result.Root;
         string translationFileContent = root.GetString()!;
-        List<WpTranslationEntry> entries = TranslationFileParser.ParsePortableObjectFile(translationFileContent).Select(
+        List<WpTranslationEntry> entries = PortableObjectsParser.ParsePortableObjectFile(translationFileContent).Select(
             pair => new WpTranslationEntry()
             {
                 Key = pair.Key,

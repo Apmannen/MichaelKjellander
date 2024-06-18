@@ -1,6 +1,6 @@
-namespace MichaelKjellander.IndependentUtils.Parsers.TranslationFile;
+namespace MichaelKjellander.IndependentUtils.Parsers.PortableObject;
 
-public static class TranslationFileParser
+public static class PortableObjectsParser
 {
     public static Dictionary<string,string> ParsePortableObjectFile(string poFileContent)
     {
@@ -25,16 +25,16 @@ public static class TranslationFileParser
             switch (fileKey)
             {
                 case "msgid":
-                    currentEntry.key = fileValue;
+                    currentEntry.Key = fileValue;
                     break;
                 case "msgstr":
-                    currentEntry.value = fileValue;
+                    currentEntry.Value = fileValue;
                     break;
             }
 
-            if (!string.IsNullOrEmpty(currentEntry.key) && !string.IsNullOrEmpty(currentEntry.value))
+            if (!string.IsNullOrEmpty(currentEntry.Key) && !string.IsNullOrEmpty(currentEntry.Value))
             {
-                translationsByKey[currentEntry.key] = currentEntry.value; 
+                translationsByKey[currentEntry.Key] = currentEntry.Value; 
                 currentEntry = null;
             }
         }
@@ -44,7 +44,7 @@ public static class TranslationFileParser
 
     private class Pair
     {
-        public string? key;
-        public string? value;
+        public string? Key;
+        public string? Value;
     }
 }
