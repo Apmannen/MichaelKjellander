@@ -79,14 +79,25 @@
 
         public void Solve()
         {
-            foreach (Square square in _squares)
+            bool anyChange = true;
+            while (anyChange)
             {
-                TrySolveSquare(square);
+                anyChange = false;
+                foreach (Square square in _squares)
+                {
+                    anyChange = TrySolveSquare(square) || anyChange;
+                }
             }
+            
         }
 
-        private void TrySolveSquare(Square square)
+        private bool TrySolveSquare(Square square)
         {
+            if (square.IsSet)
+            {
+                return false;
+            }
+            
             HashSet<int> possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             HashSet<int> impossibles = [];
             List<Square> setSquares = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
@@ -103,7 +114,10 @@
             if (possibles.Count == 1)
             {
                 square.Value = possibles.First();
+                return true;
             }
+
+            return false;
         }
 
         public Square Get(int index)
