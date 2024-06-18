@@ -8,19 +8,15 @@
 @using MichaelKjellander.Scripts.Startup.Generated
 @using MichaelKjellander.Tools.Url
 @using MichaelKjellander.Views.Routes
-@using MichaelKjellander.Views.Services
 @using MichaelKjellander.Views.Services.Api
-@using MichaelKjellander.Views.Utils
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
-@inject JsService JsService
-@inject ILogger<Category> Logger
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 @inject TranslationsService Ts
 
 <PageTitle>
-    @(ComponentUtil.FormatPageTitle(_category?.Name, Page))
+    @(Ts.FormatPageTitle(_category?.Name, Page))
 </PageTitle>
 
 @if (IsFirstPage && _category != null)

@@ -9,12 +9,13 @@
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject JsService JsService
+@inject TranslationsService Ts
 @rendermode InteractiveServer
 
 @if (_post != null)
 {
     <PageTitle>
-        @ComponentUtil.FormatPageTitle(_post.Title!)
+        @Ts.FormatPageTitle(_post.Title!)
     </PageTitle>
     <PostBox Post="_post" IsSingle="true"/>
 }

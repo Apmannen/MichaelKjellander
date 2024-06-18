@@ -5,20 +5,22 @@
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models
+@using MichaelKjellander.Scripts.Startup.Generated
 @using MichaelKjellander.Views.Services
 @using MichaelKjellander.Views.Services.Api
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 @inject ILogger<PaginationBox> Logger
 @inject JsService JsService
+@inject TranslationsService Ts
 
 <PageTitle>
-    @(CurrentPage > 1 ? $"Michael Kjellander - Senaste inläggen - Sida {CurrentPage}" : "Michael Kjellanders hemsida")
+    @(CurrentPage > 1 ? $"Michael Kjellander - {Ts.Get(TKey.Menu_Latest)} - {Ts.Get(TKey.Blog_Page)} {CurrentPage}" : "Michael Kjellanders hemsida")
 </PageTitle>
 
 @if (IsFirstPage && _welcomePageMessage != null)
 {
-    <TitleBox Title=@_welcomePageMessage.Title Description=@_welcomePageMessage.Content />
+    <TitleBox Title=@_welcomePageMessage.Title Description=@_welcomePageMessage.Content/>
 }
 <Modal/>
 
@@ -42,7 +44,7 @@
         BlogApiService service = new(ClientFactory.CreateClient(), Options);
 
         _welcomePageMessage = (await service.FetchPages(identifier: PageIdentifier.welcome)).First();
-        
+
         ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
@@ -52,4 +54,5 @@
     {
         //JsService.ScrollToTop();
     }
+
 }

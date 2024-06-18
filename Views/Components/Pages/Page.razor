@@ -7,9 +7,10 @@
 @using MichaelKjellander.Views.Utils
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@inject TranslationsService Ts
 
 <PageTitle>
-    @(ComponentUtil.FormatPageTitle(_page?.Title))
+    @(Ts.FormatPageTitle(_page?.Title))
 </PageTitle>
 
 @if (_page != null)

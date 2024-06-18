@@ -22,8 +22,6 @@ public class TranslationsService : InternalApiService
             _translationsByKey[entry.Key!] = entry;
         }
     }
-
-
     public string Get(TKey translationKey)
     {
         string stringKey = translationKey.ToString();
@@ -36,5 +34,22 @@ public class TranslationsService : InternalApiService
     public string Format(TKey key, params string[] replace) 
     {
         return string.Format(Get(key), replace);
+    }
+    
+    public string FormatPageTitle(string? pageName, int? pagingPage = null)
+    {
+        string title = "";
+        if (pageName != null)
+        {
+            title += $"{pageName} - ";
+        }
+        if (pagingPage != null)
+        {
+            title += $"{Get(TKey.Blog_Page)} {pagingPage} - ";
+        }
+
+        title += "Michael Kjellander";
+        
+        return title;
     }
 }
