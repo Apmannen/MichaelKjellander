@@ -33,4 +33,8 @@ public class TranslationsService : InternalApiService
         }
         return entry.Text!;
     }
+    public string Format(TKey key, params string[] replace) 
+    {
+        return string.Format(Get(key), replace);
+    }
 }

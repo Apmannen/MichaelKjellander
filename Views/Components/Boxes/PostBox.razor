@@ -1,5 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.Models.Wordpress
+@using MichaelKjellander.Scripts.Startup.Generated
 @using MichaelKjellander.Views.Components.Icons
 @using MichaelKjellander.Views.Components.Modals
 @using MichaelKjellander.Views.Routes
@@ -36,8 +37,8 @@
             @if (@Post.Category!.Type == CategoryType.GameReview)
             {
                 <div class="h-2"></div>
-                <p class="italic">Recension</p>
-                <p class="text-sm">Testat på: @String.Join(", ", Post.MetaPlatforms!)</p>
+                <p class="italic">@Ts.Get(TKey.Review_Review)</p>
+                <p class="text-sm">@Ts.Format(TKey.Review_TestedOn, string.Join(", ", Post.PostTags))</p>
             }
             <div class="sg-post-content">
                 @((MarkupString)Post.Content!)
@@ -54,7 +55,7 @@
                     }
                     @if (Post.MetaPlayAlso != null)
                     {
-                        <div class="text-sm">Spela även @Post.MetaPlayAlso</div>
+                        <div class="text-sm">@Ts.Format(TKey.Review_PlayAlso, Post.MetaPlayAlso)</div>
                     }
                 </div>
             }
