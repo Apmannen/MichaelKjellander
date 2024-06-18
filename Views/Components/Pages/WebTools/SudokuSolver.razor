@@ -91,8 +91,8 @@
             HashSet<int> impossibles = [];
             List<Square> setSquares = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
             
-            impossibles.UnionWith(setSquares.Where(s => s.X == square.X).Select(s => s.Value));
-            impossibles.UnionWith(setSquares.Where(s => s.Y == square.Y).Select(s => s.Value));
+            impossibles.UnionWith(setSquares.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group)
+                .Select(s => s.Value));
             
             possibles.RemoveWhere(value => impossibles.Contains(value));
             if (possibles.Count == 0)
