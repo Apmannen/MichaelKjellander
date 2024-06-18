@@ -1,12 +1,14 @@
 ﻿@using System.Text.RegularExpressions
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models.Wordpress
+@using MichaelKjellander.Scripts.Startup.Generated
 @using MichaelKjellander.Views.Components.Icons
 @using MichaelKjellander.Views.Routes
 @using MichaelKjellander.Views.Services.Api
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject IHttpClientFactory ClientFactory
+@inject TranslationsService Ts
 
 <div class="top-row navbar navbar-dark relative">
     <div class="container-fluid  pr-12">
@@ -54,7 +56,7 @@
 
         _links =
         [
-            new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"),
+            new NavLink(Ts.Get(TKey.Menu_Latest), PageRoutes.Home, "(/|/senaste/[0-9]+)"),
             CreateCategoryNavLink(categories, CategoryType.Game),
             CreateCategoryNavLink(categories, CategoryType.GameReview),
             CreateCategoryNavLink(categories, CategoryType.Other),
