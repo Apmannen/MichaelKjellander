@@ -2,18 +2,19 @@
 @inject IHttpClientFactory ClientFactory
 @using MichaelKjellander.Config
 @using MichaelKjellander.Models.WebGames
+@using MichaelKjellander.Scripts.Startup.Generated
 @using MichaelKjellander.Views.Services
 @using MichaelKjellander.Views.Services.Api
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
+@inject TranslationsService Ts
 @rendermode InteractiveServer
 
-<h3>Gissa ordet</h3>
-<p>Poäng: @_points</p>
+<h3>@Ts.Get(TKey.GuessWord_Title)</h3>
+<p>@Ts.Format(TKey.GuessWord_Points, _points+"")</p>
 
 @if (_isInitialized)
 {
-    <p>Gissningar kvar: @_progress!.GuessesLeft</p>
-    
+    <p>@Ts.Format(TKey.GuessWord_GuessesLeft, _progress!.GuessesLeft+"")</p>
     <div>
         @foreach (char aChar in _progressChars!)
         {
@@ -26,16 +27,16 @@
         <div>
             @if (_didWin == true)
             {
-                <p>Grattis! Du gissade det rätta ordet!</p>
+                <p>@Ts.Get(TKey.GuessWord_Congratulations)</p>
             }
             else
             {
-                <p>Du lyckades dessvärre inte att gissa det korrekta ordet som var:</p>
+                <p>@Ts.Get(TKey.GuessWord_Fail)</p>
                 <p class="font-bold">@_correctWord.ToUpper()</p>
             }
             <div class="h-4"></div>
             <button class="btn btn-blue mr-3 mb-3" @onclick="OnNewGameButtonPress">
-                Nytt spel
+                @Ts.Get(TKey.WebGames_NewGame)
             </button>
         </div>
     }
