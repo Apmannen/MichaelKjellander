@@ -41,45 +41,41 @@
         return board;
     }
 
-    //TODO: move to backend
     private class Board
     {
-        private Square[][] _squares;
         private const int SideLength = 9;
+        private const int TotalNumSquares = SideLength * SideLength;
+        private Square[] _squares = new Square[TotalNumSquares];
 
         public Board()
         {
-            
-            _squares = new Square[SideLength][];
-            for (int a = 0; a < _squares.Length; a++)
+            for (int i = 0; i < _squares.Length; i++)
             {
-                _squares[a] = new Square[9];
-                for (int b = 0; b < SideLength; b++)
-                {
-                    _squares[a][b] = new Square();
-                }
+                _squares[i] = new Square();
             }
         }
 
         public Square Get(int index)
         {
-            int x = index % SideLength;
+            return _squares[index];
+            /*int x = index % SideLength;
             int y = (int)System.Math.Floor(((float)index / (float)SideLength));
             Console.WriteLine($"*** i={index}, x={x}, y={y}");
-            
-            return Get(x,y);
+
+            return Get(x,y);*/
         }
 
         public Square Get(int x, int y)
         {
-            return _squares[y][x];
+            int index = x + (y * SideLength);
+            return _squares[index];
         }
 
         public void Debug()
         {
-            for (int y = 0; y < _squares.Length; y++)
+            for (int y = 0; y < SideLength; y++)
             {
-                for (int x = 0; x < _squares[y].Length; x++)
+                for (int x = 0; x < SideLength; x++)
                 {
                     Console.Write(Get(x,y).Value);
                 }
