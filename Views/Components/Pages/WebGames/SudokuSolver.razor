@@ -1,0 +1,94 @@
+@page "/webbspel/sudoku-losare"
+<h3>SudokuSolver</h3>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        String s = "240 000 107" +
+                   "608 915 302" +
+                   "900 027 060" +
+                   "" +
+                   "097 132 605" +
+                   "000 508 034" +
+                   "500 000 000" +
+                   "" +
+                   "702 309 801" +
+                   "000 800 000" +
+                   "019 000 470";
+        Board board = CreateBoard(s);
+        board.Debug();
+    }
+    
+    private Board CreateBoard(string stringBoard)
+    {
+        stringBoard = stringBoard.Replace(" ", "");
+        stringBoard = stringBoard.Replace("\n", "");
+        int[] values = stringBoard.Select(c => int.Parse(c + "")).ToArray();
+        return CreateBoard(values);
+    }
+
+    private Board CreateBoard(int[] values)
+    {
+        Board board = new Board();
+        int x = 0;
+        int y = 0;
+        for (int i = 0; i < values.Length; i++)
+        {
+            board.Get(i).Value = values[i];
+        }
+
+        return board;
+    }
+
+    //TODO: move to backend
+    private class Board
+    {
+        private Square[][] _squares;
+        private const int SideLength = 9;
+
+        public Board()
+        {
+            
+            _squares = new Square[SideLength][];
+            for (int a = 0; a < _squares.Length; a++)
+            {
+                _squares[a] = new Square[9];
+                for (int b = 0; b < SideLength; b++)
+                {
+                    _squares[a][b] = new Square();
+                }
+            }
+        }
+
+        public Square Get(int index)
+        {
+            int x = index % SideLength;
+            int y = (int)System.Math.Floor(((float)index / (float)SideLength));
+            Console.WriteLine($"*** i={index}, x={x}, y={y}");
+            
+            return Get(x,y);
+        }
+
+        public Square Get(int x, int y)
+        {
+            return _squares[y][x];
+        }
+
+        public void Debug()
+        {
+            for (int y = 0; y < _squares.Length; y++)
+            {
+                for (int x = 0; x < _squares[y].Length; x++)
+                {
+                    Console.Write(Get(x,y).Value);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+    private class Square
+    {
+        public int Value;
+    }
+}
