@@ -89,10 +89,11 @@
         {
             HashSet<int> possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             HashSet<int> impossibles = [];
-            impossibles.UnionWith(_squares.Where(s => s.Index != square.Index && s.Value != 0 && s.X == square.X)
-                .Select(s => s.Value));
-            impossibles.UnionWith(_squares.Where(s => s.Index != square.Index && s.Value != 0 && s.Y == square.Y)
-                .Select(s => s.Value));
+            List<Square> setSquares = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
+            
+            impossibles.UnionWith(setSquares.Where(s => s.X == square.X).Select(s => s.Value));
+            impossibles.UnionWith(setSquares.Where(s => s.Y == square.Y).Select(s => s.Value));
+            
             possibles.RemoveWhere(value => impossibles.Contains(value));
             if (possibles.Count == 0)
             {
