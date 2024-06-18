@@ -73,43 +73,4 @@ public class WpPost : WordpressModel
 
         return this;
     }
-
-    private static string? TryParseString(JsonElement parent, string key)
-    {
-        bool didSet = parent.TryGetProperty(key, out JsonElement child);
-        if (!didSet)
-        {
-            return null;
-        }
-
-        return child.EnumerateArray().FirstOrDefault().GetString();
-    }
-
-    private static List<string> TryParseStrings(JsonElement parent, string key)
-    {
-        bool didSet = parent.TryGetProperty(key, out JsonElement child);
-        if (!didSet)
-        {
-            return [];
-        }
-
-        List<string> strings = [];
-        foreach (JsonElement el in child.EnumerateArray())
-        {
-            strings.Add(el.GetString()!);
-        }
-
-        return strings;
-    }
-
-    private static int? TryParseInt(JsonElement parent, string key)
-    {
-        string? parsedString = TryParseString(parent, key);
-        if (parsedString == null)
-        {
-            return null;
-        }
-
-        return int.Parse(parsedString);
-    }
 }

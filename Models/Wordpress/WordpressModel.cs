@@ -21,4 +21,43 @@ public abstract class WordpressModel : DbModel, IParsableJson
         }
         return html;
     }
+    
+    protected static string? TryParseString(JsonElement parent, string key)
+    {
+        bool didSet = parent.TryGetProperty(key, out JsonElement child);
+        if (!didSet)
+        {
+            return null;
+        }
+
+        return child.EnumerateArray().FirstOrDefault().GetString();
+    }
+
+    protected static List<string> TryParseStrings(JsonElement parent, string key)
+    {
+        bool didSet = parent.TryGetProperty(key, out JsonElement child);
+        if (!didSet)
+        {
+            return [];
+        }
+
+        List<string> strings = [];
+        foreach (JsonElement el in child.EnumerateArray())
+        {
+            strings.Add(el.GetString()!);
+        }
+
+        return strings;
+    }
+
+    protected static int? TryParseInt(JsonElement parent, string key)
+    {
+        string? parsedString = TryParseString(parent, key);
+        if (parsedString == null)
+        {
+            return null;
+        }
+
+        return int.Parse(parsedString);
+    }
 }
