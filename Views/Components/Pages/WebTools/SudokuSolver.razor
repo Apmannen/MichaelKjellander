@@ -45,7 +45,8 @@
     {
         private const int SideLength = 9;
         private const int TotalNumSquares = SideLength * SideLength;
-        private Square[] _squares = new Square[TotalNumSquares];
+        private const int GroupSize = 3;
+        private readonly Square[] _squares = new Square[TotalNumSquares];
 
         public Board()
         {
@@ -53,16 +54,25 @@
             {
                 _squares[i] = new Square();
             }
+
+            for (int y = 0; y < SideLength; y++)
+            {
+                for (int x = 0; x < SideLength; x++)
+                {
+                    Square square = Get(x, y);
+                    square.X = x;
+                    square.Y = y;
+
+                    int xGroup = (int)Math.Floor((float)x / (float)GroupSize);
+                    int yGroup = (int)Math.Floor((float)y / (float)GroupSize);
+                    square.Group = xGroup + "" + yGroup;
+                }
+            }
         }
 
         public Square Get(int index)
         {
             return _squares[index];
-            /*int x = index % SideLength;
-            int y = (int)System.Math.Floor(((float)index / (float)SideLength));
-            Console.WriteLine($"*** i={index}, x={x}, y={y}");
-
-            return Get(x,y);*/
         }
 
         public Square Get(int x, int y)
@@ -77,7 +87,7 @@
             {
                 for (int x = 0; x < SideLength; x++)
                 {
-                    Console.Write(Get(x,y).Value);
+                    Console.Write(Get(x,y).ToString());
                 }
                 Console.WriteLine();
             }
@@ -86,5 +96,13 @@
     private class Square
     {
         public int Value;
+        public int X;
+        public int Y;
+        public string Group = "";
+
+        public override string ToString()
+        {
+            return $"Square[Value={Value}, X={X}, Y={Y}, Group={Group}]";
+        }
     }
 }
