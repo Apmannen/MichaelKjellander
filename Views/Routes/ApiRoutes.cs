@@ -1,3 +1,4 @@
+using MichaelKjellander.Models.Wordpress;
 using MichaelKjellander.Tools.Url;
 
 namespace MichaelKjellander.Views.Routes;
@@ -13,9 +14,12 @@ public class ApiRoutes
 
     public string Categories => $"{_baseUrl}/api/blog/categories";
 
-    public string Pages(string slug)
+    public string Pages(PageIdentifier? identifier, string? slug)
     {
-        return new UrlBuilder($"{_baseUrl}/api/blog/pages", QueryArrayMode.Multiple).AddParam("slug", slug).ToString();
+        return new UrlBuilder($"{_baseUrl}/api/blog/pages", QueryArrayMode.Multiple)
+            .AddParam("slug", slug)
+            .AddParam("pageIdentifier", identifier != null ? identifier.ToString() : null)
+            .ToString();
     }
 
     public string Posts(int page, string? categorySlug, ICollection<int>? tagIds,

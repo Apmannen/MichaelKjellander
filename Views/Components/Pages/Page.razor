@@ -37,11 +37,7 @@
         }
 
         BlogApiService service = new(ClientFactory.CreateClient(), Options);
-        WpPage? page = (await service.FetchPages(Slug = Slug)).FirstOrDefault();
-        if (page == null)
-        {
-            return;
-        }
+        WpPage? page = (await service.FetchPages(slug: Slug)).First();
 
         _page = page;
     }

@@ -47,13 +47,18 @@
         IList<WpCategory> categories = await service.FetchCategories();
         IList<WpPage> pages = await service.FetchPages();
 
+        foreach (var p in pages)
+        {
+            Console.WriteLine("*** page="+p.MetaIdName);
+        }
+
         _links =
         [
             new NavLink("Senaste inläggen", PageRoutes.Home, "(/|/senaste/[0-9]+)"),
             CreateCategoryNavLink(categories, CategoryType.Game),
             CreateCategoryNavLink(categories, CategoryType.GameReview),
             CreateCategoryNavLink(categories, CategoryType.Other),
-            CreatePageNavLink(pages, "kontakt")
+            CreatePageNavLink(pages, PageIdentifier.contact)
         ];
     }
 
@@ -64,10 +69,10 @@
         return new NavLink(category.Name!, PageRoutes.Category(type), PageRoutes.CategoryPattern(type));
     }
 
-    private static NavLink CreatePageNavLink(IList<WpPage> pages, string slug)
+    private static NavLink CreatePageNavLink(IList<WpPage> pages, PageIdentifier identifier)
     {
-        WpPage page = pages.First(page => page.Slug == slug);
-        return new NavLink(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + slug);
+        WpPage page = pages.First(page => page.PageIdentifier == identifier);
+        return new NavLink(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + page.Slug);
     }
 
     private record struct NavLink(string Text, string Url, string Pattern);

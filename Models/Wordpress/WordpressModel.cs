@@ -19,6 +19,7 @@ public abstract class WordpressModel : DbModel, IParsableJson
             html = html.Replace("\n", "</p><p>");
             html += "</p>";
         }
+        html = html.Replace("\n", "");
         return html;
     }
     

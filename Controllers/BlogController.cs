@@ -68,7 +68,7 @@ public class BlogController : Controller
     [HttpGet]
     [Route("pages")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-        VaryByQueryKeys = ["Slug"])]
+        VaryByQueryKeys = ["PageIdentifier", "Slug"])]
     public async Task<IActionResult> GetPages([FromQuery] PagesRequest pageRequest)
     {
         if (!ModelState.IsValid)
@@ -81,6 +81,11 @@ public class BlogController : Controller
         if (pageRequest.Slug != null)
         {
             query = query.Where(p => p.Slug == pageRequest.Slug);
+        }
+        
+        if (pageRequest.PageIdentifier != null)
+        {
+            query = query.Where(p => p.MetaIdName == pageRequest.PageIdentifier);
         }
 
         List<WpPage> pages = query.ToList();
@@ -174,6 +179,7 @@ public class BlogController : Controller
 
     public class PagesRequest
     {
+        public string? PageIdentifier { get; set; }
         public string? Slug { get; set; }
     }
 

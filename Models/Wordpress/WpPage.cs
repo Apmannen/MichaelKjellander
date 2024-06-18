@@ -4,11 +4,11 @@ using System.Text.Json;
 
 namespace MichaelKjellander.Models.Wordpress;
 
-public enum PageType
+public enum PageIdentifier
 {
     Unknown,
-    Welcome,
-    Contact
+    welcome,
+    contact
 }
 
 [Table("wp_pages")]
@@ -23,16 +23,12 @@ public class WpPage : WordpressModel
     [Required] [MaxLength(VarcharLength)] public string? Slug { get; set; }
     [Required] [MaxLength(VarcharLength)] public string? MetaIdName { get; set; }
 
-    public PageType PageType
+    public PageIdentifier PageIdentifier
     {
         get
         {
-            return MetaIdName switch
-            {
-                "contact" => PageType.Contact,
-                "welcome" => PageType.Welcome,
-                _ => PageType.Unknown
-            };
+            bool canParse = Enum.TryParse(MetaIdName, out PageIdentifier identifier);
+            return canParse ? identifier : PageIdentifier.Unknown;
         }
     }
 
@@ -47,7 +43,7 @@ public class WpPage : WordpressModel
         DateOnly date = DateOnly.Parse(dateString);
 
         this.Id = id;
-        this.Content = content;
+        this.Content = HarmonizeHtmlContent(content);
         this.Title = title;
         this.Date = date;
         this.Slug = slug;

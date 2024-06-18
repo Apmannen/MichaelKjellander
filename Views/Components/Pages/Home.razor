@@ -16,14 +16,9 @@
     @(CurrentPage > 1 ? $"Michael Kjellander - Senaste inläggen - Sida {CurrentPage}" : "Michael Kjellanders hemsida")
 </PageTitle>
 
-@if (IsFirstPage)
+@if (IsFirstPage && _welcomePageMessage != null)
 {
-    <TitleBox Title="Välkommen till Michael Kjellanders hemsida!">
-        <p>Här postar jag tv-spelrecensioner och annat. Webbplatsen är byggd med Blazor och har API-koppling mot min tidigare Wordpress-sajt.</p>
-        <p><strong>Sidan är under utveckling!</strong></p>
-        <p>Mode: @Options.Value.AppEnvironment, url: @Options.Value.SiteUrl</p>
-        <p><a href="/webbspel/gissa-ordet">Gissa ordet</a></p>
-    </TitleBox>
+    <TitleBox Title=@_welcomePageMessage.Title Description=@_welcomePageMessage.Content />
 }
 <Modal/>
 
@@ -37,6 +32,7 @@
     [Parameter] public int? CurrentPage { get; set; }
     private IList<WpPost>? _posts;
     private PaginationData? _pagination;
+    private WpPage? _welcomePageMessage;
 
     private bool IsFirstPage => CurrentPage is null or 1;
 
@@ -44,6 +40,9 @@
     {
         CurrentPage ??= 1;
         BlogApiService service = new(ClientFactory.CreateClient(), Options);
+
+        _welcomePageMessage = (await service.FetchPages(identifier: PageIdentifier.welcome)).First();
+        
         ApiResponse<WpPost> postData = await service.FetchPosts(pageNumber: CurrentPage ?? 1);
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;

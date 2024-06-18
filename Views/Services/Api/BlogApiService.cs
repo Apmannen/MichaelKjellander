@@ -7,8 +7,10 @@ namespace MichaelKjellander.Views.Services.Api;
 
 public class BlogApiService : InternalApiService
 {
-    public BlogApiService(HttpClient client, IOptions<AppConfig> options) : base(client, options) {}
-    
+    public BlogApiService(HttpClient client, IOptions<AppConfig> options) : base(client, options)
+    {
+    }
+
     public async Task<IList<WpCategory>> FetchCategories()
     {
         ApiResponse<WpCategory> response = await FetchModels<WpCategory>(ApiRoutes.Categories);
@@ -21,9 +23,9 @@ public class BlogApiService : InternalApiService
         return response.Items!;
     }
 
-    public async Task<IList<WpPage>> FetchPages(string slug = "")
+    public async Task<IList<WpPage>> FetchPages(PageIdentifier? identifier = null, string? slug = "")
     {
-        ApiResponse<WpPage> response = await FetchModels<WpPage>(ApiRoutes.Pages(slug));
+        ApiResponse<WpPage> response = await FetchModels<WpPage>(ApiRoutes.Pages(identifier, slug));
         return response.Items!;
     }
 
