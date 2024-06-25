@@ -796,6 +796,8 @@ video {
 
 :root {
   /*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
+  ---color-grey: #6b7280;
+  /* don't use this variable */
 }
 
 html {

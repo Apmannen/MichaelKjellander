@@ -60,7 +60,22 @@
 }
 
 .sg-post-content[b-t8pqo4fbzw] {
-  color: rgba(51, 51, 51, 0.75);
+  color: var(---color-grey);
+}
+
+/* _content/MichaelKjellander/Views/Components/Buttons/ToggleButton.razor.rz.scp.css */
+
+.toggle-button[b-o8octszkzc] {
+  margin-right: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+}
+
+.toggle-button:hover[b-o8octszkzc], .toggle-button[data-active][b-o8octszkzc] {
+  color: black;
+  border-color: black;
+  box-shadow: inset 0 0 0 1px black;
 }
 
 /* _content/MichaelKjellander/Views/Components/Layout/MainLayout.razor.rz.scp.css */

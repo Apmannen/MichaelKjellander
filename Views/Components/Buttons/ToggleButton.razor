@@ -1,0 +1,17 @@
+<button class="toggle-button" data-active="@Checked" @onclick="HandleClick">@ChildContent</button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public EventCallback OnToggle { get; set; }
+    [Parameter] public bool Checked { get; set; }
+
+    protected override void OnParametersSet()
+    {
+    }
+
+    private void HandleClick()
+    {
+        OnToggle.InvokeAsync();
+    }
+
+}

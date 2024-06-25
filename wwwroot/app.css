@@ -4,6 +4,7 @@
 
 :root {
 /*  doesn't work in media   --sg-nav-breakpoint: 641px;*/
+    ---color-grey: theme('colors.gray.500'); /* don't use this variable */
 }
 
 html {

@@ -9,6 +9,7 @@
 @using MichaelKjellander.Tools.Url
 @using MichaelKjellander.Views.Routes
 @using MichaelKjellander.Views.Services.Api
+@using MichaelKjellander.Views.Components.Buttons
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject NavigationManager Navigation
@@ -29,12 +30,17 @@
             @for (int rating = 1; rating <= 10; rating++)
             {
                 int localRating = rating;
-                <input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
-                <label class="mr-3" for="rating@(rating)">@rating</label>
+                @*<input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
+                <label class="mr-3" for="rating@(rating)">@rating</label>*@
+                <ToggleButton Checked="@Filter!.Ratings[rating]" OnToggle="() => ToggleRating(localRating)">
+                    <span class="w-6 inline-block">@localRating</span>
+                </ToggleButton>
             }
 
             <p></p>
-            <span class="font-bold">@Ts.Get(TKey.Meta_Platform)</span>
+            <span class="font-bold">
+                <span class="w-6">@Ts.Get(TKey.Meta_Platform)</span>
+            </span>
             <div></div>
             @foreach (WpTag tag in _allTags)
             {
@@ -137,9 +143,9 @@ else
         await FetchData();
     }
 
-    private async Task ToggleRating(ChangeEventArgs args, int rating)
+    private async Task ToggleRating(int rating)
     {
-        bool isSelected = (bool)args.Value!;
+        bool isSelected = !Filter!.Ratings[rating];
         Filter!.Ratings[rating] = isSelected;
         await RefreshUrlAndFetch();
     }
@@ -168,4 +174,5 @@ else
             Ratings.Values.Clear();
         }
     }
+
 }

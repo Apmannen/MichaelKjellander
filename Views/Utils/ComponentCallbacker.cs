@@ -1,6 +1,7 @@
 ﻿namespace MichaelKjellander.Views.Utils;
 
-public class ComponentCallbacker
+[Obsolete("Use EventCallback")]
+public class ComponentCallbacker<T>
 {
-    public Action? Action { get; set; }
+    public Action<T>? Action { get; set; }
 }
