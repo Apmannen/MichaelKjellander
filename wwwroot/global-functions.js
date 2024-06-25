@@ -34,4 +34,9 @@ window.attachDraggable = function(draggableParent) {
     slider.addEventListener('mousedown', startDragging, false);
     slider.addEventListener('mouseup', stopDragging, false);
     slider.addEventListener('mouseleave', stopDragging, false);
+    
+    slider.addEventListener('touchmove', move, false);
+    slider.addEventListener('touchdown', startDragging, false);
+    slider.addEventListener('touchend', stopDragging, false);
+    slider.addEventListener('touchcancel', stopDragging, false);
 }
