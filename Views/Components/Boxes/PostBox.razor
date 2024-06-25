@@ -37,7 +37,9 @@
             {
                 <div class="h-2"></div>
                 <p class="italic">@Ts.Get(TKey.Review_Review)</p>
-                <p class="text-sm">@Ts.Format(TKey.Review_TestedOn, string.Join(", ", Post.PostTags))</p>
+                <p class="text-sm">
+                    @Ts.Format(TKey.Review_TestedOn, string.Join(", ", Post.PostTags.Select(pt => pt.Tag.Name)))
+                </p>
             }
             <div class="sg-post-content">
                 @((MarkupString)Post.Content!)
@@ -92,21 +94,6 @@
     [Parameter] [Required] public int Index { get; set; }
 
     private ElementReference _containerRef;
-    //private ComponentCallbacker? _showModalCallbacker;
-
-    protected override void OnInitialized()
-    {
-        //_showModalCallbacker ??= new ComponentCallbacker();
-    }
-
-    protected override void OnParametersSet()
-    {
-    }
-
-    /*private void OnImageClick()
-    {
-        _showModalCallbacker!.Action!();
-    }*/
 
     private string FormatPlattform(int index)
     {
