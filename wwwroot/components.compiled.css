@@ -63,6 +63,13 @@
   color: var(---color-grey);
 }
 
+/* _content/MichaelKjellander/Views/Components/Boxes/ToggleButtonBox.razor.rz.scp.css */
+
+.sg-toggle-button-container[b-sodnhdlrwh] {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 /* _content/MichaelKjellander/Views/Components/Buttons/ToggleButton.razor.rz.scp.css */
 
 .toggle-button[b-o8octszkzc] {
