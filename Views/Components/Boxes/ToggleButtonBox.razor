@@ -1,7 +1,16 @@
-<div class="sg-toggle-button-container">
+@using MichaelKjellander.Views.Services
+@inject JsService Js
+
+<div @ref="_ref" class="sg-toggle-button-container">
     @ChildContent
 </div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    private ElementReference _ref;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Js.AttachDraggable(_ref);
+    }
 }

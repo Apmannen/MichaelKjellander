@@ -1,4 +1,4 @@
 .sg-toggle-button-container {
-    overflow-x: auto;
+    overflow-x: hidden;
     white-space: nowrap;
 }

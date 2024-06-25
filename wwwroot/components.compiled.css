@@ -66,7 +66,7 @@
 /* _content/MichaelKjellander/Views/Components/Boxes/ToggleButtonBox.razor.rz.scp.css */
 
 .sg-toggle-button-container[b-sodnhdlrwh] {
-  overflow-x: auto;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
