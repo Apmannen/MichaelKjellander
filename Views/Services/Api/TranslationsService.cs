@@ -52,4 +52,9 @@ public class TranslationsService : InternalApiService
         
         return title;
     }
+    
+    public string FormatDate(DateOnly date)
+    {
+        return date.ToString("yyyy-MM-dd");
+    }
 }
