@@ -30,8 +30,6 @@
             @for (int rating = 1; rating <= 10; rating++)
             {
                 int localRating = rating;
-                @*<input id="rating@(rating)" type="checkbox" checked="@Filter!.Ratings[rating]" @onchange="args => ToggleRating(args, localRating)"/>
-                <label class="mr-3" for="rating@(rating)">@rating</label>*@
                 <ToggleButton Checked="@Filter!.Ratings[rating]" OnToggle="() => ToggleRating(localRating)">
                     <span class="w-6 inline-block">@localRating</span>
                 </ToggleButton>
@@ -45,13 +43,10 @@
             @foreach (WpTag tag in _allTags)
             {
                 WpTag localTag = tag;
-                <span class="sg-break-together">
-                    <input id="tag-@(localTag.Id)" type="checkbox" checked="@Filter!.Tags[localTag.Id]" @onchange="args => TogglePlatform(args, localTag.Id)"/>
-                    <label class="mr-3" for="tag-@(localTag.Id)">@localTag.Name</label>
-                </span>
+                <ToggleButton Checked="@Filter!.Tags[localTag.Id]" OnToggle="() => TogglePlatform(localTag.Id)">
+                    @localTag.Name
+                </ToggleButton>
             }
-            @*<p></p>
-            <button class="btn btn-dark" @onclick="OnClearClick">Rensa</button>*@
         }
     </TitleBox>
 }
@@ -150,9 +145,9 @@ else
         await RefreshUrlAndFetch();
     }
 
-    private async Task TogglePlatform(ChangeEventArgs args, int tagId)
+    private async Task TogglePlatform(int tagId)
     {
-        bool isSelected = (bool)args.Value!;
+        bool isSelected = !Filter!.Tags[tagId];
         Filter!.Tags[tagId] = isSelected;
         await RefreshUrlAndFetch();
     }
