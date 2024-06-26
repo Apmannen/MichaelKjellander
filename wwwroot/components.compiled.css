@@ -68,6 +68,10 @@
 .sg-toggle-button-container[b-sodnhdlrwh] {
   overflow-x: hidden;
   white-space: nowrap;
+  margin-left: calc(0rem - 5rem);
+  margin-right: calc(0rem - 5rem);
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 /* _content/MichaelKjellander/Views/Components/Buttons/ToggleButton.razor.rz.scp.css */

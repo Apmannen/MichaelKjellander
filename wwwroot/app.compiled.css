@@ -908,6 +908,12 @@ These are mostly embedded HTML.
   font-style: normal;
 }
 
+/*
+.sg-title-section .sg-toggle-button-container {
+    margin-right: calc(0rem - theme('margin.20'));
+    margin-left: calc(0rem - theme('margin.20'));
+}*/
+
 .hover\:border-black:hover {
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity));

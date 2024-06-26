@@ -86,3 +86,9 @@ These are mostly embedded HTML.
     color: black;
     font-style: normal;
 }
+
+/*
+.sg-title-section .sg-toggle-button-container {
+    margin-right: calc(0rem - theme('margin.20'));
+    margin-left: calc(0rem - theme('margin.20'));
+}*/

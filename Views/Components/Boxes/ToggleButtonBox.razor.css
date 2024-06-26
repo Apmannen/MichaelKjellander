@@ -1,4 +1,7 @@
 .sg-toggle-button-container {
     overflow-x: hidden;
     white-space: nowrap;
+    margin-left: calc(0rem - theme('margin.20'));
+    margin-right: calc(0rem - theme('margin.20'));
+    @apply pl-20 pr-20;
 }
