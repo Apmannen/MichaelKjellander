@@ -26,7 +26,6 @@
         @if (_category!.Type == CategoryType.GameReview)
         {
             <span class="font-bold">@Ts.Get(TKey.Meta_Rating)</span>
-            <div></div>
             <ToggleButtonBox>
                 @for (int rating = 1; rating <= 10; rating++)
                 {
