@@ -1,28 +1,30 @@
 ﻿@using System.ComponentModel.DataAnnotations
 
-<div class="bg-white sg-title-section">
-    @*Borders ruins the padding*@
-    <div class="sg-title-section-side hidden sm:block"></div>
-    <div class="py-10 px-10 sm:px-20">
-        <h1 class="text-2xl font-bold">@Title</h1>
-        <div class="h-4"></div>
-        <h2 class="sg-post-content text-lg">
-            @if (ChildContent != null)
-            {
-                @ChildContent
-            }
-            @if (_html != null)
-            {
-                <div>
-                    @((MarkupString)@_html)
-                </div>
-            }
-        </h2>
+<div class="overflow-hidden">
+    <div class="bg-white sg-title-section">
+        @*Borders ruins the padding*@
+        <div class="sg-title-section-side hidden sm:block"></div>
+        <div class="py-10 px-10 sm:px-20">
+            <h1 class="text-2xl font-bold">@Title</h1>
+            <div class="h-4"></div>
+            <h2 class="sg-post-content text-lg">
+                @if (ChildContent != null)
+                {
+                    @ChildContent
+                }
+                @if (_html != null)
+                {
+                    <div>
+                        @((MarkupString)@_html)
+                    </div>
+                }
+            </h2>
+        </div>
     </div>
 </div>
 
 @code {
-    [Parameter][Required] public string? Title { get; set; }
+    [Parameter] [Required] public string? Title { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Description { get; set; }
     private string? _html;
