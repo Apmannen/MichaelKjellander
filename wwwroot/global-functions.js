@@ -6,31 +6,22 @@ window.scrollToTop = function () {
 }
 
 window.attachDraggable = function (draggableParent) {
-    console.log("**** ATTACH2", draggableParent);
-
     let mouseDown = false;
     let startX, scrollLeft;
-    const slider = draggableParent; //document.querySelector('.sg-toggle-button-container');
-    const debugContainer = document.getElementById("debugcontainer");
-
+    const slider = draggableParent;
+    //const debugContainer = document.getElementById("debugcontainer");
     
     const getMouseX = (e) => {
-        if(e.type.indexOf("touch") === 0) {
-            const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-            return touch.pageX;
-        }
-        return e.pageX;
+        return e.pageX || e.touches[0].pageX;
     }
     
     const startDragging = (e) => {
-        debugContainer.innerHTML = "START<br>";
         mouseDown = true;
         startX = getMouseX(e) - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
     }
 
     const stopDragging = (e) => {
-        debugContainer.innerHTML = "STOP<br>";
         mouseDown = false;
     }
 
@@ -41,9 +32,7 @@ window.attachDraggable = function (draggableParent) {
         }
         let mouseX = getMouseX(e);
         const x = mouseX - slider.offsetLeft;
-        
         const scroll = x - startX;
-        debugContainer.innerHTML = `MOVE ${mouseX} ${x} ${scroll}`;
         slider.scrollLeft = scrollLeft - scroll;
     }
 
@@ -55,4 +44,5 @@ window.attachDraggable = function (draggableParent) {
     slider.addEventListener('touchmove', move, false);
     slider.addEventListener('touchstart', startDragging, false);
     slider.addEventListener('touchend', stopDragging, false);
+    slider.addEventListener('touchcancel', stopDragging, false);
 }
