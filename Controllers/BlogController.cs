@@ -108,7 +108,7 @@ public class BlogController : Controller
 
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
-        //IQueryable<WpPost> tagCountQuery;
+        Dictionary<string, int> fieldCounts = new Dictionary<string, int>();
 
         if (postsRequest.Slug != null)
         {
@@ -134,14 +134,8 @@ public class BlogController : Controller
                 Tag = g.Key,
                 Count = g.Count()
             });
-        var tagCounts = await tagCountQuery.ToListAsync();
-        Dictionary<string, int> fieldCounts = new Dictionary<string, int>();
-        //AddToDictionary(tagCounts, fieldCounts);
-
-        foreach (var tagCount in tagCounts)
-        {
-            fieldCounts.Add(tagCount.Tag.Name!, tagCount.Count);
-        }
+        AddToDictionary(await tagCountQuery.ToListAsync(), fieldCounts, tagCount => tagCount.Tag.Name!, 
+            tagCount => tagCount.Count);
 
         if (postsRequest.TagIds is { Count: > 0 })
         {
@@ -177,8 +171,13 @@ public class BlogController : Controller
             totalCount: totalCount, fieldCounts: fieldCounts));
     }
 
-    private static void AddToDictionary<T>(List<T> list, Dictionary<string, int> dictionary)
+    private static void AddToDictionary<T>(List<T> list, Dictionary<string, int> dictionary,
+        Func<T, string> keySelector, Func<T, int> valueSelector)
     {
+        foreach (var item in list)
+        {
+            dictionary.Add(keySelector(item), valueSelector(item));
+        }
     }
 
     [HttpGet]
