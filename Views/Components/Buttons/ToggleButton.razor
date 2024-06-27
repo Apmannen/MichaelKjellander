@@ -1,12 +1,31 @@
-<button class="toggle-button" data-active="@Checked" @onclick="HandleClick">@ChildContent</button>
+@using System.ComponentModel.DataAnnotations
+@using MichaelKjellander.IndependentUtils.Collections
+<button class="toggle-button" data-active="@_isChecked" @onclick="HandleClick">@ChildContent</button>
 
 @code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public EventCallback OnToggle { get; set; }
-    [Parameter] public bool Checked { get; set; }
+    [Parameter, Required] public RenderFragment? ChildContent { get; set; }
+    [Parameter, Required] public Indexer<int>? Indexer { get; set; }
+    [Parameter, Required] public int Index { get; set; }
+    [Parameter, Required] public EventCallback OnToggle { get; set; }
+    
+    private bool _isChecked = false;
+    
+    /*[Parameter] public EventCallback OnToggle { get; set; }
+    [Parameter] public bool Checked { get; set; }*/
+
+    protected override void OnParametersSet()
+    {
+        OnIndexerChange();
+    }
+
+    private void OnIndexerChange()
+    {
+        _isChecked = Indexer![Index];
+    }
 
     private void HandleClick()
     {
+        Indexer![Index] = !Indexer![Index];
         OnToggle.InvokeAsync();
     }
 

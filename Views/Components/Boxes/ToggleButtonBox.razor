@@ -21,6 +21,7 @@
     [Parameter, Required] public RenderFragment? ChildContent { get; set; }
     [Parameter, Required] public string Title { get; set; } = "";
     [Parameter, Required] public Indexer<int>? Indexer { get; set; }
+    [Parameter, Required] public EventCallback OnClear { get; set; }
 
     private ElementReference _ref;
 
@@ -32,5 +33,6 @@
     private void Clear()
     {
         Indexer!.Clear();
+        OnClear.InvokeAsync();
     }
 }

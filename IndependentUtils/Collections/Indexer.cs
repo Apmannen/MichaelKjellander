@@ -2,32 +2,51 @@
 
 public class Indexer<T>
 {
-    public readonly HashSet<T> Values = new();
+    private readonly HashSet<T> _values = [];
+    private readonly Dictionary<string, Action> _changeListeners = new Dictionary<string, Action>();
+
+    public ICollection<T> Values => _values.ToArray();
+
+    private void OnChange()
+    {
+        foreach (Action action in _changeListeners.Values)
+        {
+            action.Invoke();
+        }
+    }
+
+    public void AddChangeListener(string name, Action action)
+    {
+        _changeListeners[name] = action;
+    }
 
     public void Clear()
     {
-        Values.Clear();
+        _values.Clear();
+        OnChange();
     }
 
     public void ReplaceWithRange(ICollection<T> indexes)
     {
-        Clear();
-        Values.UnionWith(indexes);
+        _values.Clear();
+        _values.UnionWith(indexes);
+        OnChange();
     }
 
     public bool this[T index]
     {
-        get => Values.Contains(index);
+        get => _values.Contains(index);
         set
         {
             if (value)
             {
-                Values.Add(index);
+                _values.Add(index);
             }
             else
             {
-                Values.Remove(index);
+                _values.Remove(index);
             }
+            OnChange();
         }
     }
 }

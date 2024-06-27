@@ -25,21 +25,21 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Platform)" Indexer="@Filter!.Tags">
+            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Platform)" Indexer="@Filter!.Tags" OnClear="OnToggleButtonsChange">
                 @foreach (WpTag tag in _allTags)
                 {
                     WpTag localTag = tag;
-                    <ToggleButton Checked="@Filter!.Tags[localTag.Id]" OnToggle="() => TogglePlatform(localTag.Id)">
+                    <ToggleButton Indexer="@Filter!.Tags" Index="@localTag.Id" OnToggle="OnToggleButtonsChange">
                         @localTag.Name
                     </ToggleButton>
                 }
             </ToggleButtonBox>
             <p></p>
-            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Rating)" Indexer="@Filter!.Ratings">
+            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Rating)" Indexer="@Filter!.Ratings" OnClear="OnToggleButtonsChange">
                 @for (int rating = 1; rating <= 10; rating++)
                 {
                     int localRating = rating;
-                    <ToggleButton Checked="@Filter!.Ratings[rating]" OnToggle="() => ToggleRating(localRating)">
+                    <ToggleButton Indexer="@Filter!.Ratings" Index="@localRating" OnToggle="OnToggleButtonsChange">
                         <span class="w-6 inline-block">@localRating</span>
                     </ToggleButton>
                 }
@@ -88,7 +88,7 @@ else
         }
 
         _isLoading = true;
-        Filter ??= new();
+        Filter ??= new GameReviewFilter();
 
         _url = new Url(Navigation.Uri);
         _query = _url!.GetQueryString();
@@ -103,6 +103,11 @@ else
         _allTags.AddRange(await _service.FetchTags(Slug));
 
         await FetchData();
+    }
+
+    private void OnFilterChange()
+    {
+        //RefreshUrlAndFetch().Wait();
     }
 
     private async Task FetchData()
@@ -135,19 +140,24 @@ else
         await FetchData();
     }
 
-    private async Task ToggleRating(int rating)
+    private async Task OnToggleButtonsChange()
+    {
+        await RefreshUrlAndFetch();
+    }
+
+    /*private async Task ToggleRating(int rating)
     {
         bool isSelected = !Filter!.Ratings[rating];
         Filter!.Ratings[rating] = isSelected;
         await RefreshUrlAndFetch();
-    }
+    }*/
 
-    private async Task TogglePlatform(int tagId)
+    /*private async Task TogglePlatform(int tagId)
     {
         bool isSelected = !Filter!.Tags[tagId];
         Filter!.Tags[tagId] = isSelected;
         await RefreshUrlAndFetch();
-    }
+    }*/
 
     /*private async Task OnClearClick()
     {
@@ -157,8 +167,14 @@ else
 
     public class GameReviewFilter
     {
-        public readonly Indexer<int> Tags = new();
-        public readonly Indexer<int> Ratings = new();
+        public readonly Indexer<int> Tags;
+        public readonly Indexer<int> Ratings;
+
+        public GameReviewFilter()
+        {
+            Tags = new Indexer<int>();
+            Ratings = new Indexer<int>();
+        }
 
         /*public void Clear()
         {
