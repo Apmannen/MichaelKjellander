@@ -25,11 +25,7 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <span class="font-bold">
-                <span class="w-6">@Ts.Get(TKey.Meta_Platform)</span>
-            </span>
-            <div></div>
-            <ToggleButtonBox>
+            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Platform)">
                 @foreach (WpTag tag in _allTags)
                 {
                     WpTag localTag = tag;
@@ -39,8 +35,7 @@
                 }
             </ToggleButtonBox>
             <p></p>
-            <span class="font-bold">@Ts.Get(TKey.Meta_Rating)</span>
-            <ToggleButtonBox>
+            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Rating)">
                 @for (int rating = 1; rating <= 10; rating++)
                 {
                     int localRating = rating;

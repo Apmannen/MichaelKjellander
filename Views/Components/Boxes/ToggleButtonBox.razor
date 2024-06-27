@@ -1,13 +1,18 @@
 @using MichaelKjellander.Views.Services
 @inject JsService Js
 
-<div id="debugcontainer"></div>
+<span class="font-bold">
+    <span class="w-6">@Title</span>
+</span>
+<div></div>
 <div @ref="_ref" class="sg-toggle-button-container">
     @ChildContent
 </div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Title { get; set; } = "";
+
     private ElementReference _ref;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
