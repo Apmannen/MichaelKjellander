@@ -22,7 +22,6 @@ public class PostsGet
         IQueryable<WpPost> query = context.Posts;
         IQueryable<WpPost> tagCountQuery = context.Posts;
         IQueryable<WpPost> ratingCountQuery = context.Posts;
-        FieldCounters fieldCounters = new FieldCounters();
 
         if (_postsRequest.Slug != null)
         {
@@ -60,8 +59,6 @@ public class PostsGet
         var ratingCountResult = ratingCountQuery.GroupBy(p => p.MetaRating).Select(g =>
             new KeyValuePair<string, int>(g.Key.ToString()!, g.Count())).ToList();
 
-        fieldCounters.AddCounter("tags", tagCountResult);
-        fieldCounters.AddCounter("ratings", ratingCountResult);
 
         int totalCount = await query.CountAsync();
 
@@ -85,8 +82,12 @@ public class PostsGet
             }
         }
 
-        return ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage,
-            totalCount: totalCount, fieldCounts: fieldCounters);
+        ApiResponse<WpPost> apiResponse = ModelFactory.CreateApiResponse(posts, currentPage: pageNumber,
+            perPage: perPage, totalCount: totalCount);
+        apiResponse.PaginationData.AddCounter("tags", tagCountResult);
+        apiResponse.PaginationData.AddCounter("ratings", ratingCountResult);
+
+        return apiResponse;
     }
 
     private IQueryable<WpPost> CategorySlugFilter(IQueryable<WpPost> query)
