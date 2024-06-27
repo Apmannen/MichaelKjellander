@@ -104,7 +104,7 @@ public class BlogController : Controller
             return BadRequest(ModelState);
         }
 
-        ApiResponse<WpPost> postsResponse = await PostsDbService.GetPosts(postsRequest);
+        ApiResponse<WpPost> postsResponse = await new PostsGet(postsRequest).Get();
         return Ok(postsResponse);
     }
 

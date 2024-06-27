@@ -5,12 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MichaelKjellander.Api.ModelFeatures.Posts;
 
-public class PostsDbService
+public class PostsGet
 {
-    public static async Task<ApiResponse<WpPost>> GetPosts(PostsRequest postsRequest)
+    private readonly PostsRequest _postsRequest;
+
+    public PostsGet(PostsRequest postsRequest)
+    {
+        _postsRequest = postsRequest;
+    }
+    
+    public async Task<ApiResponse<WpPost>> Get()
     {
         
-        int pageNumber = postsRequest.Page ?? 1;
+        int pageNumber = _postsRequest.Page ?? 1;
 
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
@@ -18,34 +25,32 @@ public class PostsDbService
         IQueryable<WpPost> ratingCountQuery = context.Posts;
         FieldCounters fieldCounters = new FieldCounters();
 
-        if (postsRequest.Slug != null)
+        if (_postsRequest.Slug != null)
         {
-            query = query.Where(row => row.Slug == postsRequest.Slug);
+            query = SlugFilter(query);
+            tagCountQuery = SlugFilter(tagCountQuery);
+            ratingCountQuery = SlugFilter(ratingCountQuery);
         }
 
-        if (postsRequest.CategorySlug != null)
+        if (_postsRequest.CategorySlug != null)
         {
-            query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
+            query = CategorySlugFilter(query);
+            tagCountQuery = CategorySlugFilter(tagCountQuery);
+            ratingCountQuery = CategorySlugFilter(ratingCountQuery);
         }
 
-        ratingCountQuery = query;
-        if (postsRequest.MetaRatings is { Count: > 0 })
+        if (_postsRequest.MetaRatings is { Count: > 0 })
         {
-            query = query.Where(row =>
-                row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
+            query = MetaRatingsFilter(query);
+            tagCountQuery = MetaRatingsFilter(tagCountQuery);
+            //Not ratingCountQuery
         }
 
-        tagCountQuery = query;
-
-        if (postsRequest.TagIds is { Count: > 0 })
+        if (_postsRequest.TagIds is { Count: > 0 })
         {
-            IQueryable<WpPost> TagFilter(IQueryable<WpPost> q)
-            {
-                return q.Where(p => p.PostTags.Any(pt => postsRequest.TagIds.Contains(pt.TagId)));
-            }
-
             query = TagFilter(query);
-            ratingCountQuery = TagFilter(ratingCountQuery);
+            //Not tagCountQuery
+            ratingCountQuery = TagFilter(query);
         }
 
         var tagCountResult = tagCountQuery
@@ -92,6 +97,23 @@ public class PostsDbService
 
         return ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage,
             totalCount: totalCount, fieldCounts: fieldCounters);
+    }
+
+    private IQueryable<WpPost> CategorySlugFilter(IQueryable<WpPost> query)
+    {
+        return query.Where(row => row.Category!.Slug == _postsRequest.CategorySlug);
+    }
+    private IQueryable<WpPost> MetaRatingsFilter(IQueryable<WpPost> query)
+    {
+        return query.Where(row => row.MetaRating != null && _postsRequest.MetaRatings!.Contains((int)row.MetaRating));
+    }
+    private IQueryable<WpPost> SlugFilter(IQueryable<WpPost> query)
+    {
+        return query.Where(row => row.Slug == _postsRequest.Slug);
+    }
+    private IQueryable<WpPost> TagFilter(IQueryable<WpPost> query)
+    {
+        return query.Where(p => p.PostTags.Any(pt => _postsRequest.TagIds!.Contains(pt.TagId)));
     }
 }
 
