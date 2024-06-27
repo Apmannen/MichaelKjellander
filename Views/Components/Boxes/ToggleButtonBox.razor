@@ -6,11 +6,14 @@
 
 <span class="font-bold">
     <span class="w-6">@Title</span>
-    <span class="px-2">
-        <button @onclick="Clear">
-            <IconX/>
-        </button>
-    </span>
+    @if (Indexer is { Values.Count: > 0 })
+    {
+        <span class="px-2">
+            <button @onclick="Clear">
+                <IconX/>
+            </button>
+        </span>
+    }
 </span>
 <div></div>
 <div @ref="_ref" class="sg-toggle-button-container">
