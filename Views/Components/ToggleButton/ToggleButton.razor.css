@@ -4,6 +4,10 @@
     border-radius: 4px;
     @apply text-sm;
 }
+.toggle-button[data-count="0"] {
+    border-color: theme('colors.gray.200');
+    color: theme('colors.gray.200');
+}
 
 .toggle-button[data-active=true] {
     color: black;

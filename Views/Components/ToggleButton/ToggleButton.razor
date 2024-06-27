@@ -1,7 +1,9 @@
 @using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.IndependentUtils.Collections
 <span class="toggle-button-single-container">
-    <button class="toggle-button" data-active="@_isChecked.ToString().ToLower()">@ChildContent</button>
+    <button class="toggle-button" data-active="@_isChecked.ToString().ToLower()" data-count="@Count">
+        @ChildContent (@Count)
+    </button>
     <input class="hidden" type="checkbox" @onchange="HandleClick"/>
 </span>
 
@@ -10,6 +12,7 @@
     [Parameter, Required] public Indexer<int>? Indexer { get; set; }
     [Parameter, Required] public int Index { get; set; }
     [Parameter, Required] public EventCallback OnToggle { get; set; }
+    [Parameter, Required] public int Count { get; set; }
 
     private bool _isChecked = false;
 

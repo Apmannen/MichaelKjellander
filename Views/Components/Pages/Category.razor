@@ -29,8 +29,8 @@
                 @foreach (WpTag tag in _allTags)
                 {
                     WpTag localTag = tag;
-                    <ToggleButton Indexer="@Filter!.Tags" Index="@localTag.Id" OnToggle="OnToggleButtonsChange">
-                        @localTag.Name (@GetTagCount(localTag.Name!))
+                    <ToggleButton Count="@GetTagCount(localTag.Name!)" Indexer="@Filter!.Tags" Index="@localTag.Id" OnToggle="OnToggleButtonsChange">
+                        @localTag.Name
                     </ToggleButton>
                 }
             </ToggleButtonBox>
@@ -39,8 +39,8 @@
                 @for (int rating = 1; rating <= 10; rating++)
                 {
                     int localRating = rating;
-                    <ToggleButton Indexer="@Filter!.Ratings" Index="@localRating" OnToggle="OnToggleButtonsChange">
-                        @Ts.GetRatingTranslation(localRating) (@GetRatingCount(localRating))
+                    <ToggleButton Count="@GetRatingCount(localRating)" Indexer="@Filter!.Ratings" Index="@localRating" OnToggle="OnToggleButtonsChange">
+                        @Ts.GetRatingTranslation(localRating)
                     </ToggleButton>
                 }
             </ToggleButtonBox>

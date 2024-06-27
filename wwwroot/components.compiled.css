@@ -354,6 +354,11 @@ main[b-i3xiidl2tn] {
   line-height: 1.25rem;
 }
 
+.toggle-button[data-count="0"][b-6zdjnpt3oh] {
+  border-color: #e5e7eb;
+  color: #e5e7eb;
+}
+
 .toggle-button[data-active=true][b-6zdjnpt3oh] {
   color: black;
   border-color: black;
