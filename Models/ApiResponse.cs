@@ -24,25 +24,26 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
     public IParsableJson ParseFromJson(JsonElement el)
     {
         this.Items = JsonParser.DeserializeObjectCollection<T>(el.GetProperty("items").EnumerateArray());
-        PaginationData = ParsePaginationData(el, Items.Count);
+        this.PaginationData = JsonParser.DeserializeObject<PaginationData>(el.GetProperty("paginationData"));
+        //PaginationData = ParsePaginationData(el, Items.Count);
 
         return this;
     }
 
-    private static PaginationData ParsePaginationData(JsonElement el, int count)
+    /*private static PaginationData ParsePaginationData(JsonElement el, int count)
     {
         int currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
         int numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
         int totalCount = el.GetProperty("paginationData").GetProperty("totalCount").GetInt32();
         return new PaginationData(currentPage, numPages, count, totalCount, new());
-    }
+    }*/
 }
 
 public class FieldCounters
 {
     public readonly Dictionary<string, Dictionary<string, int>> CounterByField = new();
 
-    public void AddCounter(string name, List<KeyValuePair<string,int>> list)
+    public void AddCounter(string name, List<KeyValuePair<string, int>> list)
     {
         CounterByField[name] = new Dictionary<string, int>();
         foreach (var item in list)
@@ -52,6 +53,7 @@ public class FieldCounters
             {
                 key = "_";
             }
+
             int count = item.Value;
             CounterByField[name].Add(key, count);
         }

@@ -58,7 +58,7 @@ public class BlogController : Controller
             }
         }
 
-        tags.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
+        tags.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
 
         return Ok(ModelFactory.CreateSimpleApiResponse(tags));
 
@@ -95,8 +95,8 @@ public class BlogController : Controller
 
     [HttpGet]
     [Route("posts")]
-    /*[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-        VaryByQueryKeys = ["categorySlug", "tagIds", "metaRatings", "page", "slug"])]*/
+    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
+        VaryByQueryKeys = ["categorySlug", "tagIds", "metaRatings", "page", "slug"])]
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)

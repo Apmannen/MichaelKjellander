@@ -30,7 +30,7 @@
                 {
                     WpTag localTag = tag;
                     <ToggleButton Indexer="@Filter!.Tags" Index="@localTag.Id" OnToggle="OnToggleButtonsChange">
-                        @localTag.Name
+                        @localTag.Name (@GetTagCount(localTag.Name!))
                     </ToggleButton>
                 }
             </ToggleButtonBox>
@@ -114,7 +114,29 @@ else
         _category ??= _posts?.FirstOrDefault()?.Category;
         _prefix ??= PageRoutes.Category(Slug!);
         _pagination = postsData.PaginationData;
+
+
         _isLoading = false;
+    }
+
+    private int GetTagCount(string keyName)
+    {
+        return GetFilterItemCount("tags", keyName);
+    }
+
+    private int GetRatingCount(string keyName)
+    {
+        return GetFilterItemCount("ratings", keyName);
+    }
+
+    private int GetFilterItemCount(string name, string keyName)
+    {
+        if (!_pagination!.FieldCounts.ContainsKey(name))
+        {
+            return 0;
+        }
+        bool valid = _pagination!.FieldCounts[name].TryGetValue(keyName, out int count);
+        return valid ? count : 0;
     }
 
     protected override void OnAfterRender(bool isFirstRender)

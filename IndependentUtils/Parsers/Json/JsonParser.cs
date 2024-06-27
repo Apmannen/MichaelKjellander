@@ -5,7 +5,7 @@ namespace MichaelKjellander.IndependentUtils.Parsers.Json;
 
 public static class JsonParser
 {
-    private static T DeserializeObject<T>(JsonElement jsonElement)
+    public static T DeserializeObject<T>(JsonElement jsonElement)
     {
         T deserialized = JsonConvert.DeserializeObject<T>(jsonElement.ToString())!;
         return deserialized;
