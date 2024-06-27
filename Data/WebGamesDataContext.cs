@@ -1,4 +1,4 @@
-﻿using MichaelKjellander.Models.WebGames;
+﻿using MichaelKjellander.Domains.Models.WebGames;
 using Microsoft.EntityFrameworkCore;
 
 namespace MichaelKjellander.Data;

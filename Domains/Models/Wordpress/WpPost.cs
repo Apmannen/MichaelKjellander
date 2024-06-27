@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using MichaelKjellander.Scripts.Startup.Generated;
 
-namespace MichaelKjellander.Models.Wordpress;
+namespace MichaelKjellander.Domains.Models.Wordpress;
 
 [Table("wp_posts")]
 public class WpPost : WordpressModel

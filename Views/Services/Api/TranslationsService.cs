@@ -1,5 +1,5 @@
 ﻿using MichaelKjellander.Config;
-using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Domains.Models.Wordpress;
 using MichaelKjellander.Scripts.Startup.Generated;
 using Microsoft.Extensions.Options;
 

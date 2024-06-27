@@ -2,6 +2,7 @@ using System.Text.Json;
 
 namespace MichaelKjellander.IndependentUtils.Api;
 
+//TODO: methods will probably be moved to an abstract class that API services use
 public static class ApiUtil
 {
     public static async Task<JsonFetchResult> FetchJson(string url, HttpClient client)

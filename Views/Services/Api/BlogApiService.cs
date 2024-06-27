@@ -1,6 +1,6 @@
 using MichaelKjellander.Config;
-using MichaelKjellander.Models;
-using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Domains.ApiResponse;
+using MichaelKjellander.Domains.Models.Wordpress;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander.Views.Services.Api;

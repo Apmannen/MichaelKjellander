@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MichaelKjellander.Models;
+namespace MichaelKjellander.Domains.Models;
 
 public abstract class DbModel
 {

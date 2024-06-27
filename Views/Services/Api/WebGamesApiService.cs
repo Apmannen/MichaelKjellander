@@ -1,6 +1,6 @@
 using MichaelKjellander.Config;
-using MichaelKjellander.Models;
-using MichaelKjellander.Models.WebGames;
+using MichaelKjellander.Domains.ApiResponse;
+using MichaelKjellander.Domains.Models.WebGames;
 using Microsoft.Extensions.Options;
 
 namespace MichaelKjellander.Views.Services.Api;

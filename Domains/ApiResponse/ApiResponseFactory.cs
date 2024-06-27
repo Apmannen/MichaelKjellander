@@ -1,6 +1,8 @@
-namespace MichaelKjellander.Models;
+using MichaelKjellander.Domains.Models;
 
-public static class ModelFactory
+namespace MichaelKjellander.Domains.ApiResponse;
+
+public static class ApiResponseFactory
 {
     public static ApiResponse<T> CreateSimpleApiResponse<T>(IList<T> items) where T : DbModel
     {

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using MichaelKjellander.Api.ModelFeatures.Posts;
 using MichaelKjellander.Data;
-using MichaelKjellander.Models;
-using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Domains.ApiResponse;
+using MichaelKjellander.Domains.Models.Wordpress;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MichaelKjellander.Api.Controllers;
@@ -24,7 +24,7 @@ public class BlogController : Controller
     {
         await using var context = new BlogDataContext();
         List<WpCategory> items = context.Categories.ToList();
-        return Ok(ModelFactory.CreateSimpleApiResponse(items));
+        return Ok(ApiResponseFactory.CreateSimpleApiResponse(items));
     }
 
     [HttpGet]
@@ -60,7 +60,7 @@ public class BlogController : Controller
 
         tags.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
 
-        return Ok(ModelFactory.CreateSimpleApiResponse(tags));
+        return Ok(ApiResponseFactory.CreateSimpleApiResponse(tags));
 
         //SELECT * FROM wp_tags t LEFT JOIN wp_post_tags pt ON pt.TagId=t.id LEFT JOIN wp_posts p ON p.id=pt.PostId LEFT JOIN wp_categories c ON c.Id = p.CategoryId WHERE c.Slug="tv-spelrecensioner";
     }
@@ -90,7 +90,7 @@ public class BlogController : Controller
 
         List<WpPage> pages = query.ToList();
 
-        return Ok(ModelFactory.CreateSimpleApiResponse(pages));
+        return Ok(ApiResponseFactory.CreateSimpleApiResponse(pages));
     }
 
     [HttpGet]
@@ -122,7 +122,7 @@ public class BlogController : Controller
         await using var context = new BlogDataContext();
         IQueryable<WpTranslationEntry> query = context.TranslationEntries;
         List<WpTranslationEntry> translationEntries = query.ToList();
-        return Ok(ModelFactory.CreateSimpleApiResponse(translationEntries));
+        return Ok(ApiResponseFactory.CreateSimpleApiResponse(translationEntries));
     }
 
 

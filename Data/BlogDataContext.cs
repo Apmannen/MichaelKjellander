@@ -1,4 +1,4 @@
-using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Domains.Models.Wordpress;
 using Microsoft.EntityFrameworkCore;
 
 namespace MichaelKjellander.Data;

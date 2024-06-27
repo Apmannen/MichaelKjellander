@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MichaelKjellander.Models.WebGames;
+namespace MichaelKjellander.Domains.Models.WebGames;
 
 [Table("words")]
 public class Word : DbModel

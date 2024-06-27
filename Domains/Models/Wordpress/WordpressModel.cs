@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using MichaelKjellander.IndependentUtils.Parsers.Json;
 
-namespace MichaelKjellander.Models.Wordpress;
+namespace MichaelKjellander.Domains.Models.Wordpress;
 
 public abstract class WordpressModel : DbModel, IParsableJson
 {

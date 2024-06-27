@@ -59,7 +59,3 @@ Dev environment profiles are set in Properties/launchSettings.json
 
 Once again, the project is under construction and some temporary solutions will be replaced
 with better ones once the project is finished.
-
------
-
-![Michael Kjellander Blazor website structure](https://michaelkjellander.se/wp-content/uploads/2024/06/Continuous-Process-Improvement-Issues-Affinity-Diagram-2.png)

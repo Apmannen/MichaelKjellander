@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
-namespace MichaelKjellander.Models.Wordpress;
+namespace MichaelKjellander.Domains.Models.Wordpress;
 
 public enum PageIdentifier
 {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using MichaelKjellander.IndependentUtils.Parsers.Json;
 
-namespace MichaelKjellander.Models.Wordpress;
+namespace MichaelKjellander.Domains.Models.Wordpress;
 
 [Table("wp_post_tags")]
 public class WpPostTag : WordpressModel

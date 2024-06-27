@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MichaelKjellander.Models.Wordpress;
+namespace MichaelKjellander.Domains.Models.Wordpress;
 
 public enum Language
 {

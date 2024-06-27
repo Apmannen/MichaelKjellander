@@ -1,5 +1,5 @@
 using MichaelKjellander.Config;
-using MichaelKjellander.Models;
+using MichaelKjellander.Domains.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 

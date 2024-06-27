@@ -1,4 +1,4 @@
-using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Domains.Models.Wordpress;
 using MichaelKjellander.Tools.Url;
 
 namespace MichaelKjellander.Views.Routes;

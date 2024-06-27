@@ -1,7 +1,8 @@
 using System.Text.Json;
+using MichaelKjellander.Domains.Models;
 using MichaelKjellander.IndependentUtils.Parsers.Json;
 
-namespace MichaelKjellander.Models;
+namespace MichaelKjellander.Domains.ApiResponse;
 
 public class ApiResponse<T> : IParsableJson where T : DbModel
 {

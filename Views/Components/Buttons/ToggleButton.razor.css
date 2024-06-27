@@ -2,6 +2,7 @@
     @apply p-1 mr-2 mt-2;
     border: 1px solid theme('colors.gray.400');
     border-radius: 4px;
+    @apply text-sm;
 }
 
 .toggle-button[data-active] {

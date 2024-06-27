@@ -1,6 +1,6 @@
 using MichaelKjellander.Data;
-using MichaelKjellander.Models;
-using MichaelKjellander.Models.Wordpress;
+using MichaelKjellander.Domains.ApiResponse;
+using MichaelKjellander.Domains.Models.Wordpress;
 using Microsoft.EntityFrameworkCore;
 
 namespace MichaelKjellander.Api.ModelFeatures.Posts;
@@ -82,7 +82,7 @@ public class PostsGet
             }
         }
 
-        ApiResponse<WpPost> apiResponse = ModelFactory.CreateApiResponse(posts, currentPage: pageNumber,
+        ApiResponse<WpPost> apiResponse = ApiResponseFactory.CreateApiResponse(posts, currentPage: pageNumber,
             perPage: perPage, totalCount: totalCount);
         apiResponse.PaginationData.AddCounter("tags", tagCountResult);
         apiResponse.PaginationData.AddCounter("ratings", ratingCountResult);

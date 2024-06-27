@@ -1,7 +1,8 @@
 using MichaelKjellander.Config;
+using MichaelKjellander.Domains.ApiResponse;
+using MichaelKjellander.Domains.Models;
 using MichaelKjellander.IndependentUtils.Api;
 using MichaelKjellander.IndependentUtils.Parsers.Json;
-using MichaelKjellander.Models;
 using MichaelKjellander.Views.Routes;
 using Microsoft.Extensions.Options;
 
