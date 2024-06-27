@@ -1,8 +1,16 @@
+@using System.ComponentModel.DataAnnotations
+@using MichaelKjellander.IndependentUtils.Collections
 @using MichaelKjellander.Views.Services
+@using MichaelKjellander.Views.Components.Icons
 @inject JsService Js
 
 <span class="font-bold">
     <span class="w-6">@Title</span>
+    <span class="px-2">
+        <button @onclick="Clear">
+            <IconX/>
+        </button>
+    </span>
 </span>
 <div></div>
 <div @ref="_ref" class="sg-toggle-button-container">
@@ -10,8 +18,9 @@
 </div>
 
 @code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public string Title { get; set; } = "";
+    [Parameter, Required] public RenderFragment? ChildContent { get; set; }
+    [Parameter, Required] public string Title { get; set; } = "";
+    [Parameter, Required] public Indexer<int>? Indexer { get; set; }
 
     private ElementReference _ref;
 
@@ -20,4 +29,8 @@
         await Js.AttachDraggable(_ref);
     }
 
+    private void Clear()
+    {
+        Indexer!.Clear();
+    }
 }

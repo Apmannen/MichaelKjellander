@@ -25,7 +25,7 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Platform)">
+            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Platform)" Indexer="@Filter!.Tags">
                 @foreach (WpTag tag in _allTags)
                 {
                     WpTag localTag = tag;
@@ -35,7 +35,7 @@
                 }
             </ToggleButtonBox>
             <p></p>
-            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Rating)">
+            <ToggleButtonBox Title="@Ts.Get(TKey.Meta_Rating)" Indexer="@Filter!.Ratings">
                 @for (int rating = 1; rating <= 10; rating++)
                 {
                     int localRating = rating;
@@ -149,22 +149,22 @@ else
         await RefreshUrlAndFetch();
     }
 
-    private async Task OnClearClick()
+    /*private async Task OnClearClick()
     {
         Filter!.Clear();
         await RefreshUrlAndFetch();
-    }
+    }*/
 
     public class GameReviewFilter
     {
         public readonly Indexer<int> Tags = new();
         public readonly Indexer<int> Ratings = new();
 
-        public void Clear()
+        /*public void Clear()
         {
-            Tags.Values.Clear();
-            Ratings.Values.Clear();
-        }
+            Tags.Clear();
+            Ratings.Clear();
+        }*/
     }
 
 }
