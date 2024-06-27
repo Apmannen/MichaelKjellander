@@ -1,13 +1,13 @@
 @using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.IndependentUtils.Collections
-<button class="toggle-button" data-active="@_isChecked" @onclick="HandleClick">@ChildContent</button>
+<button class="toggle-button" data-active="@_isChecked.ToString().ToLower()" @onclick="HandleClick">@ChildContent</button>
 
 @code {
     [Parameter, Required] public RenderFragment? ChildContent { get; set; }
     [Parameter, Required] public Indexer<int>? Indexer { get; set; }
     [Parameter, Required] public int Index { get; set; }
     [Parameter, Required] public EventCallback OnToggle { get; set; }
-    
+
     private bool _isChecked = false;
 
     protected override void OnParametersSet()

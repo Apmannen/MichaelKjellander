@@ -2,6 +2,7 @@ using MichaelKjellander.Domains.Models;
 
 namespace MichaelKjellander.Domains.ApiResponse;
 
+//TODO: should be more like a builder class, and change its name
 public static class ApiResponseFactory
 {
     public static ApiResponse<T> CreateSimpleApiResponse<T>(IList<T> items) where T : DbModel

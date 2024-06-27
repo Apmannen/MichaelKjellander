@@ -86,17 +86,16 @@
   line-height: 1.25rem;
 }
 
-.toggle-button[data-active][b-o8octszkzc] {
+.toggle-button[data-active=true][b-o8octszkzc] {
   color: black;
   border-color: black;
   box-shadow: inset 0 0 0 1px black;
 }
 
 @media (hover: hover) {
-  .toggle-button:hover[b-o8octszkzc] {
+  .toggle-button[data-active=false]:hover[b-o8octszkzc] {
     color: black;
     border-color: black;
-    box-shadow: inset 0 0 0 1px black;
   }
 }
 
