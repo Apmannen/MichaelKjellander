@@ -4,15 +4,20 @@ public static class ModelFactory
 {
     public static ApiResponse<T> CreateSimpleApiResponse<T>(IList<T> items) where T : DbModel
     {
-        return CreateApiResponse(items, currentPage:1, totalCount: items.Count, perPage: -1);
+        return CreateApiResponse(items, currentPage: 1, totalCount: items.Count, perPage: -1,
+            new Dictionary<string, int>());
     }
-    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage = 0, int totalCount = 0, int perPage = 0) where T : DbModel
+
+    public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage, int totalCount, int perPage,
+        Dictionary<string, int> fieldCounts) where T : DbModel
     {
         int numPages = 1;
         if (perPage >= 0)
         {
             numPages = (int)Math.Ceiling((float)totalCount / (float)perPage);
         }
-        return new ApiResponse<T>(items, new PaginationData(currentPage, numPages, items.Count, totalCount));
+
+        return new ApiResponse<T>(items,
+            new PaginationData(currentPage, numPages, items.Count, totalCount, fieldCounts));
     }
 }

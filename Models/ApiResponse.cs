@@ -5,13 +5,16 @@ namespace MichaelKjellander.Models;
 
 public class ApiResponse<T> : IParsableJson where T : DbModel
 {
-    public IList<T>? Items  {get ; private set; }
-    public PaginationData? PaginationData {get ; private set;  }
-    
+    public IList<T>? Items { get; private set; }
+    public PaginationData? PaginationData { get; private set; }
+
     /// <summary>
     /// Needed for parameterless construction
     /// </summary>
-    public ApiResponse() {}
+    public ApiResponse()
+    {
+    }
+
     public ApiResponse(IList<T> items, PaginationData paginationData)
     {
         this.Items = items;
@@ -43,22 +46,24 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
         int currentPage = el.GetProperty("paginationData").GetProperty("currentPage").GetInt32();
         int numPages = el.GetProperty("paginationData").GetProperty("numPages").GetInt32();
         int totalCount = el.GetProperty("paginationData").GetProperty("totalCount").GetInt32();
-        return new PaginationData(currentPage, numPages, count, totalCount);
+        return new PaginationData(currentPage, numPages, count, totalCount, new());
     }
 }
 
 public class PaginationData
 {
-    public int CurrentPage {get ; private init; }
-    public int NumPages {get ; private init;  }
+    public int CurrentPage { get; private init; }
+    public int NumPages { get; private init; }
     public int Count { get; private init; }
-    public int TotalCount { get; private init;  }
+    public int TotalCount { get; private init; }
+    public Dictionary<string, int> FieldCounts { get; private init; }
 
-    public PaginationData(int currentPage, int numPages, int count, int totalCount)
+    public PaginationData(int currentPage, int numPages, int count, int totalCount, Dictionary<string,int> fieldCounts)
     {
         this.CurrentPage = currentPage;
         this.NumPages = numPages;
         this.Count = count;
         this.TotalCount = totalCount;
+        this.FieldCounts = fieldCounts;
     }
 }

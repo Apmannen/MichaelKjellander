@@ -57,9 +57,9 @@ public class BlogController : Controller
                 tags.Add(row.Tag);
             }
         }
-        
+
         tags.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
- 
+
         return Ok(ModelFactory.CreateSimpleApiResponse(tags));
 
         //SELECT * FROM wp_tags t LEFT JOIN wp_post_tags pt ON pt.TagId=t.id LEFT JOIN wp_posts p ON p.id=pt.PostId LEFT JOIN wp_categories c ON c.Id = p.CategoryId WHERE c.Slug="tv-spelrecensioner";
@@ -82,7 +82,7 @@ public class BlogController : Controller
         {
             query = query.Where(p => p.Slug == pageRequest.Slug);
         }
-        
+
         if (pageRequest.PageIdentifier != null)
         {
             query = query.Where(p => p.MetaIdName == pageRequest.PageIdentifier);
@@ -95,8 +95,8 @@ public class BlogController : Controller
 
     [HttpGet]
     [Route("posts")]
-    [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
-        VaryByQueryKeys = ["categorySlug", "tagIds", "metaRatings", "page", "slug"])]
+    /*[ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false,
+        VaryByQueryKeys = ["categorySlug", "tagIds", "metaRatings", "page", "slug"])]*/
     public async Task<IActionResult> GetPosts([FromQuery] PostsRequest postsRequest)
     {
         if (!ModelState.IsValid)
@@ -108,6 +108,7 @@ public class BlogController : Controller
 
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
+        //IQueryable<WpPost> tagCountQuery;
 
         if (postsRequest.Slug != null)
         {
@@ -125,6 +126,23 @@ public class BlogController : Controller
             query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
         }
 
+        var tagCountQuery = query
+            .SelectMany(p => p.PostTags)
+            .GroupBy(pt => pt.Tag)
+            .Select(g => new
+            {
+                Tag = g.Key,
+                Count = g.Count()
+            });
+        var tagCounts = await tagCountQuery.ToListAsync();
+        Dictionary<string, int> fieldCounts = new Dictionary<string, int>();
+        //AddToDictionary(tagCounts, fieldCounts);
+
+        foreach (var tagCount in tagCounts)
+        {
+            fieldCounts.Add(tagCount.Tag.Name!, tagCount.Count);
+        }
+
         if (postsRequest.TagIds is { Count: > 0 })
         {
             query = query.Where(
@@ -140,16 +158,14 @@ public class BlogController : Controller
             .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
             .Include(p => p.FeaturedImage);
 
-        int perPage = 10;
-        query = DataContext.SetPageToQuery(query, pageNumber, perPage);
-
-        //Console.WriteLine("************** totalCount=" + totalCount);
+        const int perPage = 10;
+        //query = DataContext.SetPageToQuery(query, pageNumber, perPage);
+        query = query.Take(perPage);
 
         IList<WpPost> posts = await query.ToListAsync();
 
         foreach (WpPost post in posts)
         {
-            //post.PostTags = null;
             foreach (WpPostTag postTag in post.PostTags)
             {
                 postTag.Post = null;
@@ -157,9 +173,14 @@ public class BlogController : Controller
             }
         }
 
-        return Ok(ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage, totalCount: totalCount));
+        return Ok(ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage,
+            totalCount: totalCount, fieldCounts: fieldCounts));
     }
-    
+
+    private static void AddToDictionary<T>(List<T> list, Dictionary<string, int> dictionary)
+    {
+    }
+
     [HttpGet]
     [Route("translations")]
     [ResponseCache(Duration = OneHour, Location = ResponseCacheLocation.Any, NoStore = false)]

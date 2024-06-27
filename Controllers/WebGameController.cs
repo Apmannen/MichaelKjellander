@@ -47,7 +47,7 @@ public class WebGameController : Controller
         context.Add(progress);
         await context.SaveChangesAsync();
         
-        return Ok(ModelFactory.CreateApiResponse<WordGuessGameProgress>([progress.CreateDto(false)]));
+        return Ok(ModelFactory.CreateSimpleApiResponse<WordGuessGameProgress>([progress.CreateDto(false)]));
     }
 
     [HttpGet]
@@ -106,7 +106,7 @@ public class WebGameController : Controller
         await context.SaveChangesAsync();
 
         bool includeCorrectWord = gameProgress.GuessesLeft == 0 || gameProgress.IsCorrectlyGuessed;
-        return Ok(ModelFactory.CreateApiResponse<WordGuessGameProgress>([gameProgress.CreateDto(includeCorrectWord)]));
+        return Ok(ModelFactory.CreateSimpleApiResponse<WordGuessGameProgress>([gameProgress.CreateDto(includeCorrectWord)]));
     }
     
     public class GuessRequest
