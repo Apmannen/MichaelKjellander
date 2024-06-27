@@ -19,13 +19,8 @@ public class WpPost : WordpressModel
     [System.Obsolete("Replace with tags")] public IList<string>? MetaPlatforms { get; set; }
     [MaxLength(VarcharLength)] public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
-
     public IList<WpPostTag> PostTags { get; set; }
-    //public IList<int> TagIds { get; set; } 
-
-    //Yep, I think it's fine to keep texts like these in a single language application.
-    //They could easily be swapped otherwise.
-    public TKey RatingTranslationKey => MetaRating != null ? Enum.Parse<TKey>("Rating_" + MetaRating) : TKey.Illegal;
+    
 
     public override WpPost ParseFromJson(JsonElement el)
     {

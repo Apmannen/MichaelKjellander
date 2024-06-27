@@ -47,7 +47,7 @@
             @if (Post.Category!.Type == CategoryType.GameReview)
             {
                 <div class="border border-black border-dashed px-8 py-6">
-                    <div class="font-bold">@Ts.Get(Post.RatingTranslationKey)</div>
+                    <div class="font-bold">@Ts.GetRatingTranslation(Post.MetaRating)</div>
                     @if (Post.MetaPlayAlso != null)
                     {
                         <div class="h-2"></div>

@@ -40,7 +40,7 @@
                 {
                     int localRating = rating;
                     <ToggleButton Indexer="@Filter!.Ratings" Index="@localRating" OnToggle="OnToggleButtonsChange">
-                        <span class="w-6 inline-block">@localRating</span>
+                        @Ts.GetRatingTranslation(localRating) (@GetRatingCount(localRating))
                     </ToggleButton>
                 }
             </ToggleButtonBox>
@@ -124,9 +124,9 @@ else
         return GetFilterItemCount("tags", keyName);
     }
 
-    private int GetRatingCount(string keyName)
+    private int GetRatingCount(int keyName)
     {
-        return GetFilterItemCount("ratings", keyName);
+        return GetFilterItemCount("ratings", keyName+"");
     }
 
     private int GetFilterItemCount(string name, string keyName)

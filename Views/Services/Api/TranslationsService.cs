@@ -35,6 +35,16 @@ public class TranslationsService : InternalApiService
     {
         return string.Format(Get(key), replace);
     }
+
+    public string GetRatingTranslation(int? rating)
+    {
+        TKey tKey = Enum.Parse<TKey>("Rating_" + rating);
+        if (rating == null)
+        {
+            tKey = TKey.Illegal;
+        }
+        return Get(tKey);
+    }
     
     public string FormatPageTitle(string? pageName, int? pagingPage = null)
     {
