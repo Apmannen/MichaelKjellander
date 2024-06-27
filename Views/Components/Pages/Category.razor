@@ -25,18 +25,6 @@
     <TitleBox Title="@_category.Name" Description="@_category?.Description">
         @if (_category!.Type == CategoryType.GameReview)
         {
-            <span class="font-bold">@Ts.Get(TKey.Meta_Rating)</span>
-            <ToggleButtonBox>
-                @for (int rating = 1; rating <= 10; rating++)
-                {
-                    int localRating = rating;
-                    <ToggleButton Checked="@Filter!.Ratings[rating]" OnToggle="() => ToggleRating(localRating)">
-                        <span class="w-6 inline-block">@localRating</span>
-                    </ToggleButton>
-                }
-            </ToggleButtonBox>
-
-            <p></p>
             <span class="font-bold">
                 <span class="w-6">@Ts.Get(TKey.Meta_Platform)</span>
             </span>
@@ -47,6 +35,17 @@
                     WpTag localTag = tag;
                     <ToggleButton Checked="@Filter!.Tags[localTag.Id]" OnToggle="() => TogglePlatform(localTag.Id)">
                         @localTag.Name
+                    </ToggleButton>
+                }
+            </ToggleButtonBox>
+            <p></p>
+            <span class="font-bold">@Ts.Get(TKey.Meta_Rating)</span>
+            <ToggleButtonBox>
+                @for (int rating = 1; rating <= 10; rating++)
+                {
+                    int localRating = rating;
+                    <ToggleButton Checked="@Filter!.Ratings[rating]" OnToggle="() => ToggleRating(localRating)">
+                        <span class="w-6 inline-block">@localRating</span>
                     </ToggleButton>
                 }
             </ToggleButtonBox>
