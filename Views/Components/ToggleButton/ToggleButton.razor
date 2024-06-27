@@ -1,6 +1,9 @@
 @using System.ComponentModel.DataAnnotations
 @using MichaelKjellander.IndependentUtils.Collections
-<button class="toggle-button" data-active="@_isChecked.ToString().ToLower()" @onclick="HandleClick">@ChildContent</button>
+<span class="toggle-button-single-container">
+    <button class="toggle-button" data-active="@_isChecked.ToString().ToLower()">@ChildContent</button>
+    <input class="hidden" type="checkbox" @onchange="HandleClick"/>
+</span>
 
 @code {
     [Parameter, Required] public RenderFragment? ChildContent { get; set; }
@@ -14,6 +17,11 @@
     {
         OnIndexerChange();
     }
+
+    /*private void Test()
+    {
+        Console.WriteLine("**** TEST");
+    }*/
 
     private void OnIndexerChange()
     {

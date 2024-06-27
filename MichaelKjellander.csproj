@@ -53,6 +53,7 @@
       <Folder Include="Api\ModelFeatures\" />
       <Folder Include="Domains\Generated\" />
       <Folder Include="Files\" />
+      <Folder Include="Views\Components\Buttons\" />
     </ItemGroup>
 
     <ItemGroup>

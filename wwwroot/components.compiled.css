@@ -63,42 +63,6 @@
   color: var(---color-grey);
 }
 
-/* _content/MichaelKjellander/Views/Components/Boxes/ToggleButtonBox.razor.rz.scp.css */
-
-.sg-toggle-button-container[b-sodnhdlrwh] {
-  overflow-x: hidden;
-  white-space: nowrap;
-  margin-left: calc(0rem - 5rem);
-  margin-right: calc(0rem - 5rem);
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
-
-/* _content/MichaelKjellander/Views/Components/Buttons/ToggleButton.razor.rz.scp.css */
-
-.toggle-button[b-o8octszkzc] {
-  margin-right: 0.5rem;
-  margin-top: 0.5rem;
-  padding: 0.25rem;
-  border: 1px solid #9ca3af;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.toggle-button[data-active=true][b-o8octszkzc] {
-  color: black;
-  border-color: black;
-  box-shadow: inset 0 0 0 1px black;
-}
-
-@media (hover: hover) {
-  .toggle-button[data-active=false]:hover[b-o8octszkzc] {
-    color: black;
-    border-color: black;
-  }
-}
-
 /* _content/MichaelKjellander/Views/Components/Layout/MainLayout.razor.rz.scp.css */
 
 .sg-main-inner[b-i3xiidl2tn] {
@@ -376,4 +340,40 @@ main[b-i3xiidl2tn] {
 
 .sg-posts-related-container[data-loading][b-kyqirbekq3] {
   visibility: hidden;
+}
+
+/* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButton.razor.rz.scp.css */
+
+.toggle-button[b-6zdjnpt3oh] {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.toggle-button[data-active=true][b-6zdjnpt3oh] {
+  color: black;
+  border-color: black;
+  box-shadow: inset 0 0 0 1px black;
+}
+
+@media (hover: hover) {
+  .toggle-button[data-active=false]:hover[b-6zdjnpt3oh] {
+    color: black;
+    border-color: black;
+  }
+}
+
+/* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButtonBox.razor.rz.scp.css */
+
+.sg-toggle-button-container[b-mef21umgem] {
+  overflow-x: hidden;
+  white-space: nowrap;
+  margin-left: calc(0rem - 5rem);
+  margin-right: calc(0rem - 5rem);
+  padding-left: 5rem;
+  padding-right: 5rem;
 }

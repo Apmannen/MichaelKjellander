@@ -30,7 +30,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Js.AttachDraggable(_ref);
+        if (firstRender)
+        {
+            await Js.AttachDraggable(_ref);
+        }
     }
 
     private void Clear()

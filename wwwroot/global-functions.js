@@ -10,11 +10,11 @@ window.attachDraggable = function (draggableParent) {
     let startX, scrollLeft;
     const slider = draggableParent;
     //const debugContainer = document.getElementById("debugcontainer");
-    
+
     const getMouseX = (e) => {
         return e.pageX || e.touches[0].pageX;
     }
-    
+
     const startDragging = (e) => {
         mouseDown = true;
         startX = getMouseX(e) - slider.offsetLeft;
@@ -35,6 +35,18 @@ window.attachDraggable = function (draggableParent) {
         const scroll = x - startX;
         slider.scrollLeft = scrollLeft - scroll;
     }
+
+    //Workaround to avoid activating click while dragging
+    const buttonContainers = slider.getElementsByClassName("toggle-button-single-container");
+    for (let buttonContainer of buttonContainers) {
+        const button = buttonContainer.getElementsByTagName("button")[0];
+        const checkBox = buttonContainer.getElementsByTagName("input")[0];
+        button.addEventListener("click", function () {
+            checkBox.click();
+        });
+    }
+
+    slider.even
 
     slider.addEventListener('mousemove', move, false);
     slider.addEventListener('mousedown', startDragging, false);
