@@ -5,11 +5,11 @@ public static class ModelFactory
     public static ApiResponse<T> CreateSimpleApiResponse<T>(IList<T> items) where T : DbModel
     {
         return CreateApiResponse(items, currentPage: 1, totalCount: items.Count, perPage: -1,
-            new Dictionary<string, int>());
+            new FieldCounters());
     }
 
     public static ApiResponse<T> CreateApiResponse<T>(IList<T> items, int currentPage, int totalCount, int perPage,
-        Dictionary<string, int> fieldCounts) where T : DbModel
+        FieldCounters fieldCounts) where T : DbModel
     {
         int numPages = 1;
         if (perPage >= 0)

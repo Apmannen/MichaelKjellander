@@ -108,11 +108,18 @@ public class BlogController : Controller
 
         await using var context = new BlogDataContext();
         IQueryable<WpPost> query = context.Posts;
-        Dictionary<string, int> fieldCounts = new Dictionary<string, int>();
+        IQueryable<WpPost> tagCountQuery = context.Posts;
+        IQueryable<WpPost> ratingCountQuery = context.Posts;
+        FieldCounters fieldCounters = new FieldCounters();
 
         if (postsRequest.Slug != null)
         {
             query = query.Where(row => row.Slug == postsRequest.Slug);
+        }
+
+        if (postsRequest.CategorySlug != null)
+        {
+            query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
         }
 
         if (postsRequest.MetaRatings is { Count: > 0 })
@@ -121,21 +128,7 @@ public class BlogController : Controller
                 row.MetaRating != null && postsRequest.MetaRatings.Contains((int)row.MetaRating));
         }
 
-        if (postsRequest.CategorySlug != null)
-        {
-            query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
-        }
-
-        var tagCountQuery = query
-            .SelectMany(p => p.PostTags)
-            .GroupBy(pt => pt.Tag)
-            .Select(g => new
-            {
-                Tag = g.Key,
-                Count = g.Count()
-            });
-        AddToDictionary(await tagCountQuery.ToListAsync(), fieldCounts, tagCount => tagCount.Tag.Name!, 
-            tagCount => tagCount.Count);
+        tagCountQuery = query;
 
         if (postsRequest.TagIds is { Count: > 0 })
         {
@@ -143,6 +136,18 @@ public class BlogController : Controller
                 p => p.PostTags.Any(pt => postsRequest.TagIds.Contains(pt.TagId))
             );
         }
+
+        var tagCountResult = tagCountQuery
+            .SelectMany(p => p.PostTags)
+            .GroupBy(pt => pt.Tag)
+            .Select(g => new
+            {
+                Tag = g.Key,
+                Count = g.Count()
+            }).ToList();
+        fieldCounters.AddCounter("tags", tagCountResult, tagCount => tagCount.Tag.Name!,
+            tagCount => tagCount.Count);
+
 
         int totalCount = await query.CountAsync();
 
@@ -168,17 +173,9 @@ public class BlogController : Controller
         }
 
         return Ok(ModelFactory.CreateApiResponse(posts, currentPage: pageNumber, perPage: perPage,
-            totalCount: totalCount, fieldCounts: fieldCounts));
+            totalCount: totalCount, fieldCounts: fieldCounters));
     }
 
-    private static void AddToDictionary<T>(List<T> list, Dictionary<string, int> dictionary,
-        Func<T, string> keySelector, Func<T, int> valueSelector)
-    {
-        foreach (var item in list)
-        {
-            dictionary.Add(keySelector(item), valueSelector(item));
-        }
-    }
 
     [HttpGet]
     [Route("translations")]

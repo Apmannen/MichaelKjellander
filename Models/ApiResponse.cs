@@ -21,18 +21,6 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
         this.PaginationData = paginationData;
     }
 
-    /*public void ParseStringsFromJson(JsonElement el)
-    {
-        var items = el.GetProperty("items").EnumerateArray();
-        List<string> list = [];
-        foreach (JsonElement item in items)
-        {
-            list.Add(item.ToString());
-        }
-        this.Items = list as List<T>;
-        PaginationData = ParsePaginationData(el, Items!.Count);
-    }*/
-
     public IParsableJson ParseFromJson(JsonElement el)
     {
         this.Items = JsonParser.DeserializeObjectCollection<T>(el.GetProperty("items").EnumerateArray());
@@ -50,20 +38,34 @@ public class ApiResponse<T> : IParsableJson where T : DbModel
     }
 }
 
+public class FieldCounters
+{
+    public readonly Dictionary<string, Dictionary<string, int>> CounterByField = new();
+
+    public void AddCounter<T>(string name, List<T> list, Func<T, string> keySelector, Func<T, int> valueSelector)
+    {
+        CounterByField[name] = new Dictionary<string, int>();
+        foreach (var item in list)
+        {
+            CounterByField[name].Add(keySelector(item), valueSelector(item));
+        }
+    }
+}
+
 public class PaginationData
 {
     public int CurrentPage { get; private init; }
     public int NumPages { get; private init; }
     public int Count { get; private init; }
     public int TotalCount { get; private init; }
-    public Dictionary<string, int> FieldCounts { get; private init; }
+    public Dictionary<string, Dictionary<string, int>> FieldCounts { get; private init; }
 
-    public PaginationData(int currentPage, int numPages, int count, int totalCount, Dictionary<string,int> fieldCounts)
+    public PaginationData(int currentPage, int numPages, int count, int totalCount, FieldCounters fieldCounts)
     {
         this.CurrentPage = currentPage;
         this.NumPages = numPages;
         this.Count = count;
         this.TotalCount = totalCount;
-        this.FieldCounts = fieldCounts;
+        this.FieldCounts = fieldCounts.CounterByField;
     }
 }
