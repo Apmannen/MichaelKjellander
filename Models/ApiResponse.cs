@@ -42,17 +42,17 @@ public class FieldCounters
 {
     public readonly Dictionary<string, Dictionary<string, int>> CounterByField = new();
 
-    public void AddCounter<T>(string name, List<T> list, Func<T, string> keySelector, Func<T, int> valueSelector)
+    public void AddCounter(string name, List<KeyValuePair<string,int>> list)
     {
         CounterByField[name] = new Dictionary<string, int>();
         foreach (var item in list)
         {
-            string key = keySelector(item);
+            string key = item.Key;
             if (string.IsNullOrEmpty(key))
             {
                 key = "_";
             }
-            int count = valueSelector(item);
+            int count = item.Value;
             CounterByField[name].Add(key, count);
         }
     }

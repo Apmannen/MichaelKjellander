@@ -13,10 +13,9 @@ public class PostsGet
     {
         _postsRequest = postsRequest;
     }
-    
+
     public async Task<ApiResponse<WpPost>> Get()
     {
-        
         int pageNumber = _postsRequest.Page ?? 1;
 
         await using var context = new BlogDataContext();
@@ -56,22 +55,13 @@ public class PostsGet
         var tagCountResult = tagCountQuery
             .SelectMany(p => p.PostTags)
             .GroupBy(pt => pt.Tag)
-            .Select(g =>
-                new //TODO: make an interface here to ease the dictionary conversion process!! Or just use KeyValue.
-                {
-                    Tag = g.Key,
-                    Count = g.Count()
-                }).ToList();
+            .Select(g => new KeyValuePair<string, int>(g.Key.Name!, g.Count())).ToList();
+
         var ratingCountResult = ratingCountQuery.GroupBy(p => p.MetaRating).Select(g =>
-            new
-            {
-                Rating = g.Key,
-                Count = g.Count()
-            }).ToList();
-        fieldCounters.AddCounter("tags", tagCountResult, tagCount => tagCount.Tag.Name!,
-            tagCount => tagCount.Count);
-        fieldCounters.AddCounter("ratings", ratingCountResult, ratingCount => ratingCount.Rating.ToString()!,
-            ratingCount => ratingCount.Count);
+            new KeyValuePair<string, int>(g.Key.ToString()!, g.Count())).ToList();
+
+        fieldCounters.AddCounter("tags", tagCountResult);
+        fieldCounters.AddCounter("ratings", ratingCountResult);
 
         int totalCount = await query.CountAsync();
 
@@ -103,18 +93,19 @@ public class PostsGet
     {
         return query.Where(row => row.Category!.Slug == _postsRequest.CategorySlug);
     }
+
     private IQueryable<WpPost> MetaRatingsFilter(IQueryable<WpPost> query)
     {
         return query.Where(row => row.MetaRating != null && _postsRequest.MetaRatings!.Contains((int)row.MetaRating));
     }
+
     private IQueryable<WpPost> SlugFilter(IQueryable<WpPost> query)
     {
         return query.Where(row => row.Slug == _postsRequest.Slug);
     }
+
     private IQueryable<WpPost> TagFilter(IQueryable<WpPost> query)
     {
         return query.Where(p => p.PostTags.Any(pt => _postsRequest.TagIds!.Contains(pt.TagId)));
     }
 }
-
-
