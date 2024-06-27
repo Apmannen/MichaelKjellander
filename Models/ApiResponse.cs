@@ -47,7 +47,13 @@ public class FieldCounters
         CounterByField[name] = new Dictionary<string, int>();
         foreach (var item in list)
         {
-            CounterByField[name].Add(keySelector(item), valueSelector(item));
+            string key = keySelector(item);
+            if (string.IsNullOrEmpty(key))
+            {
+                key = "_";
+            }
+            int count = valueSelector(item);
+            CounterByField[name].Add(key, count);
         }
     }
 }

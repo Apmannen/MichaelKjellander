@@ -122,6 +122,7 @@ public class BlogController : Controller
             query = query.Where(row => row.Category!.Slug == postsRequest.CategorySlug);
         }
 
+        ratingCountQuery = query;
         if (postsRequest.MetaRatings is { Count: > 0 })
         {
             query = query.Where(row =>
@@ -132,22 +133,35 @@ public class BlogController : Controller
 
         if (postsRequest.TagIds is { Count: > 0 })
         {
-            query = query.Where(
-                p => p.PostTags.Any(pt => postsRequest.TagIds.Contains(pt.TagId))
-            );
+            //TODO: it's probably time to create seperate services, each where filter could be a method
+            IQueryable<WpPost> TagFilter(IQueryable<WpPost> q)
+            {
+                return q.Where(p => p.PostTags.Any(pt => postsRequest.TagIds.Contains(pt.TagId)));
+            }
+
+            query = TagFilter(query);
+            ratingCountQuery = TagFilter(ratingCountQuery);
         }
 
         var tagCountResult = tagCountQuery
             .SelectMany(p => p.PostTags)
             .GroupBy(pt => pt.Tag)
-            .Select(g => new
+            .Select(g =>
+                new //TODO: make an interface here to ease the dictionary conversion process!! Or just use KeyValue.
+                {
+                    Tag = g.Key,
+                    Count = g.Count()
+                }).ToList();
+        var ratingCountResult = ratingCountQuery.GroupBy(p => p.MetaRating).Select(g =>
+            new
             {
-                Tag = g.Key,
+                Rating = g.Key,
                 Count = g.Count()
             }).ToList();
         fieldCounters.AddCounter("tags", tagCountResult, tagCount => tagCount.Tag.Name!,
             tagCount => tagCount.Count);
-
+        fieldCounters.AddCounter("ratings", ratingCountResult, ratingCount => ratingCount.Rating.ToString()!,
+            ratingCount => ratingCount.Count);
 
         int totalCount = await query.CountAsync();
 
