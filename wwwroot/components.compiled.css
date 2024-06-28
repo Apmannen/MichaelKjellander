@@ -355,8 +355,9 @@ main[b-i3xiidl2tn] {
 }
 
 .toggle-button[data-count="0"][b-6zdjnpt3oh] {
-  border-color: #e5e7eb;
-  color: #e5e7eb;
+  /*border-color: theme('colors.gray.200');
+    color: theme('colors.gray.200');*/
+  display: none;
 }
 
 .toggle-button[data-active=true][b-6zdjnpt3oh] {
