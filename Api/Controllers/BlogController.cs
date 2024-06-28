@@ -40,25 +40,17 @@ public class BlogController : Controller
 
         await using var context = new BlogDataContext();
         var result = context.Tags
-            .Where(t => t.PostTags
-                .Any(pt => pt.Post.Category!.Slug == tagsRequest.CategorySlug))
+            .Where(t => t.PostTags!
+                .Any(pt => pt.Post!.Category!.Slug == tagsRequest.CategorySlug))
             .Select(t => new
             {
                 Tag = t,
-                Posts = t.PostTags.Select(pt => pt.Post)
+                Posts = t.PostTags!.Select(pt => pt.Post)
             })
             .ToList();
         List<WpTag> tags = [];
-        foreach (var row in result)
-        {
-            //TODO: use those post counters
-            if (row.Tag.Slug != "fran-samlingen")
-            {
-                tags.Add(row.Tag);
-            }
-        }
-
-        tags.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
+        tags.AddRange(result.Where(row => row.Tag.ShortName != "").Select(row => row.Tag));
+        tags.Sort((a, b) => string.Compare(a.ShortName, b.ShortName, StringComparison.Ordinal));
 
         return Ok(ApiResponseFactory.CreateSimpleApiResponse(tags));
 
