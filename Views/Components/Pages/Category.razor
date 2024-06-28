@@ -30,7 +30,7 @@
                 {
                     WpTag localTag = tag;
                     <ToggleButton Count="@GetTagCount(localTag.Name!)" Indexer="@Filter!.Tags" Index="@localTag.Id" OnToggle="OnToggleButtonsChange">
-                        @localTag.Name
+                        @localTag.ShortName
                     </ToggleButton>
                 }
             </ToggleButtonBox>
