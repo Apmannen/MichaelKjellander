@@ -344,8 +344,28 @@ main[b-i3xiidl2tn] {
 
 /* _content/MichaelKjellander/Views/Components/Pages/WebTools/SudokuSolver.razor.rz.scp.css */
 
+:root[b-wpz9hifdlp] {
+  --fat-width: 2px;
+}
+
 table[b-wpz9hifdlp], th[b-wpz9hifdlp], td[b-wpz9hifdlp] {
   border:1px solid black;
+}
+
+td.column-x-0[b-wpz9hifdlp] {
+  border-left-width: var(--fat-width);
+}
+
+td.column-x-2[b-wpz9hifdlp], td.column-x-5[b-wpz9hifdlp], td.column-x-8[b-wpz9hifdlp] {
+  border-right-width: var(--fat-width);
+}
+
+td.column-y-0[b-wpz9hifdlp] {
+  border-top-width: var(--fat-width);
+}
+
+td.column-y-2[b-wpz9hifdlp], td.column-y-5[b-wpz9hifdlp], td.column-y-8[b-wpz9hifdlp] {
+  border-bottom-width: var(--fat-width);
 }
 
 td[b-wpz9hifdlp] {

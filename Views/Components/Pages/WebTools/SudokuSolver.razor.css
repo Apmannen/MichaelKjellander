@@ -1,5 +1,21 @@
+:root {
+    --fat-width: 2px;
+}
+
 table, th, td {
     border:1px solid black;
+}
+td.column-x-0 {
+    border-left-width: var(--fat-width);
+}
+td.column-x-2, td.column-x-5, td.column-x-8 {
+    border-right-width: var(--fat-width);
+}
+td.column-y-0 {
+    border-top-width: var(--fat-width);
+}
+td.column-y-2, td.column-y-5, td.column-y-8 {
+    border-bottom-width: var(--fat-width);
 }
 
 td {
