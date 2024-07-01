@@ -380,6 +380,13 @@ main[b-i3xiidl2tn] {
   white-space: nowrap;
   margin-left: calc(0rem - 5rem);
   margin-right: calc(0rem - 5rem);
+  /*@apply pl-20 pr-20;*/
+}
+
+.sg-toggle-button-container[b-mef21umgem]  .toggle-button-single-container:first-of-type {
   padding-left: 5rem;
+}
+
+.sg-toggle-button-container[b-mef21umgem]  .toggle-button-single-container:last-of-type {
   padding-right: 5rem;
 }

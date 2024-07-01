@@ -3,5 +3,13 @@
     white-space: nowrap;
     margin-left: calc(0rem - theme('margin.20'));
     margin-right: calc(0rem - theme('margin.20'));
-    @apply pl-20 pr-20;
+    /*@apply pl-20 pr-20;*/
+}
+
+
+.sg-toggle-button-container ::deep .toggle-button-single-container:first-of-type {
+    @apply pl-20;
+}
+.sg-toggle-button-container ::deep .toggle-button-single-container:last-of-type {
+    @apply pr-20;
 }
