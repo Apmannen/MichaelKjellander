@@ -1,21 +1,36 @@
 @page "/verktyg/sudoku-losare"
 <h3>SudokuSolver</h3>
+<table style="width:100%">
+    <tbody>
+    @for (int y = 0; y < 9; y++)
+    {
+        <tr>
+            @for (int x = 0; x < 9; x++)
+            {
+                <td>
+
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
 
 @code {
 
     protected override async Task OnInitializedAsync()
     {
-        String s = "240 000 107" +
-                   "608 915 302" +
-                   "900 027 060" +
+        String s = "000 590 037" +
+                   "079 032 080" +
+                   "008 700 000" +
                    "" +
-                   "097 132 605" +
-                   "000 508 034" +
-                   "500 000 000" +
+                   "300 001 620" +
+                   "090 006 370" +
+                   "720 300 158" +
                    "" +
-                   "702 309 801" +
-                   "000 800 000" +
-                   "019 000 470";
+                   "000 007 865" +
+                   "087 010 240" +
+                   "054 600 700";
         Board board = CreateBoard(s);
         board.Solve();
         ;
@@ -88,7 +103,6 @@
                     anyChange = TrySolveSquare(square) || anyChange;
                 }
             }
-            
         }
 
         private bool TrySolveSquare(Square square)
@@ -97,14 +111,14 @@
             {
                 return false;
             }
-            
+
             HashSet<int> possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             HashSet<int> impossibles = [];
             List<Square> setSquares = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
-            
+
             impossibles.UnionWith(setSquares.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group)
                 .Select(s => s.Value));
-            
+
             possibles.RemoveWhere(value => impossibles.Contains(value));
             if (possibles.Count == 0)
             {

@@ -342,6 +342,18 @@ main[b-i3xiidl2tn] {
   visibility: hidden;
 }
 
+/* _content/MichaelKjellander/Views/Components/Pages/WebTools/SudokuSolver.razor.rz.scp.css */
+
+table[b-wpz9hifdlp], th[b-wpz9hifdlp], td[b-wpz9hifdlp] {
+  border:1px solid black;
+}
+
+td[b-wpz9hifdlp] {
+  width: 11%;
+  height: 0;
+  padding-bottom: 11%;
+}
+
 /* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButton.razor.rz.scp.css */
 
 .toggle-button[b-6zdjnpt3oh] {
