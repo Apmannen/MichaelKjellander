@@ -63,10 +63,13 @@
         const inputValues = [];
         
         const onInput = (event, index) => {
+            //const prevValue = inputValues[index];
             let newValue = event.data;
-            const prevValue = inputValues[index];
+            const intValue = parseInt(newValue);
+            if (isNaN(intValue) || intValue === 0) {
+                newValue = "";
+            }           
             event.target.value = newValue;
-            //console.log("***ev",event);
             inputValues[index] = newValue;
         };
         
