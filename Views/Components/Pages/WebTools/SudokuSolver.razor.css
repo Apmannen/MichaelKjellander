@@ -21,5 +21,15 @@ td.column-y-2, td.column-y-5, td.column-y-8 {
 td {
     width: 11%;
     height: 0;
-    padding-bottom: 11%;
+    /*padding-bottom: 11%;*/
+}
+
+table input {
+    width: 100%;
+    text-align: center;
+}
+table span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }

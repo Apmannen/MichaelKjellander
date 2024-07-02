@@ -357,7 +357,18 @@ td.column-y-2[b-wpz9hifdlp], td.column-y-5[b-wpz9hifdlp], td.column-y-8[b-wpz9hi
 td[b-wpz9hifdlp] {
   width: 11%;
   height: 0;
-  padding-bottom: 11%;
+  /*padding-bottom: 11%;*/
+}
+
+table input[b-wpz9hifdlp] {
+  width: 100%;
+  text-align: center;
+}
+
+table span[b-wpz9hifdlp] {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
 }
 
 /* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButton.razor.rz.scp.css */
