@@ -59,8 +59,20 @@
 
 <script>
     window.trackTableChanges = function(tableElement) {
-        console.log("*** HEJ!");
-        console.log("*** el", tableElement);
+        const inputs = tableElement.getElementsByTagName("input");
+        const inputValues = [];
+        
+        for (let i = 0; i < inputs.length; i++) {
+            inputValues[i] = "";
+            const input = inputs[i];
+            const localI = i;
+            input.addEventListener("input", (event) => {
+                const newValue = event.target.value;
+                const prevValue = inputValues[localI];
+                console.log("***ev",newValue, prevValue);
+                inputValues[localI] = newValue;
+            });   
+        }
     }
 </script>
 
