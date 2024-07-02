@@ -46,6 +46,11 @@ public class TranslationsService : InternalApiService
         return Get(tKey);
     }
     
+    public string FormatPageTitle(TKey tKey)
+    {
+        return FormatPageTitle(Get(tKey));
+    }
+    
     public string FormatPageTitle(string? pageName, int? pagingPage = null)
     {
         string title = "";

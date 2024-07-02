@@ -4,8 +4,12 @@
 @using MichaelKjellander.Views.Services.Api
 @inject TranslationsService Ts
 
-<TitleBox>
-    
+<PageTitle>
+    @(Ts.FormatPageTitle(TKey.Tools_SudokuTitle))
+</PageTitle>
+
+<TitleBox Title="@Ts.Get(TKey.Tools_SudokuTitle)">
+    @Ts.Get(TKey.Tools_SudokuDescription)
 </TitleBox>
 
 <div class="grid grid-cols-12 gap-4">

@@ -8,6 +8,10 @@
 @inject TranslationsService Ts
 @rendermode InteractiveServer
 
+<PageTitle>
+    @(Ts.FormatPageTitle(TKey.GuessWord_Title))
+</PageTitle>
+
 <h3>@Ts.Get(TKey.GuessWord_Title)</h3>
 <p>@Ts.Format(TKey.GuessWord_Points, _points+"")</p>
 
