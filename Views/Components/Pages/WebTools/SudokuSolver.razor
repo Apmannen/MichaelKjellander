@@ -47,8 +47,9 @@
                     <tr>
                         @for (int x = 0; x < 9; x++)
                         {
+                            int i = (y * 9) + x;
                             <td class="column-x-@x column-y-@y">
-                                <span>0</span>
+                                <span>@GetSolvedValue(i)</span>
                             </td>
                         }
                     </tr>
@@ -92,7 +93,7 @@
     private ElementReference _unsolvedTableRef;
 
     private readonly Indexer<int,string> _filledValues = new();
-    //private readonly Board _board = new Board();
+    private int[]? _solvedValues = null;
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -100,6 +101,11 @@
         {
             Js.InvokeVoidAsync("trackTableChanges", _unsolvedTableRef);
         }
+    }
+
+    private int? GetSolvedValue(int index)
+    {
+        return _solvedValues?[index];
     }
 
     private void OnSolveClick()
@@ -115,6 +121,8 @@
         Board board = CreateBoard(values);
         board.Solve();
         board.Debug();
+
+        _solvedValues = board.Values;
     }
 
     protected override async Task OnInitializedAsync()
@@ -188,6 +196,14 @@
                         square.Possibles.Add(square.Value);
                     }
                 }
+            }
+        }
+
+        public int[] Values
+        {
+            get
+            {
+                return _squares.Select(s => s.Value).ToArray();
             }
         }
 
