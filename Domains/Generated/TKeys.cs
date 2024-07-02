@@ -28,6 +28,8 @@ Review_TestedOn,
 Slug_QueryRatings,
 Slug_QueryTags,
 Tools_SudokuDescription,
+Tools_SudokuSolvedTitle,
 Tools_SudokuTitle,
+Tools_SudokuUnsolvedTitle,
 WebGames_NewGame,
 }
