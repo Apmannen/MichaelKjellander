@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
-using MichaelKjellander.Scripts.Startup.Generated;
 
 namespace MichaelKjellander.Domains.Models.Wordpress;
 
