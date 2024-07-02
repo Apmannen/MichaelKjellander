@@ -55,6 +55,8 @@
             </table>
         </div>
     </div>
+    <div class="h-8"></div>
+    <button class="btn btn-dark" @onclick="OnSolveClick">@Ts.Get(TKey.Tools_SudokuSolveVerb)</button>
 </SimpleBox>
 
 <script>
@@ -86,13 +88,18 @@
 
 @code {
     private ElementReference _unsolvedTableRef;
-    
+
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
             Js.InvokeVoidAsync("trackTableChanges", _unsolvedTableRef);
         }
+    }
+
+    private void OnSolveClick()
+    {
+        Console.WriteLine("*** CLICK");
     }
 
     protected override async Task OnInitializedAsync()
