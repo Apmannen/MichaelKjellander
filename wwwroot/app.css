@@ -35,11 +35,18 @@ main {
 .btn-blue:not([disabled]):hover {
     @apply bg-blue-700;
 }
-.btn-dark:not([disabled]) {
+.btn-default:not([disabled]) {
     background-color: #333;
     color: white;
 }
-.btn-dark:not([disabled]):hover {
+.btn-default:not([disabled]):hover {
+    opacity: 0.7;
+}
+.btn-danger:not([disabled]) {
+    background-color: rgb(205, 92, 92);
+    color: white;
+}
+.btn-danger:not([disabled]):hover {
     opacity: 0.7;
 }
 
