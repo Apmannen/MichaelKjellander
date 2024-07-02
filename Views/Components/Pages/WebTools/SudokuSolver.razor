@@ -12,25 +12,27 @@
     @Ts.Get(TKey.Tools_SudokuDescription)
 </TitleBox>
 
-<div class="grid grid-cols-12 gap-4">
-    <div class="col-span-6">
-        <table style="width:100%">
-            <tbody>
-            @for (int y = 0; y < 9; y++)
-            {
-                <tr>
-                    @for (int x = 0; x < 9; x++)
-                    {
-                        <td class="column-x-@x column-y-@y">
+<SimpleBox>
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-6">
+            <table style="width:100%">
+                <tbody>
+                @for (int y = 0; y < 9; y++)
+                {
+                    <tr>
+                        @for (int x = 0; x < 9; x++)
+                        {
+                            <td class="column-x-@x column-y-@y">
 
-                        </td>
-                    }
-                </tr>
-            }
-            </tbody>
-        </table>
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</SimpleBox>
 
 @code {
 

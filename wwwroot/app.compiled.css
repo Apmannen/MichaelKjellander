@@ -929,11 +929,19 @@ These are mostly embedded HTML.
   font-style: normal;
 }
 
-/*
-.sg-title-section .sg-toggle-button-container {
-    margin-right: calc(0rem - theme('margin.20'));
-    margin-left: calc(0rem - theme('margin.20'));
-}*/
+.sg-post {
+  font-size: 1.125rem;
+}
+
+.sg-post-padding {
+  padding: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .sg-post-padding {
+    padding: 5rem;
+  }
+}
 
 .hover\:border-black:hover {
   --tw-border-opacity: 1;

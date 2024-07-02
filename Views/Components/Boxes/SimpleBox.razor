@@ -1,0 +1,10 @@
+<article class="border border-gray-200">
+    <div class="bg-white sg-post sg-post-padding">
+        @ChildContent
+    </div>
+</article>
+
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

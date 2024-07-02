@@ -1,19 +1,5 @@
 /* _content/MichaelKjellander/Views/Components/Boxes/PostBox.razor.rz.scp.css */
 
-.sg-post[b-rwscx93hcp] {
-  font-size: 1.125rem;
-}
-
-.sg-post-padding[b-rwscx93hcp] {
-  padding: 2.5rem;
-}
-
-@media (min-width: 640px) {
-  .sg-post-padding[b-rwscx93hcp] {
-    padding: 5rem;
-  }
-}
-
 .sg-footer-padding[b-rwscx93hcp] {
   padding-left: 2.5rem;
   padding-right: 2.5rem;

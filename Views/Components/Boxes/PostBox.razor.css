@@ -1,9 +1,3 @@
-.sg-post {
-    font-size: theme('fontSize.lg');
-}
-.sg-post-padding {
-    @apply p-10 sm:p-20;
-}
 .sg-footer-padding {
     @apply px-10 py-10 sm:px-20;
 }
