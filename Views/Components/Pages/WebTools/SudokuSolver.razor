@@ -62,15 +62,20 @@
         const inputs = tableElement.getElementsByTagName("input");
         const inputValues = [];
         
+        const onInput = (event, index) => {
+            let newValue = event.data;
+            const prevValue = inputValues[index];
+            event.target.value = newValue;
+            //console.log("***ev",event);
+            inputValues[index] = newValue;
+        };
+        
         for (let i = 0; i < inputs.length; i++) {
             inputValues[i] = "";
             const input = inputs[i];
             const localI = i;
             input.addEventListener("input", (event) => {
-                const newValue = event.target.value;
-                const prevValue = inputValues[localI];
-                console.log("***ev",newValue, prevValue);
-                inputValues[localI] = newValue;
+                onInput(event,  localI);               
             });   
         }
     }
