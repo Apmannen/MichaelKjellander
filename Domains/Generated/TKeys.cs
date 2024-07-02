@@ -27,5 +27,7 @@ Review_Review,
 Review_TestedOn,
 Slug_QueryRatings,
 Slug_QueryTags,
+Tools_SudokuDescription,
+Tools_SudokuTitle,
 WebGames_NewGame,
 }
