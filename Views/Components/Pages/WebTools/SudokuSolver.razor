@@ -64,16 +64,59 @@
 </SimpleBox>
 
 <script>
-    window.clearInputs = function (tableElement)
+    
+    function getTableElement() {
+        return window.sudokuContext.tableElement;
+    }
+    function getInputs() {
+        return getTableElement().getElementsByTagName("input");
+    }
+    
+    document.onkeydown = function(event) {
+        const activeElement = document.activeElement;
+        const inputs = getInputs();
+        
+        let activeIndex = -1;
+        let newActiveIndex = -1;
+        for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            if (input === activeElement) {
+                activeIndex = i;
+                break;
+            }
+        }
+        if (activeIndex < 0) {
+            return;
+        }
+        
+        switch (event.key) {
+            case "ArrowLeft":
+                newActiveIndex = activeIndex - 1;
+                break;
+            case "ArrowRight":
+                newActiveIndex = activeIndex + 1;
+                break;
+        }
+        
+        if (newActiveIndex >= 0) {
+            inputs[newActiveIndex].focus();
+        }
+    };
+    
+    window.clearInputs = function ()
     {
-        const inputs = tableElement.getElementsByTagName("input");
+        const inputs = getInputs();
         for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = "";
         }
     }
     
     window.trackTableChanges = function(tableElement) {
-        const inputs = tableElement.getElementsByTagName("input");
+        window.sudokuContext = {
+            tableElement: tableElement
+        };
+    
+        const inputs = getInputs();
         const inputValues = [];
         
         const onInput = (event, index) => {
@@ -96,6 +139,8 @@
             });   
         }
     }
+
+
 
 </script>
 
@@ -137,7 +182,7 @@
 
     private void OnClearClick()
     {
-        Js.InvokeVoidAsync("clearInputs", _unsolvedTableRef);
+        Js.InvokeVoidAsync("clearInputs");
         _solvedValues = null;
     }
 
