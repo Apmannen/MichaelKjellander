@@ -3,6 +3,8 @@
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Views.Services.Api
 @inject TranslationsService Ts
+@inject IJSRuntime Js
+@rendermode InteractiveServer
 
 <PageTitle>
     @(Ts.FormatPageTitle(TKey.Tools_SudokuTitle))
@@ -17,7 +19,7 @@
         <div class="col-span-6">
             <strong>@Ts.Get(TKey.Tools_SudokuUnsolvedTitle)</strong>
             <div class="h-4"></div>
-            <table style="width:100%">
+            <table style="width:100%" @ref="_unsolvedTableRef">
                 <tbody>
                 @for (int y = 0; y < 9; y++)
                 {
@@ -55,7 +57,23 @@
     </div>
 </SimpleBox>
 
+<script>
+    window.trackTableChanges = function(tableElement) {
+        console.log("*** HEJ!");
+        console.log("*** el", tableElement);
+    }
+</script>
+
 @code {
+    private ElementReference _unsolvedTableRef;
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Js.InvokeVoidAsync("trackTableChanges", _unsolvedTableRef);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
