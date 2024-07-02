@@ -60,9 +60,18 @@
     </div>
     <div class="h-8"></div>
     <button class="btn btn-dark" @onclick="OnSolveClick">@Ts.Get(TKey.Tools_SudokuSolveVerb)</button>
+    <button class="btn btn-dark" @onclick="OnClearClick">@Ts.Get(TKey.Misc_Clear)</button>
 </SimpleBox>
 
 <script>
+    window.clearInputs = function (tableElement)
+    {
+        const inputs = tableElement.getElementsByTagName("input");
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = "";
+        }
+    }
+    
     window.trackTableChanges = function(tableElement) {
         const inputs = tableElement.getElementsByTagName("input");
         const inputValues = [];
@@ -87,6 +96,7 @@
             });   
         }
     }
+
 </script>
 
 @code {
@@ -123,6 +133,12 @@
         board.Debug();
 
         _solvedValues = board.Values;
+    }
+
+    private void OnClearClick()
+    {
+        Js.InvokeVoidAsync("clearInputs", _unsolvedTableRef);
+        _solvedValues = null;
     }
 
     protected override async Task OnInitializedAsync()
