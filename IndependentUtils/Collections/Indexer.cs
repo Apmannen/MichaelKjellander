@@ -1,52 +1,37 @@
 ﻿namespace MichaelKjellander.IndependentUtils.Collections;
 
-public class Indexer<T>
+public class Indexer<T, TV> where T : struct
 {
-    private readonly HashSet<T> _values = [];
-    private readonly Dictionary<string, Action> _changeListeners = new Dictionary<string, Action>();
+    private readonly Dictionary<T, TV> _map = new Dictionary<T, TV>();
 
-    public ICollection<T> Values => _values.ToArray();
-
-    private void OnChange()
-    {
-        foreach (Action action in _changeListeners.Values)
-        {
-            action.Invoke();
-        }
-    }
-
-    public void AddChangeListener(string name, Action action)
-    {
-        _changeListeners[name] = action;
-    }
+    public ICollection<T> Keys => _map.Keys;
+    //public ICollection<TV> Values => _map.Values;
 
     public void Clear()
     {
-        _values.Clear();
-        OnChange();
+        _map.Clear();
     }
 
-    public void ReplaceWithRange(ICollection<T> indexes)
+    /*public void ReplaceWithRange(ICollection<T> indexes)
     {
         _values.Clear();
         _values.UnionWith(indexes);
         OnChange();
-    }
+    }*/
 
-    public bool this[T index]
+    public TV this[T index]
     {
-        get => _values.Contains(index);
+        get => _map.TryGetValue(index, out TV value) ? value : default(TV);
         set
         {
-            if (value)
+            if (EqualityComparer<TV>.Default.Equals(value,default(TV)))
             {
-                _values.Add(index);
+                _map.Remove(index);
             }
             else
             {
-                _values.Remove(index);
+                _map[index] = value;
             }
-            OnChange();
         }
     }
 }

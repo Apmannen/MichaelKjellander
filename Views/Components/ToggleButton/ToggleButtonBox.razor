@@ -6,7 +6,7 @@
 
 <span class="font-bold">
     <span class="w-6">@Title</span>
-    @if (Indexer is { Values.Count: > 0 })
+    @if (Indexer is { Keys.Count: > 0 })
     {
         <span class="px-2">
             <button @onclick="Clear">
@@ -23,7 +23,7 @@
 @code {
     [Parameter, Required] public RenderFragment? ChildContent { get; set; }
     [Parameter, Required] public string Title { get; set; } = "";
-    [Parameter, Required] public Indexer<int>? Indexer { get; set; }
+    [Parameter, Required] public Indexer<int,bool>? Indexer { get; set; }
     [Parameter, Required] public EventCallback OnClear { get; set; }
 
     private ElementReference _ref;

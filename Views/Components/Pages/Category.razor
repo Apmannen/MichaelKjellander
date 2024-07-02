@@ -93,9 +93,9 @@ else
         _url = new Url(Navigation.Uri);
         _query = _url!.GetQueryString();
         ICollection<int> ratingParams = _url.GetQueryParametersInt(RatingName);
-        Filter.Ratings.ReplaceWithRange(ratingParams);
+        ReplaceWithRange(Filter.Ratings, ratingParams);
         ICollection<int> tagParams = _url.GetQueryParametersInt(TagsName);
-        Filter.Tags.ReplaceWithRange(tagParams);
+        ReplaceWithRange(Filter.Tags, tagParams);
 
         _service ??= new BlogApiService(ClientFactory.CreateClient(), Options);
 
@@ -105,11 +105,20 @@ else
         await FetchData();
     }
 
+    private static void ReplaceWithRange(Indexer<int,bool> indexer, ICollection<int> newValues)
+    {
+        indexer.Clear();
+        foreach(int i in newValues)
+        {
+            indexer[i] = true;
+        }
+    }
+
     private async Task FetchData()
     {
         _isLoading = true;
         ApiResponse<WpPost> postsData = await _service!.FetchPosts(pageNumber: Page ?? 1, categorySlug: Slug,
-            tagIds: Filter!.Tags.Values, metaRatings: Filter!.Ratings.Values);
+            tagIds: Filter!.Tags.Keys, metaRatings: Filter!.Ratings.Keys);
         _posts = postsData.Items;
         _category ??= _posts?.FirstOrDefault()?.Category;
         _prefix ??= PageRoutes.Category(Slug!);
@@ -148,8 +157,8 @@ else
     private async Task RefreshUrlAndFetch()
     {
         _url = new UrlBuilder(PageRoutes.Category(CategoryType.GameReview), QueryArrayMode.Multiple) //TODO: hardcoded
-            .AddParam(RatingName, Filter!.Ratings.Values)
-            .AddParam(TagsName, Filter!.Tags.Values)
+            .AddParam(RatingName, Filter!.Ratings.Keys)
+            .AddParam(TagsName, Filter!.Tags.Keys)
             .ToUrl();
         _query = _url.GetQueryString();
         Navigation.NavigateTo(_url.ToString(), false, true);
@@ -164,13 +173,13 @@ else
 
     public class GameReviewFilter
     {
-        public readonly Indexer<int> Tags;
-        public readonly Indexer<int> Ratings;
+        public readonly Indexer<int,bool> Tags;
+        public readonly Indexer<int,bool> Ratings;
 
         public GameReviewFilter()
         {
-            Tags = new Indexer<int>();
-            Ratings = new Indexer<int>();
+            Tags = new Indexer<int,bool>();
+            Ratings = new Indexer<int,bool>();
         }
     }
 

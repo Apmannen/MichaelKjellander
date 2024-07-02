@@ -1,5 +1,6 @@
 @page "/verktyg/sudoku-losare"
 @using MichaelKjellander.Domains.Generated
+@using MichaelKjellander.IndependentUtils.Collections
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Views.Services.Api
 @inject TranslationsService Ts
@@ -26,8 +27,9 @@
                     <tr>
                         @for (int x = 0; x < 9; x++)
                         {
+                            int i = (y * 9) + x;
                             <td class="column-x-@x column-y-@y">
-                                <input type="text"/>
+                                <input type="text" @bind="_filledValues[i]"/>
                             </td>
                         }
                     </tr>
@@ -89,6 +91,8 @@
 @code {
     private ElementReference _unsolvedTableRef;
 
+    private readonly Indexer<int,string> _filledValues = new();
+
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
@@ -99,7 +103,7 @@
 
     private void OnSolveClick()
     {
-        Console.WriteLine("*** CLICK");
+        
     }
 
     protected override async Task OnInitializedAsync()
