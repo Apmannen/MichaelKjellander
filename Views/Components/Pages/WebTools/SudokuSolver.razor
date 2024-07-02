@@ -92,6 +92,7 @@
     private ElementReference _unsolvedTableRef;
 
     private readonly Indexer<int,string> _filledValues = new();
+    //private readonly Board _board = new Board();
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -103,12 +104,22 @@
 
     private void OnSolveClick()
     {
-        
+        int[] values = new int[Board.TotalNumSquares];
+        for (int i = 0; i < Board.TotalNumSquares; i++)
+        {
+            string stringValue = _filledValues[i];
+            bool isValid = int.TryParse(stringValue, out int value);
+            values[i] = isValid ? value : 0;
+        }
+
+        Board board = CreateBoard(values);
+        board.Solve();
+        board.Debug();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        String s = "000 590 037" +
+        /*String s = "000 590 037" +
                    "079 032 080" +
                    "008 700 000" +
                    "" +
@@ -122,7 +133,7 @@
         Board board = CreateBoard(s);
         board.Solve();
         ;
-        board.Debug();
+        board.Debug();*/
     }
 
     private Board CreateBoard(string stringBoard)
@@ -149,7 +160,7 @@
     private class Board
     {
         private const int SideLength = 9;
-        private const int TotalNumSquares = SideLength * SideLength;
+        public const int TotalNumSquares = SideLength * SideLength;
         private const int GroupSize = 3;
         private readonly Square[] _squares = new Square[TotalNumSquares];
 
