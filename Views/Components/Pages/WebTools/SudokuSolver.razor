@@ -245,9 +245,9 @@
 
             HashSet<int> possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             HashSet<int> impossibles = [];
-            List<Square> setSquares = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
+            List<Square> otherSquaresWithValues = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
 
-            impossibles.UnionWith(setSquares.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group)
+            impossibles.UnionWith(otherSquaresWithValues.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group)
                 .Select(s => s.Value));
 
             possibles.RemoveWhere(value => impossibles.Contains(value));
