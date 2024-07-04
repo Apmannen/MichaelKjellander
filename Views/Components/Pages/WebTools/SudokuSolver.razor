@@ -206,9 +206,9 @@
                    "405 000 006" +
                    "000 490 510" +
                    "000 003 020";
-        Board board = CreateBoard(s);
+        /*Board board = CreateBoard(s);
         board.Solve();
-        board.Debug();
+        board.Debug();*/
     }
 
     private Board CreateBoard(string stringBoard)
@@ -292,8 +292,6 @@
                     continue;
                 }
 
-                //this.Debug();
-
                 foreach (Square square in _squares)
                 {
                     anyChange = TryFindUniquePossible(square);
@@ -312,49 +310,31 @@
 
         private void BruteForce()
         {
-            foreach (Square s in _squares)
+            /*foreach (Square s in _squares)
             {
                 if (!s.IsSet)
                 {
                     Console.WriteLine($"**** s{s.Index}: {string.Join(',', s.Possibles)}");
                 }
-            }
+            }*/
 
             Square first = _squares.First(s => !s.IsSet);
             TryBruteForceSingle(first, 0);
-
-            /*for (int i = 0; i < TotalNumSquares; i++)
+            foreach (Square square in _squares)
             {
-                Square square = Get(i);
                 if (square.IsSet)
                 {
                     continue;
                 }
 
-                for (int j = 0; j < square.Possibles.Count; j++)
-                {
-                    bool didSucceed = TryBruteForceSingle(square, j);
-                    if (didSucceed)
-                    {
-                        foreach (Square aSquare in _squares)
-                        {
-                            if (aSquare.IsSet)
-                            {
-                                continue;
-                            }
-
-                            aSquare.Value = aSquare.TmpValue;
-                            aSquare.TmpValue = 0;
-                        }
-                        return;
-                    }
-                }
-            }*/
+                square.Value = square.TmpValue;
+                square.TmpValue = 0;
+            }
         }
 
         private bool TryBruteForceSingle(Square square, int possibleIndex)
         {
-            Console.WriteLine($"*** TRY BRUTE: {square.Index},{possibleIndex}");
+            //Console.WriteLine($"*** TRY BRUTE: {square.Index},{possibleIndex}");
             if (possibleIndex >= (square.Possibles.Count))
             {
                 return false;
