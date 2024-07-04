@@ -195,17 +195,17 @@
 
     protected override void OnInitialized()
     {
-        String s = "000 004 610" +
-                   "031 000 804" +
-                   "600 050 000" +
+        String s = "008 000 000" +
+                   "040 005 070" +
+                   "601 000 098" +
                    "" +
-                   "375 402 190" +
-                   "000 905 003" +
-                   "410 607 285" +
+                   "004 030 002" +
+                   "020 609 380" +
+                   "100 027 000" +
                    "" +
-                   "190 023 000" +
-                   "056 040 020" +
-                   "000 001 008";
+                   "405 000 006" +
+                   "000 490 510" +
+                   "000 003 020";
         Board board = CreateBoard(s);
         board.Solve();
         board.Debug();
@@ -319,44 +319,23 @@
             {
                 return true;
             }
+
             if (TryFindUniquePossible(square, otherSquares.Where(s => s.X == square.X).ToList()))
             {
                 return true;
             }
+
             if (TryFindUniquePossible(square, otherSquares.Where(s => s.Y == square.Y).ToList()))
             {
                 return true;
             }
+
             if (TryFindUniquePossible(square, otherSquares.Where(s => s.Group == square.Group).ToList()))
             {
                 return true;
             }
 
             return false;
-
-            /*List<Square> otherSquares = _squares.Where(s => s.Index != square.Index)
-                .Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList();
-
-            HashSet<int> othersPossibles = [];
-            foreach (Square otherSquare in otherSquares)
-            {
-                othersPossibles.UnionWith(otherSquare.Possibles);
-            }
-
-            HashSet<int> uniquePossibles = [];
-            uniquePossibles.UnionWith(square.Possibles);
-            uniquePossibles.RemoveWhere(possibleValue => othersPossibles.Contains(possibleValue));
-
-
-            //Console.WriteLine("*** uniq="+uniquePossibles.Count);
-
-            if (uniquePossibles.Count != 1)
-            {
-                return false;
-            }
-
-            SetSquareValue(square, uniquePossibles.First());
-            return true;*/
         }
 
         private bool TryFindUniquePossible(Square square, List<Square> otherSquares)
@@ -370,9 +349,6 @@
             HashSet<int> uniquePossibles = [];
             uniquePossibles.UnionWith(square.Possibles);
             uniquePossibles.RemoveWhere(possibleValue => othersPossibles.Contains(possibleValue));
-
-
-            //Console.WriteLine("*** uniq="+uniquePossibles.Count);
 
             if (uniquePossibles.Count != 1)
             {
