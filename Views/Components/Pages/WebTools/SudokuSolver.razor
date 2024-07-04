@@ -153,7 +153,7 @@
 @code {
     private ElementReference _unsolvedTableRef;
 
-    private readonly Indexer<int,string> _filledValues = new();
+    private readonly Indexer<int, string> _filledValues = new();
     private int[]? _solvedValues = null;
 
     protected override void OnAfterRender(bool firstRender)
@@ -192,23 +192,22 @@
         _solvedValues = null;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        /*String s = "000 590 037" +
-                   "079 032 080" +
-                   "008 700 000" +
+        String s = "000 004 610" +
+                   "031 000 804" +
+                   "600 050 000" +
                    "" +
-                   "300 001 620" +
-                   "090 006 370" +
-                   "720 300 158" +
+                   "375 402 190" +
+                   "000 905 003" +
+                   "410 607 285" +
                    "" +
-                   "000 007 865" +
-                   "087 010 240" +
-                   "054 600 700";
+                   "190 023 000" +
+                   "056 040 020" +
+                   "000 001 008";
         Board board = CreateBoard(s);
         board.Solve();
-        ;
-        board.Debug();*/
+        board.Debug();
     }
 
     private Board CreateBoard(string stringBoard)
@@ -226,7 +225,7 @@
         int y = 0;
         for (int i = 0; i < values.Length; i++)
         {
-            board.Get(i).Value = values[i];
+            SetSquareValue(board.Get(i), values[i]);
         }
 
         return board;
@@ -268,10 +267,7 @@
 
         public int[] Values
         {
-            get
-            {
-                return _squares.Select(s => s.Value).ToArray();
-            }
+            get { return _squares.Select(s => s.Value).ToArray(); }
         }
 
         public void Solve()
@@ -284,7 +280,62 @@
                 {
                     anyChange = TrySolveSquare(square) || anyChange;
                 }
+
+                if (IsSolved)
+                {
+                    break;
+                }
+
+                if (anyChange)
+                {
+                    continue;
+                }
+
+                this.Debug();
+
+                foreach (Square square in _squares)
+                {
+                    anyChange = TryFindUniquePossible(square);
+                    if (anyChange)
+                    {
+                        break;
+                    }
+                }
             }
+        }
+
+        private bool IsSolved => _squares.FirstOrDefault(s => !s.IsSet) == null;
+
+        private bool TryFindUniquePossible(Square square)
+        {
+            if (square.IsSet)
+            {
+                return false;
+            }
+
+            List<Square> otherSquares = _squares.Where(s => s.Index != square.Index)
+                .Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList();
+
+            HashSet<int> othersPossibles = [];
+            foreach (Square otherSquare in otherSquares)
+            {
+                othersPossibles.UnionWith(otherSquare.Possibles);
+            }
+
+            HashSet<int> uniquePossibles = [];
+            uniquePossibles.UnionWith(square.Possibles);
+            uniquePossibles.RemoveWhere(possibleValue => othersPossibles.Contains(possibleValue));
+
+
+            //Console.WriteLine("*** uniq="+uniquePossibles.Count);
+
+            if (uniquePossibles.Count != 1)
+            {
+                return false;
+            }
+
+            SetSquareValue(square, uniquePossibles.First());
+            return true;
         }
 
         private bool TrySolveSquare(Square square)
@@ -307,13 +358,16 @@
                 throw new Exception("Illegal count");
             }
 
-            if (possibles.Count == 1)
+            square.Possibles.Clear();
+            square.Possibles.UnionWith(possibles);
+
+            if (possibles.Count != 1)
             {
-                square.Value = possibles.First();
-                return true;
+                return false;
             }
 
-            return false;
+            SetSquareValue(square, possibles.First());
+            return true;
         }
 
         public Square Get(int index)
@@ -329,6 +383,7 @@
 
         public void Debug()
         {
+            Console.WriteLine("------");
             for (int y = 0; y < SideLength; y++)
             {
                 for (int x = 0; x < SideLength; x++)
@@ -341,6 +396,17 @@
         }
     }
 
+    private static void SetSquareValue(Square square, int newValue)
+    {
+        square.Value = newValue;
+        if (newValue != 0)
+        {
+            square.Possibles.Clear();
+            square.Possibles.Add(newValue);
+        }
+    }
+
+    //Just a data class, doesn't control its own logic
     private class Square
     {
         public int Value;
