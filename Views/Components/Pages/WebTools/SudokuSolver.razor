@@ -312,6 +312,14 @@
 
         private void BruteForce()
         {
+            foreach (Square s in _squares)
+            {
+                if (!s.IsSet)
+                {
+                    Console.WriteLine($"**** s{s.Index}: {string.Join(',', s.Possibles)}");
+                }
+            }
+
             Square first = _squares.First(s => !s.IsSet);
             TryBruteForceSingle(first, 0);
 
@@ -347,7 +355,7 @@
         private bool TryBruteForceSingle(Square square, int possibleIndex)
         {
             Console.WriteLine($"*** TRY BRUTE: {square.Index},{possibleIndex}");
-            if (possibleIndex >= (square.Possibles.Count - 1))
+            if (possibleIndex >= (square.Possibles.Count))
             {
                 return false;
             }
@@ -495,7 +503,8 @@
             {
                 for (int x = 0; x < SideLength; x++)
                 {
-                    Console.Write(Get(x, y).Value);
+                    Square square = Get(x, y);
+                    Console.Write(square.TmpValue != 0 ? square.TmpValue : square.Value);
                 }
 
                 Console.WriteLine();
