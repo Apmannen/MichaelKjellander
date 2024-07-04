@@ -166,7 +166,8 @@
 
     private int? GetSolvedValue(int index)
     {
-        return _solvedValues?[index];
+        int? value = _solvedValues?[index];
+        return value is > 0 ? value : null;
     }
 
     private void OnSolveClick()
