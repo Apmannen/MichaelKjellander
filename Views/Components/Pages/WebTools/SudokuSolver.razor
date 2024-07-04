@@ -291,7 +291,7 @@
                     continue;
                 }
 
-                this.Debug();
+                //this.Debug();
 
                 foreach (Square square in _squares)
                 {
@@ -313,7 +313,27 @@
                 return false;
             }
 
-            List<Square> otherSquares = _squares.Where(s => s.Index != square.Index)
+            List<Square> otherSquares = _squares.Where(s => s.Index != square.Index).ToList();
+            if (TryFindUniquePossible(square, otherSquares.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList()))
+            {
+                return true;
+            }
+            if (TryFindUniquePossible(square, otherSquares.Where(s => s.X == square.X).ToList()))
+            {
+                return true;
+            }
+            if (TryFindUniquePossible(square, otherSquares.Where(s => s.Y == square.Y).ToList()))
+            {
+                return true;
+            }
+            if (TryFindUniquePossible(square, otherSquares.Where(s => s.Group == square.Group).ToList()))
+            {
+                return true;
+            }
+
+            return false;
+
+            /*List<Square> otherSquares = _squares.Where(s => s.Index != square.Index)
                 .Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList();
 
             HashSet<int> othersPossibles = [];
@@ -335,8 +355,33 @@
             }
 
             SetSquareValue(square, uniquePossibles.First());
+            return true;*/
+        }
+
+        private bool TryFindUniquePossible(Square square, List<Square> otherSquares)
+        {
+            HashSet<int> othersPossibles = [];
+            foreach (Square otherSquare in otherSquares)
+            {
+                othersPossibles.UnionWith(otherSquare.Possibles);
+            }
+
+            HashSet<int> uniquePossibles = [];
+            uniquePossibles.UnionWith(square.Possibles);
+            uniquePossibles.RemoveWhere(possibleValue => othersPossibles.Contains(possibleValue));
+
+
+            //Console.WriteLine("*** uniq="+uniquePossibles.Count);
+
+            if (uniquePossibles.Count != 1)
+            {
+                return false;
+            }
+
+            SetSquareValue(square, uniquePossibles.First());
             return true;
         }
+
 
         private bool TrySolveSquare(Square square)
         {
