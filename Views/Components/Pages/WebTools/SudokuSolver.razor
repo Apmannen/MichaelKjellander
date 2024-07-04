@@ -303,6 +303,91 @@
                     }
                 }
             }
+
+            if (!IsSolved)
+            {
+                BruteForce();
+            }
+        }
+
+        private void BruteForce()
+        {
+            Square first = _squares.First(s => !s.IsSet);
+            TryBruteForceSingle(first, 0);
+
+            /*for (int i = 0; i < TotalNumSquares; i++)
+            {
+                Square square = Get(i);
+                if (square.IsSet)
+                {
+                    continue;
+                }
+
+                for (int j = 0; j < square.Possibles.Count; j++)
+                {
+                    bool didSucceed = TryBruteForceSingle(square, j);
+                    if (didSucceed)
+                    {
+                        foreach (Square aSquare in _squares)
+                        {
+                            if (aSquare.IsSet)
+                            {
+                                continue;
+                            }
+
+                            aSquare.Value = aSquare.TmpValue;
+                            aSquare.TmpValue = 0;
+                        }
+                        return;
+                    }
+                }
+            }*/
+        }
+
+        private bool TryBruteForceSingle(Square square, int possibleIndex)
+        {
+            Console.WriteLine($"*** TRY BRUTE: {square.Index},{possibleIndex}");
+            if (possibleIndex >= (square.Possibles.Count - 1))
+            {
+                return false;
+            }
+
+            int preliminaryValue = square.Possibles[possibleIndex];
+            bool isValidValue = _squares
+                .FirstOrDefault(s => s.Index != square.Index && (s.Value == preliminaryValue || s.TmpValue == preliminaryValue) &&
+                                     (s.X == square.X || s.Y == square.Y || s.Group == square.Group)) == null;
+            if (isValidValue)
+            {
+                square.TmpValue = preliminaryValue;
+                Square? nextSquare = null;
+                for (int i = square.Index + 1; i < TotalNumSquares; i++)
+                {
+                    if (_squares[i].Value == 0)
+                    {
+                        nextSquare = _squares[i];
+                        break;
+                    }
+                }
+
+                if (nextSquare == null)
+                {
+                    return true;
+                }
+
+                bool didSucceed = TryBruteForceSingle(nextSquare, 0);
+                if (!didSucceed)
+                {
+                    square.TmpValue = 0;
+                    return TryBruteForceSingle(square, possibleIndex + 1);
+                }
+
+                return didSucceed;
+            }
+            else
+            {
+                square.TmpValue = 0;
+                return TryBruteForceSingle(square, possibleIndex + 1);
+            }
         }
 
         private bool IsSolved => _squares.FirstOrDefault(s => !s.IsSet) == null;
@@ -381,7 +466,7 @@
             }
 
             square.Possibles.Clear();
-            square.Possibles.UnionWith(possibles);
+            square.Possibles.AddRange(possibles);
 
             if (possibles.Count != 1)
             {
@@ -432,11 +517,12 @@
     private class Square
     {
         public int Value;
+        public int TmpValue;
         public int Index;
         public int X;
         public int Y;
         public string Group = "";
-        public readonly HashSet<int> Possibles = [];
+        public readonly List<int> Possibles = [];
         public bool IsSet => Value != 0;
 
         public override string ToString()
