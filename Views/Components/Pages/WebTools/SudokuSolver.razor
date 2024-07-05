@@ -191,6 +191,7 @@
     {
         Js.InvokeVoidAsync("clearInputs");
         _solvedValues = null;
+        _filledValues.Clear();
     }
 
     protected override void OnInitialized()
@@ -258,7 +259,7 @@
                     int yGroup = (int)Math.Floor((float)y / (float)GroupSize);
                     square.Group = xGroup + "" + yGroup;
 
-                    if (square.IsSet)
+                    if (square.HasValue)
                     {
                         square.Possibles.Add(square.Value);
                     }
@@ -310,15 +311,7 @@
 
         private void BruteForce()
         {
-            /*foreach (Square s in _squares)
-            {
-                if (!s.IsSet)
-                {
-                    Console.WriteLine($"**** s{s.Index}: {string.Join(',', s.Possibles)}");
-                }
-            }*/
-
-            Square first = _squares.First(s => !s.IsSet);
+            Square first = _squares.First(s => !s.HasValue);
             bool didSucceed = TryBruteForceSingle(first, 0);
             if (!didSucceed)
             {
@@ -326,7 +319,7 @@
             }
             foreach (Square square in _squares)
             {
-                if (square.IsSet)
+                if (square.HasValue)
                 {
                     continue;
                 }
@@ -338,7 +331,6 @@
 
         private bool TryBruteForceSingle(Square square, int possibleIndex)
         {
-            //Console.WriteLine($"*** TRY BRUTE: {square.Index},{possibleIndex}");
             if (possibleIndex >= (square.Possibles.Count))
             {
                 return false;
@@ -382,11 +374,11 @@
             }
         }
 
-        private bool IsSolved => _squares.FirstOrDefault(s => !s.IsSet) == null;
+        private bool IsSolved => _squares.FirstOrDefault(s => !s.HasValue) == null;
 
         private bool TryFindUniquePossible(Square square)
         {
-            if (square.IsSet)
+            if (square.HasValue)
             {
                 return false;
             }
@@ -439,7 +431,7 @@
 
         private bool TrySolveSquare(Square square)
         {
-            if (square.IsSet)
+            if (square.HasValue)
             {
                 return false;
             }
@@ -516,7 +508,7 @@
         public int Y;
         public string Group = "";
         public readonly List<int> Possibles = [];
-        public bool IsSet => Value != 0;
+        public bool HasValue => Value != 0;
 
         public override string ToString()
         {
