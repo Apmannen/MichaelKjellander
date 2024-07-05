@@ -62,7 +62,7 @@
     <div class="h-8"></div>
     @if (!_canSolve)
     {
-        <ErrorAlert/>
+        <ErrorAlert Message="@Ts.Get(TKey.Tools_SudokuFailSolve)"/>
         <div class="h-8"></div>
     }
     <button class="btn btn-default" @onclick="OnSolveClick">@Ts.Get(TKey.Tools_SudokuSolveVerb)</button>
