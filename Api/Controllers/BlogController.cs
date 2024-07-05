@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using MichaelKjellander.Api.ModelFeatures.Posts;
+using MichaelKjellander.Api.Features.Posts;
 using MichaelKjellander.Data;
 using MichaelKjellander.Domains.ApiResponse;
 using MichaelKjellander.Domains.Models.Wordpress;

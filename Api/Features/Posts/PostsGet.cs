@@ -3,7 +3,7 @@ using MichaelKjellander.Domains.ApiResponse;
 using MichaelKjellander.Domains.Models.Wordpress;
 using Microsoft.EntityFrameworkCore;
 
-namespace MichaelKjellander.Api.ModelFeatures.Posts;
+namespace MichaelKjellander.Api.Features.Posts;
 
 public class PostsGet
 {

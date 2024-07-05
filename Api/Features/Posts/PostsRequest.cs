@@ -1,4 +1,4 @@
-namespace MichaelKjellander.Api.ModelFeatures.Posts;
+namespace MichaelKjellander.Api.Features.Posts;
 
 public class PostsRequest
 {
