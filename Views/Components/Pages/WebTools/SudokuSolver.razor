@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="h-8"></div>
-    @if (true || !canSolve)
+    @if (!canSolve)
     {
         <ErrorAlert/>
         <div class="h-8"></div>
@@ -336,6 +336,11 @@
                 {
                     _isSolvable = false;
                     break;
+                }
+
+                if (!square.HasValue)
+                {
+                    continue;
                 }
                 List<Square> otherSquares = _squares.Where(s => s.Index != square.Index)
                     .Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList();
