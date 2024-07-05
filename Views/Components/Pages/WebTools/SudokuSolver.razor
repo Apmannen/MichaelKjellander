@@ -76,8 +76,8 @@
         const activeElement = document.activeElement;
         const inputs = getInputs();
         
-        let activeIndex = -1;
-        let newActiveIndex = -1;
+        let activeIndex = null;
+        let newActiveIndex = null;
         for (let i = 0; i < inputs.length; i++) {
             const input = inputs[i];
             if (input === activeElement) {
@@ -85,28 +85,43 @@
                 break;
             }
         }
-        if (activeIndex < 0) {
+        if (activeIndex === null) {
             return;
         }
         
         switch (event.key) {
             case "ArrowLeft":
-                newActiveIndex = activeIndex - 1;
+                if ((activeIndex % 9) === 0) {
+                    newActiveIndex = activeIndex + 8;
+                } else {
+                    newActiveIndex = activeIndex - 1;
+                }
                 break;
             case "ArrowRight":
                 newActiveIndex = activeIndex + 1;
+                if ((newActiveIndex % 9) === 0) {
+                    newActiveIndex -= 9;
+                }
                 break;
             case "ArrowUp":
                 newActiveIndex = activeIndex - 9;
+                if (newActiveIndex < 0) {
+                    newActiveIndex = inputs.length + newActiveIndex;
+                }
                 break;
             case "ArrowDown":
                 newActiveIndex = activeIndex + 9;
+                if (newActiveIndex >= inputs.length) {
+                    newActiveIndex = newActiveIndex - inputs.length;
+                }
                 break;
         }
-        
-        if (newActiveIndex >= 0) {
-            inputs[newActiveIndex].focus();
+        if (newActiveIndex === null)
+        {
+            return;
         }
+        
+        inputs[newActiveIndex].focus();
     };
     
     window.clearInputs = function ()
@@ -316,6 +331,7 @@
             {
                 return;
             }
+
             foreach (Square square in _squares)
             {
                 if (square.HasValue)
