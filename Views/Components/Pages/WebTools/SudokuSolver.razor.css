@@ -24,14 +24,27 @@ td {
     /*padding-bottom: 11%;*/
 }
 
+table {
+    width: 100%;
+}
+
 table input {
     width: 100%;
     text-align: center;
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
 }
 table span {
     display: inline-block;
     width: 100%;
     text-align: center;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
