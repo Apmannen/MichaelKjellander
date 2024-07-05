@@ -27,6 +27,8 @@ td {
 table input {
     width: 100%;
     text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
 }
 table span {
     display: inline-block;

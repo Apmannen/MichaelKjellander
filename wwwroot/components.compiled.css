@@ -1,5 +1,3 @@
-/* _content/MichaelKjellander/Views/Components/Alerts/ErrorAlert.razor.rz.scp.css */
-
 /* _content/MichaelKjellander/Views/Components/Boxes/PostBox.razor.rz.scp.css */
 
 .sg-footer-padding[b-rwscx93hcp] {
@@ -365,6 +363,8 @@ td[b-wpz9hifdlp] {
 table input[b-wpz9hifdlp] {
   width: 100%;
   text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
 }
 
 table span[b-wpz9hifdlp] {
