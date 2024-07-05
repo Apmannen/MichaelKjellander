@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="h-8"></div>
-    @if (!canSolve)
+    @if (!_canSolve)
     {
         <ErrorAlert/>
         <div class="h-8"></div>
@@ -168,10 +168,30 @@
 
 @code {
     private ElementReference _unsolvedTableRef;
-    private bool canSolve = true;
+    private bool _canSolve = true;
 
     private readonly Indexer<int, string> _filledValues = new();
     private int[]? _solvedValues = null;
+    
+    protected override void OnInitialized()
+    {
+        ClearAlert();
+        _filledValues.AddChangeListener("alert-clear", ClearAlert);
+        /*String s = "008 000 000" +
+                   "040 005 070" +
+                   "601 000 098" +
+                   "" +
+                   "004 030 002" +
+                   "020 609 380" +
+                   "100 027 000" +
+                   "" +
+                   "405 000 006" +
+                   "000 490 510" +
+                   "000 003 020";
+        Board board = CreateBoard(s);
+        board.Solve();
+        board.Debug();*/
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -204,7 +224,7 @@
         _solvedValues = board.Values;
         if (!board.IsSolved)
         {
-            canSolve = false;
+            _canSolve = false;
         }
     }
 
@@ -213,26 +233,12 @@
         Js.InvokeVoidAsync("clearInputs");
         _solvedValues = null;
         _filledValues.Clear();
-        canSolve = true;
+        ClearAlert();
     }
 
-    protected override void OnInitialized()
+    private void ClearAlert()
     {
-        canSolve = true;
-        String s = "008 000 000" +
-                   "040 005 070" +
-                   "601 000 098" +
-                   "" +
-                   "004 030 002" +
-                   "020 609 380" +
-                   "100 027 000" +
-                   "" +
-                   "405 000 006" +
-                   "000 490 510" +
-                   "000 003 020";
-        /*Board board = CreateBoard(s);
-        board.Solve();
-        board.Debug();*/
+        _canSolve = true;
     }
 
     private Board CreateBoard(string stringBoard)
@@ -299,7 +305,6 @@
 
         public void Solve()
         {
-            Console.WriteLine("**** SOLVINNER1");
             _isSolvable = true;
             bool anyChange = true;
             while (anyChange)
@@ -351,7 +356,6 @@
                 }
             }
             
-            Console.WriteLine("**** SOLVINNER2:"+_isSolvable);
             if (!IsSolved && _isSolvable)
             {
                 BruteForce();
@@ -361,7 +365,6 @@
             {
                 _isSolvable = false;
             }
-            Console.WriteLine("**** SOLVINNER3:"+_isSolvable);
         }
 
         private void BruteForce()
@@ -388,7 +391,6 @@
 
         private bool TryBruteForceSingle(Square square, int possibleIndex)
         {
-            //Console.WriteLine($"***** trying for s:{square.Index}; pi={possibleIndex}; sc={_bruteForceSafetyCount}");
             if (possibleIndex >= (square.Possibles.Count))
             {
                 return false;

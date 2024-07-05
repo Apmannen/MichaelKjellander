@@ -3,21 +3,29 @@
 public class Indexer<T, TV> where T : struct
 {
     private readonly Dictionary<T, TV> _map = new Dictionary<T, TV>();
+    private readonly Dictionary<string, Action> _changeListeners = new Dictionary<string, Action>();
 
     public ICollection<T> Keys => _map.Keys;
-    //public ICollection<TV> Values => _map.Values;
 
     public void Clear()
     {
         _map.Clear();
+        NotifyChange();
     }
 
-    /*public void ReplaceWithRange(ICollection<T> indexes)
+    public void AddChangeListener(string name, Action action)
     {
-        _values.Clear();
-        _values.UnionWith(indexes);
-        OnChange();
-    }*/
+        _changeListeners[name] = action;
+    }
+
+    private void NotifyChange()
+    {
+
+        foreach(Action action in _changeListeners.Values)
+        {
+            action();
+        }
+    }
 
     public TV this[T index]
     {
@@ -32,6 +40,8 @@ public class Indexer<T, TV> where T : struct
             {
                 _map[index] = value;
             }
+
+            NotifyChange();
         }
     }
 }
