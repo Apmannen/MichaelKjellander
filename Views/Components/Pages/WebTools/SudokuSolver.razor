@@ -96,7 +96,6 @@
         if (activeIndex === null) {
             return;
         }
-        event.preventDefault();
         
         switch (event.key) {
             case "ArrowLeft":
@@ -129,7 +128,7 @@
         {
             return;
         }
-        
+        event.preventDefault();
         inputs[newActiveIndex].focus();
     };
     
