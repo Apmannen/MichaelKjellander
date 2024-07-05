@@ -5,7 +5,7 @@ using MichaelKjellander.Domains.Models.WebGames;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MichaelKjellander.Controllers;
+namespace MichaelKjellander.Api.Controllers;
 
 [ApiController]
 [Route("api/webgames")]

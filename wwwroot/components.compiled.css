@@ -360,17 +360,35 @@ td[b-wpz9hifdlp] {
   /*padding-bottom: 11%;*/
 }
 
+table[b-wpz9hifdlp] {
+  width: 100%;
+}
+
 table input[b-wpz9hifdlp] {
   width: 100%;
   text-align: center;
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
+  /*    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;*/
 }
 
 table span[b-wpz9hifdlp] {
   display: inline-block;
   width: 100%;
   text-align: center;
+}
+
+input[type=number][b-wpz9hifdlp] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+          appearance: textfield;
+  margin: 0;
+}
+
+input[type=number][b-wpz9hifdlp]::-webkit-inner-spin-button,
+input[type=number][b-wpz9hifdlp]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButton.razor.rz.scp.css */

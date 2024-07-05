@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 
 namespace MichaelKjellander.IndependentUtils.Api;
@@ -7,11 +8,24 @@ public static class ApiUtil
 {
     public static async Task<JsonFetchResult> FetchJson(string url, HttpClient client)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+        return await FetchJsonInternal(request, url, client);
+    }
+
+    public static async Task<JsonFetchResult> PostFetchJson(string url, HttpClient client, object payload)
+    {
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = JsonContent.Create(payload);
+        return await FetchJsonInternal(request, url, client);
+    }
+
+    private static async Task<JsonFetchResult> FetchJsonInternal(HttpRequestMessage request, string url,
+        HttpClient client)
+    {
         var response = await client.SendAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpRequestException ("Couldn't fetch: " + url);
+            throw new HttpRequestException("Couldn't fetch: " + url);
         }
 
         await using var responseStream = await response.Content.ReadAsStreamAsync();

@@ -50,7 +50,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Api\ModelFeatures\" />
       <Folder Include="Domains\Generated\" />
       <Folder Include="Files\" />
     </ItemGroup>

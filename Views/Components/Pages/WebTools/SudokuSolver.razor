@@ -1,4 +1,5 @@
 @page "/verktyg/sudoku-losare"
+@using MichaelKjellander.Config
 @using MichaelKjellander.Domains.Generated
 @using MichaelKjellander.IndependentUtils.Collections
 @using MichaelKjellander.Views.Components.Boxes
@@ -6,6 +7,8 @@
 @using MichaelKjellander.Views.Components.Alerts
 @inject TranslationsService Ts
 @inject IJSRuntime Js
+@inject IHttpClientFactory ClientFactory
+@inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
 
 <PageTitle>
@@ -21,7 +24,7 @@
         <div class="">
             <strong>@Ts.Get(TKey.Tools_SudokuUnsolvedTitle)</strong>
             <div class="h-4"></div>
-            <table style="width:100%" @ref="_unsolvedTableRef">
+            <table @ref="_unsolvedTableRef">
                 <tbody>
                 @for (int y = 0; y < 9; y++)
                 {
@@ -41,7 +44,7 @@
         <div class="">
             <strong>@Ts.Get(TKey.Tools_SudokuSolvedTitle)</strong>
             <div class="h-4"></div>
-            <table style="width:100%">
+            <table>
                 <tbody>
                 @for (int y = 0; y < 9; y++)
                 {
@@ -171,7 +174,8 @@
     private bool _canSolve = true;
 
     private readonly Indexer<int, string> _filledValues = new();
-    private int[]? _solvedValues = null;
+    private IList<int>? _solvedValues = null;
+    private const int TotalNumSquares = 81;
     
     protected override void OnInitialized()
     {
@@ -207,9 +211,21 @@
         return value is > 0 ? value : null;
     }
 
-    private void OnSolveClick()
+    private async Task OnSolveClick()
     {
-        int[] values = new int[Board.TotalNumSquares];
+        int[] values = new int[TotalNumSquares];
+        for (int i = 0; i < TotalNumSquares; i++)
+        {
+            string stringValue = _filledValues[i];
+            bool isValid = int.TryParse(stringValue, out int value);
+            values[i] = isValid ? value : 0;
+        }
+        ToolsApiService service = new(ClientFactory.CreateClient(), Options);
+        IList<int> result = await service.PostSolveSudoku(values);
+        _canSolve = result.Count == TotalNumSquares && !result.Contains(0);
+        _solvedValues = result;
+
+        /*int[] values = new int[Board.TotalNumSquares];
         for (int i = 0; i < Board.TotalNumSquares; i++)
         {
             string stringValue = _filledValues[i];
@@ -225,7 +241,7 @@
         if (!board.IsSolved)
         {
             _canSolve = false;
-        }
+        }*/
     }
 
     private void OnClearClick()
@@ -241,7 +257,7 @@
         _canSolve = true;
     }
 
-    private Board CreateBoard(string stringBoard)
+    /*private Board CreateBoard(string stringBoard)
     {
         stringBoard = stringBoard.Replace(" ", "");
         stringBoard = stringBoard.Replace("\n", "");
@@ -249,7 +265,7 @@
         return CreateBoard(values);
     }
 
-    private Board CreateBoard(int[] values)
+    private SudokuBoard CreateBoard(int[] values)
     {
         Board board = new Board();
         int x = 0;
@@ -260,325 +276,8 @@
         }
 
         return board;
-    }
+    }*/
 
-    private class Board
-    {
-        private const int SideLength = 9;
-        public const int TotalNumSquares = SideLength * SideLength;
-        private const int GroupSize = 3;
-        private readonly Square[] _squares = new Square[TotalNumSquares];
-        private int _bruteForceSafetyCount;
-        private bool _isSolvable;
-
-        public Board()
-        {
-            for (int i = 0; i < _squares.Length; i++)
-            {
-                _squares[i] = new Square { Index = i };
-            }
-
-            for (int y = 0; y < SideLength; y++)
-            {
-                for (int x = 0; x < SideLength; x++)
-                {
-                    Square square = Get(x, y);
-                    square.X = x;
-                    square.Y = y;
-
-                    int xGroup = (int)Math.Floor((float)x / (float)GroupSize);
-                    int yGroup = (int)Math.Floor((float)y / (float)GroupSize);
-                    square.Group = xGroup + "" + yGroup;
-
-                    if (square.HasValue)
-                    {
-                        square.Possibles.Add(square.Value);
-                    }
-                }
-            }
-        }
-
-        public int[] Values
-        {
-            get { return _squares.Select(s => s.Value).ToArray(); }
-        }
-
-        public void Solve()
-        {
-            _isSolvable = true;
-            bool anyChange = true;
-            while (anyChange)
-            {
-                anyChange = false;
-                foreach (Square square in _squares)
-                {
-                    anyChange = TrySolveSquare(square) || anyChange;
-                }
-
-                if (IsSolved)
-                {
-                    break;
-                }
-
-                if (anyChange)
-                {
-                    continue;
-                }
-
-                foreach (Square square in _squares)
-                {
-                    anyChange = TryFindUniquePossible(square);
-                    if (anyChange)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            foreach (Square square in _squares)
-            {
-                if (square.Possibles.Count == 0)
-                {
-                    _isSolvable = false;
-                    break;
-                }
-
-                if (!square.HasValue)
-                {
-                    continue;
-                }
-                List<Square> otherSquares = _squares.Where(s => s.Index != square.Index)
-                    .Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList();
-                if (otherSquares.FirstOrDefault(s => s.Value == square.Value) != null)
-                {
-                    _isSolvable = false;
-                    break;
-                }
-            }
-            
-            if (!IsSolved && _isSolvable)
-            {
-                BruteForce();
-            }
-
-            if (!IsSolved)
-            {
-                _isSolvable = false;
-            }
-        }
-
-        private void BruteForce()
-        {
-            _bruteForceSafetyCount = 0;
-            Square first = _squares.First(s => !s.HasValue);
-            bool didSucceed = TryBruteForceSingle(first, 0);
-            if (!didSucceed)
-            {
-                return;
-            }
-
-            foreach (Square square in _squares)
-            {
-                if (square.HasValue)
-                {
-                    continue;
-                }
-
-                square.Value = square.TmpValue;
-                square.TmpValue = 0;
-            }
-        }
-
-        private bool TryBruteForceSingle(Square square, int possibleIndex)
-        {
-            if (possibleIndex >= (square.Possibles.Count))
-            {
-                return false;
-            }
-
-            if (_bruteForceSafetyCount++ > 100000)
-            {
-                return false;
-            }
-
-            int preliminaryValue = square.Possibles[possibleIndex];
-            bool isValidValue = _squares
-                .FirstOrDefault(s => s.Index != square.Index && (s.Value == preliminaryValue || s.TmpValue == preliminaryValue) &&
-                                     (s.X == square.X || s.Y == square.Y || s.Group == square.Group)) == null;
-            if (isValidValue)
-            {
-                square.TmpValue = preliminaryValue;
-                Square? nextSquare = null;
-                for (int i = square.Index + 1; i < TotalNumSquares; i++)
-                {
-                    if (_squares[i].Value == 0)
-                    {
-                        nextSquare = _squares[i];
-                        break;
-                    }
-                }
-
-                if (nextSquare == null)
-                {
-                    return true;
-                }
-
-                bool didSucceed = TryBruteForceSingle(nextSquare, 0);
-                if (!didSucceed)
-                {
-                    square.TmpValue = 0;
-                    return TryBruteForceSingle(square, possibleIndex + 1);
-                }
-
-                return didSucceed;
-            }
-            else
-            {
-                square.TmpValue = 0;
-                return TryBruteForceSingle(square, possibleIndex + 1);
-            }
-        }
-
-        public bool IsSolved => _squares.FirstOrDefault(s => !s.HasValue) == null;
-
-        private bool TryFindUniquePossible(Square square)
-        {
-            if (square.HasValue)
-            {
-                return false;
-            }
-
-            List<Square> otherSquares = _squares.Where(s => s.Index != square.Index).ToList();
-            if (TryFindUniquePossible(square, otherSquares.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList()))
-            {
-                return true;
-            }
-
-            if (TryFindUniquePossible(square, otherSquares.Where(s => s.X == square.X).ToList()))
-            {
-                return true;
-            }
-
-            if (TryFindUniquePossible(square, otherSquares.Where(s => s.Y == square.Y).ToList()))
-            {
-                return true;
-            }
-
-            if (TryFindUniquePossible(square, otherSquares.Where(s => s.Group == square.Group).ToList()))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool TryFindUniquePossible(Square square, List<Square> otherSquares)
-        {
-            HashSet<int> othersPossibles = [];
-            foreach (Square otherSquare in otherSquares)
-            {
-                othersPossibles.UnionWith(otherSquare.Possibles);
-            }
-
-            HashSet<int> uniquePossibles = [];
-            uniquePossibles.UnionWith(square.Possibles);
-            uniquePossibles.RemoveWhere(possibleValue => othersPossibles.Contains(possibleValue));
-
-            if (uniquePossibles.Count != 1)
-            {
-                return false;
-            }
-
-            SetSquareValue(square, uniquePossibles.First());
-            return true;
-        }
-
-
-        private bool TrySolveSquare(Square square)
-        {
-            if (square.HasValue)
-            {
-                return false;
-            }
-
-            HashSet<int> possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-            HashSet<int> impossibles = [];
-            List<Square> otherSquaresWithValues = _squares.Where(s => s.Index != square.Index && s.Value != 0).ToList();
-
-            impossibles.UnionWith(otherSquaresWithValues.Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group)
-                .Select(s => s.Value));
-
-            possibles.RemoveWhere(value => impossibles.Contains(value));
-            if (possibles.Count == 0)
-            {
-                throw new Exception("Illegal count");
-            }
-
-            square.Possibles.Clear();
-            square.Possibles.AddRange(possibles);
-
-            if (possibles.Count != 1)
-            {
-                return false;
-            }
-
-            SetSquareValue(square, possibles.First());
-            return true;
-        }
-
-        public Square Get(int index)
-        {
-            return _squares[index];
-        }
-
-        public Square Get(int x, int y)
-        {
-            int index = x + (y * SideLength);
-            return _squares[index];
-        }
-
-        public void Debug()
-        {
-            Console.WriteLine("------");
-            for (int y = 0; y < SideLength; y++)
-            {
-                for (int x = 0; x < SideLength; x++)
-                {
-                    Square square = Get(x, y);
-                    Console.Write(square.TmpValue != 0 ? square.TmpValue : square.Value);
-                }
-
-                Console.WriteLine();
-            }
-        }
-    }
-
-    private static void SetSquareValue(Square square, int newValue)
-    {
-        square.Value = newValue;
-        if (newValue != 0)
-        {
-            square.Possibles.Clear();
-            square.Possibles.Add(newValue);
-        }
-    }
-
-    //Just a data class, doesn't control its own logic
-    private class Square
-    {
-        public int Value;
-        public int TmpValue;
-        public int Index;
-        public int X;
-        public int Y;
-        public string Group = "";
-        public readonly List<int> Possibles = [];
-        public bool HasValue => Value != 0;
-
-        public override string ToString()
-        {
-            return $"Square[Value={Value}, X={X}, Y={Y}, Group={Group}]";
-        }
-    }
+    
 
 }

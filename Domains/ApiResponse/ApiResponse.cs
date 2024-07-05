@@ -4,7 +4,7 @@ using MichaelKjellander.IndependentUtils.Parsers.Json;
 
 namespace MichaelKjellander.Domains.ApiResponse;
 
-public class ApiResponse<T> : IParsableJson where T : DbModel
+public class ApiResponse<T> : IParsableJson
 {
     public IList<T> Items { get; private set; }
     public PaginationData PaginationData { get; private set; }

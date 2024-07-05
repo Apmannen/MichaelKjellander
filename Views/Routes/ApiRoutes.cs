@@ -13,7 +13,7 @@ public class ApiRoutes
     }
 
     public string Categories => $"{_baseUrl}/api/blog/categories";
-
+    
     public string Pages(PageIdentifier? identifier, string? slug)
     {
         return new UrlBuilder($"{_baseUrl}/api/blog/pages", QueryArrayMode.Multiple)
@@ -33,6 +33,8 @@ public class ApiRoutes
             .AddParam("slug", postSlug)
             .ToString();
     }
+    
+    public string SudokuSolve => $"{_baseUrl}/api/tools/sudoku/solve";
 
     public string Tags(string categorySlug) => $"{_baseUrl}/api/blog/tags?categorySlug={categorySlug}";
     public string Translations => $"{_baseUrl}/api/blog/translations";
