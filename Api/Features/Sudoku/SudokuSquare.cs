@@ -1,6 +1,8 @@
 namespace MichaelKjellander.Api.Features.Sudoku;
 
-//Just a data class, doesn't control its own logic
+/// <summary>
+/// Sudoku square. Just a data class, doesn't control its own logic.
+/// </summary>
 public class SudokuSquare
 {
     public int Value;

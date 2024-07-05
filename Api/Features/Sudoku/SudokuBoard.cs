@@ -7,9 +7,8 @@ public class SudokuBoard
     private const int GroupSize = 3;
     private readonly SudokuSquare[] _squares = new SudokuSquare[TotalNumSquares];
     private int _bruteForceSafetyCount;
-    private bool _isSolvable;
 
-    public SudokuBoard()
+    private SudokuBoard()
     {
         for (int i = 0; i < _squares.Length; i++)
         {
@@ -39,8 +38,6 @@ public class SudokuBoard
     public static SudokuBoard CreateBoardFromValues(int[] values)
     {
         SudokuBoard board = new SudokuBoard();
-        int x = 0;
-        int y = 0;
         for (int i = 0; i < values.Length; i++)
         {
             SetSquareValue(board.Get(i), values[i]);
@@ -56,7 +53,7 @@ public class SudokuBoard
 
     public void Solve()
     {
-        _isSolvable = true;
+        bool isSolvable = true;
         bool anyChange = true;
         while (anyChange)
         {
@@ -90,7 +87,7 @@ public class SudokuBoard
         {
             if (square.Possibles.Count == 0)
             {
-                _isSolvable = false;
+                isSolvable = false;
                 break;
             }
 
@@ -103,20 +100,20 @@ public class SudokuBoard
                 .Where(s => s.X == square.X || s.Y == square.Y || s.Group == square.Group).ToList();
             if (otherSquares.FirstOrDefault(s => s.Value == square.Value) != null)
             {
-                _isSolvable = false;
+                isSolvable = false;
                 break;
             }
         }
 
-        if (!IsSolved && _isSolvable)
+        if (!IsSolved && isSolvable)
         {
             BruteForce();
         }
 
-        if (!IsSolved)
+        /*if (!IsSolved)
         {
-            _isSolvable = false;
-        }
+            isSolvable = false;
+        }*/
     }
 
     private void BruteForce()
@@ -192,7 +189,7 @@ public class SudokuBoard
         }
     }
 
-    public bool IsSolved => _squares.FirstOrDefault(s => !s.HasValue) == null;
+    private bool IsSolved => _squares.FirstOrDefault(s => !s.HasValue) == null;
 
     private bool TryFindUniquePossible(SudokuSquare square)
     {
@@ -282,12 +279,12 @@ public class SudokuBoard
         return true;
     }
 
-    public SudokuSquare Get(int index)
+    private SudokuSquare Get(int index)
     {
         return _squares[index];
     }
 
-    public SudokuSquare Get(int x, int y)
+    private SudokuSquare Get(int x, int y)
     {
         int index = x + (y * SideLength);
         return _squares[index];
