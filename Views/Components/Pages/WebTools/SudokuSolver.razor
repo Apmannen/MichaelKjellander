@@ -3,6 +3,7 @@
 @using MichaelKjellander.IndependentUtils.Collections
 @using MichaelKjellander.Views.Components.Boxes
 @using MichaelKjellander.Views.Services.Api
+@using MichaelKjellander.Views.Components.Alerts
 @inject TranslationsService Ts
 @inject IJSRuntime Js
 @rendermode InteractiveServer
@@ -59,6 +60,11 @@
         </div>
     </div>
     <div class="h-8"></div>
+    @if (!canSolve)
+    {
+        <ErrorAlert/>
+        <div class="h-8"></div>
+    }
     <button class="btn btn-default" @onclick="OnSolveClick">@Ts.Get(TKey.Tools_SudokuSolveVerb)</button>
     <button class="btn btn-danger" @onclick="OnClearClick">@Ts.Get(TKey.Misc_Clear)</button>
 </SimpleBox>
@@ -162,6 +168,7 @@
 
 @code {
     private ElementReference _unsolvedTableRef;
+    private bool canSolve = true;
 
     private readonly Indexer<int, string> _filledValues = new();
     private int[]? _solvedValues = null;
@@ -190,13 +197,15 @@
             values[i] = isValid ? value : 0;
         }
 
-        Console.WriteLine("**** SOLVSTART1");
         Board board = CreateBoard(values);
         board.Solve();
         board.Debug();
-        Console.WriteLine("**** SOLVSTART2");
 
         _solvedValues = board.Values;
+        if (!board.IsSolved)
+        {
+            canSolve = false;
+        }
     }
 
     private void OnClearClick()
@@ -204,10 +213,12 @@
         Js.InvokeVoidAsync("clearInputs");
         _solvedValues = null;
         _filledValues.Clear();
+        canSolve = true;
     }
 
     protected override void OnInitialized()
     {
+        canSolve = true;
         String s = "008 000 000" +
                    "040 005 070" +
                    "601 000 098" +
@@ -421,7 +432,7 @@
             }
         }
 
-        private bool IsSolved => _squares.FirstOrDefault(s => !s.HasValue) == null;
+        public bool IsSolved => _squares.FirstOrDefault(s => !s.HasValue) == null;
 
         private bool TryFindUniquePossible(Square square)
         {
