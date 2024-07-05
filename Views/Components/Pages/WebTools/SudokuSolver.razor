@@ -64,7 +64,6 @@
 </SimpleBox>
 
 <script>
-    
     function getTableElement() {
         return window.sudokuContext.tableElement;
     }
@@ -159,9 +158,6 @@
             });   
         }
     }
-
-
-
 </script>
 
 @code {
@@ -194,9 +190,11 @@
             values[i] = isValid ? value : 0;
         }
 
+        Console.WriteLine("**** SOLVSTART1");
         Board board = CreateBoard(values);
         board.Solve();
         board.Debug();
+        Console.WriteLine("**** SOLVSTART2");
 
         _solvedValues = board.Values;
     }
@@ -253,6 +251,7 @@
         public const int TotalNumSquares = SideLength * SideLength;
         private const int GroupSize = 3;
         private readonly Square[] _squares = new Square[TotalNumSquares];
+        private int _bruteForceSafetyCount;
 
         public Board()
         {
@@ -288,6 +287,7 @@
 
         public void Solve()
         {
+            Console.WriteLine("**** SOLVINNER1");
             bool anyChange = true;
             while (anyChange)
             {
@@ -316,15 +316,17 @@
                     }
                 }
             }
-
+            Console.WriteLine("**** SOLVINNER2");
             if (!IsSolved)
             {
                 BruteForce();
             }
+            Console.WriteLine("**** SOLVINNER3");
         }
 
         private void BruteForce()
         {
+            _bruteForceSafetyCount = 0;
             Square first = _squares.First(s => !s.HasValue);
             bool didSucceed = TryBruteForceSingle(first, 0);
             if (!didSucceed)
@@ -346,7 +348,13 @@
 
         private bool TryBruteForceSingle(Square square, int possibleIndex)
         {
+            //Console.WriteLine($"***** trying for s:{square.Index}; pi={possibleIndex}; sc={_bruteForceSafetyCount}");
             if (possibleIndex >= (square.Possibles.Count))
+            {
+                return false;
+            }
+
+            if (_bruteForceSafetyCount++ > 100000)
             {
                 return false;
             }
