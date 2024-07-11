@@ -16,6 +16,11 @@ public static class PageRoutes
         return Category(WpCategory.GetSlugByType(type));
     }
 
+    public static string Tag(CategoryType type, WpTag tag)
+    {
+        return $"{Category(type)}?tagg={tag.Id}";
+    }
+
     public static string CategoryPattern(CategoryType type)
     {
         string path = Category(type);
