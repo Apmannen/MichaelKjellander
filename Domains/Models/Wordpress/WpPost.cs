@@ -15,7 +15,6 @@ public class WpPost : WordpressModel
     [Required] public virtual WpCategory? Category { get; set; }
     public int? FeaturedImageId { get; set; }
     public virtual WpImage? FeaturedImage { get; set; }
-    [System.Obsolete("Replace with tags")] public IList<string>? MetaPlatforms { get; set; }
     [MaxLength(VarcharLength)] public string? MetaPlayAlso { get; set; }
     public int? MetaRating { get; set; }
     public IList<WpPostTag> PostTags { get; set; }
@@ -59,7 +58,6 @@ public class WpPost : WordpressModel
         this.CategoryId = category.Id;
         this.FeaturedImage = featuredImage.IsSet ? featuredImage : null;
         this.FeaturedImageId = featuredImage.IsSet ? featuredImage.Id : null;
-        this.MetaPlatforms = TryParseStrings(metaElement, "format");
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
         this.PostTags = wpPostTags;

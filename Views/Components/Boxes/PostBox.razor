@@ -70,13 +70,13 @@
                 <IconFolder/>
                 <span class="mr-4">@Post.Category.Name</span>
             </div>
-            @if (Post.MetaPlatforms!.Count > 0)
+            @if (Post.PostTags!.Count > 0 && Post.Category.Type == CategoryType.GameReview)
             {
                 <div class="sg-break-together">
                     <IconDeviceGamepad2/>
                     @FormatPlattform(0)
                 </div>
-                @for (int i = 1; i < Post.MetaPlatforms!.Count; i++)
+                @for (int i = 1; i < Post.PostTags!.Count; i++)
                 {
                     <div class="sg-break-together">
                         @FormatPlattform(i)
@@ -97,8 +97,8 @@
 
     private string FormatPlattform(int index)
     {
-        string formattedTagName = Post!.MetaPlatforms![index];
-        bool isLast = Post!.MetaPlatforms!.Count == index + 1;
+        string formattedTagName = Post!.PostTags![index].Tag.Name;
+        bool isLast = Post!.PostTags!.Count == index + 1;
         if (!isLast)
         {
             formattedTagName += ", ";
