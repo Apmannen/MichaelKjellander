@@ -5,7 +5,7 @@
 
 @if (PaginationData != null && @PaginationData.NumPages > 1 && _visiblePages != null)
 {
-    <div class="bg-white mt-16 py-4 text-center">
+    <div class="bg-white py-4 text-center">
         @foreach (int pageNumber in _visiblePages)
         {
             string linkCopy = GetLink(pageNumber);

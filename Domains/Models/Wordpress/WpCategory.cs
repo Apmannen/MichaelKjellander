@@ -34,7 +34,7 @@ public class WpCategory : WordpressModel
         {
             CategoryType.GameReview => "tv-spelrecensioner",
             CategoryType.Game => "spel",
-            CategoryType.Other => "okategoriserade",
+            CategoryType.Other => "ovriga-inlagg",
             _ => ""
         };
     }
