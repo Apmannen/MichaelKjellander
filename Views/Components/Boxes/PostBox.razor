@@ -67,8 +67,10 @@
                 <span class="mr-4">@Ts.FormatDate(Post.Date)</span>
             </div>
             <div class="sg-break-together">
-                <IconFolder/>
-                <span class="mr-4">@Post.Category.Name</span>
+                <a href="@PageRoutes.Category(Post.Category.Type)">
+                    <IconFolder/>
+                    <span class="mr-4">@Post.Category.Name</span>
+                </a>
             </div>
             @if (Post.PostTags!.Count > 0 && Post.Category.Type == CategoryType.GameReview)
             {
