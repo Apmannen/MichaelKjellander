@@ -5,10 +5,12 @@
 @using MichaelKjellander.Views.Components.Icons
 @using MichaelKjellander.Views.Routes
 @using MichaelKjellander.Views.Services.Api
+@using MichaelKjellander.Views.Components.Buttons
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @inject IHttpClientFactory ClientFactory
 @inject TranslationsService Ts
+@rendermode InteractiveServer
 
 <div class="top-row navbar navbar-dark relative">
     <div class="container-fluid  pr-12">
@@ -31,9 +33,9 @@
         @foreach (var link in _links)
         {
             <div class="nav-item border-gray-200">
-                <a class="nav-link py-2 text-base @(IsCurrent(link) ? "active" : "")" href="@link.Url">
+                <RefreshLink Class="@GetClass(link)" Href="@link.Url">
                     @link.Text
-                </a>
+                </RefreshLink>
             </div>
         }
     </nav>
@@ -41,7 +43,7 @@
 
 
 @code {
-    private NavLink[] _links = [];
+    private Link[] _links = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,7 +58,7 @@
 
         _links =
         [
-            new NavLink(Ts.Get(TKey.Menu_Latest), PageRoutes.Home, "(/|/senaste/[0-9]+)"),
+            new Link(Ts.Get(TKey.Menu_Latest), PageRoutes.Home, "(/|/senaste/[0-9]+)"),
             CreateCategoryNavLink(categories, CategoryType.Game),
             CreateCategoryNavLink(categories, CategoryType.GameReview),
             CreateCategoryNavLink(categories, CategoryType.Other),
@@ -65,21 +67,26 @@
     }
 
 
-    private static NavLink CreateCategoryNavLink(IList<WpCategory> categories, CategoryType type)
+    private static Link CreateCategoryNavLink(IList<WpCategory> categories, CategoryType type)
     {
         WpCategory category = categories.First(category => category.Type == type);
-        return new NavLink(category.Name!, PageRoutes.Category(type), PageRoutes.CategoryPattern(type));
+        return new Link(category.Name!, PageRoutes.Category(type), PageRoutes.CategoryPattern(type));
     }
 
-    private static NavLink CreatePageNavLink(IList<WpPage> pages, PageIdentifier identifier)
+    private static Link CreatePageNavLink(IList<WpPage> pages, PageIdentifier identifier)
     {
         WpPage page = pages.First(page => page.PageIdentifier == identifier);
-        return new NavLink(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + page.Slug);
+        return new Link(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + page.Slug);
     }
 
-    private record struct NavLink(string Text, string Url, string Pattern);
+    private record struct Link(string Text, string Url, string Pattern);
 
-    private bool IsCurrent(NavLink navLink)
+    private string GetClass(Link link)
+    {
+        return "nav-link py-2 text-base " + (IsCurrent(link) ? "active" : "");
+    }
+
+    private bool IsCurrent(Link navLink)
     {
         string currentUrl = NavigationManager.Uri;
 

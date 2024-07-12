@@ -5,6 +5,7 @@
 @using MichaelKjellander.Views.Components.Modals
 @using MichaelKjellander.Views.Routes
 @using MichaelKjellander.Views.Services.Api
+@using MichaelKjellander.Views.Components.Buttons
 @inject TranslationsService Ts
 
 @if (Post != null)
@@ -78,10 +79,11 @@
                     <IconDeviceGamepad2/>
                     @for (int i = 0; i < Post.PostTags!.Count; i++)
                     {
+                        int localI = i;
                         <div class="sg-break-together">
-                            <a href="@PageRoutes.Tag(Post.Category.Type, Post.PostTags[i].Tag)">
-                                <span>@FormatPlattform(i)</span>
-                            </a>
+                            <RefreshLink Href="@PageRoutes.Tag(Post.Category.Type, Post.PostTags[localI].Tag)">
+                                <span>@FormatPlattform(localI)</span>
+                            </RefreshLink>
                         </div>
                     }
                 </div>

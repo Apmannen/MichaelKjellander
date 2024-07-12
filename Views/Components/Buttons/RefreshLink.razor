@@ -1,0 +1,15 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+
+<a class="@Class" href="@Href" @onclick="OnClick">@ChildContent</a>
+
+@code {
+    [Parameter, Required] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter, Required] public string Href { get; set; } = "";
+
+    private void OnClick()
+    {
+        Navigation.NavigateTo(Href, true);
+    }
+}

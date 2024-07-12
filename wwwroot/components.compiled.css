@@ -65,6 +65,55 @@
   color: var(---color-grey);
 }
 
+/* _content/MichaelKjellander/Views/Components/Buttons/ToggleButton/ToggleButton.razor.rz.scp.css */
+
+.toggle-button[b-bu0ptgewyy] {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.toggle-button[data-count="0"][b-bu0ptgewyy] {
+  /*border-color: theme('colors.gray.200');
+    color: theme('colors.gray.200');*/
+  display: none;
+}
+
+.toggle-button[data-active=true][b-bu0ptgewyy] {
+  color: black;
+  border-color: black;
+  box-shadow: inset 0 0 0 1px black;
+}
+
+@media (hover: hover) {
+  .toggle-button[data-active=false]:hover[b-bu0ptgewyy] {
+    color: black;
+    border-color: black;
+  }
+}
+
+/* _content/MichaelKjellander/Views/Components/Buttons/ToggleButton/ToggleButtonBox.razor.rz.scp.css */
+
+.sg-toggle-button-container[b-xp1k9zvtau] {
+  overflow-x: hidden;
+  white-space: nowrap;
+  margin-left: calc(0rem - 5rem);
+  margin-right: calc(0rem - 5rem);
+  /*@apply pl-20 pr-20;*/
+}
+
+.sg-toggle-button-container[b-xp1k9zvtau]  .toggle-button-single-container:first-of-type {
+  padding-left: 5rem;
+}
+
+.sg-toggle-button-container[b-xp1k9zvtau]  .toggle-button-single-container:last-of-type {
+  padding-right: 5rem;
+}
+
 /* _content/MichaelKjellander/Views/Components/Layout/MainLayout.razor.rz.scp.css */
 
 .sg-main-inner[b-i3xiidl2tn] {
@@ -402,53 +451,4 @@ input[type=number][b-wpz9hifdlp]::-webkit-inner-spin-button,
 input[type=number][b-wpz9hifdlp]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-/* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButton.razor.rz.scp.css */
-
-.toggle-button[b-6zdjnpt3oh] {
-  margin-right: 0.5rem;
-  margin-top: 0.5rem;
-  padding: 0.25rem;
-  border: 1px solid #9ca3af;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.toggle-button[data-count="0"][b-6zdjnpt3oh] {
-  /*border-color: theme('colors.gray.200');
-    color: theme('colors.gray.200');*/
-  display: none;
-}
-
-.toggle-button[data-active=true][b-6zdjnpt3oh] {
-  color: black;
-  border-color: black;
-  box-shadow: inset 0 0 0 1px black;
-}
-
-@media (hover: hover) {
-  .toggle-button[data-active=false]:hover[b-6zdjnpt3oh] {
-    color: black;
-    border-color: black;
-  }
-}
-
-/* _content/MichaelKjellander/Views/Components/ToggleButton/ToggleButtonBox.razor.rz.scp.css */
-
-.sg-toggle-button-container[b-mef21umgem] {
-  overflow-x: hidden;
-  white-space: nowrap;
-  margin-left: calc(0rem - 5rem);
-  margin-right: calc(0rem - 5rem);
-  /*@apply pl-20 pr-20;*/
-}
-
-.sg-toggle-button-container[b-mef21umgem]  .toggle-button-single-container:first-of-type {
-  padding-left: 5rem;
-}
-
-.sg-toggle-button-container[b-mef21umgem]  .toggle-button-single-container:last-of-type {
-  padding-right: 5rem;
 }

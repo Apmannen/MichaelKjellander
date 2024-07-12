@@ -60,6 +60,8 @@
       <AdditionalFiles Include="Views\Components\Boxes\PostBox.razor" />
       <AdditionalFiles Include="Views\Components\Boxes\PostBoxes.razor" />
       <AdditionalFiles Include="Views\Components\Boxes\TitleBox.razor" />
+      <AdditionalFiles Include="Views\Components\Buttons\ToggleButton\ToggleButton.razor" />
+      <AdditionalFiles Include="Views\Components\Buttons\ToggleButton\ToggleButtonBox.razor" />
       <AdditionalFiles Include="Views\Components\Icons\Icon.razor" />
       <AdditionalFiles Include="Views\Components\Icons\IconCalendarMonth.razor" />
       <AdditionalFiles Include="Views\Components\Icons\IconDeviceGamepad2.razor" />
