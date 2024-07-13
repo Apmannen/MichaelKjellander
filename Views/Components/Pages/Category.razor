@@ -148,11 +148,6 @@ else
         return valid ? count : 0;
     }
 
-    protected override void OnAfterRender(bool isFirstRender)
-    {
-        //JsService.ScrollToTop();
-    }
-
     //Specific to GameReview stuff from here onwards. Perhaps move to seperate page route?
     private async Task RefreshUrlAndFetch()
     {

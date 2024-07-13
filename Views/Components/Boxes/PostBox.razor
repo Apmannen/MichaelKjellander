@@ -30,9 +30,9 @@
             }
             else
             {
-                <a href="@PageRoutes.Post(Post.Slug!)">
+                <RefreshLink Href="@PageRoutes.Post(Post.Slug!)">
                     <h3 class="sg-post-title">@((MarkupString)@Post.Title!)</h3>
-                </a>
+                </RefreshLink>
             }
             @if (@Post.Category!.Type == CategoryType.GameReview)
             {

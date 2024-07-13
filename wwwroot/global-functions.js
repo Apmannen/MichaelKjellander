@@ -1,9 +1,6 @@
 ﻿window.debugObject2 = function (obj) {
     console.log(obj);
 }
-window.scrollToTop = function () {
-    //window.scrollTo(0, 0);
-}
 
 window.attachDraggable = function (draggableParent) {
     let mouseDown = false;

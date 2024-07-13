@@ -6,12 +6,9 @@
 @using MichaelKjellander.Domains.ApiResponse
 @using MichaelKjellander.Domains.Generated
 @using MichaelKjellander.Domains.Models.Wordpress
-@using MichaelKjellander.Views.Services
 @using MichaelKjellander.Views.Services.Api
 @inject Microsoft.Extensions.Options.IOptions<AppConfig> Options
 @rendermode InteractiveServer
-@inject ILogger<PaginationBox> Logger
-@inject JsService JsService
 @inject TranslationsService Ts
 
 <PageTitle>
@@ -49,10 +46,4 @@
         this._posts = postData.Items;
         this._pagination = postData.PaginationData;
     }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        //JsService.ScrollToTop();
-    }
-
 }

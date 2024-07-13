@@ -17,14 +17,8 @@ public class JsService
         _js.InvokeVoidAsync("debugObject", obj);
     }
 
-    public void ScrollToTop()
-    {
-        _js.InvokeVoidAsync("scrollToTop");
-    }
-
     public async Task AttachDraggable(ElementReference draggableParent)
     {
-        //_js.InvokeVoidAsync("debugObject2", draggableParent);
         await _js.InvokeVoidAsync("attachDraggable", draggableParent);
     }
 }
