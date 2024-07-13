@@ -9,7 +9,7 @@
 {
     <div class="grid grid-cols-12 bg-white pagination-box">
         <div class="col-span-1">
-            <RefreshLink Class="btn btn-default button" Href="">
+            <RefreshLink Class="btn btn-default button" Href="@GetLink(PaginationData.CurrentPage-1)">
                 <ArrowLeft/>
             </RefreshLink>
         </div>
@@ -23,9 +23,9 @@
             }
         </div>
         <div class="col-span-1">
-            <button class="btn btn-default">
+            <RefreshLink Class="btn btn-default button" Href="@GetLink(PaginationData.CurrentPage+1)">
                 <ArrowRight/>
-            </button>
+            </RefreshLink>
         </div>
     </div>
 }
