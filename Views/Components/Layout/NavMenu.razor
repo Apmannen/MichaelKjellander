@@ -59,7 +59,7 @@
         {
             string slug = currentUrl.Split("/").Last();
             ApiResponse<WpPost> postsData = await _service.FetchPosts(postSlug: slug);
-            singlePost = postsData.Items![0];
+            singlePost = postsData.Items!.Count == 1 ? postsData.Items[0] : null;
         }
 
         foreach (var p in pages)
