@@ -20,7 +20,9 @@
 
 @code {
     [Parameter] public string? Slug { get; set; }
+    
     private WpPost? _post;
+    private BlogApiService? _service;
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,8 +31,8 @@
             return;
         }
 
-        BlogApiService service = new(ClientFactory.CreateClient(), Options);
-        ApiResponse<WpPost> postsData = await service.FetchPosts(postSlug: Slug);
+        _service ??= new BlogApiService(ClientFactory.CreateClient(), Options);
+        ApiResponse<WpPost> postsData = await _service.FetchPosts(postSlug: Slug);
         _post = postsData.Items![0];
     }
 }

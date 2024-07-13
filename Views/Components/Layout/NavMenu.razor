@@ -1,5 +1,6 @@
 ﻿@using System.Text.RegularExpressions
 @using MichaelKjellander.Config
+@using MichaelKjellander.Domains.ApiResponse
 @using MichaelKjellander.Domains.Generated
 @using MichaelKjellander.Domains.Models.Wordpress
 @using MichaelKjellander.Views.Components.Icons
@@ -44,12 +45,22 @@
 
 @code {
     private Link[] _links = [];
+    private BlogApiService? _service;
 
     protected override async Task OnInitializedAsync()
     {
-        BlogApiService service = new(ClientFactory.CreateClient(), Options);
-        IList<WpCategory> categories = await service.FetchCategories();
-        IList<WpPage> pages = await service.FetchPages();
+        _service ??= new BlogApiService(ClientFactory.CreateClient(), Options);
+        IList<WpCategory> categories = await _service.FetchCategories();
+        IList<WpPage> pages = await _service.FetchPages();
+
+        WpPost? singlePost = null;
+        string currentUrl = NavigationManager.Uri;
+        if (currentUrl.StartsWith($"{Options.Value.SiteUrl}/inlagg"))
+        {
+            string slug = currentUrl.Split("/").Last();
+            ApiResponse<WpPost> postsData = await _service.FetchPosts(postSlug: slug);
+            singlePost = postsData.Items![0];
+        }
 
         foreach (var p in pages)
         {
@@ -58,28 +69,29 @@
 
         _links =
         [
-            new Link(Ts.Get(TKey.Menu_Latest), PageRoutes.Home, "(/|/senaste/[0-9]+)"),
-            CreateCategoryNavLink(categories, CategoryType.Game),
-            CreateCategoryNavLink(categories, CategoryType.GameReview),
-            CreateCategoryNavLink(categories, CategoryType.Other),
+            new Link(Ts.Get(TKey.Menu_Latest), PageRoutes.Home, "(/|/senaste/[0-9]+)", false),
+            CreateCategoryNavLink(categories, CategoryType.Game, singlePost),
+            CreateCategoryNavLink(categories, CategoryType.GameReview, singlePost),
+            CreateCategoryNavLink(categories, CategoryType.Other, singlePost),
             CreatePageNavLink(pages, PageIdentifier.contact)
         ];
     }
 
 
-    private static Link CreateCategoryNavLink(IList<WpCategory> categories, CategoryType type)
+    private static Link CreateCategoryNavLink(IList<WpCategory> categories, CategoryType type, WpPost? singlePost)
     {
         WpCategory category = categories.First(category => category.Type == type);
-        return new Link(category.Name!, PageRoutes.Category(type), PageRoutes.CategoryPattern(type));
+        bool overrideActive = singlePost != null && singlePost.Category!.Id == category.Id;
+        return new Link(category.Name!, PageRoutes.Category(type), PageRoutes.CategoryPattern(type), overrideActive);
     }
 
     private static Link CreatePageNavLink(IList<WpPage> pages, PageIdentifier identifier)
     {
         WpPage page = pages.First(page => page.PageIdentifier == identifier);
-        return new Link(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + page.Slug);
+        return new Link(page.Title!, PageRoutes.Page(page.Slug!), "/sida/" + page.Slug, false);
     }
 
-    private record struct Link(string Text, string Url, string Pattern);
+    private record struct Link(string Text, string Url, string Pattern, bool OverrideActive);
 
     private string GetClass(Link link)
     {
@@ -88,6 +100,11 @@
 
     private bool IsCurrent(Link navLink)
     {
+        if (navLink.OverrideActive)
+        {
+            return true;
+        }
+        
         string currentUrl = NavigationManager.Uri;
 
         string fullPattern = $"^{Options.Value.SiteUrl}{navLink.Pattern}$";
