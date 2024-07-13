@@ -10,6 +10,10 @@
   align-content: center;
 }
 
+.pagination-box[b-a5wmaapi81]  .btn[data=hide] {
+  visibility: hidden;
+}
+
 /* _content/MichaelKjellander/Views/Components/Boxes/PostBox.razor.rz.scp.css */
 
 .sg-footer-padding[b-rwscx93hcp] {
