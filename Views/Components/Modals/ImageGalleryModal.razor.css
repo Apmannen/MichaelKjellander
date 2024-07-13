@@ -21,4 +21,11 @@
 .sg-modal {
     z-index: 1000;
     max-width: 80%;
+    max-height: 90%;
+}
+.content-container {
+    position: relative;
+}
+.content-container ::deep img {
+    max-height: 80vh;
 }

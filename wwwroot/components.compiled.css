@@ -385,6 +385,15 @@ main[b-i3xiidl2tn] {
 .sg-modal[b-7xy054tvut] {
   z-index: 1000;
   max-width: 80%;
+  max-height: 90%;
+}
+
+.content-container[b-7xy054tvut] {
+  position: relative;
+}
+
+.content-container[b-7xy054tvut]  img {
+  max-height: 80vh;
 }
 
 /* _content/MichaelKjellander/Views/Components/Pages/Category.razor.rz.scp.css */
