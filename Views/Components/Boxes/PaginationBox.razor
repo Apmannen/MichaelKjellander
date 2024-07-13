@@ -7,11 +7,11 @@
 
 @if (PaginationData != null && @PaginationData.NumPages > 1 && _visiblePages != null)
 {
-    <div class="grid grid-cols-12 bg-white">
+    <div class="grid grid-cols-12 bg-white pagination-box">
         <div class="col-span-1">
-            <button class="btn btn-default">
+            <RefreshLink Class="btn btn-default button" Href="">
                 <ArrowLeft/>
-            </button>
+            </RefreshLink>
         </div>
         <div class="py-4 text-center col-span-10">
             @foreach (int pageNumber in _visiblePages)

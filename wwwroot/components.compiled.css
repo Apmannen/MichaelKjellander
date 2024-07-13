@@ -1,8 +1,13 @@
 /* _content/MichaelKjellander/Views/Components/Boxes/PaginationBox.razor.rz.scp.css */
 
-.btn[b-a5wmaapi81] {
+.pagination-box[b-a5wmaapi81]  .btn {
   height: 100%;
-  font-weight: 700;
+  display: block;
+  width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+  align-content: center;
 }
 
 /* _content/MichaelKjellander/Views/Components/Boxes/PostBox.razor.rz.scp.css */

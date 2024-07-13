@@ -1,3 +1,8 @@
-﻿.btn {
+﻿.pagination-box ::deep .btn {
     height: 100%;
+    display: block;
+    width: 100%;
+    @apply px-0;
+    text-align: center;
+    align-content: center;
 }
