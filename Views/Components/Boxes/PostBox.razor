@@ -67,12 +67,15 @@
                 <IconCalendarMonth/>
                 <span class="mr-4">@Ts.FormatDate(Post.Date)</span>
             </div>
-            <div class="sg-break-together">
-                <a href="@PageRoutes.Category(Post.Category.Type)">
-                    <IconFolder/>
-                    <span class="mr-4">@Post.Category.Name</span>
-                </a>
-            </div>
+            @if (IncludeCategory)
+            {
+                <div class="sg-break-together">
+                    <a href="@PageRoutes.Category(Post.Category.Type)">
+                        <IconFolder/>
+                        <span class="mr-4">@Post.Category.Name</span>
+                    </a>
+                </div>
+            }
             @if (Post.PostTags!.Count > 0 && Post.Category.Type == CategoryType.GameReview)
             {
                 <div class="sg-break-together">
@@ -94,9 +97,10 @@
 
 
 @code {
-    [Parameter] [Required] public WpPost? Post { get; set; }
-    [Parameter] [Required] public bool IsSingle { get; set; }
-    [Parameter] [Required] public int Index { get; set; }
+    [Parameter, Required] public WpPost? Post { get; set; }
+    [Parameter, Required] public bool IsSingle { get; set; }
+    [Parameter, Required] public int Index { get; set; }
+    [Parameter] public bool IncludeCategory { get; set; } = true;
 
     private ElementReference _containerRef;
 

@@ -5,11 +5,12 @@
 {
     @for (int i = 0; i < Posts.Count; i++)
     {
-        <PostBox Post="Posts[i]" IsSingle="false" Index="@i"/>
+        <PostBox Post="Posts[i]" IsSingle="false" Index="@i" IncludeCategory="@IncludeCategory"/>
         <div class="h-16 hidden sm:block"></div>
     }
 }
 
 @code {
-    [Parameter][Required] public IList<WpPost>? Posts { get; set; }
+    [Parameter, Required] public IList<WpPost>? Posts { get; set; }
+    [Parameter, Required] public bool IncludeCategory { get; set; } = true;
 }
