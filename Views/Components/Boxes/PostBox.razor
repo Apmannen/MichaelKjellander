@@ -19,7 +19,7 @@
             </div>
         }
         <div class="bg-white sg-post sg-post-padding">
-            @if (@Post.Category!.Type == CategoryType.Game)
+            @if (Post.Category!.Type == CategoryType.Game && IncludeCategory)
             {
                 <span class="italic">@Post.Category!.Name</span>
                 <div class="h-2"></div>
