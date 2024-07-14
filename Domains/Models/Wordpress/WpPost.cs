@@ -16,9 +16,11 @@ public class WpPost : WordpressModel
     public int? FeaturedImageId { get; set; }
     public virtual WpImage? FeaturedImage { get; set; }
     [MaxLength(VarcharLength)] public string? MetaPlayAlso { get; set; }
+    [MaxLength(VarcharLength)] public string? MetaPlayRather { get; set; }
+    [MaxLength(VarcharLength)] public string? MetaPlayRatherAlso { get; set; }
     public int? MetaRating { get; set; }
     public IList<WpPostTag> PostTags { get; set; }
-    
+
 
     public override WpPost ParseFromJson(JsonElement el)
     {
@@ -33,13 +35,10 @@ public class WpPost : WordpressModel
         WpImage featuredImage = new WpImage().ParseFromJson(el.GetProperty("featured_image"));
         WpCategory category = new WpCategory().ParseFromJson(el.GetProperty("category"));
         var tags = el.GetProperty("tags").EnumerateArray();
-        //IList<int> tagIds = [];
         IList<WpPostTag> wpPostTags = [];
         foreach (JsonElement tagEl in tags)
         {
             WpTag tag = new WpTag().ParseFromJson(tagEl);
-            //tagIds.Add(tag.Id);
-
             WpPostTag postTag = new WpPostTag
             {
                 TagId = tag.Id,
@@ -59,9 +58,10 @@ public class WpPost : WordpressModel
         this.FeaturedImage = featuredImage.IsSet ? featuredImage : null;
         this.FeaturedImageId = featuredImage.IsSet ? featuredImage.Id : null;
         this.MetaPlayAlso = TryParseString(metaElement, "play_also");
+        this.MetaPlayRather = TryParseString(metaElement, "play_rather");
+        this.MetaPlayRatherAlso = TryParseString(metaElement, "play_rather_also");
         this.MetaRating = TryParseInt(metaElement, "rating");
         this.PostTags = wpPostTags;
-        //this.TagIds = tagIds;
 
         return this;
     }

@@ -40,7 +40,7 @@
             {
                 <div class="h-2"></div>
                 <p class="italic">
-                    <RefreshLink Href="@PageRoutes.Category(Post.Category.Type)">@Ts.Get(TKey.Review_Review)</RefreshLink
+                    <RefreshLink Href="@PageRoutes.Category(Post.Category.Type)">@Ts.Get(TKey.Review_Review)</RefreshLink>
                 </p>
                 <p class="text-sm">
                     @Ts.Format(TKey.Review_TestedOn, string.Join(", ", Post.PostTags.Select(pt => pt.Tag.Name)))
@@ -53,15 +53,14 @@
             {
                 <div class="border border-black border-dashed px-8 py-6">
                     <div class="font-bold">@Ts.GetRatingTranslation(Post.MetaRating)</div>
-                    @if (Post.MetaPlayAlso != null)
+                    @if (GetMetaPlay() != null)
                     {
                         <div class="h-2"></div>
                         <div class="border-b"></div>
                         <div class="h-2"></div>
-                    }
-                    @if (Post.MetaPlayAlso != null)
-                    {
-                        <div class="text-sm">@Ts.Format(TKey.Review_PlayAlso, Post.MetaPlayAlso)</div>
+                        <div class="text-sm">
+                            @Ts.Get(GetMetaPlay()!.TKey) <span class="italic">@GetMetaPlay()!.Game</span>
+                        </div>
                     }
                 </div>
             }
@@ -107,6 +106,32 @@
     [Parameter] public bool IncludeCategory { get; set; } = true;
 
     private ElementReference _containerRef;
+    private MetaPlay? _metaPlay;
+
+    private MetaPlay? GetMetaPlay()
+    {
+        if (_metaPlay != null)
+        {
+            return _metaPlay;
+        }
+
+        if (Post!.MetaPlayAlso != null)
+        {
+            _metaPlay = new MetaPlay(TKey.Review_PlayAlso, Post!.MetaPlayAlso);
+        }
+        else if (Post!.MetaPlayRather != null)
+        {
+            _metaPlay = new MetaPlay(TKey.Review_PlayRather, Post!.MetaPlayRather);
+        }
+        else if (Post!.MetaPlayRatherAlso != null)
+        {
+            _metaPlay = new MetaPlay(TKey.Review_PlayAlsoRather, Post!.MetaPlayRatherAlso);
+        }
+
+        return _metaPlay;
+    }
+
+    private record MetaPlay(TKey TKey, string Game);
 
     private string FormatPlattform(int index)
     {
