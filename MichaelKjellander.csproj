@@ -18,38 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons-filled.ttf" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons-filled.woff" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons-filled.woff2" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons-outline.ttf" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons-outline.woff" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons-outline.woff2" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons.ttf" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons.woff" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\fonts\tabler-icons.woff2" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-filled.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-filled.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-filled.html" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-filled.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-filled.min.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-filled.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-outline.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-outline.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-outline.html" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-outline.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-outline.min.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons-outline.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.html" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.min.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\tabler\webfont\tabler-icons.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Domains\Generated\" />
       <Folder Include="Files\" />
     </ItemGroup>
