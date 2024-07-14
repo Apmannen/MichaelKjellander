@@ -22,33 +22,4 @@
       <Folder Include="Files\" />
     </ItemGroup>
 
-    <ItemGroup>
-      <AdditionalFiles Include="Views\Components\App.razor" />
-      <AdditionalFiles Include="Views\Components\Boxes\PaginationBox.razor" />
-      <AdditionalFiles Include="Views\Components\Boxes\PostBox.razor" />
-      <AdditionalFiles Include="Views\Components\Boxes\PostBoxes.razor" />
-      <AdditionalFiles Include="Views\Components\Boxes\TitleBox.razor" />
-      <AdditionalFiles Include="Views\Components\Buttons\ToggleButton\ToggleButton.razor" />
-      <AdditionalFiles Include="Views\Components\Buttons\ToggleButton\ToggleButtonBox.razor" />
-      <AdditionalFiles Include="Views\Components\Icons\Icon.razor" />
-      <AdditionalFiles Include="Views\Components\Icons\IconCalendarMonth.razor" />
-      <AdditionalFiles Include="Views\Components\Icons\IconDeviceGamepad2.razor" />
-      <AdditionalFiles Include="Views\Components\Icons\IconFolder.razor" />
-      <AdditionalFiles Include="Views\Components\Icons\IconMenu2.razor" />
-      <AdditionalFiles Include="Views\Components\Icons\IconTag.razor" />
-      <AdditionalFiles Include="Views\Components\Layout\MainLayout.razor" />
-      <AdditionalFiles Include="Views\Components\Layout\NavMenu.razor" />
-      <AdditionalFiles Include="Views\Components\Modals\ImageGalleryModal.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Category.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Counter.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Error.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Home.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Page.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Post.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\Weather.razor" />
-      <AdditionalFiles Include="Views\Components\Pages\WebGames\GuessWord.razor" />
-      <AdditionalFiles Include="Views\Components\Routes.razor" />
-      <AdditionalFiles Include="Views\Components\_Imports.razor" />
-    </ItemGroup>
-
 </Project>
