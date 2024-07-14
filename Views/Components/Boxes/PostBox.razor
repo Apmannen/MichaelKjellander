@@ -21,7 +21,9 @@
         <div class="bg-white sg-post sg-post-padding">
             @if (Post.Category!.Type == CategoryType.Game && IncludeCategory)
             {
-                <span class="italic">@Post.Category!.Name</span>
+                <RefreshLink Href="@PageRoutes.Category(Post.Category.Type)">
+                    <span class="italic">@Post.Category!.Name</span>
+                </RefreshLink>
                 <div class="h-2"></div>
             }
             @if (IsSingle)
@@ -37,7 +39,9 @@
             @if (@Post.Category!.Type == CategoryType.GameReview)
             {
                 <div class="h-2"></div>
-                <p class="italic">@Ts.Get(TKey.Review_Review)</p>
+                <p class="italic">
+                    <RefreshLink Href="@PageRoutes.Category(Post.Category.Type)">@Ts.Get(TKey.Review_Review)</RefreshLink
+                </p>
                 <p class="text-sm">
                     @Ts.Format(TKey.Review_TestedOn, string.Join(", ", Post.PostTags.Select(pt => pt.Tag.Name)))
                 </p>
